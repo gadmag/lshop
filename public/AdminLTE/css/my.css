@@ -1,0 +1,15 @@
+.remove-file{
+    position: relative;
+}
+.remove-file span{
+    cursor: pointer;
+    font-size: 18px;
+    color: red;
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+
+.remove-file span:hover {
+    color: red;
+}

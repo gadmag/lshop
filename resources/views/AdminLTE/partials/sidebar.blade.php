@@ -1,0 +1,91 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <i style="font-size: 18px; color: #fff" class="fa fa-user"></i>
+            </div>
+            <div class="pull-left info">
+                <p>{{ Auth::user()->name }}</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+        <!-- search form -->
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+        </form>
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li class="header">MAIN NAVIGATION</li>
+            <li class="active">
+                <a href="/admin">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Консоль</span>
+
+                </a>
+
+            </li>
+            {{--<li class="treeview">--}}
+                {{--<a href="#"><i class="fa fa-list-ul" aria-hidden="true"></i>Меню</a>--}}
+                {{--<ul class="treeview-menu">--}}
+                    {{--<li><a href="{{url('admin/menu?menu_type=mainmenu')}}"><i class="fa fa-circle-o"></i>Главное меню</a></li>--}}
+                    {{--<li><a href="{{url('admin/menu?menu_type=secondmenu')}}"><i class="fa fa-circle-o"></i>Меню каталога</a></li>--}}
+
+                {{--</ul>--}}
+            {{--</li>--}}
+            <li><a href="{{url('admin/menus?menu_type=main_menu')}}"><i class="fa fa-list-ul"></i>Главное меню</a></li>
+            <li class="treeview"><a href="{{url('admin/catalogs')}}"><i class="fa fa-tags" aria-hidden="true"></i>
+                    <span>Каталог</span></a></li>
+            {{--<li class="treeview"><a href="{{url('admin/articles/news/all')}}"><i class="fa fa-newspaper-o"></i> Новости</a></li>--}}
+            <li class="treeview">
+                <a href="{{url('admin/pages')}}"><i class="fa fa-clone"></i> <span>Страницы</span></a>
+
+            </li>
+            <li class="treeview"><a href="{{route('products.index')}}"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                    <span>Продукты</span></a></li>
+            <li>
+
+            {{--<li>--}}
+                {{--<a href="{{url('admin/article/event/all')}}">--}}
+                    {{--<i class="fa fa-calendar"></i> <span>События</span>--}}
+                    {{--<span class="pull-right-container">--}}
+              {{--<small class="label pull-right bg-red">3</small>--}}
+              {{--<small class="label pull-right bg-blue">17</small>--}}
+            {{--</span>--}}
+                {{--</a>--}}
+            {{--</li>--}}
+            {{--<li>--}}
+                {{--<a href="{{url('admin/article/video/all')}}"><i class="fa fa-film"></i> <span>Видео галерея</span></a>--}}
+            {{--</li>--}}
+            <li>
+                <a href="{{url('admin/articles/photo/all')}}"><i class="fa fa-photo"></i> <span>Фотогалерея</span></a>
+            </li>
+            <li>
+                <a href="{{url('admin/articles/video/all')}}"><i class="fa fa-photo"></i> <span>Видео</span></a>
+            </li>
+            <li>
+                <a href="{{url('admin/blocks')}}"><i class="fa fa-th"></i> <span>Блоки</span></a>
+            </li>
+            <li>
+                <a href="{{url('admin/users')}}"><i class="fa fa-user"></i> <span>Пользователи</span></a>
+            </li>
+
+
+            {{--<li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>--}}
+            {{--<li class="header">LABELS</li>--}}
+            {{--<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>--}}
+            {{--<li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>--}}
+            {{--<li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>--}}
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
