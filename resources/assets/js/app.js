@@ -47,6 +47,7 @@ const app = new Vue({
         });
 
         bus.$on('remove-to-wishlist', (product) => {
+            console.log(product);
             this.getWishList('remove-to-wishlist',product);
         });
 
@@ -65,8 +66,11 @@ const app = new Vue({
         },
         handleResponseWishList(data) {
             // console.log(data.wishList.items);
-            this.wishList = data.wishList.items;
-            this.wishListCount = data.wishList.totalQty;
+            if (data.wishList){
+                this.wishList = data.wishList.items;
+                this.wishListCount = data.wishList.totalQty;
+            }
+
 
 
         },
