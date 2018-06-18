@@ -1,7 +1,7 @@
 <div class="">
     <h1>Каталог</h1>
     <div class="panel-heading">
-        <a href="{{route('catalog.create')}}" class="btn btn-primary">
+        <a href="{{route('catalogs.create')}}" class="btn btn-primary">
             <i class="fa fa-plus"></i>
             Добавить категорию
         </a>

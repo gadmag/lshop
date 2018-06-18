@@ -10,7 +10,7 @@
 
                     <div class="catalog-body">
                         @include('errors.list')
-                        {!! Form::model($catalog = new \App\Catalog, ['url' => route('catalog.store'),'files' => true, 'class' => 'catalog']) !!}
+                        {!! Form::model($catalog = new \App\Catalog, ['url' => route('catalogs.store'),'files' => true, 'class' => 'catalog']) !!}
 
 
                         @include('AdminLTE.catalog._form', ['submitButtonText' => 'Добавить категорию'])

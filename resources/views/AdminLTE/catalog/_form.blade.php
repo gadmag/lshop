@@ -64,16 +64,16 @@
             <fieldset>
                 <legend>Сео аттрибуты</legend>
                 <div class="form-group">
-                    {!! Form::label('seoAttr[title_seo]', 'Title:') !!}
-                    {!! Form::text( 'seoAttr[title_seo]', null, ['class' => 'form-control']) !!}
+                    {!! Form::label('productSeo[meta_title]', 'Title:') !!}
+                    {!! Form::text( 'productSeo[meta_title]', null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('seoAttr[keywords]', 'Keywords:') !!}
-                    {!! Form::text('seoAttr[keywords]',  null, ['class' => 'form-control']) !!}
+                    {!! Form::label('productSeo[meta_keywords]', 'Keywords:') !!}
+                    {!! Form::text('productSeo[meta_keywords]',  null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('seoAttr[description]', 'Description:') !!}
-                    {!! Form::textarea('seoAttr[description]', null, ['class' => 'form-control']) !!}
+                    {!! Form::label('productSeo[meta_description]', 'Description:') !!}
+                    {!! Form::textarea('productSeo[meta_description]', null, ['class' => 'form-control']) !!}
                 </div>
             </fieldset>
         </div><!-- /.box-body -->
