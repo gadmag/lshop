@@ -16,10 +16,11 @@ class CreateCatalogsTable extends Migration
 
         Schema::create('catalogs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('parent_id');
+            $table->integer('parent_id')->default(0);
             $table->string('name');
             $table->text('description');
-            $table->integer('order');
+            $table->string('alias');
+            $table->integer('order')->default(0);
             $table->boolean('status')->default(1);
             $table->integer('user_id')->unsigned();
             $table->string('type');

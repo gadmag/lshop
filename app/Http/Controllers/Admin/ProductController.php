@@ -70,29 +70,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        
-
        $product = $this->createProduct($request);
 
-
-        //session()->flash('flash_message', 'Ваша статья добавленна');
-        // session()->flash('flash_message_important', true);
         return  redirect("admin/products")->with([
             'flash_message'               =>   "{$product->title} добавлена",
 //          'flash_message_important'     => true
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -104,12 +89,9 @@ class ProductController extends Controller
     {
         if (Gate::denies('update-post', $product)) {
             abort(403, 'Unauthorized action');
-
         }
-        //$productType = ArticleType::OfArticleType($type)->firstOrFail();
+
         $catalogs = Catalog::pluck('name', 'id');
-
-
         return view('AdminLTE.product.edit', compact('product', 'catalogs'));
     }
 
@@ -175,9 +157,10 @@ class ProductController extends Controller
         $product->catalogs()->sync($catalogs);
     }
 
-    
+
     /**
      * @param Request $request
+     * @return mixed
      */
     private function createProduct(Request $request)
     {

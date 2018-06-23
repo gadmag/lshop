@@ -120,9 +120,14 @@ class PageController extends Controller
         {
             $page->pageMenu()->updateOrCreate(['menu_linktable_id' => $page->id], $request->pageMenu);
         }
-        else
-        {
+        else {
             $page->pageMenu()->delete();
         }
+
+        if ($request->has('pageSeo'))
+        {
+            $page->pageSeo()->update($request->pageSeo);
+        }
+
     }
 }

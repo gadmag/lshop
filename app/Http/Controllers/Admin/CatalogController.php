@@ -33,11 +33,10 @@ class CatalogController extends Controller
      */
     public function index()
     {
-        $catalog = Catalog::latest('created_at')->paginate(10);
-
-
+        $catalogs = Catalog::whereParentId(0)->order()->get();
+//        dd($catalogs);
         return view('AdminLTE.catalog.index')->with([
-            'catalogs' => $catalog
+            'catalogs' => $catalogs
         ]);
     }
 
@@ -51,32 +50,32 @@ class CatalogController extends Controller
         $user = Auth::user();
 //        abort(403, 'Unauthorized action');
 //        echo($user->name);
-
-
         if (Gate::denies('create-post', Catalog::class)) {
             abort(403, 'Unauthorized action');
 
         }
+//        $catalogs = Catalog::doesntHave('parent')->pluck('name', 'id')->all();
+        $catalogs = Catalog::doesntHave('parent')->pluck('name', 'id')->transform(function ($item){
+            return $item;
+        })->all();
+//        dd($col);
 
-
-        return view('AdminLTE.catalog.create');
+        return view('AdminLTE.catalog.create', [
+            'catalogs' => $catalogs
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $catalog = $this->createCatalog($request);
-
-
-        //session()->flash('flash_message', 'Ваша статья добавленна');
-        // session()->flash('flash_message_important', true);
-        return  redirect("admin/catalog")->with([
-            'flash_message'               =>   "{$catalog->name} добавлена",
+        return redirect("admin/catalogs")->with([
+            'flash_message' => "{$catalog->name} добавлена",
 //          'flash_message_important'     => true
         ]);
     }
@@ -84,7 +83,7 @@ class CatalogController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -95,45 +94,38 @@ class CatalogController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Catalog $catalog)
+    public function edit($id)
     {
+        $catalog = Catalog::findOrFail($id);
+        $catalogs = Catalog::doesntHave('parent')->excludeSelf($catalog->id)->pluck('name', 'id')->all();
+
         if (Gate::denies('update-post', $catalog)) {
             abort(403, 'Unauthorized action');
 
         }
 
-        return view('AdminLTE.catalog.edit', compact( 'catalog'));
+        return view('AdminLTE.catalog.edit', [
+            'catalog' => $catalog,
+            'catalogs' => $catalogs,
+
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Catalog $catalog)
+    public function update(Request $request, $id)
     {
-        $catalog->update($request->except('seoAttr','alias'));
-
-        if ($request->has('seoAttr')) {
-            $this->updateSeoAttr($request, $catalog->id);
-        }
-
-        if ($request->has('alias.alias_url')) {
-            $this->updateAliasAttr($request, $catalog->id);
-        }
-
-       // if($request->has('images')){
-            $this->multipleUpload($request, $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
-       // }
-
-
-        return redirect("admin/catalog")->with([
-            'flash_message'               =>   "{$catalog->name} категория обновлена",
+        $catalog = $this->updateCatalog($request, Catalog::findOrFail($id));
+        return redirect("admin/catalogs")->with([
+            'flash_message' => "{$catalog->name} категория обновлена",
 //          'flash_message_important'     => true
         ]);
     }
@@ -141,89 +133,68 @@ class CatalogController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Catalog $catalog)
+    public function destroy($id)
     {
+        $catalog = Catalog::findOrFail($id);
+
+        if ($catalog->children) {
+            $catalog->children()->update(['parent_id' => 0]);
+        }
         $catalog->delete();
-        return redirect("admin/catalog")->with([
-            'flash_message'               =>   "'{$catalog->name}' категория удалена",
+        return redirect("admin/catalogs")->with([
+            'flash_message' => "'{$catalog->name}' категория удалена",
 //          'flash_message_important'     => true
         ]);
     }
 
     /**
      * @param Request $request
+     * @return mixed
      */
     private function createCatalog(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|min:2',
-            'alias.alias_url' => 'unique:aliases,alias_url|min:3'
-        ]);
 
+        $catalog = Auth::user()->catalogs()->create($request->all());
 
-        $seo = $request->only('seoAttr');
-        $alias = $request->only('alias');
+        if ($request->has('catalogSeo')) {
+            $catalog->catalogSeo()->create($request->catalogSeo);
+        }
 
-        $catalog = Auth::user()->catalogs()->create($request->except('seoAttr','alias'));
+        if ($request->parent_list[0]) {
+            $this->addParentCatalog($catalog, $request->input('parent_list') ?: []);
+        }
 
         $this->multipleUpload($request, $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
-
-        if (!empty($seo['seoAttr']))
-        {
-
-            $seo_attr = new Seo($seo['seoAttr']);
-            $catalog->seoAttr()->save($seo_attr);
-        }
-
-        if ($request->has('alias.alias_url'))//(!empty($alias['alias']))
-        {
-
-            $alias_attr = new Alias($alias['alias']);
-
-            $catalog->alias()->save($alias_attr);
-        }
-
-
-        
-
         return $catalog;
 
     }
 
-
-
-    /** Обновление seo атрибутов статьи
-     * @param Request $request
-     * @param $id
-     */
-    protected function updateSeoAttr(Request $request, $id)
-
+    protected function updateCatalog(Request $request, $catalog)
     {
-        $this->validate($request, ['seoAttr.title_seo' => 'min:3', 'seoAttr.keywords' => 'min:3', 'seoAttr.description' => 'min:3']);
+        $catalog->update($request->all());
 
-        $seo_attr = Seo::firstOrCreate(['seotable_id' => $id]);
+        if ($request->has('catalogSeo')) {
+            $catalog->catalogSeo()->update($request->catalogSeo);
+        }
 
-        $seo_attr->update($request->only('seoAttr')['seoAttr']);
-
-
+        if ($request->parent_list[0]) {
+                $this->addParentCatalog($catalog, $request->input('parent_list') ?: []);
+        }
+        $this->multipleUpload($request, $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
+        return $catalog;
     }
 
-    protected function updateAliasAttr(Request $request, $id)
 
+    /** Добавлнение родительской категории
+     * @param Catalog $catalog
+     * @param array $list
+     */
+    private function addParentCatalog(Catalog $catalog, array $list)
     {
-        $alias_attr = Alias::firstOrCreate(['aliastable_id' => $id]);
-
-        $this->validate($request, [
-            'alias.alias_url' => 'min:3|unique:aliases,alias_url,' . $alias_attr->id
-        ]);
-
-       // dd($request->only('alias'));
-
-        $alias_attr->update($request->only('alias')['alias']);
-
-
+        $catalog->parent_id = $list[0];
+        $catalog->save();
     }
 }

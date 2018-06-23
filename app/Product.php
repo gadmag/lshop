@@ -64,9 +64,7 @@ class Product extends Model
         $query->where('status', 1);
     }
 
-    /** Seo аттрибуты продукта
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
+
     public function getCatalogListAttribute()
     {
 

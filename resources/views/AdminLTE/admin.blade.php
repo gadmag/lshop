@@ -121,7 +121,6 @@
 
 <script type="text/javascript">
 
-    console.log(options);
     CKEDITOR.replace( my_editor, options);
 </script>
 

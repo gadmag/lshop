@@ -26,7 +26,6 @@ class PageRequest extends FormRequest
         $rules = [
             'title' => 'required|min:3',
             'status' => 'boolean',
-//            'pageMenu.menu_type'=> 'required',
         ];
 
         if ($this->has('pageMenu.link_title'))
@@ -34,7 +33,6 @@ class PageRequest extends FormRequest
             $rules += ['pageMenu.menu_type'=> 'required'];
         }
 
-//        dd($rules);
         return $rules;
     }
 }

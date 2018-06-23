@@ -11,14 +11,9 @@ class MenuController extends Controller
 {
     public function index()
     {
-
-      //  $menu = Menu::orderBy('order')->get();
         $type = request()->menu_type;
-       // $menu = Menu::OfType($type)->get();
-      //  dd($menu);
-       $menu =  Menu::getMenuItem($type);
-//dd($type);
-//       dd($menu);
+
+        $menu = Menu::getMenuItem($type);
         return view('AdminLTE.menu.index')->with([
             'menuItems' => $menu,
             'type' => $type,
@@ -51,12 +46,11 @@ class MenuController extends Controller
             'link_title' => 'required',
             'link_path' => 'required',
             'menu_type' => 'in:secondmenu,mainmenu'
-            ]);
-        //dd($request->all());
+        ]);
         $menu = Menu::create($request->all());
 
-        return  redirect("admin/menu?menu_type=$menu->menu_type")->with([
-            'flash_message'               =>   "Пункт меню добавлен",
+        return redirect("admin/menu?menu_type=$menu->menu_type")->with([
+            'flash_message' => "Пункт меню добавлен",
 //          'flash_message_important'     => true
         ]);
     }
@@ -66,11 +60,10 @@ class MenuController extends Controller
     {
         $menu->update($request->all());
         return redirect("admin/menu?menu_type=$menu->menu_type")->with([
-            'flash_message'               =>   "{$menu->link_title} обновлена",
+            'flash_message' => "{$menu->link_title} обновлена",
 //          'flash_message_important'     => true
         ]);
     }
-
 
 
     public function destroy($id)
@@ -80,7 +73,7 @@ class MenuController extends Controller
         $menu_type = $menu->menu_type;
         $menu->delete();
         return redirect("admin/menu?menu_type=$menu_type")->with([
-            'flash_message'               =>   "{$link_title} удалена",
+            'flash_message' => "{$link_title} удалена",
 //          'flash_message_important'     => true
         ]);
     }
@@ -88,17 +81,11 @@ class MenuController extends Controller
     public function updateMenuSort(Request $request)
     {
         $data = $request->input('jsonString');
-        $itemMenu = json_decode($data,true);
+        $itemMenu = json_decode($data, true);
         //dd($itemMenu);
         $item = self::saveTree($itemMenu);
         $i = 0;
-        foreach ($item as $key => $value)
-        {
-
-//            $data = array([
-//               'order' => $value['order'],
-//                'parent_id' => $value['parent_id']
-//            ]);
+        foreach ($item as $key => $value) {
 
             $menu = Menu::find($value['id']);
             $menu->order = $i;
@@ -114,20 +101,19 @@ class MenuController extends Controller
     public static function saveTree($itemMenu, $pid = 0)
     {
         $arr = array();
-        foreach ($itemMenu as $key => $subItem)
-        {
+        foreach ($itemMenu as $key => $subItem) {
 
             $subArr = array();
-            if (isset($subItem['children'])){
+            if (isset($subItem['children'])) {
 
                 $subArr = self::saveTree($subItem['children'], $subItem['id']);
 
             }
-            $arr[]  = array('id' => $subItem['id'], 'order' => $key, 'parent_id' => $pid);
+            $arr[] = array('id' => $subItem['id'], 'order' => $key, 'parent_id' => $pid);
             $arr = array_merge($arr, $subArr);
         }
 
-        if(count($arr) == 0) {
+        if (count($arr) == 0) {
             return null;
         }
 

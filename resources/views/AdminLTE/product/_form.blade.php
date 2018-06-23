@@ -25,6 +25,7 @@
                         {!! Form::checkbox('status') !!}
                     </div>
                     <div class="form-group">
+
                         {!! Form::label('catalog_list', 'Категория продукта') !!}
 
                         {!! Form::select('catalog_list[]', $catalogs,  null, ['id'=> 'catalog_lists', 'class' => 'form-control', 'multiple'=>'multiple']) !!}

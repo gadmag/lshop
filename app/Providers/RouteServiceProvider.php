@@ -79,15 +79,15 @@ class RouteServiceProvider extends ServiceProvider
             return $page;
         });
 
-        Route::bind('catalog',function ($id){
-            if (is_numeric($id))
-            {
-                $catalog = Catalog::findOrFail(intval($id))->published();
-            }else{
-                $catalog = Catalog::whereAlias( $id)->published()->firstOrFail();
-            }
-            return $catalog;
-        });
+//        Route::bind('catalog',function ($id){
+//            if (is_numeric($id))
+//            {
+//                $catalog = Catalog::findOrFail(intval($id))->published();
+//            }else{
+//                $catalog = Catalog::whereAlias($id)->published()->firstOrFail();
+//            }
+//            return $catalog;
+//        });
 //        Route::bind('product', function ($id){
 ////            dd($id);
 //            if (is_numeric($id))
