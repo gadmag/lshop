@@ -15,15 +15,14 @@ use Carbon\Carbon;
 use App\Seo;
 use App\Catalog;
 use App\Upload;
-use App\Alias;
-
+use App\Service\TreeService;
 use Validator;
 use Image;
 use File;
 
 class CatalogController extends Controller
 {
-
+    use TreeService;
     use UploadTrait;
 
     /**
@@ -48,20 +47,13 @@ class CatalogController extends Controller
     public function create()
     {
         $user = Auth::user();
-//        abort(403, 'Unauthorized action');
-//        echo($user->name);
         if (Gate::denies('create-post', Catalog::class)) {
             abort(403, 'Unauthorized action');
 
         }
-//        $catalogs = Catalog::doesntHave('parent')->pluck('name', 'id')->all();
-        $catalogs = Catalog::doesntHave('parent')->pluck('name', 'id')->transform(function ($item){
-            return $item;
-        })->all();
-//        dd($col);
-
+        $tree = self::getTree(Catalog::all());
         return view('AdminLTE.catalog.create', [
-            'catalogs' => $catalogs
+            'tree' => $tree
         ]);
     }
 
@@ -100,8 +92,7 @@ class CatalogController extends Controller
     public function edit($id)
     {
         $catalog = Catalog::findOrFail($id);
-        $catalogs = Catalog::doesntHave('parent')->excludeSelf($catalog->id)->pluck('name', 'id')->all();
-
+        $tree = self::getTree(Catalog::excludeSelf($catalog->id)->get());
         if (Gate::denies('update-post', $catalog)) {
             abort(403, 'Unauthorized action');
 
@@ -109,7 +100,7 @@ class CatalogController extends Controller
 
         return view('AdminLTE.catalog.edit', [
             'catalog' => $catalog,
-            'catalogs' => $catalogs,
+            'tree' => $tree
 
         ]);
     }
@@ -157,15 +148,12 @@ class CatalogController extends Controller
     private function createCatalog(Request $request)
     {
 
-        $catalog = Auth::user()->catalogs()->create($request->all());
+        $catalog = Auth::user()->catalogs()->create($request->except('parent_id'));
 
         if ($request->has('catalogSeo')) {
             $catalog->catalogSeo()->create($request->catalogSeo);
         }
-
-        if ($request->parent_list[0]) {
-            $this->addParentCatalog($catalog, $request->input('parent_list') ?: []);
-        }
+        $this->addParentCatalog($catalog, $request->parent_list);
 
         $this->multipleUpload($request, $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
         return $catalog;
@@ -174,15 +162,13 @@ class CatalogController extends Controller
 
     protected function updateCatalog(Request $request, $catalog)
     {
-        $catalog->update($request->all());
+        $catalog->update($request->except('parent_id'));
 
         if ($request->has('catalogSeo')) {
             $catalog->catalogSeo()->update($request->catalogSeo);
         }
 
-        if ($request->parent_list[0]) {
-                $this->addParentCatalog($catalog, $request->input('parent_list') ?: []);
-        }
+        $this->addParentCatalog($catalog, $request->parent_list);
         $this->multipleUpload($request, $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
         return $catalog;
     }
@@ -192,9 +178,17 @@ class CatalogController extends Controller
      * @param Catalog $catalog
      * @param array $list
      */
-    private function addParentCatalog(Catalog $catalog, array $list)
+    private function addParentCatalog(Catalog $catalog, $parent_id)
     {
-        $catalog->parent_id = $list[0];
+        $depth = 0;
+        if ($parent_id) {
+
+            $parent = Catalog::findOrFail($parent_id);
+            $parent_id = $parent->id;
+            $depth = $parent->depth + 1;
+        }
+        $catalog->parent_id = $parent_id;
+        $catalog->depth = $depth;
         $catalog->save();
     }
 }

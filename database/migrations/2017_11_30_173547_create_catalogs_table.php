@@ -21,6 +21,7 @@ class CreateCatalogsTable extends Migration
             $table->text('description');
             $table->string('alias');
             $table->integer('order')->default(0);
+            $table->integer('depth')->default(0);
             $table->boolean('status')->default(1);
             $table->integer('user_id')->unsigned();
             $table->string('type');

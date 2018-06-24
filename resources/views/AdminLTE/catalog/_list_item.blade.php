@@ -1,7 +1,7 @@
 <!-- Article title -->
 <li class="">
 
-    @if($catalog->parent)-@endif <a href="{{action('Admin\CatalogController@edit', [$catalog->id])}}">{{$catalog->name}}</a>
+     {{str_repeat('-', $catalog->depth)}} <a href="{{action('Admin\CatalogController@edit', [$catalog->id])}}">{{$catalog->name}}</a>
 
 
         <a style="display: inline-block" href="{{action('Admin\CatalogController@edit',[$catalog->id])}}"

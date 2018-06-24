@@ -23,9 +23,23 @@
 
         <div class="form-group">
             {{--{{dd($catalog->parent_id)}}--}}
-            {!! Form::label('parent_list', 'Родительская категория') !!}
-            {!! Form::select('parent_list[]',  ['null' => 'Выбрать'] + $catalogs ,$catalog? $catalog->parent_id : null , ['id'=> 'parent_list', 'class' => 'form-control']) !!}
+            {{--{!! Form::label('parent_list', 'Родительская категория') !!}--}}
+            {{--{!! Form::select('parent_list[]',  ['null' => 'Выбрать'] + $catalogs ,$catalog? $catalog->parent_id : null , ['id'=> 'parent_list', 'class' => 'form-control']) !!}--}}
 
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('parent_list', 'Родительская категория') !!}
+            <select class="form-control" name="parent_list" id="parent_list">
+                <option value="0">Выбрать</option>
+                @if($tree)
+                @foreach($tree as $catItem)
+                    @include('AdminLTE.form.select',  ['$catItem' => $catItem, 'catalog' => $catalog])
+                @endforeach
+                @endif
+                {{--@each('AdminLTE.form.select', $tree, 'catItem')--}}
+
+            </select>
         </div>
         <div class="form-group">
             {!! Form::label('description', 'Содержимое:') !!}

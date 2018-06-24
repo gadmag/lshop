@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Service\TreeService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Service\TransliteratedService;
@@ -40,6 +41,8 @@ class Catalog extends Model
     use TransliteratedService;
 
    protected $fillable = ['name', 'parent_id', 'description', 'alias' ,'status',  'user_id', 'type','order'];
+
+
 
     public function setAliasAttribute($alias)
     {
@@ -142,4 +145,7 @@ class Catalog extends Model
 
         parent::delete();
     }
+
+
+
 }
