@@ -12,7 +12,7 @@ use Gate;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Articles;
+use App\Article;
 use App\ArticleType;
 use App\Seo;
 use Carbon\Carbon;
@@ -51,7 +51,7 @@ class ArticleController extends Controller
        $articleType = $this->getArticleType($type);
 
 
-        $articles = Articles::ofType($type)->latest('created_at')->paginate(10);
+        $articles = Article::ofType($type)->latest('created_at')->paginate(10);
 
 
         return view('AdminLTE.articles.index')->with([
@@ -72,7 +72,7 @@ class ArticleController extends Controller
 //        echo($user->name);
 //        auth()->logout();
 
-        if (Gate::denies('create-post', Articles::class)) {
+        if (Gate::denies('create-post', Article::class)) {
             abort(403, 'Unauthorized action');
 
         }
@@ -113,7 +113,7 @@ class ArticleController extends Controller
 
     public function edit($id)
     {
-        $article = Articles::findOrFail($id);
+        $article = Article::findOrFail($id);
         if (Gate::denies('update-post', $article)) {
             abort(403, 'Unauthorized action');
         }
@@ -130,7 +130,7 @@ class ArticleController extends Controller
 
     public function update($id, Requests\ArticleRequest $request)
     {
-        $article = Articles::findOrFail($id);
+        $article = Article::findOrFail($id);
         $images = $request->only('images');
         $article->update($request->except('seoAttr','eventAttr','menuLink','images[]'));
 
@@ -181,7 +181,7 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        $article = Articles::findOrFail($id);
+        $article = Article::findOrFail($id);
         $type = $article->type;
         $article->delete();
         return redirect("admin/article/{$type}/all")->with([

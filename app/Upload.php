@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Storage;
 class Upload extends Model
 {
     protected $table = 'uploads';
-    protected $fillable = ['uploadstable_id', 'uploadstable_type', 'mime', 'filename','title','alt'];
+    protected $fillable = ['uploadstable_id', 'uploadstable_type', 'mime', 'filename','title','alt', 'order'];
 
     public function uploadstable()
     {

@@ -33,6 +33,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
             'except' => ['show']
         ]);
 
+    Route::get('option/{id}', 'ProductController@deleteOption');
     //upload
     Route::get('upload/{id}', 'UploadController@deleteFile');
     Route::get('uploadFile', 'UploadController@uploadFile');

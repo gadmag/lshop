@@ -16,9 +16,10 @@ class CreateOptionsTable extends Migration
         Schema::create('product_options', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('product_id')->index();
-            $table->decimal('price',2);
+            $table->string('color');
+            $table->decimal('price',13,2);
             $table->string('price_prefix',1);
-            $table->decimal('weight',2);
+            $table->decimal('weight',13,2);
             $table->string('weight_prefix',1);
             $table->timestamps();
         });

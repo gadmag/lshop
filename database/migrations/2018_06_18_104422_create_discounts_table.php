@@ -17,9 +17,9 @@ class CreateDiscountsTable extends Migration
             $table->increments('id');
             $table->integer('product_id')->index();
             $table->integer('quantity')->length(4);
-            $table->decimal('price',2)->default(0.00);
-            $table->timestamp('date_start');
-            $table->timestamp('date_end');
+            $table->decimal('price',13,2)->default(0.00);
+            $table->timestamp('date_start')->default(null);
+            $table->timestamp('date_end')->default(null);
         });
     }
 

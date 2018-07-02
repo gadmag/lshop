@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Option;
+use App\Service\TreeService;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +25,7 @@ use File;
 
 class ProductController extends Controller
 {
-
+    use TreeService;
     use UploadTrait;
 
     /**
@@ -49,31 +52,33 @@ class ProductController extends Controller
     public function create()
     {
         $user = Auth::user();
-//        abort(403, 'Unauthorized action');
-//        echo($user->name);
-
-
         if (Gate::denies('create-post', Product::class)) {
             abort(403, 'Unauthorized action');
 
         }
 
-        $catalogs = Catalog::pluck('name', 'id');
-        return view('AdminLTE.product.create', compact('catalogs'));
+        // $catalogs = Catalog::pluck('name', 'id');
+        $catalogs = self::getTree(Catalog::all());
+//        $catalogs = self::getSelectItem(Catalog::all());
+//        dd($catalogs);
+        return view('AdminLTE.product.create', [
+            'catalogs' => $catalogs,
+            'catalog' => ''
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-       $product = $this->createProduct($request);
+        $product = $this->createProduct($request);
 
-        return  redirect("admin/products")->with([
-            'flash_message'               =>   "{$product->title} добавлена",
+        return redirect("admin/products")->with([
+            'flash_message' => "{$product->title} добавлена",
 //          'flash_message_important'     => true
         ]);
     }
@@ -82,71 +87,57 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        if (Gate::denies('update-post', $product)) {
-            abort(403, 'Unauthorized action');
-        }
-
-        $catalogs = Catalog::pluck('name', 'id');
-        return view('AdminLTE.product.edit', compact('product', 'catalogs'));
+        $product = Product::findOrFail($id);
+        $catalogs = self::getTree(Catalog::all());
+        return view('AdminLTE.product.edit', [
+            'product' => $product,
+            'catalogs' => $catalogs
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-         $product->update($request->except('seoAttr'));
-
-        if ($request->has('seoAttr')) {
-            $this->updateSeoAttr($request, $product);
-        }
-        if ($request->has('alias')) {
-            $this->updateAliasAttr($request, $product);
-        }
-
-        $this->multipleUpload($request, $product,[
-            '600x450' => array(
-                'width' => 600,
-                'height' => 450
-            ),
-            '400x300' => array(
-                'width' => 400,
-                'height' => 300
-            )
-        ]);
-        $this->syncCatalogs($product, $request->input('catalog_list')? : []);
+        $product = $this->updateProduct($request, $product);
 
         return redirect("admin/products")->with([
-            'flash_message'               =>   "{$product->title} обновлена",
+            'flash_message' => "{$product->title} обновлена",
 //          'flash_message_important'     => true
         ]);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Product $product)
     {
-       
+
         $product->delete();
-        return redirect("admin/product")->with([
-            'flash_message'               =>   "'{$product->title}' продукт удален",
+        return redirect("admin/products")->with([
+            'flash_message' => "'{$product->title}' продукт удален",
 //          'flash_message_important'     => true
         ]);
     }
 
+    public function deleteOption($id)
+    {
+        $option = Option::findOrFail($id);
+        $option->delete();
+        return response(['status' => 'Delete option success']);
+    }
 
     /** Синхронизация категорий продукта
      * @param Product $product
@@ -164,17 +155,29 @@ class ProductController extends Controller
      */
     private function createProduct(Request $request)
     {
-        $this->validate($request, ['title' => 'required|min:3']);
 
-        $seo = $request->only('seoAttr');
-        $alias_url = $request->only('alias.alias_url');
+        $product = Auth::user()->products()->create($request->all());
 
-        $product = Auth::user()->products()->create($request->except('seoAttr','alias'));
+        if ($request->has('productSeo')) {
+            $product->productSeo()->create($request->productSeo);
+        }
 
-        $this->multipleUpload($request, $product,[
+        if ($request->has('productDiscount.price') || $request->has('productDiscount.quantity')) {
+            $product->productDiscount()->create($request->productDiscount);
+        }
+
+        if ($request->has('productSpecial.price')) {
+            $product->productSpecial()->create($request->productSpecial);
+        }
+
+        if ($request->has('productOptions')) {
+            $this->createMultipleOptions($request, $product);
+        }
+
+        $this->multipleUpload($request, $product, [
             '600x450' => array(
-            'width' => 600,
-            'height' => 450
+                'width' => 600,
+                'height' => 450
             ),
             '400x300' => array(
                 'width' => 400,
@@ -182,55 +185,75 @@ class ProductController extends Controller
             )
         ]);
 
-        if (!empty($seo['seoAttr']))
-        {
+        $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
 
-            $seo_attr = new Seo($seo['seoAttr']);
-            $product->seoAttr()->save($seo_attr);
+        return $product;
+
+    }
+
+    private function updateProduct(Request $request, $product)
+    {
+        $product->update($request->all());
+
+        if ($request->has('productSeo')) {
+            $product->productSeo()->update($request->productSeo);
+        } else {
+            $product->productSeo()->delete();
         }
 
-        if ($request->has('alias'))
-        {
-            $alias = new Alias($alias_url['alias']);
-            $product->alias()->save($alias);
+        if ($request->has('productDiscount.price') || $request->has('productDiscount.quantity')) {
+            $discount_id = isset($request->productDiscount['id']) ? $request->productDiscount['id'] : null;
+            $product->productDiscount()->updateOrCreate(['id' => $discount_id], $request->productDiscount);
+        } else {
+            $product->productDiscount()->delete();
         }
 
-        $this->syncCatalogs($product,$request->input('catalog_list')? : []);
+        if ($request->has('productSpecial.price')) {
+            $special_id = isset($request->productSpecial['id']) ? $request->productSpecial['id'] : null;
+            $product->productSpecial()->updateOrCreate(['id' => $special_id], $request->productSpecial);
+        } else {
+            $product->productSpecial()->delete();
+        }
+
+        if ($request->has('productOptions')) {
+            $this->updateMultipleOptions($request, $product);
+        }
+
+
+        $this->multipleUpload($request, $product, [
+            '600x450' => array(
+                'width' => 600,
+                'height' => 450
+            ),
+            '400x300' => array(
+                'width' => 400,
+                'height' => 300
+            )
+        ]);
+
+        $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
 
         return $product;
 
     }
 
 
-    /** Обновление seo атрибутов продукта
-     * @param Request $request
-     * @param $id
-     */
-    protected function updateAliasAttr(Request $request, $product)
-
+    protected function createMultipleOptions(Request $request, $product)
     {
+        $options = $request->extractOptions();
 
-        $this->validate($request, [
-            'alias.alias_url' => 'min:3|unique:aliases,alias_url,' . $product->alias->id
-        ]);
-
-        $product->alias()->update($request->input('alias'));
+        foreach ($options as $optionAttr) {
+            $option = Option::create($optionAttr);
+            $product->productOptions()->save($option);
+        }
 
     }
 
-    /** Обновление seo атрибутов продукта
-     * @param Request $request
-     * @param $id
-     */
-    protected function updateSeoAttr(Request $request, $id)
-
+    protected function updateMultipleOptions(Request $request, Product $product)
     {
-        $this->validate($request, ['seoAttr.title_seo' => 'min:3', 'seoAttr.keywords' => 'min:3', 'seoAttr.description' => 'min:3']);
-
-        $seo_attr = Seo::firstOrCreate(['seotable_id' => $id]);
-
-        $seo_attr->update($request->only('seoAttr')['seoAttr']);
-
-
+        $options = collect($request->extractOptions());
+        foreach ($options as $optionAttr) {
+            $product->productOptions()->updateOrCreate(['id' => $optionAttr['id']], $optionAttr);
+        }
     }
 }

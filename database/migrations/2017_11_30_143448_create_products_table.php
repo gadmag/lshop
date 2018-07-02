@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('sku', 64);
             $table->decimal('price',13,2)->default(0.00);
             $table->integer('quantity');
-            $table->decimal('weight')->default(0.00);
+            $table->decimal('weight',13,2)->default(0.00);
             $table->integer('size');
             $table->string('material');
             $table->string('coating');

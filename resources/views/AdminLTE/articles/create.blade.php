@@ -10,7 +10,7 @@
 
                     <div class="article-body">
                         @include('errors.list')
-                        {!! Form::model($article = new \App\Articles, ['url' => route('store',['type' => $type]),'files' => true, 'class' => 'article']) !!}
+                        {!! Form::model($article = new \App\Article, ['url' => route('store',['type' => $type]),'files' => true, 'class' => 'article']) !!}
 
                         @if($type == 'event')
                             @include('AdminLTE.articles._formEvent',['submitButtonText' => 'Добавить событие'])

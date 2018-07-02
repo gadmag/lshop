@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Service\TransliteratedService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -40,23 +41,35 @@ use App\Seo;
  */
 class Product extends Model
 {
-    protected $fillable = ['title', 'trade_price', 'retail_price', 'description',
+    use TransliteratedService;
+
+    protected $fillable = ['title', 'price', 'description',
                         'model', 'sku', 'quantity', 'weight', 'size', 'status',
-                        'material','coating','color_stone','user_id', 'published_at'];
-    protected $dates = ['published_at'];
+                        'material','coating','alias','user_id'];
 
-    public function setPublishedAtAttribute($date)
+
+    public function setAliasAttribute($alias)
     {
-        //dd($date);
-        // $this->attributes['published_at'] = Carbon::createFromFormat('d.m.Y', $date);
-
-        $this->attributes['published_at'] = Carbon::parse($date);
+        if (!empty($alias)) {
+            $this->attributes['alias'] = $this->transliterate($alias);
+        } else {
+            $this->attributes['alias'] = $this->transliterate($this->attributes['title']);
+        }
     }
 
-    public function getPublishedAtAttribute($date)
+    public function setPriceAttribute($value)
     {
-//       dd($date);
-        return Carbon::parse($date)->format('d.m.Y H:i');
+        $this->attributes['price'] = (float)$value;
+    }
+
+    public function setWeightAttribute($value)
+    {
+        $this->attributes['weight'] = (float)$value;
+    }
+
+    public function setSizeAttribute($value)
+    {
+        $this->attributes['size'] = (float)$value;
     }
 
     public function scopeActive($query)
@@ -71,6 +84,20 @@ class Product extends Model
         return $this->catalogs->pluck('id')->all();
     }
 
+    public function productDiscount()
+    {
+        return $this->hasOne('App\Discount');
+    }
+
+    public function productSpecial()
+    {
+        return $this->hasOne('App\Special');
+    }
+
+    public function productOptions()
+    {
+        return $this->hasMany('App\Option');
+    }
     /**
      * Получить  пользователя продукта
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -96,11 +123,6 @@ class Product extends Model
         return $this->morphToMany('App\Catalog', 'cataloggable');
     }
 
-    public function alias()
-    {
-
-        return $this->morphOne('App\Alias', 'aliastable');
-    }
 
     /**
      * Получить файлы продуктов
@@ -113,8 +135,10 @@ class Product extends Model
 
     function delete()
     {
-        $this->alias()->delete();
-        $this->seoAttr()->delete();
+        $this->productSeo()->delete();
+        $this->productOptions()->delete();
+        $this->productDiscount()->delete();
+        $this->productSpecial()->delete();
         foreach ($this->files as $file) {
             // dd(Storage::disk('public')->exists('files/'.$file->filename));
             Storage::disk('public')->delete('files/' . $file->filename);
@@ -123,8 +147,6 @@ class Product extends Model
             Storage::disk('public')->delete('files/400x300/' . $file->filename);
             $file->delete();
         }
-
-
         parent::delete();
     }
 

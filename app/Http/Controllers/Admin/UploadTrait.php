@@ -25,7 +25,6 @@ trait UploadTrait
 
     public function multipleUpload(Request $request, $page, $imageStyle = array())
     {
-       // dd($imageStyle);
         $files = Input::file('images');
 
         if ($files) {

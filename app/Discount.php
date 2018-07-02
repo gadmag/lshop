@@ -6,5 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Discount extends Model
 {
-    //
+   protected $fillable = ['product_id','quantity','price', 'date_start', 'date_end'];
+
+    protected $table = 'product_discounts';
+    public $timestamps = false;
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = (float)$value;
+    }
+    public function discountProduct()
+   {
+       $this->belongsTo('App\Product');
+   }
 }

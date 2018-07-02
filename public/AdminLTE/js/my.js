@@ -1,9 +1,9 @@
-$('.remove-file').on('click', function(e) {
+$('.remove-file').on('click', function (e) {
     // var inputData = $('#formDeleteProduct').serialize();
 
 
     var dataId = $(this).attr('data-id');
-    var url = "/admin/upload/"+dataId;
+    var url = "/admin/upload/" + dataId;
     console.log(url);
 
     $.ajax({
@@ -26,13 +26,13 @@ $('.remove-file').on('click', function(e) {
 
 $('div.alert').not('alert-important').delay(3000).slideUp(300);
 
-(function($){
+(function ($) {
     $('.dateru input').datepicker({
-            dateFormat: 'dd-mm-yy',
-            language: 'ru'
-        });
+        dateFormat: 'dd-mm-yy',
+        language: 'ru'
+    });
 
-    $('.dateru input').change(function(){
+    $('.dateru input').change(function () {
         $(this).attr('value', $('.dateru input').val());
     });
 
@@ -56,11 +56,9 @@ $('div.alert').not('alert-important').delay(3000).slideUp(300);
 }(jQuery));
 
 //Nested set
-$(document).ready(function()
-{
+$(document).ready(function () {
 
-    function updateMenu(jsonString)
-    {
+    function updateMenu(jsonString) {
 
         $.ajaxSetup({
             headers: {
@@ -68,30 +66,30 @@ $(document).ready(function()
             }
         });
         $.ajax({
-                url: '/admin/menu/updatesort',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    jsonString: jsonString
-                },
-                success: function(data) {
-                    console.log(data.status);
+            url: '/admin/menu/updatesort',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                jsonString: jsonString
+            },
+            success: function (data) {
+                console.log(data.status);
 
-                },
-                error: function(data) {
-                    console.log('Error:', data);
-                    // if ( data.status === 422 ) {
-                    //     toastr.error('Cannot delete the category');
-                    // }
-                }
-            });
+            },
+            error: function (data) {
+                console.log('Error:', data);
+                // if ( data.status === 422 ) {
+                //     toastr.error('Cannot delete the category');
+                // }
+            }
+        });
 
 
     }
-    var updateOutput = function(e)
-    {
 
-        var list   = e.length ? e : $(e.target),
+    var updateOutput = function (e) {
+
+        var list = e.length ? e : $(e.target),
             output = list.data('output');
         // console.log(list.data('output'));
         if (window.JSON) {
@@ -102,19 +100,18 @@ $(document).ready(function()
         }
     };
 
-   // activate Nestable for list 1
+    // activate Nestable for list 1
     $('#nestable').nestable({
-         group: 1
+        group: 1
     }).on('change', updateOutput);
 
     var variable = $('#nestable').data();
-    if ( typeof variable !== "undefined" && variable) {
+    if (typeof variable !== "undefined" && variable) {
         updateOutput($('#nestable').data('output', $('#nestable-output')));
     }
 
 
-    $('#nestable-menu').on('click', function(e)
-    {
+    $('#nestable-menu').on('click', function (e) {
         var target = $(e.target),
             action = target.data('action');
         if (action === 'expand-all') {
@@ -126,14 +123,52 @@ $(document).ready(function()
     });
 
 //fix позволяющий кликать на ссылки в nestable
-    $(".dd a").on("mousedown", function(event) { // mousedown prevent nestable click
+    $(".dd a").on("mousedown", function (event) { // mousedown prevent nestable click
         event.preventDefault();
         return false;
     });
-    $(".dd a").on("click", function(event) { // click event
+    $(".dd a").on("click", function (event) { // click event
         event.preventDefault();
         window.location = $(this).attr("href");
         return false;
     });
 
 });
+
+//options product
+(function ($) {
+    var row = $('table.table tbody').children().length - 1;
+
+    $('#add-options').on('click', function (e) {
+        e.preventDefault();
+        $('#option-value-row').clone().toggleClass('hide').attr('id', '#option-value-row' + row).appendTo('.tab-options table.table tbody');
+        row++;
+    });
+
+    $('.tab-options').on("click", '.remove-options', function (e) {
+        e.preventDefault();
+        var dataId = $(this).attr('data-id');
+        var fields = $(this).parent().parent();
+        if (dataId) {
+            var url = "/admin/option/" + dataId;
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    console.log(data.status);
+                    console.log(fields);
+                    fields.remove();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status + ' ' + thrownError);
+                }
+            });
+        } else {
+            fields.remove();
+        }
+
+    })
+}(jQuery))

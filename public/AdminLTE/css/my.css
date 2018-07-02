@@ -13,3 +13,6 @@
 .remove-file span:hover {
     color: red;
 }
+.tab-options table.table td{
+    vertical-align: middle;
+}

@@ -34,7 +34,7 @@
                 <option value="0">Выбрать</option>
                 @if($tree)
                 @foreach($tree as $catItem)
-                    @include('AdminLTE.form.select',  ['$catItem' => $catItem, 'catalog' => $catalog])
+                    @include('AdminLTE.form.select_catalog',  ['$catItem' => $catItem, 'catalog' => $catalog])
                 @endforeach
                 @endif
                 {{--@each('AdminLTE.form.select', $tree, 'catItem')--}}
