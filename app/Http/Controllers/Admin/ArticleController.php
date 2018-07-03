@@ -7,10 +7,8 @@ use App\Event;
 use App\Menu;
 use App\Upload;
 use App\VideoUrl;
-use Illuminate\Http\Request;
+use App\Http\Requests\ArticleRequest;
 use Gate;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Article;
 use App\ArticleType;
@@ -27,15 +25,9 @@ use File;
 class ArticleController extends Controller
 {
 
-//    use UploadTrait;
 
+    use UploadTrait;
 
-    private $rules = [
-        'title' => 'required|min:3',
-        //'alias' => 'min:3|alpha_dash|unique:articles,alias'
-        'alias' => 'min:3|alpha_dash',
-        //'body' => 'required|min:3',
-    ];
     public function __construct()
     {
 
@@ -48,7 +40,7 @@ class ArticleController extends Controller
     public function index($type)
     {
 
-       $articleType = $this->getArticleType($type);
+        $articleType = $this->getArticleType($type);
 
 
         $articles = Article::ofType($type)->latest('created_at')->paginate(10);
@@ -59,7 +51,6 @@ class ArticleController extends Controller
             'articleType' => $articleType
         ]);
     }
-
 
 
     /** Форма добавления новой статьи
@@ -79,7 +70,7 @@ class ArticleController extends Controller
 
         $tags = \App\Tag::pluck('name', 'id');
         $catalogs = \App\Catalog::pluck('name', 'id');
-        return view('AdminLTE.articles.create', compact('tags','type', 'catalogs'));
+        return view('AdminLTE.articles.create', compact('tags', 'type', 'catalogs'));
 
     }
 
@@ -91,22 +82,21 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function store( Request $request, $type)
+    public function store(ArticleRequest $request, $type)
 
     {
         $articleType = $this->getArticleType($type);
-       $request->request->add(['type' => $articleType->name]);
+        $request->request->add(['type' => $articleType->name]);
 
         $this->createArticle($request);
 
 
         //session()->flash('flash_message', 'Ваша статья добавленна');
         // session()->flash('flash_message_important', true);
-        return  redirect("admin/article/{$articleType->name}/all")->with([
-            'flash_message'               =>   "{$articleType->title} добавлена",
+        return redirect("admin/articles/{$articleType->name}/all")->with([
+            'flash_message' => "{$articleType->title} добавлена",
 //          'flash_message_important'     => true
         ]);
-
 
 
     }
@@ -124,17 +114,17 @@ class ArticleController extends Controller
         return view('AdminLTE.articles.edit', [
             'article' => $article,
             'tags' => $tags,
-             'catalogs' => $catalogs
+            'catalogs' => $catalogs
         ]);
     }
 
-    public function update($id, Requests\ArticleRequest $request)
+    public function update(ArticleRequest $request, $id)
     {
         $article = Article::findOrFail($id);
         $images = $request->only('images');
-        $article->update($request->except('seoAttr','eventAttr','menuLink','images[]'));
+        $article->update($request->except('seoAttr', 'eventAttr', 'menuLink', 'images[]'));
 
-        if ($request->has('menuLink.link_title')){
+        if ($request->has('menuLink.link_title')) {
             $this->updateMenuAttr($request, $article);
         }
 
@@ -144,32 +134,32 @@ class ArticleController extends Controller
         if ($request->has('alias')) {
             $this->updateAliasAttr($request, $article);
         }
-        if($request->has('eventAttr')){
+        if ($request->has('eventAttr')) {
             $this->updateEventAttr($request, $article->id);
         }
 
-        if ($request->has('videoAttr')){
+        if ($request->has('videoAttr')) {
             $this->updateVideoAttr($request, $article->id);
         }
 
 
-            $this->multipleUpload($request, $article,[
+        $this->multipleUpload($request, $article, [
 
-                '600x450' => array(
-                    'width' => 600,
-                    'height' => 450
-                ),
-                '400x300' => array(
-                    'width' => 400,
-                    'height' => 300
-                )
-            ]);
+            '600x450' => array(
+                'width' => 600,
+                'height' => 450
+            ),
+            '400x300' => array(
+                'width' => 400,
+                'height' => 300
+            )
+        ]);
 
         $articleType = $this->getArticleType($article->type);
-        $this->syncTags($article, $request->input('tag_list')? : []);
-        $this->syncCatalogs($article,$request->input('catalog_list')? : []);
-        return redirect("admin/article/{$article->type}/all")->with([
-            'flash_message'               =>   "{$articleType->title} обновлена",
+        $this->syncTags($article, $request->input('tag_list') ?: []);
+        $this->syncCatalogs($article, $request->input('catalog_list') ?: []);
+        return redirect("admin/articles/{$article->type}/all")->with([
+            'flash_message' => "{$articleType->title} обновлена",
 //          'flash_message_important'     => true
         ]);
 
@@ -184,16 +174,17 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
         $type = $article->type;
         $article->delete();
-        return redirect("admin/article/{$type}/all")->with([
-            'flash_message'               =>   "{$this->getArticleType($type)->title} удалена",
+        return redirect("admin/articles/{$type}/all")->with([
+            'flash_message' => "{$this->getArticleType($type)->title} удалена",
 //          'flash_message_important'     => true
         ]);
     }
+
     /** Синхронизация тегов статьи
      * @param Articles $article
      * @param array $tags
      */
-    private function syncTags(Articles $article, array $tags)
+    private function syncTags(Article $article, array $tags)
     {
 
         $article->tags()->sync($tags);
@@ -203,7 +194,7 @@ class ArticleController extends Controller
      * @param Articles $article
      * @param array $catalogs
      */
-    private function syncCatalogs(Articles $article, array $catalogs)
+    private function syncCatalogs(Article $article, array $catalogs)
     {
         $article->catalogs()->sync($catalogs);
     }
@@ -211,78 +202,64 @@ class ArticleController extends Controller
     /** Сохранение новой статьи
      * @param Request $request
      */
-    private function createArticle(Request $request)
+    private function createArticle(ArticleRequest $request)
     {
-        $this->validate($request, $this->rules);
-
         $seo = $request->only('seoAttr');
         $event = $request->only('eventAttr');
         $video = $request->only('videoAttr');
         $menu = $request->only('menuLink')['menuLink'];
         $alias_url = $request->only('alias');
-        $images = $request->only('images');
-       // dd($alias_url);
-        $article = Auth::user()->articles()->create($request->except('seoAttr','eventAttr','menuLink','images[]'));
+        // dd($alias_url);
+        $article = Auth::user()->articles()->create($request->except('seoAttr', 'eventAttr', 'menuLink', 'images[]'));
+
+        $this->multipleUpload($request, $article, [
+            '600x450' => array(
+                'width' => 600,
+                'height' => 450
+            ),
+            '400x300' => array(
+                'width' => 350,
+                'height' => null
+            ),
 
 
-        if(!empty($images['images']))
-        {
-           // dd($images['images']);
-            $this->multipleUpload($request, $article,[
-                '600x450' => array(
-                    'width' => 600,
-                    'height' => 450
-                ),
-                '400x300' => array(
-                    'width' => 350,
-                    'height' => null
-                ),
+        ]);
 
+        if ($request->has('alias')) {
 
-            ]);
-        }
-        if ($request->has('alias'))
-        {
-
-           // $alias = new Alias($request->input('alias'));
+            // $alias = new Alias($request->input('alias'));
             //$article->alias()->save($alias);
         }
 
-        if ($request->has('seoAttr'))
-        {
+        if ($request->has('seoAttr')) {
             $seo_attr = new Seo($request->input('seoAttr'));
             $article->seoAttr()->save($seo_attr);
         }
 
-        if (!empty($event['eventAttr']))
-        {
+        if (!empty($event['eventAttr'])) {
 //            var_dump($event['eventAttr']);
             $event_attr = new Event($event['eventAttr']);
             $article->eventAttr()->save($event_attr);
         }
 
-        if ($request->has('videoAttr'))
-        {
+        if ($request->has('videoAttr')) {
             $video_attr = new VideoUrl($video['videoAttr']);
             $article->videoAttr()->save($video_attr);
 
         }
 
-        if($request->input('hasMenu'))
-        {
+        if ($request->input('hasMenu')) {
 
-                $this->validate($request, ['menuLink.menu_title' =>'required_if:hasMenu,1|min:3']);
-                $menu['link_path'] = $alias_url['alias'];
-//                dd($menu);
-                $menu_link = new Menu($menu);
-//                dd($menu_link);
-                $article->menuLink()->save($menu_link);
+            $menu['link_path'] = $alias_url['alias'];
+
+            $menu_link = new Menu($menu);
+            $article->menuLink()->save($menu_link);
 
         }
 
-         $this->syncCatalogs($article,$request->input('catalog_list')? : []);
+        $this->syncCatalogs($article, $request->input('catalog_list') ?: []);
 
-          $this->syncTags($article,$request->input('tag_list')? : []);
+        $this->syncTags($article, $request->input('tag_list') ?: []);
 
     }
 
@@ -304,10 +281,10 @@ class ArticleController extends Controller
         //dd($request->input('alias'));
         $this->validate($request, [
 //            'alias' => 'min:3|alpha_dash|unique:articles,alias,' . $article->id
-              'alias' => 'min:3|alpha_dash|'
+            'alias' => 'min:3|alpha_dash|'
         ]);
 
-            $article->alias = $request->input('alias');
+        $article->alias = $request->input('alias');
 
 
     }
@@ -318,16 +295,13 @@ class ArticleController extends Controller
      */
     protected function updateMenuAttr(Request $request, $article)
     {
-        if($request->input('hasMenu')){
-            $this->validate($request, ['menuLink.link_title' =>'min:3|required_if:hasMenu,1']);
+        if ($request->input('hasMenu')) {
+            $this->validate($request, ['menuLink.link_title' => 'min:3|required_if:hasMenu,1']);
             $link_path = $request->input('alias');
-            $article->menuLink()->updateOrCreate(['menu_linktable_id' => $article->id],array_merge($request->input('menuLink'),['link_path' => $link_path]));
-        }
-        else
-        {
+            $article->menuLink()->updateOrCreate(['menu_linktable_id' => $article->id], array_merge($request->input('menuLink'), ['link_path' => $link_path]));
+        } else {
             $article->menuLink()->delete();
         }
-
 
 
     }
@@ -338,7 +312,7 @@ class ArticleController extends Controller
      */
     protected function updateEventAttr(Request $request, $id)
     {
-        $this->validate($request, ['eventAttr.start_time' =>'required', 'eventAttr.end_time' => 'required']);
+        $this->validate($request, ['eventAttr.start_time' => 'required', 'eventAttr.end_time' => 'required']);
 
         $seo_attr = Event::firstOrCreate(['article_id' => $id]);
 
@@ -359,14 +333,12 @@ class ArticleController extends Controller
     }
 
 
-
-
     /** Получить тип страницы
      * @param $type
      * @return mixed
      */
     protected function getArticleType($type)
     {
-       return ArticleType::OfArticleType($type)->firstOrFail();
+        return ArticleType::OfArticleType($type)->firstOrFail();
     }
 }

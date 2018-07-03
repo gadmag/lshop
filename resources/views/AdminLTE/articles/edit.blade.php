@@ -9,7 +9,7 @@
 
                     <div class="article-body">
                         @include('errors.list')
-                        {!! Form::model($article, ['method' => 'PATCH', 'action' => ['Admin\ArticlesController@update', $article->id],'files' => true, 'class' => 'article']) !!}
+                        {!! Form::model($article, ['method' => 'PATCH', 'action' => ['Admin\ArticleController@update', $article->id],'files' => true, 'class' => 'article']) !!}
                         @if($article->type == 'event')
                             @include('AdminLTE.articles._formEvent',['submitButtonText' => 'Сохранить событие'])
 

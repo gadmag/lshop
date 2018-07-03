@@ -27,7 +27,7 @@
                         <tr>
                             <!-- Article title -->
                             <td class="table-link">
-                                <div><a href="{{action('ArticleController', [$article->id])}}">{{$article->title}}</a></div>
+                                <span>{{$article->title}}</span>
                             </td>
                             <td class="table-text">
                                 <span>{{$article->published_at}}</span>
@@ -44,7 +44,7 @@
                             <!-- Edit Button-->
                             <td class="text-right">
 
-                                <a style="display: inline-block" href="{{action('Admin\ArticlesController@edit',[$article->id])}}" class="btn btn-info" title="Редактировать"
+                                <a style="display: inline-block" href="{{action('Admin\ArticleController@edit',[$article->id])}}" class="btn btn-info" title="Редактировать"
                                    data-toggle="tooltip">
                                     <i class="fa fa-edit"></i>
                                 </a>
@@ -52,7 +52,7 @@
 
                                 <!-- Delete Button -->
 
-                                <form style="display: inline-block" action="{{ url('admin/article/'.$article->id) }}" method="POST">
+                                <form style="display: inline-block" action="{{ url('admin/articles/'.$article->id) }}" method="POST">
                                     {!! csrf_field() !!}
                                     {!! method_field('DELETE') !!}
 
