@@ -10,7 +10,7 @@
 
                     <div class="article-body">
                         @include('errors.list')
-                        {!! Form::model($menu = new \App\Menu(), ['url' => route('menu.store',['menu_type' => $type])]) !!}
+                        {!! Form::model($menu = new \App\Menu(), ['url' => route('menus.store',['menu_type' => $type])]) !!}
                             @include('AdminLTE.menu._form',['submitButtonText' => 'Добавить пункт'])
                         {!! Form::close() !!}
 

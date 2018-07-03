@@ -16,7 +16,8 @@
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    @include('partials.nav')
+
+                    @include('menu.nav')
                     <form class="navbar-form navbar-left">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Search">
@@ -24,14 +25,14 @@
                         <button type="submit" class="btn btn-default">Submit</button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
-                        {{--                    {{Request::session()->get('cart')->totalQty }}--}}
                         <li><a href="{{route('product.shoppingCart')}}"><i class="fa fa-shopping-cart"></i> Shopping
                                 cart
                                 <cart-count :cartcount="itemCount"></cart-count>
                             </a>
-                            {{--<span class="badge">{{session('cart')->totalQty}}</span>--}}
                         </li>
-                        <li><wish-count :wishcount="wishListCount"></wish-count></li>
+                        <li>
+                            <wish-count :wishcount="wishListCount"></wish-count>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Личный кабинет<span
@@ -56,5 +57,5 @@
 
     <cart-detail :cart="cart" :carttotal="itemCount"></cart-detail>
 
-<div id="messege"></div>
+    <div id="messege"></div>
 </header>

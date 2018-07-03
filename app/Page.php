@@ -55,6 +55,8 @@ class Page extends Model
         return $this->morphOne('App\Seo', 'seostable');
     }
 
+
+
     public function delete()
     {
         $this->pageMenu()->delete();

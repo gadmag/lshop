@@ -23,9 +23,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-        view()->composer(['partials.nav','partials.footer'], function($view){
+        view()->composer(['menu.nav','partials.footer'], function($view){
 
-            $view->with('mainMenu', Menu::ofType('main_menu')->orderBy('order')->get());
+            $view->with('mainMenu', Menu::getMenuItem('main_menu'));
             $view->with('secondMenu', Menu::ofType('second_menu')->orderBy('order')->get());
         });
 

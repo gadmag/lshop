@@ -45,11 +45,11 @@ class MenuController extends Controller
         $this->validate($request, [
             'link_title' => 'required',
             'link_path' => 'required',
-            'menu_type' => 'in:secondmenu,mainmenu'
+            'menu_type' => 'in:second_menu,main_menu'
         ]);
         $menu = Menu::create($request->all());
 
-        return redirect("admin/menu?menu_type=$menu->menu_type")->with([
+        return redirect("admin/menus?menu_type=$menu->menu_type")->with([
             'flash_message' => "Пункт меню добавлен",
 //          'flash_message_important'     => true
         ]);
@@ -59,7 +59,7 @@ class MenuController extends Controller
     public function update(Menu $menu, Request $request)
     {
         $menu->update($request->all());
-        return redirect("admin/menu?menu_type=$menu->menu_type")->with([
+        return redirect("admin/menus?menu_type=$menu->menu_type")->with([
             'flash_message' => "{$menu->link_title} обновлена",
 //          'flash_message_important'     => true
         ]);
@@ -72,7 +72,7 @@ class MenuController extends Controller
         $link_title = $menu->link_title;
         $menu_type = $menu->menu_type;
         $menu->delete();
-        return redirect("admin/menu?menu_type=$menu_type")->with([
+        return redirect("admin/menus?menu_type=$menu_type")->with([
             'flash_message' => "{$link_title} удалена",
 //          'flash_message_important'     => true
         ]);

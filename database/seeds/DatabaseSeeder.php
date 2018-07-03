@@ -144,21 +144,21 @@ class MenuTableSeeder extends DatabaseSeeder
         \App\Menu::create([
             'link_title' => 'Главная',
             'link_path'  => '/',
-            'menu_type' => 'mainmenu',
+            'menu_type' => 'main_menu',
             'status'    => 1,
 
         ]);
         \App\Menu::create([
             'link_title' => 'О нас',
             'link_path'  => 'about',
-            'menu_type' => 'mainmenu',
+            'menu_type' => 'main_menu',
             'parent_id'  => 1,
             'status'    => 1
         ]);
         \App\Menu::create([
             'link_title' => 'Контакты',
             'link_path'  => 'contact',
-            'menu_type' => 'mainmenu',
+            'menu_type' => 'main_menu',
             'parent_id'  => 2,
             'status'    => 1
         ]);

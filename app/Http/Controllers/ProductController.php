@@ -22,7 +22,7 @@ class ProductController extends Controller
     public function index()
     {
 
-        $products = Product::with('productUser')->active()->latest('published_at')->paginate(10);
+        $products = Product::with('productUser')->active()->latest('created_at')->paginate(10);
 
         return view('product.index')->with('products', $products);
     }

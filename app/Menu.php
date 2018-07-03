@@ -38,7 +38,7 @@ class Menu extends Model
          if ($row->parent_id == $pid) {
 
              $child = self::getTree($tree, $row->id);
-             $a[] = array('id' => $row->id, 'link_title' => $row->link_title, 'path' => $row->link_path, 'order' => $row->order , 'child' => $child );
+             $a[] = array('item' => $row, 'child' => $child );
          }
      }
 
@@ -51,7 +51,6 @@ class Menu extends Model
     public static function getMenuItem($type)
     {
         $menu = Menu::OfType($type)->orderBy('order')->get();
-       // $menu = Menu::all();
         return  self::getTree($menu);
 
     }
@@ -63,12 +62,12 @@ class Menu extends Model
 
     public function children()
     {
-        $this->hasMany('App\Menu','parent_id', 'id');
+      return  $this->hasMany('App\Menu','parent_id', 'id');
     }
 
     public function menu_linktable()
     {
-        $this->morphTo();
+        return $this->morphTo();
     }
 
 }
