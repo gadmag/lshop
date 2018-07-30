@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('env', function() {
+    dd(env('APP_ENV'));
+});
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace' => 'Admin', 'roles' => ['Admin', 'Moderator']], function () {
     Route::get('/', function () {
         return view('AdminLTE.admin');
@@ -47,14 +49,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
 });
 
 Route::group(['middleware' => 'web'], function () {
-//    Route::get('news/{alias}', ['as' => 'news.show', 'uses' => 'ArticleController@show']);
+    Route::get('designs/{design_alias}', ['as' => 'design.show', 'uses' => 'ArticleController@showDesign']);
+    Route::get('designs', ['as' => 'design.index', 'uses' => 'ArticleController@indexDesign']);
 
     /*page*/
     Route::get('pages/{page_alias}', ['as' => 'page.show', 'uses' => 'PageController@show']);
     /*product*/
-    Route::get('products/{product}', ['as' => 'product.show', 'uses' => 'ProductController@show']);
+    Route::get('products/{product_alias}', ['as' => 'product.show', 'uses' => 'ProductController@show']);
     Route::get('products', ['as' => 'product.index', 'uses' => 'ProductController@index']);
-    Route::get('add-to-cart/{id}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
+//    Route::get('add-to-cart/{id}/{quantity}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
+    Route::post('add-to-cart/{id}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
     Route::get('reduce/{id}', ['as' => 'product.reduceByOne', 'uses' => 'ProductController@getReduceByOne']);
     Route::get('remove/{id}', ['as' => 'product.removeItem', 'uses' => 'ProductController@getRemoveItem']);
     Route::get('add-to-wishlist/{id}', ['as' => 'product.addToWishList', 'uses' => 'ProductController@addToWishList']);
@@ -63,8 +67,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('wishlist-json', ['as' => 'product.WishListJson', 'uses' => 'ProductController@getWishListJson']);
     Route::get('shopping-cart', ['as' => 'product.shoppingCart', 'uses' => 'ProductController@getCart']);
     Route::get('shopping-cart-detail', ['as' => 'product.shoppingCartDerail', 'uses' => 'ProductController@getCartDetail']);
-    Route::get('/checkout', ['as' => 'checkout', 'uses' => 'ProductController@getCheckout', 'middleware' => 'auth']);
-    Route::post('/checkout', ['as' => 'checkout', 'uses' => 'ProductController@postCheckout', 'middleware' => 'auth']);
+    /*checkout*/
+    Route::get('checkout', ['as' => 'checkout', 'uses' => 'CheckoutController@getCheckout', 'middleware' => 'auth']);
+    Route::post('checkout', ['as' => 'checkoutPost', 'uses' => 'CheckoutController@postCheckout', 'middleware' => 'auth']);
     /*catalog*/
     Route::get('catalogs/{catalog}', ['as' => 'catalog.show', 'uses' => 'CatalogController@show']);
     Route::get('catalogs', ['as' => 'catalog.index', 'uses' => 'CatalogController@index']);
@@ -76,13 +81,10 @@ Route::group(['middleware' => 'web'], function () {
 
 
 //Route::get('tags/{tags}', 'TagsController@show');
-    Route::get('/', ['as' => 'front', 'uses' => 'WelcomeController@index']);
-//
-//    Route::get('contact', 'WelcomeController@contact');
-//    Route::get('about', 'WelcomeController@about');
+    Route::get('/', ['as' => 'front', 'uses' => 'FrontController@index']);
 
-    Route::get('sendorder', 'SubscriberController@sendOrder');
-    Route::get('sendcall', 'SubscriberController@sendBackCall');
+//    Route::get('sendorder', 'SubscriberController@sendOrder');
+//    Route::get('sendcall', 'SubscriberController@sendBackCall');
 
 });
 

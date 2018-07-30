@@ -179,9 +179,15 @@ class ProductController extends Controller
                 'width' => 600,
                 'height' => 450
             ),
-            '400x300' => array(
-                'width' => 400,
-                'height' => 300
+
+            '250x250' => array(
+                'width' => 280,
+                'height' => 280
+            ),
+
+            '90x110' => array(
+                'width' => 90,
+                'height' => 110
             )
         ]);
 
@@ -222,12 +228,16 @@ class ProductController extends Controller
 
         $this->multipleUpload($request, $product, [
             '600x450' => array(
-                'width' => 600,
-                'height' => 450
-            ),
-            '400x300' => array(
-                'width' => 400,
+                'width' => 250,
                 'height' => 300
+            ),
+            '250x250' => array(
+                'width' => 280,
+                'height' => 280
+            ),
+            '90x110' => array(
+                'width' => 90,
+                'height' => 110
             )
         ]);
 

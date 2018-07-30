@@ -19,7 +19,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                        <div class="panel-footer"><strong>Total price: $ {{$order->cart->totalPrice}}</strong></div>
+                        <div class="panel-footer"><strong>Total price:  {{$order->cart->totalPrice}}</strong></div>
                     </div>
                 @endforeach
             </div>

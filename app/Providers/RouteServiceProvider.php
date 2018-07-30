@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Catalog;
 use App\Page;
 use Illuminate\Support\Facades\Route;
-use App\Alias;
 use App\Article;
 use App\Product;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -31,49 +30,45 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
 
-        Route::bind('alias', function ($id){
+        Route::bind('alias', function ($id) {
 
-            if (is_numeric($id))
-            {
+            if (is_numeric($id)) {
                 $article = Article::published()->ofType('news')->findOrFail(intval($id));
-            }else{
+            } else {
                 //$id = preg_replace('/[^0-9]/', '', $id,1);
                 preg_match('|(.*)-|', $id, $m);
-              //  dd($m[1]);
+                //  dd($m[1]);
 //                $article = Articles::where('alias', $id)->published()->firstOrFail();
                 $article = Article::published()->ofType('news')->findOrFail($m[1]);
             }
             return $article;
         });
 
-        Route::bind('photo', function ($id){
+        Route::bind('photo', function ($id) {
 
-            if (is_numeric($id))
-            {
+            if (is_numeric($id)) {
                 $photo = Article::published()->findOrFail(intval($id));
-            }else{
+            } else {
                 $photo = Article::where('alias', $id)->ofType('photo')->published()->firstOrFail();
             }
             return $photo;
         });
 
-        Route::bind('video', function ($id){
+        Route::bind('design_alias', function ($id) {
 
-            if (is_numeric($id))
-            {
-                $video = Article::published()->findOrFail(intval($id));
-            }else{
-                $video = Article::where('alias', $id)->ofType('video')->published()->firstOrFail();
+            if (is_numeric($id)) {
+                $design = Article::published()->findOrFail(intval($id));
+            } else {
+                $design = Article::where('alias', $id)->ofType('design')->published()->firstOrFail();
             }
-            return $video;
+            return $design;
         });
 
-        Route::bind('page_alias', function ($id){
-            if (is_numeric($id))
-            {
+        Route::bind('page_alias', function ($id) {
+            if (is_numeric($id)) {
 //                dd($id);
                 $page = Page::active()->findOrFail(intval($id));
-            }else{
+            } else {
                 $page = Page::where('alias', $id)->active()->firstOrFail();
             }
             return $page;
@@ -88,20 +83,19 @@ class RouteServiceProvider extends ServiceProvider
 //            }
 //            return $catalog;
 //        });
-//        Route::bind('product', function ($id){
-////            dd($id);
-//            if (is_numeric($id))
-//            {
-//                $product = Product::published()->findOrFail($id);
-//
-//            }else{
-//                $alias = Alias::where('alias_url', $id)->firstOrFail();
-//                $product = $alias->aliastable;
-//            }
-//            return $product;
-//        });
+        Route::bind('product_alias', function ($id) {
+//            dd($id);
+            if (is_numeric($id)) {
+                $product = Product::active()->findOrFail($id);
 
-        Route::bind('tags', function ($name){
+            } else {
+                $product = Product::active()->where('alias', $id)->firstOrFail();
+
+            }
+            return $product;
+        });
+
+        Route::bind('tags', function ($name) {
             return \App\Tag::where('name', $name)->firstOrFail();
         });
     }

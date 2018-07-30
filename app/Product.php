@@ -51,9 +51,9 @@ class Product extends Model
     public function setAliasAttribute($alias)
     {
         if (!empty($alias)) {
-            $this->attributes['alias'] = $this->transliterate($alias);
+            $this->attributes['alias'] = self::isAliasExist($this->transliterate($alias),$this->attributes['id'])? $this->transliterate($alias).'_1': $this->transliterate($alias);
         } else {
-            $this->attributes['alias'] = $this->transliterate($this->attributes['title']);
+            $this->attributes['alias'] = self::isAliasExist($this->transliterate($this->attributes['title']),$this->attributes['id'])? $this->transliterate($this->attributes['title']).'_1' : $this->transliterate($this->attributes['title']);
         }
     }
 
@@ -77,6 +77,16 @@ class Product extends Model
         $query->where('status', 1);
     }
 
+    public static function isAliasExist($alias,$id) {
+        if (static::query()->where('id', $id)->first()){
+            return false;
+        }
+        $aliasProduct = static::query()->where('alias', $alias)->first();
+        if ($aliasProduct) {
+            return true;
+        }
+        return false;
+    }
 
     public function getCatalogListAttribute()
     {

@@ -8,6 +8,7 @@ use App\Articles;
 use  App\Menu;
 use App\Catalog;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        Blade::directive('current_convert', function ($number) {
+            return "<?php echo number_format($number, 0, ',', ' '); ?>";
+        });
+
         view()->composer(['catalog.list'], function($view){
             $view->with('catalogs', Catalog::latest('published_at')->published()->paginate(10));
         });

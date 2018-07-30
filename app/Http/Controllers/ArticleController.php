@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 //use Request;
-use App\Articles;
+use App\Article;
 use App\Alias;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -23,21 +23,29 @@ class ArticleController extends Controller
 
     public function index()
     {
-        $articles = Articles::ofType('news')->latest('published_at')->published()->paginate(12);
+        $articles = Article::ofType('news')->latest('published_at')->published()->paginate(12);
         return view('articles.index')->with('articles', $articles);
     }
 
     public function indexPhoto()
     {
-        $photos = Articles::ofType('photo')->latest('published_at')->published()->paginate(12);
+        $photos = Article::ofType('photo')->latest('published_at')->published()->paginate(12);
         return view('articles.indexPhoto',[
             'photos' => $photos,
         ]);
     }
 
+    public function indexDesign()
+    {
+        $designs = Article::ofType('design')->latest('created_at')->published()->paginate(12);
+        return view('articles.indexDesign',[
+            'designs' => $designs,
+        ]);
+    }
+
     public function indexVideo()
     {
-        $videos = Articles::ofType('video')->latest('published_at')->published()->paginate(10);
+        $videos = Article::ofType('video')->latest('published_at')->published()->paginate(10);
         return view('articles.indexVideo',[
             'videos' => $videos,
         ]);
@@ -58,7 +66,7 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function show(Articles $article)
+    public function show(Article $article)
     {
         return view('articles.show', [
             'article' => $article,
@@ -68,7 +76,7 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function showCatNews($catAlias, Articles $article)
+    public function showCatNews($catAlias, Article $article)
     {
         return view('articles.show', [
             'article' => $article,
@@ -78,7 +86,7 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function showPhoto(Articles $photo)
+    public function showPhoto(Article $photo)
     {
         return view('articles.showPhoto', [
             'photo' => $photo,
@@ -88,7 +96,17 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function showVideo(Articles $video)
+    public function showDesign(Article $design)
+    {
+        return view('articles.showDesign', [
+            'design' => $design,
+
+            'next' => Article::next($design->id,'design'),
+            'previous' => Article::previous($design->id, 'design'),
+        ]);
+    }
+
+    public function showVideo(Article $video)
     {
         return view('articles.showVideo', [
             'video' => $video,
@@ -98,7 +116,7 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function showPage(Articles $article)
+    public function showPage(Article $article)
     {
         return view('articles.showPage', [
             'page' => $article,
@@ -109,7 +127,7 @@ class ArticleController extends Controller
     {
         $search = $request->get('search');
 
-        $articles = Articles::published()->where('title', 'like', '%'.$search.'%')
+        $articles = Article::published()->where('title', 'like', '%'.$search.'%')
         ->orWhere('body', 'like', '%'.$search.'%')->paginate(12);
         return view('articles.indexSearch',[
             'articles' => $articles
@@ -118,7 +136,7 @@ class ArticleController extends Controller
 
     public function feed()
     {
-        $news = Articles::published()->OfType('news')->where('lang', '!=', 'no')->latest()->take(10)->get();
+        $news = Article::published()->OfType('news')->where('lang', '!=', 'no')->latest()->take(10)->get();
 
        // dd($news);
         return response()->view('xml.rss',[

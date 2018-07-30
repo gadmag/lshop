@@ -27,8 +27,8 @@ class ProductRequest extends FormRequest
             'title' => 'required|min:3',
             'status' => 'boolean',
             'sku' => 'required',
-            'price' => 'required|numeric|min:1',
-            'weight' => 'required|numeric|min:1'
+            'price' => 'required|numeric',
+            'weight' => 'required|numeric'
         ];
 
         if ($this->has('productDiscount.price') || $this->has('productDiscount.quantity'))

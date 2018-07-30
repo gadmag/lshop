@@ -10,11 +10,11 @@ class SubscriberController extends Controller
 {
     public function sendOrder(Request $request)
     {
-        $this->validate($request, [
-           'name' => 'required|min:3',
-            'email' => 'required|email',
-            'telephone' => 'required',
-        ]);
+//        $this->validate($request, [
+//           'name' => 'required|min:3',
+//            'email' => 'required|email',
+//            'telephone' => 'required',
+//        ]);
 
         Mail::send('emails.order', [
             'name' => $request->name,

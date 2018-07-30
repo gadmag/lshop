@@ -149,12 +149,12 @@ class Article extends Model
 
     public static function next($id, $type = 'news')
     {
-        return Articles::ofType($type)->where('id', '>', $id)->latest()->first();
+        return Article::ofType($type)->where('id', '>', $id)->latest()->first();
     }
 
     public static function previous($id, $type = 'news')
     {
-        return Articles::ofType($type)->where('id', '<', $id)->latest()->first();
+        return Article::ofType($type)->where('id', '<', $id)->latest()->first();
     }
 
     /**

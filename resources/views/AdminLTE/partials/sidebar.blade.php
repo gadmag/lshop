@@ -25,7 +25,7 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
+            <li class="header">Навигация</li>
             <li class="active">
                 <a href="/admin">
                     <i class="fa fa-dashboard"></i>
@@ -70,11 +70,11 @@
                 <a href="{{url('admin/articles/photo/all')}}"><i class="fa fa-photo"></i> <span>Фотогалерея</span></a>
             </li>
             <li>
-                <a href="{{url('admin/articles/video/all')}}"><i class="fa fa-photo"></i> <span>Видео</span></a>
+                <a href="{{url('admin/articles/design/all')}}"><i class="fa fa-photo"></i> <span>Дизайнерские идеи</span></a>
             </li>
-            <li>
-                <a href="{{url('admin/blocks')}}"><i class="fa fa-th"></i> <span>Блоки</span></a>
-            </li>
+            {{--<li>--}}
+                {{--<a href="{{url('admin/blocks')}}"><i class="fa fa-th"></i> <span>Блоки</span></a>--}}
+            {{--</li>--}}
             <li>
                 <a href="{{url('admin/users')}}"><i class="fa fa-user"></i> <span>Пользователи</span></a>
             </li>

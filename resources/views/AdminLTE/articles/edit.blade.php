@@ -15,6 +15,8 @@
 
                         @elseif($article->type == 'photo')
                             @include('AdminLTE.articles._formPhoto',['submitButtonText' => 'Сохранить фотогалерею'])
+                        @elseif($article->type == 'design')
+                            @include('AdminLTE.articles._form_design',['submitButtonText' => 'Сохранить'])
 
                         @elseif($article->type == 'video')
                             @include('AdminLTE.articles._formVideo',['submitButtonText' => 'Сохранить видео'])

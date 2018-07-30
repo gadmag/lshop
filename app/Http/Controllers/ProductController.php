@@ -21,34 +21,32 @@ class ProductController extends Controller
 
     public function index()
     {
-
         $products = Product::with('productUser')->active()->latest('created_at')->paginate(10);
-
         return view('product.index')->with('products', $products);
     }
 
     public function show(Product $product)
     {
-
-
-        $catalog = Catalog::findOrFail($product->catalogs()->first()->id);
-
-        $products = $catalog->products()->latest('published_at')->published()->get();
-
+//        $catalog = Catalog::findOrFail($product->catalogs()->first()->id);
+//        $products = $catalog->products()->latest('published_at')->published()->get();
         return view('product.show', [
             'product' => $product,
-            'products' => $products->where('id', '!=', $product->id),
-//            'query' => (object)$db,
+            'options' => $product->productOptions,
+            'discount' => $product->productDiscount,
+            'special' => $product->productSpecial,
+            'products' => null,
+
         ]);
     }
 
 
     public function addToCart(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
+
+        $product = Product::with('files')->findOrFail($id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->add($product, $product->id);
+        $cart->add($product, $product->id, $request->optionAddToCart);
         $request->session()->put('cart', $cart);
         $request->session()->save();
         return Response::json([
@@ -81,19 +79,21 @@ class ProductController extends Controller
         } else {
             Session::forget('cart');
         }
-
-        return redirect()->route('product.shoppingCart');
+        return Response::json([
+            'cart' => $cart
+        ]);
+//        return redirect()->route('product.shoppingCart');
     }
 
     public function getCartDetail()
     {
-        if (Session::has('cart')){
+        if (Session::has('cart')) {
             $oldCart = session('cart');
             $cart = new Cart($oldCart);
             return Response::json([
                 'cart' => $cart
             ]);
-        }else {
+        } else {
             return Response::json([
                 'cart' => null
             ]);
@@ -109,43 +109,11 @@ class ProductController extends Controller
         $oldCart = session('cart');
         $cart = new Cart($oldCart);
         return view('shop.shopping-cart', [
-            'products' => $cart->items,
+            'products' => collect($cart->items),
             'totalPrice' => $cart->totalPrice
         ]);
     }
 
-    public function getCheckout()
-    {
-        if (!Session::has('cart')) {
-            return view('shop.shopping-cart');
-        }
-
-        $oldCart = session('cart');
-        $cart = new Cart($oldCart);
-        $total = $cart->totalPrice;
-        return view('shop.checkout', [
-            'total' => $total
-        ]);
-    }
-
-    public function postCheckout(Request $request)
-    {
-        if (!Session::has('cart')) {
-            return view('shop.shopping-cart');
-        }
-
-        $oldCart = session('cart');
-        $cart = new Cart($oldCart);
-        //todo
-        $order = new Order();
-        $order->cart = serialize($cart);
-        $order->address = $request->address;
-        $order->name = $request->name;
-        $order->payment_id = 'sad33asas2d2';
-        Auth::user()->orders()->save($order);
-        Session::forget('cart');
-        return redirect()->route('product.index')->with('success', 'Оплата завершина');
-    }
 
     public function addToWishList(Request $request, $id)
     {
@@ -201,7 +169,7 @@ class ProductController extends Controller
         $oldWishList = session('wishList');
         $wishList = new WishList($oldWishList);
         return view('shop.wishList', [
-            'wishList' => $wishList->items,
+            'wishList' => collect($wishList->items),
         ]);
     }
 }

@@ -79,6 +79,13 @@ class ArticleTypeSeeder extends DatabaseSeeder
 
         ]);
 
+        \App\ArticleType::create([
+
+            'name' => 'design',
+            'title' => 'Дизайнерские идеи',
+
+        ]);
+
     }
 }
 class TagTableSeeder extends DatabaseSeeder

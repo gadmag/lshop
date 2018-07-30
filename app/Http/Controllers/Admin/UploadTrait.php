@@ -14,7 +14,7 @@ use Validator;
 trait UploadTrait
 {
 
-    protected $rules = ['file' => 'mimes:png,gif,jpeg'];
+    protected $rules = ['file' => 'mimes:png,gif,jpeg,jpg'];
 
     /** Мультизвгрузка изображений
      * @param Request $request
@@ -28,11 +28,12 @@ trait UploadTrait
         $files = Input::file('images');
 
         if ($files) {
+
             foreach ($files as $file):
 
                 $validator = Validator::make(array('file' => $file), $this->rules);
 
-
+//                dd($validator->errors());
                 if ($validator->passes()) {
 
                     $filename = md5(microtime()) . '-' . $file->getClientOriginalName();

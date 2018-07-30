@@ -6,7 +6,6 @@
 
 require('./bootstrap');
 
-
 window.bus = new Vue();
 
 /**
@@ -16,9 +15,12 @@ window.bus = new Vue();
  */
 
 Vue.component('example', require('./components/Example.vue'));
-Vue.component('product', require('./components/Product.vue'));
+Vue.component('product-list', require('./components/ProductList.vue'));
+Vue.component('product-page', require('./components/ProductPage.vue'));
 Vue.component('cart-count', require('./components/CartCount.vue'));
 Vue.component('cart-detail', require('./components/CartDetail.vue'));
+Vue.component('shopping-cart', require('./components/ShoppingCart.vue'));
+Vue.component('checkout', require('./components/Checkout.vue'));
 Vue.component('wish-list', require('./components/WishList.vue'));
 Vue.component('wish-count', require('./components/WishListCount.vue'));
 
@@ -30,56 +32,39 @@ const app = new Vue({
             itemCount: 0,
             wishList: [],
             wishListCount: 0,
-            bool: false
+            bool: false,
+
         }
     },
 
     created() {
-        bus.$on('added-to-cart', (product) => {
-            this.getCartJson('add-to-cart',product);
+        bus.$on('added-to-cart', (id, optionAddToCart) => {
+            this.addToCart('/add-to-cart', id, optionAddToCart);
         });
-        bus.$on('remove-from-cart', (product) => {
+        bus.$on('reduce-from-cart', (id) => {
+            this.getCartJson('/reduce', id);
+        });
+        bus.$on('remove-from-cart', (id) => {
 
-            this.getCartJson('reduce', product);
+            this.getCartJson('/remove', id);
         });
-        bus.$on('added-to-wishlist', (product) => {
-           this.getWishList('add-to-wishlist',product);
-        });
-
-        bus.$on('remove-to-wishlist', (product) => {
-            console.log(product);
-            this.getWishList('remove-to-wishlist',product);
+        bus.$on('added-to-wishlist', (id) => {
+            this.getWishList('/add-to-wishlist', id);
         });
 
-        this.getCartJson('shopping-cart-detail');
-        this.getWishList('wishlist-json');
+        bus.$on('remove-to-wishlist', (id) => {
+
+            this.getWishList('/remove-to-wishlist', id);
+        });
+
+        this.getCartJson('/shopping-cart-detail');
+        this.getWishList('/wishlist-json');
     },
     methods: {
 
-        handleResponse(data) {
-             // console.log(data);
-            if (data.cart) {
-            this.cart = data.cart;
-            this.itemCount = data.cart.totalQty;
-            }
-
-        },
-        handleResponseWishList(data) {
-            // console.log(data.wishList.items);
-            if (data.wishList){
-                this.wishList = data.wishList.items;
-                this.wishListCount = data.wishList.totalQty;
-            }
-
-
-
-        },
-        getCartJson(url, product = '') {
-            if (product){
-                url = url + '/'+ product.id
-            }
+        ajaxGet(url) {
             $.ajax({
-                type: 'GET',
+                type: "GET",
                 url: url,
                 dataType: 'json',
                 cache: false,
@@ -90,24 +75,66 @@ const app = new Vue({
             });
         },
 
-        getWishList(url, product){
-            if (product){
-                url = url + '/'+ product.id
-            }
+        ajaxPost(url, optionAddToCart) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             $.ajax({
-                type: 'GET',
+                type: "POST",
                 url: url,
+                data: {
+                    optionAddToCart: optionAddToCart
+                },
                 dataType: 'json',
                 cache: false,
-                success: this.handleResponseWishList,
+                success: this.handleResponse,
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(xhr.status + ' ' + thrownError);
                 }
             });
         },
 
+        handleResponse(data) {
+            // console.log(data);
+            if (data.cart) {
+                this.cart = data.cart;
+                this.itemCount = data.cart.totalQty;
+            }
+
+        },
+        handleResponseWishList(data) {
+            // console.log(data.wishList.items);
+            if (data.wishList) {
+                this.wishList = data.wishList.items;
+                this.wishListCount = data.wishList.totalQty;
+            }
+
+
+        },
+        getCartJson(url, id = '') {
+            if (id) {
+                url = url + '/' + id;
+            }
+            this.ajaxGet(url);
+        },
+
+        addToCart(url, id,  optionAddToCart) {
+            if (id) {
+                url = url + '/' + id;
+            }
+            this.ajaxPost(url, optionAddToCart);
+        },
+
+        getWishList(url, id) {
+            if (id) {
+                url = url + '/' + id
+            }
+            this.ajaxGet(url);
+        },
+
     },
 
-    computed: {
-    }
+    computed: {}
 });

@@ -1,30 +1,27 @@
 <template>
 
-    <div>
-        <div class="col-sm-6 col-md-4" v-for="item in product">
-            <div class="thumbnail">
-
-                <a :class="active" @click="removeToWishList(item)"><span class="ico ico-wishlist link-wishlist fa fa-heart"></span></a>
-                <div class="caption">
-                    <div><a :href="'/product/' + item.id">{{item.title}}</a></div>
-
-                    <div>{{item.description}}</div>
-                    <div class="clearfix"></div>
-                    <div class="pull-left price">{{item.retail_price}}</div>
-                    <div class="pull-right add-to-cart"><a @click="" class="btn btn-success" role="button">Добавить</a>
-                    </div>
-                    <div class="clearfix"></div>
+    <div class="product-item">
+        <div class="thumbnail">
+            <img class="img-responsive"
+                 :src="imagepath"
+                 alt="Картинка">
+            <a :class="active" @click="removeToWishList(product)"><span
+                    class="ico ico-wishlist link-wishlist fa fa-heart"></span></a>
+            <div class="caption">
+                <div class="product-name text-center">{{product.title}}</div>
+                <div class="product-price text-center">₽ {{price}}</div>
+                <!--<div class="pull-right add-to-cart"><a @click="addToCart" class="btn btn-success" role="button">Добавить</a>-->
+                <!--</div>-->
+                <div class="product-link text-center"><a class="button action primary" :href="productlink">Подробнее</a>
                 </div>
-
             </div>
-
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['product'],
+        props: ['product', 'price', 'productlink', 'imagepath'],
         data: function () {
             return {
                 // listItem, //get data from query
@@ -36,7 +33,7 @@
         },
         methods: {
             removeToWishList(item) {
-                 bus.$emit('remove-to-wishlist', item);
+                bus.$emit('remove-to-wishlist', item);
             },
 
         }

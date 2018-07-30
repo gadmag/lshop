@@ -32,9 +32,9 @@ class CatalogController extends Controller
     public function show(Catalog $catalog)
     {
 
-        $articles = $catalog->articles()->ofType('news')->latest('published_at')->published()->paginate(12);
-        return view('articles.indexCategory',[
-            'articles' => $articles,
+//        $articles = $catalog->articles()->ofType('news')->latest('published_at')->published()->paginate(12);
+        return view('catalog.show',[
+//            'articles' => $articles,
             'catalog' => $catalog
         ]);
 

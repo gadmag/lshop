@@ -17,11 +17,13 @@
 
                         @elseif($type == 'photo')
                             @include('AdminLTE.articles._formPhoto',['submitButtonText' => 'Добавить фотогалерею'])
+                        @elseif($type == 'design')
+                            @include('AdminLTE.articles._form_design',['submitButtonText' => 'Добавить'])
 
                         @elseif($type == 'video')
                             @include('AdminLTE.articles._formVideo',['submitButtonText' => 'Добавить видео'])
                         @elseif($type == 'page')
-                        @include('AdminLTE.articles._formPage', ['submitButtonText' => 'Добавить страницу'])
+                            @include('AdminLTE.articles._formPage', ['submitButtonText' => 'Добавить страницу'])
                         @elseif($type == 'news')
                             @include('AdminLTE.articles._formNews', ['submitButtonText' => 'Добавить новость'])
                         @endif
