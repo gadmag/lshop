@@ -10,7 +10,7 @@
 
                     <div class="article-body">
                         @include('errors.list')
-                        {!! Form::model($user = new \App\User, ['url' => route('user.store')]) !!}
+                        {!! Form::model($user = new \App\User, ['url' => route('users.store')]) !!}
 
 
                             @include('AdminLTE.user._form',['submitButtonText' => 'Добавить пользователя'])

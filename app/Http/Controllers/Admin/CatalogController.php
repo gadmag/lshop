@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Http\Requests\CatalogRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -63,7 +64,7 @@ class CatalogController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CatalogRequest $request)
     {
         $catalog = $this->createCatalog($request);
         return redirect("admin/catalogs")->with([
@@ -112,7 +113,7 @@ class CatalogController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CatalogRequest $request, $id)
     {
         $catalog = $this->updateCatalog($request, Catalog::findOrFail($id));
         return redirect("admin/catalogs")->with([
@@ -149,6 +150,10 @@ class CatalogController extends Controller
     {
 
         $catalog = Auth::user()->catalogs()->create($request->except('parent_id'));
+        if($request->has('pageMenu.link_title'))
+        {
+            $catalog->catalogMenu()->create($request->pageMenu);
+        }
 
         if ($request->has('catalogSeo')) {
             $catalog->catalogSeo()->create($request->catalogSeo);
@@ -163,6 +168,14 @@ class CatalogController extends Controller
     protected function updateCatalog(Request $request, $catalog)
     {
         $catalog->update($request->except('parent_id'));
+
+        if($request->has('pageMenu.link_title'))
+        {
+            $catalog->catalogMenu()->updateOrCreate(['menu_linktable_id' => $catalog->id], $request->pageMenu);
+        }
+        else {
+            $catalog->catalogMenu()->delete();
+        }
 
         if ($request->has('catalogSeo')) {
             $catalog->catalogSeo()->update($request->catalogSeo);

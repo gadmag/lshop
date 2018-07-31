@@ -1,15 +1,15 @@
 @extends('AdminLTE.admin')
 
 @section('AdminLTE.content')
-    <a href="{{route('user.create')}}" class="btn btn-primary">
+    <a href="{{route('users.create')}}" class="btn btn-primary">
         <i class="fa fa-plus"></i>
         Добавить пользователя
     </a>
     <table class="table table-striped">
         <thead>
         <th>Имя</th>
-        <th>Username</th>
         <th>Email</th>
+        <th>Статус</th>
         <th>Роль</th>
         </thead>
         <tbody>
@@ -18,8 +18,8 @@
             <tr>
 
                 <td class="table-text">{{$user->name}}</td>
-                <td class="table-text">{{$user->username}}</td>
                 <td class="table-text">{{$user->email}}</td>
+                <td class="table-text">{{$user->block? "Отключено" : "Включено"}}</td>
                 <td class="table-text"> @if($user->roles()->first()) {{$user->roles()->first()->name}} @else
                         нет @endif</td>
                 <td class="text-right">

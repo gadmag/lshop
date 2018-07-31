@@ -67,7 +67,7 @@
                     <div class="button-block clearfix">
                         <ul class=" list-inline">
                             <li><button class="lotus-button btn" @click="addToCart(product.id)">Добавить в корзину</button></li>
-                            <li><button class="lotus-button btn" @click="toggleWishList? removeToWishList() : addToWishList()">Добавить
+                            <li><button class="lotus-button btn" @click="toggleWishList? removeToWishList(product.id) : addToWishList(product.id)">Добавить
                                 в избранное</button></li>
                         </ul>
                     </div>
@@ -104,12 +104,12 @@
                 bus.$emit('added-to-cart', id, this.optionAddToCart);
             },
 
-            addToWishList() {
-                bus.$emit('added-to-wishlist', this.product);
+            addToWishList(id) {
+                bus.$emit('added-to-wishlist', id);
             },
 
-            removeToWishList() {
-                bus.$emit('remove-to-wishlist', this.product);
+            removeToWishList(id) {
+                bus.$emit('remove-to-wishlist', id);
             },
 
         },

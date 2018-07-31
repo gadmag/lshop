@@ -110,6 +110,10 @@ class Catalog extends Model
 
     }
 
+    public function catalogMenu()
+    {
+        return $this->morphOne('App\Menu', 'menu_linktable');
+    }
 
     /** Seo аттрибуты продуста
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

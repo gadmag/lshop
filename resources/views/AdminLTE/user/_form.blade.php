@@ -1,10 +1,10 @@
 
 <div class="row">
     <div class="col-md-8 page-default">
-        <div class="form-group">
-            {!! Form::label('username', 'Username:') !!}
-            {!! Form::text('username', null, ['class' => 'form-control']) !!}
-        </div>
+        {{--<div class="form-group">--}}
+            {{--{!! Form::label('username', 'Username:') !!}--}}
+            {{--{!! Form::text('username', null, ['class' => 'form-control']) !!}--}}
+        {{--</div>--}}
         <div class="form-group">
             {!! Form::label('name', 'Имя:') !!}
             {!! Form::text('name', null, ['class' => 'form-control']) !!}
@@ -19,8 +19,7 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('role_list', 'Категория новости') !!}
-
+            {!! Form::label('role_list', 'Роль') !!}
             {!! Form::select('role_list[]', $roles,  null, ['id'=> 'role_lists', 'class' => 'form-control']) !!}
 
         </div>

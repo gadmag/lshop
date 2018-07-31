@@ -131,7 +131,16 @@ const app = new Vue({
             if (id) {
                 url = url + '/' + id
             }
-            this.ajaxGet(url);
+            $.ajax({
+                type: "GET",
+                url: url,
+                dataType: 'json',
+                cache: false,
+                success: this.handleResponseWishList,
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status + ' ' + thrownError);
+                }
+            });
         },
 
     },

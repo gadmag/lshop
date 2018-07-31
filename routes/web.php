@@ -34,7 +34,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
         [
             'except' => ['show']
         ]);
-
+    //orders
+    Route::get('orders', ['as' => 'order.index', 'uses' => 'OrderController@index']);
+    Route::get('orders/{id}', ['as' => 'order.show', 'uses' => 'OrderController@show']);
+    //relates
     Route::get('option/{id}', 'ProductController@deleteOption');
     //upload
     Route::get('upload/{id}', 'UploadController@deleteFile');

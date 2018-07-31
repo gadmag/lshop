@@ -63,9 +63,9 @@
             {{--</span>--}}
                 {{--</a>--}}
             {{--</li>--}}
-            {{--<li>--}}
-                {{--<a href="{{url('admin/article/video/all')}}"><i class="fa fa-film"></i> <span>Видео галерея</span></a>--}}
-            {{--</li>--}}
+            <li>
+                <a href="{{url('admin/orders')}}"><i class="fa fa-shopping-cart"></i> <span>Заказы</span></a>
+            </li>
             <li>
                 <a href="{{url('admin/articles/photo/all')}}"><i class="fa fa-photo"></i> <span>Фотогалерея</span></a>
             </li>

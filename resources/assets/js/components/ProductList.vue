@@ -5,7 +5,7 @@
                  :src="imagepath"
                  alt="Картинка">
             <span v-if="persentprice" class="special-badge">-{{persentprice}}%</span>
-            <a :class="" @click="toggleWishList? removeToWishList() : addToWishList()"><span
+            <a :class="" @click="toggleWishList? removeToWishList(product.id) : addToWishList(product.id)"><span
                     :class="toggleWishList? className: className"></span></a>
             <div class="caption">
                 <div class="product-name text-center"><a class="" :href="productlink">{{product.title}}</a></div>
@@ -20,7 +20,7 @@
 
 <script>
     export default {
-        props: ['product', 'price', 'productlink', 'imagepath', 'persentprice', 'pricespecial', 'persentprice'],
+        props: ['product', 'price', 'productlink', 'imagepath', 'pricespecial', 'persentprice'],
         data: function () {
             return {
                 className: '',
@@ -34,12 +34,12 @@
                 bus.$emit('added-to-cart', this.product);
             },
 
-            addToWishList() {
-                bus.$emit('added-to-wishlist', this.product);
+            addToWishList(id) {
+                bus.$emit('added-to-wishlist', id);
             },
 
-            removeToWishList() {
-                bus.$emit('remove-to-wishlist', this.product);
+            removeToWishList(id) {
+                bus.$emit('remove-to-wishlist', id);
             },
 
         },
