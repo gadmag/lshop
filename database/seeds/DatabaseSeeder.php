@@ -40,20 +40,20 @@ class UserTableSeeder extends DatabaseSeeder
         $user->password  = bcrypt('159753');
         $user->save();
         $user->roles()->attach($role_admin);
-
-        $user = new App\User();
-        $user->name = 'User';
-        $user->email = 'user@gmail.com';
-        $user->password  = bcrypt('159753');
-        $user->save();
-        $user->roles()->attach($role_user);
-
-        $author = new App\User();
-        $author->name = 'Author';
-        $author->email = 'author@gmail.com';
-        $author->password  = bcrypt('159753');
-        $author->save();
-        $author->roles()->attach($role_author);
+//
+//        $user = new App\User();
+//        $user->name = 'User';
+//        $user->email = 'user@gmail.com';
+//        $user->password  = bcrypt('159753');
+//        $user->save();
+//        $user->roles()->attach($role_user);
+//
+//        $author = new App\User();
+//        $author->name = 'Author';
+//        $author->email = 'author@gmail.com';
+//        $author->password  = bcrypt('159753');
+//        $author->save();
+//        $author->roles()->attach($role_author);
 
 
     }

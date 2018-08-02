@@ -63,23 +63,14 @@
             {{--</span>--}}
                 {{--</a>--}}
             {{--</li>--}}
-            <li>
-                <a href="{{url('admin/orders')}}"><i class="fa fa-shopping-cart"></i> <span>Заказы</span></a>
-            </li>
-            <li>
-                <a href="{{url('admin/articles/photo/all')}}"><i class="fa fa-photo"></i> <span>Фотогалерея</span></a>
-            </li>
-            <li>
-                <a href="{{url('admin/articles/design/all')}}"><i class="fa fa-photo"></i> <span>Дизайнерские идеи</span></a>
-            </li>
+            <li><a href="{{url('admin/orders')}}"><i class="fa fa-shopping-cart"></i> <span>Заказы</span></a></li>
+            <li><a href="{{url('admin/coupons')}}"><i class="fa fa-tags"></i> <span>Купоны</span></a></li>
+            <li><a href="{{url('admin/articles/photo/all')}}"><i class="fa fa-photo"></i> <span>Фотогалерея</span></a></li>
+            <li><a href="{{url('admin/articles/design/all')}}"><i class="fa fa-photo"></i> <span>Дизайнерские идеи</span></a></li>
             {{--<li>--}}
                 {{--<a href="{{url('admin/blocks')}}"><i class="fa fa-th"></i> <span>Блоки</span></a>--}}
             {{--</li>--}}
-            <li>
-                <a href="{{url('admin/users')}}"><i class="fa fa-user"></i> <span>Пользователи</span></a>
-            </li>
-
-
+            <li><a href="{{url('admin/users')}}"><i class="fa fa-user"></i> <span>Пользователи</span></a></li>
             {{--<li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>--}}
             {{--<li class="header">LABELS</li>--}}
             {{--<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>--}}

@@ -12,9 +12,9 @@
     @if (Session::has('cart'))
         <div class="row">
             <div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1">
-                <h1>Корзина</h1>
+                <h1 class="title text-center">Корзина</h1>
                 <shopping-cart :cart="cart" :carttotal="itemCount"></shopping-cart>
-                <a href="{{route('checkout')}}" type="button" class="btn btn-success">Оформить заказ</a>
+                <div style="max-width: 160px"><a href="{{route('checkout')}}" type="button" class="lotus-button ">Оформить заказ</a></div>
             </div>
         </div>
 

@@ -18,6 +18,12 @@
         </div>
     </td>
     <td>
+        <div class="form-group">
+            {!! Form::number('productOptions[][quantity]', $option? $option->quantity : 1, ['class' => 'form-control', 'placeholder' => 'Кол-во:']) !!}
+
+        </div>
+    </td>
+    <td>
         <button @if($option != null) data-id="{{$option->id}}" @endif type="button" data-toggle="tooltip" class="remove-options btn btn-danger"><i
                     class="fa fa-minus-circle"></i></button>
     </td>

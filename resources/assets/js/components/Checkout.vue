@@ -5,12 +5,12 @@
 
             <form-wizard  @on-complete="onComplete" shape="square"
                          step-size="xs"
-                         color="#9b59b6"
+                         color="#072d45"
                          title=""
                          subtitle=""
                          back-button-text="Назад"
                          next-button-text="Продолжить"
-                         finish-button-text="Конец">
+                         finish-button-text="Купить">
 
                 <tab-content title="Личные данные" :before-change="stepFirstValid">
 
@@ -83,7 +83,7 @@
                                 <div class="form-group required" v-bind:class="{'has-error': errors.country }">
                                     <label for="country">Страна</label>
                                     <select name="country" id="country" v-model="country"  class="form-control">
-                                        <option value="0" selected>Выбрать</option>
+                                        <option :selected="null" v-bind:value="null">Выбрать</option>
                                         <option v-for="item in countries"  v-bind:value="item.id">{{item.name}}</option>
                                     </select>
                                     <span v-if="errors.country" class="help-block">{{ errors.country }}</span>
@@ -93,7 +93,7 @@
                                     <label for="region">Регион/Область</label>
                                     <select  name="region" v-model="region" id="region"
                                             class="form-control">
-                                        <option value="0" selected>Выбрать</option>
+                                        <option :selected="null" v-bind:value="null">Выбрать</option>
                                         <option v-for="region in countries[country].regions" :value="region.id">{{region.name}}
                                         </option>
                                     </select>
@@ -155,13 +155,13 @@
                                 <!--<td>{{cartItem.item.id}}</td>-->
                                 <td>{{cartItem.item.title}}</td>
                                 <td><strong>{{cartItem.qty}}</strong></td>
-                                <td>{{cartItem.price/cartItem.qty}} ₽</td>
-                                <td class="text-right">{{cartItem.price}} ₽</td>
+                                <td>{{cartItem.price/cartItem.qty}} р.</td>
+                                <td class="text-right">{{cartItem.price}} р.</td>
                             </tr>
                             <tr>
                                 <td colspan="3" class="text-right"><strong>Предварительная стоимость:</strong></td>
                                 <td class="text-right">
-                                    <strong>{{this.$parent.cart.totalPrice}} ₽</strong>
+                                    <strong>{{this.$parent.cart.totalPrice}} р.</strong>
                                 </td>
                             </tr>
 

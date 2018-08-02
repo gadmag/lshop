@@ -21,6 +21,7 @@ class CreateOptionsTable extends Migration
             $table->string('price_prefix',1);
             $table->decimal('weight',13,2);
             $table->string('weight_prefix',1);
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

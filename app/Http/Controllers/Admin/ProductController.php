@@ -192,9 +192,7 @@ class ProductController extends Controller
         ]);
 
         $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
-
         return $product;
-
     }
 
     private function updateProduct(Request $request, $product)
@@ -251,10 +249,13 @@ class ProductController extends Controller
     protected function createMultipleOptions(Request $request, $product)
     {
         $options = $request->extractOptions();
-
+//        dd($options);
         foreach ($options as $optionAttr) {
-            $option = Option::create($optionAttr);
-            $product->productOptions()->save($option);
+            if($optionAttr['color']){
+                $option = Option::create($optionAttr);
+                $product->productOptions()->save($option);
+            }
+
         }
 
     }

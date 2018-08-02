@@ -33,11 +33,11 @@
                         <td><a @click="removeFromCart(key)" href="#"><i class="fa fa-remove"></i></a></td>
                     </tr>
                     <tr>
-                        <td colspan="5" class="text-left">
+                        <td colspan="4" class="text-left">
                             <a href="/shopping-cart" class="btn btn-default">Просмотр корзины</a>
                         </td>
-                        <td class="text-right">
-                            <strong>Итого {{cart.totalPrice}} р.</strong>
+                        <td colspan="2" class="text-right">
+                            <strong>Итого: {{cart.totalPrice}} р.</strong>
                         </td>
                     </tr>
                     <!--<div>{{carttotal}}</div>-->
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="empty-cart" v-else>
-            <p>Корзина пуста</p>
+            <p class="text-center">Корзина пуста</p>
         </div>
     </div>
 </template>

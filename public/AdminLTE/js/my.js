@@ -138,7 +138,6 @@ $(document).ready(function () {
 //options product
 (function ($) {
     var row = $('table.table tbody').children().length - 1;
-
     $('#add-options').on('click', function (e) {
         e.preventDefault();
         $('#option-value-row').clone().toggleClass('hide').attr('id', '#option-value-row' + row).appendTo('.tab-options table.table tbody');

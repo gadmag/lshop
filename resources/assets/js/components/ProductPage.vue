@@ -56,17 +56,17 @@
                         <label for="options_color">Цвет</label>
                         <select class="form-control" name="options_color" v-model="optionAddToCart.color" id="options_color">
                             <option :selected="null" v-bind:value="null">Выбрать</option>
-                            <option v-for="option in options" :value="option.id">{{option.color}}</option>
+                            <option :disabled="option.quantity <= 0" v-for="option in options" :value="option.id">{{option.color}}</option>
                         </select>
                     </div>
                     <div class="quantity form-group">
                         <label for="quantity">Кол-во</label>
                         <input type="number" v-model="optionAddToCart.quantity" name="quantity" id="quantity"
-                               class="form-control">
+                               class="form-control"  :max="product.quantity">
                     </div>
                     <div class="button-block clearfix">
                         <ul class=" list-inline">
-                            <li><button class="lotus-button btn" @click="addToCart(product.id)">Добавить в корзину</button></li>
+                            <li><button :disabled="product.quantity <= 0" class="lotus-button btn" @click="addToCart(product.id)">Добавить в корзину</button></li>
                             <li><button class="lotus-button btn" @click="toggleWishList? removeToWishList(product.id) : addToWishList(product.id)">Добавить
                                 в избранное</button></li>
                         </ul>

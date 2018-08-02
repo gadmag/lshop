@@ -6,7 +6,7 @@
                  :src="imagepath"
                  alt="Картинка">
             <span v-if="persentprice" class="special-badge">-{{persentprice}}%</span>
-            <a :class="active" @click="removeToWishList(id)"><span
+            <a :class="active" @click="removeToWishList(product.id)"><span
                     class="ico ico-wishlist link-wishlist fa fa-heart"></span></a>
             <div class="caption">
                 <div class="product-name text-center">{{product.title}}</div>
@@ -31,8 +31,8 @@
             console.log('Component mounted.')
         },
         methods: {
-            removeToWishList(item) {
-                bus.$emit('remove-to-wishlist', item);
+            removeToWishList(id) {
+                bus.$emit('remove-to-wishlist', id);
             },
 
         }

@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
         'menus' => 'MenuController',
         'users' => 'UserController',
         'blocks' => 'BlockController',
+        'coupons' => 'CouponController'
     ],
         [
             'except' => ['show']

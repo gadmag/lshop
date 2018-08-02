@@ -10,7 +10,7 @@
     </nav>
     <div class="">
         <div class="">
-            <h1>Оформить заказ</h1>
+            <h1 class="title text-center">Оформить заказ</h1>
             {{--{{dd($cart)}}--}}
             <checkout :total="{{$total}}" :countries="{{$countries}}"  route="{{route('checkoutPost')}}"></checkout>
 

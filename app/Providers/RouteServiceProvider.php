@@ -35,10 +35,7 @@ class RouteServiceProvider extends ServiceProvider
             if (is_numeric($id)) {
                 $article = Article::published()->ofType('news')->findOrFail(intval($id));
             } else {
-                //$id = preg_replace('/[^0-9]/', '', $id,1);
                 preg_match('|(.*)-|', $id, $m);
-                //  dd($m[1]);
-//                $article = Articles::where('alias', $id)->published()->firstOrFail();
                 $article = Article::published()->ofType('news')->findOrFail($m[1]);
             }
             return $article;
@@ -84,12 +81,16 @@ class RouteServiceProvider extends ServiceProvider
 //            return $catalog;
 //        });
         Route::bind('product_alias', function ($id) {
-//            dd($id);
+
             if (is_numeric($id)) {
                 $product = Product::active()->findOrFail($id);
 
             } else {
-                $product = Product::active()->where('alias', $id)->firstOrFail();
+                $exploded = explode('-', $id);
+                $id = end($exploded);
+//               dd($id);
+//                $product = Product::active()->where('alias', $id)->firstOrFail();
+                $product = Product::active()->findOrFail($id);
 
             }
             return $product;

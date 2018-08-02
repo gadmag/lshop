@@ -113,6 +113,7 @@
                             <td>Значение:</td>
                             <td>Цена:</td>
                             <td>Вес</td>
+                            <td>Кол-во</td>
                             <td></td>
                         </tr>
                         </thead>
@@ -123,7 +124,7 @@
                         @endforeach
                         </tbody>
                         <tfoot>
-                        <td colspan="3"></td>
+                        <td colspan="4"></td>
                         <td class="text-left">
                             <button id="add-options" type="button" data-toggle="tooltip" class="btn btn-primary"><i
                                         class="fa fa-plus-circle"></i></button>

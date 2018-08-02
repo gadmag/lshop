@@ -51,12 +51,16 @@ class Product extends Model
     public function setAliasAttribute($alias)
     {
         if (!empty($alias)) {
-            $this->attributes['alias'] = self::isAliasExist($this->transliterate($alias),$this->attributes['id'])? $this->transliterate($alias).'_1': $this->transliterate($alias);
+            $this->attributes['alias'] = $this->transliterate($alias);
         } else {
-            $this->attributes['alias'] = self::isAliasExist($this->transliterate($this->attributes['title']),$this->attributes['id'])? $this->transliterate($this->attributes['title']).'_1' : $this->transliterate($this->attributes['title']);
+            $this->attributes['alias'] = $this->transliterate($this->attributes['title']);
         }
     }
 
+    public function getUrlAliasAttribute()
+    {
+        return $this->attributes['alias']."-".$this->attributes['id'];
+    }
     public function setPriceAttribute($value)
     {
         $this->attributes['price'] = (float)$value;

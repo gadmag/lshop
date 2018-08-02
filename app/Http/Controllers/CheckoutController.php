@@ -6,6 +6,7 @@ use App\Catalog;
 use App\Cart;
 use App\Http\Requests\CheckoutRequest;
 use App\Mail\OrderShipped;
+use App\Option;
 use App\WishList;
 use App\Product;
 use App\Order;
@@ -77,10 +78,27 @@ class CheckoutController extends Controller
         }
         $order->cart = serialize($cart);
         Auth::user()->orders()->save($order);
+        $this->reduceQuantity($cart);
         Session::forget('cart');
-        Mail::to('gadjim4@gmail.com')->send(new OrderShipped($order));
+        Mail::to(['gadjim4@gmail.com', $order->email])->send(new OrderShipped($order));
         return redirect()->route('product.index')->with('success', 'Заказ завершен');
     }
 
+    protected function reduceQuantity(Cart $cart)
+    {
+        foreach ($cart->items as $id => $item)
+        {
+            $ids = explode('_',$id, 2);
+            $product = Product::findOrFail($ids[0]);
+            $product->quantity -= $item['qty'];
+            $product->save();
+            if (count($ids) > 1)
+            {
+                $option = Option::findOrFail($ids[1]);
+                $option->quantity -= $item['qty'];
+                $option->save();
+            }
+        }
 
+    }
 }
