@@ -1,11 +1,56 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f33155d2a6a4400c26b5e09c4e1581f8",
+    "content-hash": "f972fc2fa87da5b1f0af6de798b62c12",
     "packages": [
+        {
+            "name": "aginev/datagrid",
+            "version": "1.0.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aginev/datagrid.git",
+                "reference": "ef295200662c7ab57b15e5a36f95fa811a52c6dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aginev/datagrid/zipball/ef295200662c7ab57b15e5a36f95fa811a52c6dc",
+                "reference": "ef295200662c7ab57b15e5a36f95fa811a52c6dc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.*",
+                "illuminate/support": "5.*",
+                "illuminate/view": "5.*",
+                "laravelcollective/html": "5.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aginev\\Datagrid\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Atanas Ginev",
+                    "email": "naskospam@gmail.com"
+                }
+            ],
+            "description": "Datagrid package for Laravel v5",
+            "homepage": "http://aginev.com",
+            "keywords": [
+                "Datagrid Package for Laravel v5",
+                "datagrid"
+            ],
+            "time": "2018-04-30T07:46:39+00:00"
+        },
         {
             "name": "barryvdh/laravel-debugbar",
             "version": "v2.4.3",
@@ -272,6 +317,93 @@
                 "preload"
             ],
             "time": "2017-12-10T11:40:39+00:00"
+        },
+        {
+            "name": "container-interop/container-interop",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/container-interop/container-interop.git",
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+                "shasum": ""
+            },
+            "require": {
+                "psr/container": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Interop\\Container\\": "src/Interop/Container/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
+            "homepage": "https://github.com/container-interop/container-interop",
+            "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "danielstjules/stringy",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danielstjules/Stringy.git",
+                "reference": "fc39b709533d328380c9b436c9801c619669da09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danielstjules/Stringy/zipball/fc39b709533d328380c9b436c9801c619669da09",
+                "reference": "fc39b709533d328380c9b436c9801c619669da09",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stringy\\": "src/"
+                },
+                "files": [
+                    "src/Create.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel St. Jules",
+                    "email": "danielst.jules@gmail.com",
+                    "homepage": "http://www.danielstjules.com"
+                }
+            ],
+            "description": "A string manipulation library with multibyte support",
+            "homepage": "https://github.com/danielstjules/Stringy",
+            "keywords": [
+                "UTF",
+                "helpers",
+                "manipulation",
+                "methods",
+                "multibyte",
+                "string",
+                "utf-8",
+                "utility",
+                "utils"
+            ],
+            "time": "2015-12-21T00:49:59+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -775,6 +907,52 @@
                 "parser"
             ],
             "time": "2014-09-09T13:34:57+00:00"
+        },
+        {
+            "name": "evenement/evenement",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/evenement.git",
+                "reference": "f6e843799fd4f4184d54d8fc7b5b3551c9fa803e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igorw/evenement/zipball/f6e843799fd4f4184d54d8fc7b5b3551c9fa803e",
+                "reference": "f6e843799fd4f4184d54d8fc7b5b3551c9fa803e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Evenement": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch",
+                    "homepage": "http://wiedler.ch/igor/"
+                }
+            ],
+            "description": "Événement is a very simple event dispatching library for PHP",
+            "keywords": [
+                "event-dispatcher",
+                "event-emitter"
+            ],
+            "time": "2012-11-02T14:49:47+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1552,6 +1730,182 @@
             "time": "2017-01-23T04:29:33+00:00"
         },
         {
+            "name": "nayjest/collection",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nayjest/Collection.git",
+                "reference": "54ac4a0cec7638e3394a6c0f8c18b3323f66b95b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nayjest/Collection/zipball/54ac4a0cec7638e3394a6c0f8c18b3323f66b95b",
+                "reference": "54ac4a0cec7638e3394a6c0f8c18b3323f66b95b",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "2.0.*",
+                "nayjest/manipulator": "^2||^3",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "danielstjules/stringy": "^1.9||^2",
+                "phpunit/phpunit": "^4||^5"
+            },
+            "suggest": {
+                "danielstjules/stringy": "Required to filter ObjectCollection by properties with getters"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nayjest\\Collection\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vitalii [Nayjest] Stepanenko",
+                    "email": "mail@vitaliy.in",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Collections for PHP",
+            "keywords": [
+                "collection",
+                "collections"
+            ],
+            "time": "2016-04-06T16:56:02+00:00"
+        },
+        {
+            "name": "nayjest/manipulator",
+            "version": "v3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nayjest/manipulator.git",
+                "reference": "80423ec59548de4bec6de2e821b3993974a7b4cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nayjest/manipulator/zipball/80423ec59548de4bec6de2e821b3993974a7b4cb",
+                "reference": "80423ec59548de4bec6de2e821b3993974a7b4cb",
+                "shasum": ""
+            },
+            "require": {
+                "nayjest/str-case-converter": "^1",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4||^5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/mp.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vitalii Stepanenko",
+                    "email": "mail@vitaliy.in"
+                }
+            ],
+            "description": "Utilities for manipulating PHP objects",
+            "time": "2016-09-27T15:52:17+00:00"
+        },
+        {
+            "name": "nayjest/str-case-converter",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nayjest/StrCaseConverter.git",
+                "reference": "e30f16afec3ed83e12369555e264263c23cf68bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nayjest/StrCaseConverter/zipball/e30f16afec3ed83e12369555e264263c23cf68bb",
+                "reference": "e30f16afec3ed83e12369555e264263c23cf68bb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vitalii Stepanenko",
+                    "email": "mail@vitaliy.in"
+                }
+            ],
+            "description": "Library for converting strings from camel case to snake case and vice versa.",
+            "time": "2015-06-04T13:11:29+00:00"
+        },
+        {
+            "name": "nayjest/tree",
+            "version": "v3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nayjest/Tree.git",
+                "reference": "ee7457ae35c1c1bf7a4779feb88d572a8e3d6d32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nayjest/Tree/zipball/ee7457ae35c1c1bf7a4779feb88d572a8e3d6d32",
+                "reference": "ee7457ae35c1c1bf7a4779feb88d572a8e3d6d32",
+                "shasum": ""
+            },
+            "require": {
+                "nayjest/collection": "^2.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nayjest\\Tree\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vitalii [Nayjest] Stepanenko",
+                    "email": "mail@vitaliy.in",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Tree data structure for PHP",
+            "keywords": [
+                "data structure",
+                "hierarchy",
+                "tree",
+                "trees"
+            ],
+            "time": "2016-01-27T14:21:22+00:00"
+        },
+        {
             "name": "nesbot/carbon",
             "version": "1.22.1",
             "source": {
@@ -1702,6 +2056,55 @@
                 "random"
             ],
             "time": "2017-09-27T21:40:39+00:00"
+        },
+        {
+            "name": "psr/container",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "psr/http-message",
@@ -2974,6 +3377,113 @@
                 "upload"
             ],
             "time": "2017-12-05T17:21:15+00:00"
+        },
+        {
+            "name": "view-components/grids",
+            "version": "v0.5.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/view-components/grids.git",
+                "reference": "c94ca4473a9c9aa575bc8e5c9ab515a53636fd74"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/view-components/grids/zipball/c94ca4473a9c9aa575bc8e5c9ab515a53636fd74",
+                "reference": "c94ca4473a9c9aa575bc8e5c9ab515a53636fd74",
+                "shasum": ""
+            },
+            "require": {
+                "nayjest/tree": "^3",
+                "php": "^5.5||^7",
+                "view-components/view-components": "^0.25||^0.26.6"
+            },
+            "require-dev": {
+                "view-components/testing-helpers": "^2.0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ViewComponents\\Grids\\": "src/"
+                },
+                "files": [
+                    "src/bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vitalii [Nayjest] Stepanenko",
+                    "email": "mail@vitaliy.in",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Flexible Framework-agnostic Data Grids for PHP",
+            "time": "2017-02-14T16:00:45+00:00"
+        },
+        {
+            "name": "view-components/view-components",
+            "version": "v0.26.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/view-components/view-components.git",
+                "reference": "0c6faa969e70b0f6d16fa6a24bd12da1ac30d3eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/view-components/view-components/zipball/0c6faa969e70b0f6d16fa6a24bd12da1ac30d3eb",
+                "reference": "0c6faa969e70b0f6d16fa6a24bd12da1ac30d3eb",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "^1.1",
+                "danielstjules/stringy": "^1.9|~2.2.0",
+                "nayjest/collection": "^2.3",
+                "nayjest/manipulator": "^3.1.0",
+                "nayjest/tree": "^3",
+                "php": "^5.5||^7"
+            },
+            "provide": {
+                "container-interop/container-interop-implementation": "^1.1"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "squizlabs/php_codesniffer": "~2.3",
+                "view-components/testing-helpers": "^2.0.1"
+            },
+            "suggest": {
+                "league/uri": "Required by Pagination component",
+                "symfony/var-dumper": "Required by SymfonyVarDump component"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ViewComponents\\ViewComponents\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vitalii [Nayjest] Stepanenko",
+                    "email": "mail@vitaliy.in",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Flexible Framework-Agnostic UI for Enterprise Web Applications",
+            "homepage": "https://github.com/view-components/view-components",
+            "keywords": [
+                "Rendering",
+                "html",
+                "presenter",
+                "view",
+                "widgets"
+            ],
+            "time": "2016-12-27T15:05:00+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

@@ -164,7 +164,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
-
         //
 
         /*
@@ -179,6 +178,7 @@ return [
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Aginev\Datagrid\DatagridServiceProvider::class,
 
 
         /**
@@ -238,6 +238,7 @@ return [
         'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'DateFormat' => App\Helpers\DateFormat::class,
+        'Datagrid' => Aginev\Datagrid\Datagrid::class,
         /**
          * dev
          */

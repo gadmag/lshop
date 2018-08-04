@@ -2,8 +2,7 @@
 
 @section('AdminLTE.content')
 
-{{--@include('AdminLTE.articles._listArticle')--}}
-@include('AdminLTE.product._list_product')
-
+{{--@include('AdminLTE.product._list_product')--}}
+{!! $grid->show('grid-table') !!}
 
 @endsection

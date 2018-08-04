@@ -33,14 +33,72 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $f = $request->get('f', []);
+        $title = isset($f['title'])? $f['title']: null;
+        $group_by = isset($f['order_by'])? $f['order_by']: "created_at";
+        $group_dir = isset($f['order_dir'])? $f['order_dir']: "DESC";
+        $products = Product::orderBy($group_by, $group_dir);
+        if ($title){
+            $products->where('title', 'like', '%'.$title.'%');
+        }
 
-        $products = Product::latest('created_at')->paginate(10);
+        $grid = new \Datagrid($products->paginate(10), $f);
 
+        $grid
+            ->setColumn('title', 'Заголовок', [
+                'attributes' => ['class' => 'table-text'],
+                // Will be sortable column
+                'sortable' => true,
+                // Will have filter
+                'has_filters' => true
+            ])
+            ->setColumn('price', 'Цена', [
+                'attributes' => ['class' => 'table-text'],
+                'sortable' => true,
+                'has_filters' => false,
+                // Wrapper closure will accept two params
+                // $value is the actual cell value
+                // $row are the all values for this row
+//                'wrapper'     => function ($value, $row) {
+//                    return '<a href="mailto:' . $value . '">' . $value . '</a>';
+//                }
+            ])
+            ->setColumn('created_at', 'Дата добавления', [
+                'attributes' => ['class' => 'table-text'],
+                'sortable' => true,
+                'has_filters' => false,
+                'wrapper' => function ($value, $row) {
+                    // The value here is still Carbon instance, so you can format it using the Carbon methods
+                    return $value;
+                }
+            ])
+            ->setColumn('quantity', 'Кол-во', [
+                'attributes' => ['class' => 'table-text'],
+                'sortable' => true,
+                'has_filters' => false
+            ])
+            // Setup action column
+            ->setActionColumn([
+                'attributes' => ['class' => 'text-right'],
+                'wrapper' => function ($value, $row) {
+                    return '<a style="display: inline-block" href="' . action('Admin\ProductController@edit', [$row->id]) . '" class="btn btn-info" title="Редактировать"
+                                   data-toggle="tooltip">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+					 <form style="display: inline-block" action="' . url('admin/products/' . $row->id) . '" method="POST">
+                                    ' . csrf_field() . ' ' . method_field('DELETE') . '
+                                    <button style="display: inline-block" type="submit" class="btn btn-danger" data-toggle="tooltip" title="Удалить">
+                                        <i class="fa fa-trash"></i> Удалить
+                                    </button>
+                                </form>';
+                }
+            ]);
 
         return view('AdminLTE.product.index')->with([
-            'products' => $products
+            'products' => $products,
+            'grid' => $grid
         ]);
     }
 
@@ -251,7 +309,7 @@ class ProductController extends Controller
         $options = $request->extractOptions();
 //        dd($options);
         foreach ($options as $optionAttr) {
-            if($optionAttr['color']){
+            if ($optionAttr['color']) {
                 $option = Option::create($optionAttr);
                 $product->productOptions()->save($option);
             }
