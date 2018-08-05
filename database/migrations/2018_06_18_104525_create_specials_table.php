@@ -14,6 +14,7 @@ class CreateSpecialsTable extends Migration
     public function up()
     {
         Schema::create('product_specials', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('product_id')->index();
             $table->integer('priority')->length(4);

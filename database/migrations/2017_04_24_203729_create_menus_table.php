@@ -14,7 +14,7 @@ class CreateMenusTable extends Migration
     public function up()
     {
         Schema::create('menu_link', function (Blueprint $table) {
-
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('link_title');
             $table->integer('parent_id')->default(0);

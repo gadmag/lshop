@@ -14,7 +14,7 @@ class CreateArticleTypesTable extends Migration
     public function up()
     {
         Schema::create('article_types', function (Blueprint $table) {
-
+            $table->engine = 'InnoDB';
             $table->string('name',32);
             $table->string('title');
             $table->timestamps();

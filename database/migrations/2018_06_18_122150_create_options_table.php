@@ -14,6 +14,7 @@ class CreateOptionsTable extends Migration
     public function up()
     {
         Schema::create('product_options', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('product_id')->index();
             $table->string('color');

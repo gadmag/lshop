@@ -14,6 +14,7 @@ class CreateTagsTable extends Migration
     public function up()
     {
         Schema::create('tags', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
@@ -21,6 +22,7 @@ class CreateTagsTable extends Migration
 
         Schema::create('article_tag', function (Blueprint $table)
         {
+            $table->engine = 'InnoDB';
 //            DB::statement('ALTER TABLE articles ENGINE = InnoDB');
            $table->integer('article_id')->unsigned()->index();
 //            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');

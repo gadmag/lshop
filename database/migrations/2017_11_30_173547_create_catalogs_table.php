@@ -15,6 +15,7 @@ class CreateCatalogsTable extends Migration
     {
 
         Schema::create('catalogs', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('parent_id')->default(0);
             $table->string('name');
@@ -31,6 +32,7 @@ class CreateCatalogsTable extends Migration
 
         Schema::create('cataloggables', function (Blueprint $table)
         {
+            $table->engine = 'InnoDB';
             $table->integer('catalog_id')->unsigned()->index();
             $table->integer('cataloggable_id')->unsigned()->index();
             $table->string('cataloggable_type')->index();

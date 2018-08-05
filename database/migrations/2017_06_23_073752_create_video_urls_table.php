@@ -14,6 +14,7 @@ class CreateVideoUrlsTable extends Migration
     public function up()
     {
         Schema::create('video_urls', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('article_id')->unsigned();
             $table->string('url');

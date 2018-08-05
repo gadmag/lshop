@@ -14,6 +14,7 @@ class CreateAliasesTable extends Migration
     public function up()
     {
         Schema::create('aliases', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('alias_url');
             $table->integer('aliastable_id');
