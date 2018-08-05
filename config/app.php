@@ -176,7 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
-        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+        UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Aginev\Datagrid\DatagridServiceProvider::class,
 
