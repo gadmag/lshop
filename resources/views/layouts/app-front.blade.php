@@ -41,7 +41,8 @@
                 <div class="last block block-special">
                     @include('block.special_product', $specials)
                 </div>
-                @if($designItem)
+
+                @if($designItem->first())
                     <h2 class=" title text-center">Дизайнерские идеи</h2>
                     <div class="block block-catalog-product">
                         @include('block.design', ['designItem' => $designItem])

@@ -87,7 +87,7 @@ class ProductController extends Controller
                                    data-toggle="tooltip">
                                     <i class="fa fa-edit"></i>
                                 </a>
-					 <form style="display: inline-block" action="' . url('admin/products/' . $row->id) . '" method="POST">
+					 <form style="display: inline-block" action="' . url('/admin/products/' . $row->id) . '" method="POST">
                                     ' . csrf_field() . ' ' . method_field('DELETE') . '
                                     <button style="display: inline-block" type="submit" class="btn btn-danger" data-toggle="tooltip" title="Удалить">
                                         <i class="fa fa-trash"></i> Удалить
