@@ -28,12 +28,15 @@ $('div.alert').not('alert-important').delay(3000).slideUp(300);
 
 (function ($) {
     $('.dateru input').datepicker({
-        dateFormat: 'dd-mm-yy',
+        dateFormat: 'yy-mm-dd',
         language: 'ru'
     });
 
     $('.dateru input').change(function () {
-        $(this).attr('value', $('.dateru input').val());
+        var dateFormat = $('.dateru input').datepicker('getDate');
+        var value = $.datepicker.formatDate('yy-mm-dd', dateFormat);
+        console.log(value)
+        $(this).attr('value', value).val();
     });
 
     $('#tag_lists').select2({

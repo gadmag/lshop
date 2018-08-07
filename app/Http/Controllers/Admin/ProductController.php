@@ -307,7 +307,6 @@ class ProductController extends Controller
     protected function createMultipleOptions(Request $request, $product)
     {
         $options = $request->extractOptions();
-//        dd($options);
         foreach ($options as $optionAttr) {
             if ($optionAttr['color']) {
                 $option = Option::create($optionAttr);

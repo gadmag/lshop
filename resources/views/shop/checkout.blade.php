@@ -12,7 +12,7 @@
         <div class="">
             <h1 class="title text-center">Оформить заказ</h1>
             {{--{{dd($cart)}}--}}
-            <checkout :total="{{$total}}" :countries="{{$countries}}"  route="{{route('checkoutPost')}}"></checkout>
+            <checkout :total="{{$total}}" :countries="{{$countries}}" :coupons="{{$coupons}}"  route="{{route('checkoutPost')}}"></checkout>
 
         </div>
     </div>

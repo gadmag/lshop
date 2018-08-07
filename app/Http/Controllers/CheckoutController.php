@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Catalog;
 use App\Cart;
+use App\Coupon;
 use App\Http\Requests\CheckoutRequest;
 use App\Mail\OrderShipped;
 use App\Option;
@@ -36,23 +37,23 @@ class CheckoutController extends Controller
         $cart = new Cart($oldCart);
         $total = $cart->totalPrice;
         $countries = Country::with('regions')->active()->get()->keyBy('id');
+        $coupons = Coupon::active()->isQty()->betweenDate()->get();
         return view('shop.checkout', [
             'total' => $total,
             'countries' => collect($countries),
+            'coupons' => $coupons
 
         ]);
     }
 
     public function postCheckout(CheckoutRequest $request)
     {
-//        dd($request->region);
         if (!Session::has('cart')) {
             return view('shop.shopping-cart');
         }
 
         $oldCart = session('cart');
         $cart = new Cart($oldCart);
-//        dd($cart);
         $order = new Order();
         $order->first_name = $request->first_name;
         $order->last_name = $request->last_name;
@@ -65,10 +66,22 @@ class CheckoutController extends Controller
         if ($request->postcode){
             $order->postcode = $request->postcode;
         }
+
         $order->city = $request->city;
-        $order->country = Country::findOrFail($request->country)->name;
+        if ($request->country){
+            $order->country = Country::findOrFail($request->country)->name;
+        }
         if ($request->region){
             $order->region = Region::findOrFail($request->region)->name;
+        }
+
+        if ($request->coupon){
+            $coupon = Coupon::active()->isQty()->betweenDate()->where('code', $request->coupon)->first();
+            if ($coupon){
+                $coupon->uses_total = $coupon->uses_total - 1;
+                $coupon->save();
+                $cart->coupon = $coupon;
+            }
         }
 
         $order->payment_method = config("payment.payment_method.$request->payment.method");

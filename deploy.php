@@ -26,13 +26,13 @@ add('shared_dirs', ['storage']);
 
 host('vh130.timeweb.ru')
     ->user('lotus44476')
-    ->set('deploy_path', '~/public_html');
+    ->set('deploy_path', '~/lshop');
 
 // Tasks
 desc('Vendor');
 task('deploy:vendor:lshop', function () {
     cd('{{release_path}}');
-    run('/opt/php7.1/bin/php /usr/bin/composer install --verbose --prefer-dist --no-progress --no-interaction --no-dev');
+    run('/opt/php7.1/bin/php /usr/bin/composer install');
 });
 desc('Execute artisan migrate');
 task('artisan:migrate', function () {
@@ -78,11 +78,7 @@ task('artisan:optimize', function () {
 
 desc('Execute artisan storage:link');
 task('artisan:storage:link', function () {
-    $needsVersion = 5.3;
-    $currentVersion = get('laravel_version');
-    if (version_compare($currentVersion, $needsVersion, '>=')) {
         run('/opt/php7.1/bin/php {{release_path}}/artisan storage:link');
-    }
 });
 
 /**
@@ -101,13 +97,13 @@ task('deploy', [
 //    'deploy:writable',
     'deploy:vendor:lshop',
     'artisan:migrate',
-    'artisan:db:seed',
-    'deploy:compile-assets',
+//    'artisan:db:seed',
+    //'deploy:compile-assets',
     'artisan:storage:link',
     'artisan:view:clear',
-    'artisan:cache:clear',
+//    'artisan:cache:clear',
     'artisan:config:cache',
-    'artisan:optimize',
+//    'artisan:optimize',
     'deploy:symlink',
     'deploy:unlock',
     'cleanup',

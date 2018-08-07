@@ -1,9 +1,9 @@
 <template>
     <div>
 
-        <form :action="route"  method="post" id="checkoutForm" name="checkoutForm">
+        <form :action="route" method="post" id="checkoutForm" name="checkoutForm">
 
-            <form-wizard  @on-complete="onComplete" shape="square"
+            <form-wizard @on-complete="onComplete" shape="square"
                          step-size="xs"
                          color="#072d45"
                          title=""
@@ -82,19 +82,20 @@
 
                                 <div class="form-group required" v-bind:class="{'has-error': errors.country }">
                                     <label for="country">Страна</label>
-                                    <select name="country" id="country" v-model="country"  class="form-control">
+                                    <select name="country" id="country" v-model="country" class="form-control">
                                         <option :selected="null" v-bind:value="null">Выбрать</option>
-                                        <option v-for="item in countries"  v-bind:value="item.id">{{item.name}}</option>
+                                        <option v-for="item in countries" v-bind:value="item.id">{{item.name}}</option>
                                     </select>
                                     <span v-if="errors.country" class="help-block">{{ errors.country }}</span>
 
                                 </div>
                                 <div v-if="country" class="form-group" v-bind:class="{'has-error': errors.region }">
                                     <label for="region">Регион/Область</label>
-                                    <select  name="region" v-model="region" id="region"
+                                    <select name="region" v-model="region" id="region"
                                             class="form-control">
                                         <option :selected="null" v-bind:value="null">Выбрать</option>
-                                        <option v-for="region in countries[country].regions" :value="region.id">{{region.name}}
+                                        <option v-for="region in countries[country].regions" :value="region.id">
+                                            {{region.name}}
                                         </option>
                                     </select>
                                     <span v-if="errors.region" class="help-block">{{ errors.region}}</span>
@@ -106,6 +107,11 @@
                 <tab-content title="Способ оплаты" :before-change="stepSecondValid">
                     <div class="row">
                         <div class="col-xs-12">
+                            <div style="max-width: 180px" class="form-group">
+                                <label for="coupon">Промокод</label>
+                                <input v-on:change="isCoupon" v-model="coupon" type="text" name="coupon" id="coupon"
+                                       class="form-control">
+                            </div>
                             <p>Выберите способ оплаты для этого заказа</p>
                             <div class="form-group" v-bind:class="{'has-error': errors.payment }">
                                 <div class="radio">
@@ -132,7 +138,8 @@
                             </div>
                             <div class="form-group" v-bind:class="{'has-error': errors.comment }">
                                 <label for="comment">Комментарий</label>
-                                <textarea class="form-control" rows="5" name="comment" id="comment" v-model="comment"></textarea>
+                                <textarea class="form-control" rows="5" name="comment" id="comment"
+                                          v-model="comment"></textarea>
                                 <span v-if="errors.comment" class="help-block">{{ errors.comment}}</span>
                             </div>
                         </div>
@@ -164,7 +171,14 @@
                                     <strong>{{this.$parent.cart.totalPrice}} р.</strong>
                                 </td>
                             </tr>
-
+                            <tr v-if="this.couponItem">
+                                <td colspan="3" class="text-right"><strong>Промокод:</strong></td>
+                                <td class="text-right"><strong>{{this.couponItem.name}}</strong></td>
+                            </tr>
+                            <tr v-if="this.couponItem">
+                                <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
+                                <td class="text-right"><strong>{{this.$parent.cart.totalPrice - this.$parent.cart.totalPrice*this.couponItem.discount/100}} р.</strong></td>
+                            </tr>
                             </tbody>
                         </table>
 
@@ -174,7 +188,7 @@
 
             </form-wizard>
 
-        <input type="hidden" name="_token" :value="csrf">
+            <input type="hidden" name="_token" :value="csrf">
         </form>
 
 
@@ -207,7 +221,7 @@
             FormWizard,
             TabContent
         },
-        props: ['total', 'countries', 'route', 'cart'],
+        props: ['total', 'countries', 'coupons', 'route', 'cart'],
 
         mounted() {
             console.log('Component checkout mounted.');
@@ -225,6 +239,8 @@
                 region: null,
                 comment: null,
                 payment: null,
+                coupon: null,
+                couponItem: null,
 
                 errors: [],
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -253,10 +269,9 @@
                 return true
             },
 
-            stepSecondValid: function(){
+            stepSecondValid: function () {
                 this.errors = [];
-                if (!this.payment){
-                    console.log(!this.payment);
+                if (!this.payment) {
                     this.errors["payment"] = "Выберите платежную систему."
                 }
 
@@ -266,20 +281,35 @@
                 return true
             },
 
-            onComplete: function(){
+            onComplete: function () {
 
-                 document.checkoutForm.submit();
-                // $("#form-store").trigger('click');
-
-                // document.getElementById('form-store').submit;
+                document.checkoutForm.submit();
             },
 
 
-            validEmail: function(email) {
+            validEmail: function (email) {
                 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email);
+            },
+
+            isCoupon: function () {
+                console.log("asd");
+                if (this.coupon) {
+                    this.coupons.filter((item) => {
+                        console.log(item.code)
+                        if (item.code.includes(this.coupon)) {
+                            this.couponItem = item;
+                            return true
+                        }
+                        return false;
+                    })
+                }
+
             }
+
         }
+
+
     }
 
 </script>

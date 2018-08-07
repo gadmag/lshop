@@ -19,6 +19,7 @@
                     <div class="box-body">
                         <p><strong>Номер заказа:</strong> {{$order->id}}</p>
                         <p><strong>Способ оплаты:</strong> {{$order->payment_method}} {{$order->payment_id}}</p>
+                        <p><strong>Купон:</strong> {{$order->cart->coupon->name}}</p>
                         <p><strong>Дата заказа:</strong> {{$order->created_at}}</p>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
@@ -60,6 +61,7 @@
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         @include('cart.table')
+
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
 

@@ -27,12 +27,10 @@ class OrderController extends Controller
     public function getGrid(Request $request)
     {
         $f = $request->get('f', []);
-//        dd($f);
-        $id = isset($f['title']) ? $f['title'] : null;
+        $id = isset($f['id']) ? $f['id'] : null;
         $first_name = isset($f['first_name']) ? $f['first_name'] : null;
         $last_name = isset($f['last_name']) ? $f['last_name'] : null;
-//        dd($last_name);
-        $group_by = isset($f['order_by']) ? $f['order_by'] : "created_at";
+        $group_by = !empty($f['order_by']) ? $f['order_by'] : "created_at";
         $group_dir = isset($f['order_dir']) ? $f['order_dir'] : "DESC";
         $orders = Order::orderBy($group_by, $group_dir);
         if ($id || $first_name || $last_name) {
@@ -105,7 +103,7 @@ class OrderController extends Controller
                 'wrapper' => function ($value, $row) {
                     return '<a style="display: inline-block" href="' . action('Admin\OrderController@show', [$row->id]) . '" class="btn btn-info" title="Просмотр"
                                    data-toggle="tooltip">
-                                    <i class="fa fa-edit"></i>
+                                    <i class="fa fa-eye"></i>
                                 </a>';
                 }
             ]);

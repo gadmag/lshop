@@ -153,6 +153,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
+                                {!! Form::hidden('productSpecial[id]', null) !!}
                                 {!! Form::label('productSpecial[price]', 'Цена:') !!}
                                 {!! Form::text('productSpecial[price]', null, ['class' => 'form-control']) !!}
                             </div>

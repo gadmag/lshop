@@ -25,7 +25,7 @@
                     @foreach($productChunk as $product)
                         <div class="col-sm-6 col-md-3">
                             <product-list :product="{{$product}}"
-                                     @if($product->productSpecial()->exists())
+                                     @if($product->productSpecial()->betweenDate()->exists())
                                             pricespecial = "{{$product->productSpecial->price}}"
                                             persentprice = "{{intval((($product->price - $product->productSpecial->price)/$product->price)*100)}}"
                                      @endif

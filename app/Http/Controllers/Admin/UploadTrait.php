@@ -32,22 +32,18 @@ trait UploadTrait
             foreach ($files as $file):
 
                 $validator = Validator::make(array('file' => $file), $this->rules);
-
-//                dd($validator->errors());
                 if ($validator->passes()) {
 
                     $filename = md5(microtime()) . '-' . $file->getClientOriginalName();
                     $path = storage_path('app/public/files');
                     Storage::disk('public')->put('files/' . $filename, file_get_contents($file));
                     $mimetype = Storage::disk('public')->mimeType('files/' . $filename);
-
-
-                    $img = Image::make($path . '/' . $filename)->resize(100, 100);
-                    $img->save($path . '/thumbnail/' . $filename);
-
-                    foreach ($imageStyle as $key => $value)
-                    {
-                        $img = Image::make($path . '/' . $filename)->resize($value['width'], $value['height'], function ($constraint){
+                    $imageStyle = array_merge($imageStyle, ['thumbnail' => ['width' => 100, 'height' => 100]]);
+                    foreach ($imageStyle as $key => $value) {
+                        if (!Storage::disk('public')->has("files/$key")) {
+                            Storage::disk('public')->makeDirectory("files/$key", 777, true);
+                        }
+                        $img = Image::make($path . '/' . $filename)->resize($value['width'], $value['height'], function ($constraint) {
                             $constraint->aspectRatio();
                         });
                         $img->save($path . "/$key/" . $filename);
@@ -65,7 +61,7 @@ trait UploadTrait
                 }
 
             endforeach;
-        }else {
+        } else {
             return true;
         }
     }

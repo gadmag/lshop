@@ -9,6 +9,7 @@ class Cart
     public $totalQty = 0;
     public $totalPrice = 0;
     public $totalWeight = 0;
+    public $coupon = null;
 
     public function __construct($oldCart)
     {
@@ -17,12 +18,12 @@ class Cart
             $this->totalQty = $oldCart->totalQty;
             $this->totalPrice = $oldCart->totalPrice;
             $this->totalWeight = $oldCart->totalWeight;
+            $this->coupon = $oldCart->coupon;
         }
     }
 
     public function add($item, $id, $option)
     {
-
         $totalPrice = 0;
         $totalWeight = 0;
         $optionPrice = 0;

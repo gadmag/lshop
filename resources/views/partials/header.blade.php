@@ -7,8 +7,7 @@
                 <div class="block-search">
                     <form class="">
                         <div class="inline-form">
-                            <input type="text" class="" placeholder="Поиск">
-                            <button type="submit"><span class="fa fa-search"></span></button>
+                            <input type="text" class="" placeholder="Поиск"><button type="submit"><span class="fa fa-search"></span></button>
                         </div>
                     </form>
 

@@ -27,13 +27,12 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-//        $catalog = Catalog::findOrFail($product->catalogs()->first()->id);
-//        $products = $catalog->products()->latest('published_at')->published()->get();
+
         return view('product.show', [
             'product' => $product,
             'options' => $product->productOptions,
             'discount' => $product->productDiscount,
-            'special' => $product->productSpecial,
+            'special' => $product->productSpecial()->betweenDate()->first(),
             'products' => null,
 
         ]);

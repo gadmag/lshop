@@ -21,7 +21,7 @@
                 {!! Form::label('date_start', 'Дата начала:') !!}
                 <div class="input-group date dateru">
                     <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                    {!! Form::input('text', 'date_start', null, ['class' => 'form-control']) !!}
+                    {!! Form::input('text', 'date_start', $coupon->date_start, ['class' => 'form-control']) !!}
 
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 {!! Form::label('date_end', 'Дата оканчания:') !!}
                 <div class="input-group date dateru">
                     <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                    {!! Form::input('text', 'date_end', null, ['class' => 'form-control']) !!}
+                    {!! Form::input('text', 'date_end', $coupon->date_end, ['class' => 'form-control']) !!}
 
                 </div>
             </div>
