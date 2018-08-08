@@ -37,7 +37,7 @@ class ProductController extends Controller
     {
         $f = $request->get('f', []);
         $title = isset($f['title'])? $f['title']: null;
-        $group_by = isset($f['order_by'])? $f['order_by']: "created_at";
+        $group_by = !empty($f['order_by'])? $f['order_by']: "created_at";
         $group_dir = isset($f['order_dir'])? $f['order_dir']: "DESC";
         $products = Product::orderBy($group_by, $group_dir);
         if ($title){

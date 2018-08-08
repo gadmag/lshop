@@ -81,7 +81,9 @@
 			<!-- END Filters -->
 		@endif
 		</thead>
-
+		@if ($grid->hasFilters())
+			{!! Form::close() !!}
+		@endif
 		<tbody>
 		@forelse($grid->getRows() as $row)
 			<tr data-dg-type="data-row">
@@ -109,9 +111,7 @@
 		</tbody>
 	</table>
 
-	@if ($grid->hasFilters())
-		{!! Form::close() !!}
-	@endif
+
 
 	@if ($grid->hasPagination())
 		<div class="row-fluid text-center">
