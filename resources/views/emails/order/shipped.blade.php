@@ -14,6 +14,9 @@
            cellpadding="0" cellspacing="0" width="100%">
         <thead style="background-color:#e0e0e0;color:#000;text-align:left;vertical-align:bottom">
         <tr>
+            <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em">&nbsp;
+            Фото
+            </th>
             <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em">
                 Наименование товара
             </th>
@@ -25,9 +28,6 @@
             </th>
             <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em"
                 align="right">Всего
-            </th>
-            <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em"
-                align="right">&nbsp;
             </th>
         </tr>
         </thead>

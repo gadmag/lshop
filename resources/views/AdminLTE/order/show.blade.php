@@ -19,7 +19,9 @@
                     <div class="box-body">
                         <p><strong>Номер заказа:</strong> {{$order->id}}</p>
                         <p><strong>Способ оплаты:</strong> {{$order->payment_method}} {{$order->payment_id}}</p>
+                        @if($order->cart->coupon)
                         <p><strong>Купон:</strong> {{$order->cart->coupon->name}}</p>
+                        @endif
                         <p><strong>Дата заказа:</strong> {{$order->created_at}}</p>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
