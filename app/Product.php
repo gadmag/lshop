@@ -133,7 +133,6 @@ class Product extends Model
      */
     public function catalogs()
     {
-        // return $this->belongsToMany('App\Catalog', 'product_catalog','product_id', 'catalog_id')->withTimestamps();
         return $this->morphToMany('App\Catalog', 'cataloggable');
     }
 

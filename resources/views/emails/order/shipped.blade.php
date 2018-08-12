@@ -37,7 +37,7 @@
                 <td style="">
                     @if ($cartItem['item']->files()->exists())
                         <img class="img-responsive"
-                             src="{{asset('storage/files/200x200/'.$cartItem['item']->files()->first()->filename)}}"
+                             src="{{asset('storage/files/90x110/'.$cartItem['item']->files()->first()->filename)}}"
                              alt="Картинка товара">
                     @endif
                 </td>

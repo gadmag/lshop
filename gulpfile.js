@@ -26,6 +26,7 @@ elixir(function(mix) {
         // 'libs/jquery.min.js',
         // 'libs/select2.min.js'
         // 'app.js'
+        'lshop.js'
     ]);
 
 

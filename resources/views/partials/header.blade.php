@@ -5,9 +5,9 @@
 
             <div class="col-sm-4">
                 <div class="block-search">
-                    <form class="">
+                    <form class="" method="get" action="/search">
                         <div class="inline-form">
-                            <input type="text" class="" placeholder="Поиск"><button type="submit"><span class="fa fa-search"></span></button>
+                            <input type="text" class="" name="q" placeholder="Поиск"><button type="submit"><span class="fa fa-search"></span></button>
                         </div>
                     </form>
 
@@ -16,7 +16,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="text-center logo-block">
-                    <a href="/" class="logo"><img class="" src="{{asset('img/logo.png')}}" alt=""></a>
+                    <a href="/" class="logo"><img style="max-width: 250px" class="" src="{{asset('img/logo_new.jpg')}}" alt=""></a>
                 </div>
             </div>
             <div class="col-sm-4">

@@ -3,7 +3,7 @@
         <div class="col-sm-6">
             <ul v-if="images" id="light-slider">
                 <li v-for="image in images" class="text-center" :data-thumb="'/storage/files/90x110/'+ image.filename">
-                    <img class="" :src="'/storage/files/600x450/' + image.filename"/>
+                    <img class="img-responsive" :src="'/storage/files/600x450/' + image.filename"/>
                 </li>
             </ul>
         </div>
