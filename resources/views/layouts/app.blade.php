@@ -19,8 +19,6 @@
           integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
     <!-- Styles -->
-    {{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">--}}
-
     <link href="{{ elixir('/css/all.css') }}" rel="stylesheet">
     <link href="{{ elixir('/css/app.css') }}" rel="stylesheet">
     @stack('style')
@@ -45,11 +43,8 @@
 </div>
 <!-- JavaScripts -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<script src="{{ elixir('/js/all.js') }}"></script>
 <script src="{{asset('js/app.js')}}"></script>
-{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>--}}
+<script src="{{ elixir('/js/all.js') }}"></script>
 @stack('scripts')
-
-
 </body>
 </html>

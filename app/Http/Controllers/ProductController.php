@@ -27,13 +27,16 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-
+        $products = Product::whereHas('catalogs', function ($query) use ($product) {
+            $query->where('id', $product->catalogs()->exists()? $product->catalogs()->first()->id: null);
+        })->whereNotIn('id', [$product->id])->active()->latest('created_at')->get()->take(4);
+//        dd($products);
         return view('product.show', [
             'product' => $product,
             'options' => $product->productOptions,
             'discount' => $product->productDiscount,
             'special' => $product->productSpecial()->betweenDate()->first(),
-            'products' => null,
+            'products' => $products,
 
         ]);
     }
@@ -169,6 +172,20 @@ class ProductController extends Controller
         $wishList = new WishList($oldWishList);
         return view('shop.wishList', [
             'wishList' => collect($wishList->items),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search(Request $request)
+    {
+        $search = $request->get('q');
+//        dd($search);
+        $products = Product::active()->where('title', 'like', '%'.$search.'%')->latest('created_at')->paginate(12);
+        return view('product.search',[
+            'products' => $products
         ]);
     }
 }

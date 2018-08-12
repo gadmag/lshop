@@ -29,6 +29,8 @@ host('vh130.timeweb.ru')
     ->set('deploy_path', '~/lshop');
 
 // Tasks
+
+
 desc('Vendor');
 task('deploy:vendor:lshop', function () {
     cd('{{release_path}}');
@@ -47,7 +49,7 @@ task('artisan:db:seed', function () {
 
 task('deploy:chmod', function () {
     cd('{{release_path}}');
-    run('mkdir node_modules vendor && chmod 777 -R node_modules vendor storage bootstrap');
+    run('mkdir node_modules vendor && chmod 777 -R node_modules vendor storage bootstrap && chmod 755 -R public resources routes app config');
 });
 
 task('deploy:compile-assets', function () {

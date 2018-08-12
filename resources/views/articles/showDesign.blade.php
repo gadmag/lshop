@@ -11,8 +11,9 @@
     <script>
         $(document).ready(function(){
             //Examples of how to assign the Colorbox event to elements
-            $(".group1").colorbox({rel:'group1'});
+            $(".group1").colorbox({rel:'group1', maxWidth:'95%', maxHeight:'95%'});
         });
+
     </script>
 
 @endpush
@@ -42,7 +43,7 @@
                     @foreach($files as $file)
                         <div class="col-md-3">
                             <div class="thumbnail">
-                            <a class="group1" href="{{asset('storage/files/'.$file->filename)}}" title="{{$design->title}}"> <img class="img-responsive"
+                            <a class="group1" href="{{asset('storage/files/600x450/'.$file->filename)}}" title="{{$design->title}}"> <img class="img-responsive"
                                                                 src="{{asset('storage/files/400x300/'.$file->filename)}}"
                                                                 alt="{{$design->title}}"></a>
                             </div>

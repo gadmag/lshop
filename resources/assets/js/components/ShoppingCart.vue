@@ -5,9 +5,9 @@
                 <table class="table table-shopping-cart table-hover">
                     <thead>
                     <tr>
-                        <th>Фото</th>
+                        <th class="img-cart">Фото</th>
                         <th>Наименование</th>
-                        <th>Цена</th>
+                        <th class="price">Цена</th>
                         <th>Кол-во</th>
                         <th>Итого</th>
                         <th>Удалить</th>
@@ -21,13 +21,13 @@
                                                   :src="'/storage/files/90x110/'+cartItem.item.files[0].filename"
                                                   alt="Картинка товара"></td>
                         <td>{{cartItem.item.title}}</td>
-                        <td>{{cartItem.price/cartItem.qty}} р.</td>
+                        <td class="price">{{cartItem.price/cartItem.qty}} р.</td>
                         <td>
                             <a href="#" @click="reduceFromCart(key)" type="button"><i
-                                    class="fa fa-minus-circle"></i></a>
+                                    class="fa fa-minus"></i></a>
                             <strong>{{cartItem.qty}}</strong>
                             <a href="#" @click="addToCart(key)" type="button"><i
-                                    class="fa fa-plus-circle"></i></a>
+                                    class="fa fa-plus"></i></a>
                         </td>
                         <td>{{cartItem.price}} р.</td>
                         <td><a @click="removeFromCart(key)" href="#"><i class="fa fa-remove"></i></a></td>

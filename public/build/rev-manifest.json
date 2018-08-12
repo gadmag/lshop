@@ -1,7 +1,12 @@
 {
+<<<<<<< HEAD
   "css/all.css": "css/all-27543d1691.css",
   "css/app.css": "css/app-0e7d94c3c0.css",
+=======
+  "css/all.css": "css/all-30a3c231c9.css",
+  "css/app.css": "css/app-2a840c6726.css",
+>>>>>>> fix-mobile-version
   "css/colorbox.css": "css/colorbox-54a72697df.css",
-  "js/all.js": "js/all-89bc088288.js",
+  "js/all.js": "js/all-155775214e.js",
   "js/jquery.colorbox.js": "js/jquery-eb79fa295d.colorbox.js"
 }

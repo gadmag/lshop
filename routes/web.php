@@ -79,7 +79,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('catalogs', ['as' => 'catalog.index', 'uses' => 'CatalogController@index']);
 
 
-    Route::get('search', 'ArticleController@search');
+    Route::get('search', 'ProductController@search');
 
     Route::get('rss.xml', ['as' => 'feed', 'uses' => 'ArticleController@feed']);
 

@@ -146,8 +146,8 @@ class ArticleController extends Controller
         $this->multipleUpload($request, $article, [
 
             '600x450' => array(
-                'width' => 600,
-                'height' => 450
+                'width' => 800,
+                'height' => 650
             ),
             '400x300' => array(
                 'width' => 400,

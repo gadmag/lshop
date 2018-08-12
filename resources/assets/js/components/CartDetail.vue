@@ -4,10 +4,10 @@
             <div class="table-responsive">
                 <table class="table table-detail table-hover">
                     <thead>
-                    <tr>
-                        <th>Фото</th>
+                    <tr class="hidden-xs">
+                        <th class="img-cart">Фото</th>
                         <th>Наименование</th>
-                        <th>Цена</th>
+                        <th class="price-cart">Цена</th>
                         <th>Кол-во</th>
                         <th>Итого</th>
                         <th>Удалить</th>
@@ -21,28 +21,36 @@
                                                   :src="'/storage/files/90x110/'+cartItem.item.files[0].filename"
                                                   alt="Картинка товара"></td>
                         <td>{{cartItem.item.title}}</td>
-                        <td>{{cartItem.price/cartItem.qty}} р.</td>
-                        <td>
-                            <div style="min-width: 100px" class="">
-                                <span @click="reduceFromCart(key)" type="button"><i class="fa fa-minus"></i></span>  <b>{{cartItem.qty}}</b>
-                                <span @click="addToCart(key)" type="button"><i class="fa fa-plus"></i></span>
+                        <td class="price-cart">{{cartItem.price/cartItem.qty}} р.</td>
+                        <td class="cart-qty">
+                            <div>
+                                <span @click="reduceFromCart(key)" type="button"><i class="fa fa-minus"></i> </span>  <b>{{cartItem.qty}}</b>
+                                <span @click="addToCart(key)" type="button"> <i class="fa fa-plus"></i></span>
                             </div>
-
                         </td>
-                        <td>{{cartItem.price}} р.</td>
-                        <td><a @click="removeFromCart(key)" href="#"><i class="fa fa-remove"></i></a></td>
+                        <td class="price-sum">{{cartItem.price}} р.</td>
+                        <td class="text-center"><a @click="removeFromCart(key)" href="#"><i class="fa fa-remove"></i></a></td>
                     </tr>
                     <tr>
-                        <td colspan="4" class="text-left">
-                            <a href="/shopping-cart" class="btn btn-default">Просмотр корзины</a>
-                        </td>
-                        <td colspan="2" class="text-right">
-                            <strong>Итого: {{cart.totalPrice}} р.</strong>
-                        </td>
+
+                        <!--<td class="button-cart text-left">-->
+                           <!--<div style=""><a href="/shopping-cart" class="btn lotus-button">Просмотр корзины</a></div>-->
+                        <!--</td>-->
+                        <!--<td class="img-cart"></td>-->
+                        <!--<td class="price-cart"></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td class="total-cart text-right">-->
+                            <!--<strong>Итого: {{cart.totalPrice}} р.</strong>-->
+                        <!--</td>-->
                     </tr>
                     <!--<div>{{carttotal}}</div>-->
                     </tbody>
                 </table>
+                <div class="cart-detail-bottom">
+                    <div class="button-cart"><a href="/shopping-cart" class="btn lotus-button">Просмотр корзины</a></div>
+                    <div class="total-cart"><strong>Итого: {{cart.totalPrice}} р.</strong></div>
+                </div>
 
             </div>
         </div>

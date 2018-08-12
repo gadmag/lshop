@@ -128,24 +128,11 @@ header .block-search .social-nav .ico-social span {
   font-size: 15px;
 }
 header .block-right {
-<<<<<<< HEAD
-  padding-top: 20px;
-=======
   padding-top: 15px;
->>>>>>> fix-mobile-version
 }
 header ul .cart-item-detail {
   position: inherit;
 }
-<<<<<<< HEAD
-header .table-detail tr td {
-  vertical-align: middle;
-  text-align: center;
-}
-header .table-detail tr td.text-left {
-  text-align: left;
-}
-=======
 header .cart-detail .table-detail th {
   white-space: nowrap;
 }
@@ -160,7 +147,6 @@ header .cart-detail .table-detail tr td.text-left {
 header .cart-detail .table-detail tr td.cart-qty div {
   max-width: 100px;
 }
->>>>>>> fix-mobile-version
 .navbar-toggle {
   float: left;
   margin: 8px 0 8px 15px;
@@ -181,8 +167,6 @@ header .cart-detail .table-detail tr td.cart-qty div {
   font-size: 23px;
   color: #072d45;
 }
-<<<<<<< HEAD
-=======
 .nav-user .table-responsive {
   padding: 10px;
 }
@@ -192,7 +176,6 @@ header .cart-detail .table-detail tr td.cart-qty div {
 .nav-user .table-responsive .cart-detail-bottom .total-cart {
   float: right;
 }
->>>>>>> fix-mobile-version
 .nav-user .badge-wishlist,
 .nav-user .badge-cart {
   background: transparent;
@@ -267,12 +250,9 @@ nav .navbar-collapse {
   border-bottom: 2px solid #031e2f;
   background-color: #FFFFFF;
 }
-<<<<<<< HEAD
-=======
 ul.nav-main > li > a:hover {
   border-bottom: 2px solid #031e2f;
 }
->>>>>>> fix-mobile-version
 /*----------end main menu------------*/
 /*--------slider--------*/
 .slide-block .description {
@@ -331,15 +311,12 @@ ul.nav-main > li > a:hover {
 .product-page .quantity input {
   max-width: 100px;
 }
-<<<<<<< HEAD
-=======
 .bottom-page {
   padding-top: 50px;
 }
 .bottom-page .title {
   padding-bottom: 10px;
 }
->>>>>>> fix-mobile-version
 .product-item {
   max-width: 265px;
 }
@@ -402,14 +379,11 @@ ul.nav-main > li > a:hover {
 .content .table-shopping-cart tr td.text-left {
   text-align: left;
 }
-<<<<<<< HEAD
-=======
 img.cboxPhoto {
   max-width: 100%;
   height: auto;
   display: block;
 }
->>>>>>> fix-mobile-version
 /*-------end shopping-cart-------*/
 /*-----------footer-----------*/
 footer {
@@ -496,8 +470,6 @@ footer .social-wrapper .ico-social a i {
     right: 20px;
     top: 10px;
   }
-<<<<<<< HEAD
-=======
   .nav-user.navbar-nav .dropdown-menu {
     position: absolute;
     top: 100%;
@@ -553,7 +525,6 @@ footer .social-wrapper .ico-social a i {
   .table-shopping-cart .price {
     display: none;
   }
->>>>>>> fix-mobile-version
   .product-item {
     margin: 0 auto;
     position: relative;

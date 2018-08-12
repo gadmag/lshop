@@ -8,7 +8,7 @@
             <cart-detail :cart="cart" :carttotal="itemCount"></cart-detail>
         </div>
     </li>
-    <li>
+    <li class="dropdown">
         <a href="{{route('product.WishList')}}"><img src="{{asset('img/like.png')}}" alt=""></a>
         <wish-count :wishcount="wishListCount"></wish-count>
     </li>
@@ -16,7 +16,7 @@
         <a href="#" class="fa fa-user-o dropdown-toggle" data-toggle="dropdown" role="button"
            aria-haspopup="true" aria-expanded="false"><img src="{{asset('img/user.png')}}"
                                                            alt=""></a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu admin-dropdown">
             @if(Auth::check())
                 <li><a href="{{route('user.profile')}}">Профиль пользователя</a></li>
                 <li role="separator" class="divider"></li>

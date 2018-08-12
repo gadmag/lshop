@@ -59,28 +59,8 @@
 </div>
 <!-- JavaScripts -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<script src="{{ elixir('/js/all.js') }}"></script>
 <script src="{{asset('js/app.js')}}"></script>
+<script src="{{ elixir('/js/all.js') }}"></script>
 <script src="{{asset('js/fancy.slide.js')}}"></script>
-<script>
-
-    $(document).ready(function () {
-
-        $('.block-forms a.btn').click(function (e) {
-//            alert('asd');
-            e.preventDefault();
-            $('.block-forms a.active').removeClass('active');
-            $(this).addClass('active');
-            var tab = $(this).attr('href');
-            console.log(tab);
-            $('.form-content').not(tab).css({'display': 'none'});
-            $(tab).fadeIn(400);
-        });
-    });
-
-    $('div.alert').not('alert-important').delay(3000).slideUp(300);
-
-
-</script>
 </body>
 </html>
