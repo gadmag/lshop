@@ -110,9 +110,11 @@ class ProductController extends Controller
         }
         $oldCart = session('cart');
         $cart = new Cart($oldCart);
+        $paymentConfig = config('payment.cart_setting');
         return view('shop.shopping-cart', [
             'products' => collect($cart->items),
-            'totalPrice' => $cart->totalPrice
+            'totalPrice' => $cart->totalPrice,
+            'paymentConf' => $paymentConfig
         ]);
     }
 
@@ -182,7 +184,6 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('q');
-//        dd($search);
         $products = Product::active()->where('title', 'like', '%'.$search.'%')->latest('created_at')->paginate(12);
         return view('product.search',[
             'products' => $products

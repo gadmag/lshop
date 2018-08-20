@@ -33,7 +33,7 @@
 <nav class="navbar navbar-default" data-spy="affix" data-offset-top="220">
 
     <div style="position: relative" class="">
-        <a class="navbar-brand" href="/"><img class="img-responsive" src="{{asset('img/logo.png')}}" alt=""></a>
+        <a class="navbar-brand" href="/"><img class="img-responsive" src="{{asset('img/logo.jpg')}}" alt=""></a>
         <div class="container">
             <div class="">
                 <div class="navbar-header">

@@ -34,7 +34,8 @@ class CheckoutRequest extends FormRequest
             'country' => 'required',
 
             //
-            'payment' => 'required'
+            'payment' => 'required',
+            'shipment' => 'required'
         ];
 
 

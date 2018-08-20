@@ -73,14 +73,14 @@
 </div>
 <br>
 @if($order->comment)
-    <div style="background: #e0e0e0; max-width: 300px"><strong>Комментарий к заказу:</strong></div>
+    <div style="background: #e0e0e0; max-width: 300px; padding: 5px"><strong>Комментарий к заказу:</strong></div>
     <div class="panel-body">
         {{$order->comment}}
     </div>
 
 @endif
 <br>
-<div style="background: #e0e0e0; max-width: 300px"><strong>Способ оплаты:</strong></div>
+<div style="background: #e0e0e0; max-width: 300px; padding: 5px"><strong>Способ оплаты:</strong></div>
 <p class="panel-body">
     {{$order->payment_method}} {{$order->payment_id}}
 </p>

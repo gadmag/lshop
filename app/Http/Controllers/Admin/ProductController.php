@@ -115,10 +115,7 @@ class ProductController extends Controller
 
         }
 
-        // $catalogs = Catalog::pluck('name', 'id');
         $catalogs = self::getTree(Catalog::all());
-//        $catalogs = self::getSelectItem(Catalog::all());
-//        dd($catalogs);
         return view('AdminLTE.product.create', [
             'catalogs' => $catalogs,
             'catalog' => ''

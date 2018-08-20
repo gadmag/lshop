@@ -25,7 +25,7 @@ class ProductRequest extends FormRequest
     {
         $rules = [
             'title' => 'required|min:3',
-            'quantity' => 'required',
+            'quantity' => 'required|numeric',
             'status' => 'boolean',
             'sku' => 'required',
             'price' => 'required|numeric',
@@ -34,13 +34,13 @@ class ProductRequest extends FormRequest
 
         if ($this->has('productDiscount.price') || $this->has('productDiscount.quantity'))
         {
-            $rules += ['productDiscount.price'=> 'required'];
-            $rules += ['productDiscount.quantity'=> 'required'];
+            $rules += ['productDiscount.price'=> 'required|numeric'];
+            $rules += ['productDiscount.quantity'=> 'required|numeric'];
         }
 
         if ($this->has('productSpecial.price'))
         {
-            $rules += ['productSpecial.price'=> 'required'];
+            $rules += ['productSpecial.price'=> 'required|numeric'];
         }
 
         if ($this->has('productOptions.*.color'))
@@ -50,8 +50,8 @@ class ProductRequest extends FormRequest
                 if ($key < 7) continue;
 
                 $rules += ["productOptions.$key.color" => 'sometimes|required'];
-                $rules += ["productOptions.$key.price" => 'sometimes|required'];
-                $rules += ["productOptions.$key.quantity" => 'sometimes|required'];
+                $rules += ["productOptions.$key.price" => 'sometimes|required|numeric'];
+                $rules += ["productOptions.$key.quantity" => 'sometimes|required|numeric'];
             }
 
         }

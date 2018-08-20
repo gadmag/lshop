@@ -14,7 +14,7 @@
     <div class="panel-body">
         @if(Session::has('success'))
             <div class="row">
-                <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+                <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
                     <div id="charge-message" class="alert alert-success">{{Session::get('success')}}</div>
                 </div>
             </div>

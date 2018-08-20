@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Redirect;
 use App\Catalog;
 use App\Cart;
 use App\Coupon;
@@ -35,13 +36,18 @@ class CheckoutController extends Controller
 
         $oldCart = session('cart');
         $cart = new Cart($oldCart);
+        if ($cart->totalPrice < config('payment.cart_setting.min_sum')){
+             return redirect('/shopping-cart');
+        }
         $total = $cart->totalPrice;
         $countries = Country::with('regions')->active()->get()->keyBy('id');
         $coupons = Coupon::active()->isQty()->betweenDate()->get();
+        $payment_config = config('payment');
         return view('shop.checkout', [
             'total' => $total,
             'countries' => collect($countries),
-            'coupons' => $coupons
+            'coupons' => $coupons,
+            'payment_config' => collect($payment_config),
 
         ]);
     }
@@ -60,6 +66,7 @@ class CheckoutController extends Controller
         $order->email = $request->email;
         $order->telephone = $request->telephone;
         $order->address = $request->address;
+        $order->totalPrice = $cart->totalPrice;
         if ($request->company){
             $order->company = $request->company;
         }
@@ -75,12 +82,20 @@ class CheckoutController extends Controller
             $order->region = Region::findOrFail($request->region)->name;
         }
 
+        if ($request->shipment){
+            $shipment_conf = config("payment.shipment_method.$request->shipment");
+            $order->shipment_price = ($order->totalPrice >= config('payment.cart_setting.free_shipping'))? 0 : $this->getShipmentPrice($shipment_conf, $cart->totalWeight);
+            $order->totalPrice +=$order->shipment_price;
+            $order->shipment_method = $shipment_conf['method'];
+        }
+
         if ($request->coupon){
             $coupon = Coupon::active()->isQty()->betweenDate()->where('code', $request->coupon)->first();
             if ($coupon){
                 $coupon->uses_total = $coupon->uses_total - 1;
                 $coupon->save();
                 $cart->coupon = $coupon;
+                $order->totalPrice = $order->totalPrice - $order->totalPrice*$cart->coupon->discount/100;
             }
         }
 
@@ -94,7 +109,7 @@ class CheckoutController extends Controller
         $this->reduceQuantity($cart);
         Session::forget('cart');
         Mail::to(['gadjim4@gmail.com', $order->email])->send(new OrderShipped($order));
-        return redirect()->route('product.index')->with('success', 'Заказ завершен');
+        return redirect()->route('product.index')->with('success', 'Ваш заказ принят. Данные для оплаты будут отправленны на Вашу почту.');
     }
 
     protected function reduceQuantity(Cart $cart)
@@ -113,5 +128,14 @@ class CheckoutController extends Controller
             }
         }
 
+    }
+
+    protected function getShipmentPrice($params, $weight)
+    {
+        foreach ($params as $key => $price){
+            if ($weight <= $key){
+                return $price;
+            }
+        }
     }
 }

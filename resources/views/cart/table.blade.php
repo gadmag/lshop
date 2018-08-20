@@ -25,6 +25,14 @@
                 <strong>{{$order->cart->totalPrice}} р.</strong>
             </td>
         </tr>
+        @if($order->shipment_method)
+            <tr>
+                <td colspan="3" class="text-right"><strong>{{$order->shipment_method}}</strong></td>
+                <td class="text-right">
+                    <strong>{{$order->shipment_price}}</strong>
+                </td>
+            </tr>
+        @endif
         @if($order->cart->coupon)
             <tr>
                 <td colspan="3" class="text-right"><strong>Купон:</strong></td>
@@ -32,13 +40,13 @@
                     <strong>{{$order->cart->coupon->name}}</strong>
                 </td>
             </tr>
-            <tr>
-                <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
-                <td class="text-right">
-                    <strong>{{$order->cart->totalPrice - $order->cart->totalPrice*$order->cart->coupon->discount/100}} р.</strong>
-                </td>
-            </tr>
         @endif
+        <tr>
+            <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
+            <td class="text-right">
+                <strong>{{$order->totalPrice}}р.</strong>
+            </td>
+        </tr>
         </tbody>
     </table>
 

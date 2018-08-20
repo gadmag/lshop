@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="checkout-block">
 
         <form :action="route" method="post" id="checkoutForm" name="checkoutForm">
 
@@ -104,44 +104,88 @@
                         </div>
                     </div>
                 </tab-content>
-                <tab-content title="Способ оплаты" :before-change="stepSecondValid">
+                <tab-content title="Способ оплаты и доставки" :before-change="stepSecondValid">
                     <div class="row">
-                        <div class="col-xs-12">
-                            <div style="max-width: 180px" class="form-group">
-                                <label for="coupon">Промокод</label>
-                                <input v-on:change="isCoupon" v-model="coupon" type="text" name="coupon" id="coupon"
-                                       class="form-control">
-                            </div>
-                            <p>Выберите способ оплаты для этого заказа</p>
-                            <div class="form-group" v-bind:class="{'has-error': errors.payment }">
-                                <div class="radio">
-                                    <label class="radio-inline"><input type="radio" name="payment"
-                                                                       v-model="payment" value="credit_card">Кредитная
-                                        карта</label>
+                        <div class="col-xs-12 col-sm-6">
+                            <fieldset>
+                                <legend>Выберите способ оплаты</legend>
+                                <div class="form-group" v-bind:class="{'has-error': errors.payment }">
+                                    <div class="radio">
+                                        <label for="credit_card" class="radio-inline">
+                                            <input id="credit_card" type="radio" name="payment" v-model="payment"
+                                                   value="credit_card">
+                                            <img src="/img/sber.jpg" alt=""> Кредитная карта
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label for="qiwi" class="radio-inline">
+                                            <input id="qiwi" type="radio" name="payment" v-model="payment" value="qiwi">
+                                            <img src="/img/qiwi.png" alt="">QIWI Кошелек
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label for="yandex" class="radio-inline">
+                                            <input id="yandex" type="radio" name="payment" v-model="payment"
+                                                   value="yandex">
+                                            <img src="/img/yandex.jpg" alt=""> Яндекс кошелек
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label for="paypal" class="radio-inline">
+                                            <input type="radio" name="payment" id="paypal" v-model="payment"
+                                                   value="paypal">
+                                            <img src="/img/paypal.jpg" alt=""> Paypal кошелек
+                                        </label>
+                                    </div>
+                                    <span v-if="errors['payment']" class="help-block">{{errors['payment']}}</span>
                                 </div>
-                                <div class="radio">
-                                    <label class="radio-inline"><input type="radio" name="payment"
-                                                                       v-model="payment" value="qiwi">QIWI
-                                        Кошелек</label>
+                            </fieldset>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <fieldset>
+                                <legend>Выбрать способ доставки</legend>
+                                <div class="form-group" v-bind:class="{'has-error': errors.shipment }">
+                                    <div class="radio">
+                                        <label for="pochta_ru" class="radio-inline">
+                                            <input id="pochta_ru" v-model="shipment" type="radio" value="pochta_ru"
+                                                   name="shipment">
+                                            <span class="img-shipp"><img src="/img/ship3.gif" alt="Почта России"></span>
+                                            Доставка почтой по России <span v-if="country">(наценка + {{shipmentCountry('pochta_ru')}})</span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label for="pochta_gl" class="radio-inline">
+                                            <input id="pochta_gl" v-model="shipment" type="radio" value="pochta_gl"
+                                                   name="shipment">
+                                            <span class="img-shipp"><img src="/img/ship3.gif" alt="Почта России"></span>
+                                            Доставка почтой за пределы России <span v-if="country">(наценка + {{shipmentCountry('pochta_gl')}})</span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label for="cdek" class="radio-inline">
+                                            <input id="cdek" v-model="shipment" type="radio" value="cdek"
+                                                   name="shipment">
+                                            <span class="img-shipp"><img src="/img/cdek.jpg" alt="Почта России"></span>
+                                            СДЭК пункт выдачи
+                                        </label>
+                                    </div>
+                                    <span v-if="errors['shipment']" class="help-block">{{errors['shipment']}}</span>
                                 </div>
-                                <div class="radio">
-                                    <label class="radio-inline"><input type="radio" name="payment"
-                                                                       v-model="payment" value="yandex">Яндекс
-                                        кошелек</label>
-                                </div>
-                                <div class="radio">
-                                    <label class="radio-inline"><input type="radio" name="payment"
-                                                                       v-model="payment" value="paypal">Paypal
-                                        кошелек</label>
-                                </div>
-                                <span v-if="errors['payment']" class="help-block">{{errors['payment']}}</span>
-                            </div>
-                            <div class="form-group" v-bind:class="{'has-error': errors.comment }">
-                                <label for="comment">Комментарий</label>
-                                <textarea class="form-control" rows="5" name="comment" id="comment"
-                                          v-model="comment"></textarea>
-                                <span v-if="errors.comment" class="help-block">{{ errors.comment}}</span>
-                            </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <hr>
+                        <div style="max-width: 180px" class="form-group">
+                            <label for="coupon">Промокод</label>
+                            <input v-on:change="isCoupon" v-model="coupon" type="text" name="coupon" id="coupon"
+                                   class="form-control">
+                        </div>
+                        <div class="form-group" v-bind:class="{'has-error': errors.comment }">
+                            <label for="comment">Комментарий</label>
+                            <textarea class="form-control" rows="5" name="comment" id="comment"
+                                      v-model="comment"></textarea>
+                            <span v-if="errors.comment" class="help-block">{{ errors.comment}}</span>
                         </div>
                     </div>
                 </tab-content>
@@ -171,19 +215,23 @@
                                     <strong>{{this.$parent.cart.totalPrice}} р.</strong>
                                 </td>
                             </tr>
+                            <tr v-if="this.shipment">
+                                <td colspan="3" class="text-right"><strong>{{this.paymentConfig.shipment_method[this.shipment].method}}</strong></td>
+                                <td class="text-right"><strong>{{this.shipmentCountry(this.shipment)}} р</strong></td>
+                            </tr>
                             <tr v-if="this.couponItem">
                                 <td colspan="3" class="text-right"><strong>Промокод:</strong></td>
                                 <td class="text-right"><strong>{{this.couponItem.name}}</strong></td>
                             </tr>
-                            <tr v-if="this.couponItem">
+                            <tr v-if="activeSum">
                                 <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
-                                <td class="text-right"><strong>{{this.$parent.cart.totalPrice - this.$parent.cart.totalPrice*this.couponItem.discount/100}} р.</strong></td>
+                                <td class="text-right"><strong>{{getTotalPrice()}} р.</strong></td>
                             </tr>
+
                             </tbody>
                         </table>
 
                     </div>
-                    <!--<button type="submit" class="btn btn-success">Купить</button>-->
                 </tab-content>
 
             </form-wizard>
@@ -191,37 +239,18 @@
             <input type="hidden" name="_token" :value="csrf">
         </form>
 
-
-        <!--<div class="row">-->
-
-        <!--<div class="col-sm-6">-->
-        <!--<h2>Новый покупатель</h2>-->
-        <!--<p>Опции оформления заказа:</p>-->
-        <!--<div class="radio">-->
-        <!--<label><input type="radio" name="payment_method" value="yandex" checked="checked">Зарегистрироваться</label>-->
-        <!--</div>-->
-
-        <!--</div>-->
-        <!--<div class="col-sm-6">-->
-        <!--<h2>Зарегистрированный пользователь</h2>-->
-        <!--Я совершал здесь покупки ранее и регистрировался-->
-        <!--</div>-->
-        <!--</div>-->
-
     </div>
 </template>
 
 <script>
     import {FormWizard, TabContent} from 'vue-form-wizard';
-    // import VeeValidate from 'vee-validate';
 
-    // Vue.use(VeeValidate);
     export default {
         components: {
             FormWizard,
             TabContent
         },
-        props: ['total', 'countries', 'coupons', 'route', 'cart'],
+        props: ['total', 'countries', 'coupons', 'route', 'cart', 'paymentConfig'],
 
         mounted() {
             console.log('Component checkout mounted.');
@@ -239,6 +268,7 @@
                 region: null,
                 comment: null,
                 payment: null,
+                shipment: null,
                 coupon: null,
                 couponItem: null,
 
@@ -255,7 +285,7 @@
                 if (!this.last_name) this.errors["last_name"] = "Укажите фамилию.";
                 if (!this.email) {
                     this.errors["email"] = "Укажите электронную почту.";
-                }else if(!this.validEmail(this.email)) {
+                } else if (!this.validEmail(this.email)) {
                     this.errors["email"] = "Укажите корректный адрес электронной почты.";
                 }
                 if (!this.telephone) this.errors["telephone"] = "Укажите  телефон.";
@@ -274,7 +304,9 @@
                 if (!this.payment) {
                     this.errors["payment"] = "Выберите платежную систему."
                 }
-
+                if (!this.shipment) {
+                    this.errors["shipment"] = "Выберите способ оплаты."
+                }
                 if (Object.keys(this.errors).length > 0) {
                     return false
                 }
@@ -293,10 +325,8 @@
             },
 
             isCoupon: function () {
-                console.log("asd");
                 if (this.coupon) {
                     this.coupons.filter((item) => {
-                        console.log(item.code)
                         if (item.code.includes(this.coupon)) {
                             this.couponItem = item;
                             return true
@@ -305,9 +335,50 @@
                     })
                 }
 
+            },
+
+            checkWeight: function (weight, shipments) {
+
+                if (this.$parent.cart.totalPrice >= this.paymentConfig.cart_setting.free_shipping) {
+                    return 0;
+                } else {
+                    for (var key in shipments) {
+                        if (weight <= key) {
+                            return shipments[key];
+                        }
+                    }
+                }
+
+            },
+
+            shipmentCountry: function (shipment) {
+                var weight = this.$parent.cart.totalWeight;
+                if (this.country) {
+                    return this.checkWeight(weight, this.paymentConfig.shipment_method[shipment]);
+                }
+            },
+
+            getTotalPrice: function () {
+                var total = parseFloat(this.$parent.cart.totalPrice);
+                if (this.shipment ){
+                    total = total + parseFloat(this.shipmentCountry(this.shipment));
+                }
+                if (this.couponItem){
+                  total =  total - parseFloat(total*this.couponItem.discount/100);
+                }
+                return total;
             }
 
-        }
+
+        },
+
+        computed: {
+            activeSum: {
+                get: function () {
+                    return this.couponItem || this.shipment;
+                }
+            }
+        },
 
 
     }

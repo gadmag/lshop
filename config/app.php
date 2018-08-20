@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'lshop',
+    'name' => 'lotus-furnitura.ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://lshop'),
+    'url' => env('APP_URL', 'http://lotus-furnitura.ru'),
 
     /*
     |--------------------------------------------------------------------------

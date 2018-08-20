@@ -31,6 +31,9 @@ class CreateOrdersTable extends Migration
             $table->string('coupon');
             $table->string('payment_method',128);
             $table->string('payment_id',128);
+            $table->string('shipment_method',128);
+            $table->decimal('shipment_price',13, 2)->default(0.00);
+            $table->decimal('totalPrice',13,2)->default(0.00);
             $table->text('cart');
             $table->timestamps();
 

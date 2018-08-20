@@ -68,13 +68,9 @@ class Product extends Model
 
     public function setWeightAttribute($value)
     {
-        $this->attributes['weight'] = (float)$value;
+        $this->attributes['weight'] = (int)$value;
     }
 
-    public function setSizeAttribute($value)
-    {
-        $this->attributes['size'] = (float)$value;
-    }
 
     public function scopeActive($query)
     {

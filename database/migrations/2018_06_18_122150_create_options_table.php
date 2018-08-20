@@ -1,4 +1,4 @@
-<?php
+<?php   
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,9 +18,9 @@ class CreateOptionsTable extends Migration
             $table->increments('id');
             $table->integer('product_id')->index();
             $table->string('color');
-            $table->decimal('price',13,2);
+            $table->decimal('price',13,2)->default(0.00);
             $table->string('price_prefix',1);
-            $table->decimal('weight',13,2);
+            $table->integer('weight')->default(0);
             $table->string('weight_prefix',1);
             $table->integer('quantity');
             $table->timestamps();
