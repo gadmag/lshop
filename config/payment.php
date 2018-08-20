@@ -27,5 +27,7 @@ return [
     'cart_setting' => [
         'min_sum' => 1000,
         'free_shipping' => 10000
-    ]
+    ],
+//    'send_mail' => 'gadjim4@gmail.com'
+    'send_mail' => 'Lotus_furnitura@mail.ru'
 ];

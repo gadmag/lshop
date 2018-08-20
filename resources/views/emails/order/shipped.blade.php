@@ -1,3 +1,13 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Заказ с сайта {{config('app.name')}}</title>
+</head>
+<body>
+<div>{{ $order->last_name}} {{$order->first_name}}, багодарим Вас за выбор нашего интернет-магазина {{config('app.name')}}.
+</div>
+<div> В ближайшее время мы свяжемся с Вами по телефону для уточнения информации по заказу.</div>
 <p><strong>Номер заказа:</strong> &nbsp;&nbsp;&nbsp;<strong>{{$order->id}}</strong></p>
 <p><strong>Дата заказа:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>{{$order->created_at}}</strong></p>
 <p><strong>Имя покупателя:</strong> <strong>{{ $order->last_name}} {{$order->first_name}}</strong></p>
@@ -14,8 +24,9 @@
            cellpadding="0" cellspacing="0" width="100%">
         <thead style="background-color:#e0e0e0;color:#000;text-align:left;vertical-align:bottom">
         <tr>
-            <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em">&nbsp;
-            Фото
+            <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em">
+                &nbsp;
+                Фото
             </th>
             <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em">
                 Наименование товара
@@ -37,51 +48,57 @@
                 <td style="">
                     @if ($cartItem['item']->files()->exists())
                         <img class="img-responsive"
-                             src="{{asset('storage/files/90x110/'.$cartItem['item']->files()->first()->filename)}}"
+                             src="{{asset('/storage/files/90x110/'.$cartItem['item']->files()->first()->filename)}}"
                              alt="Картинка товара">
                     @endif
                 </td>
                 <td style="padding: 5px 0">{{$cartItem['item']['title']}}</td>
                 <td style="padding: 5px 0">{{$cartItem['qty']}}</td>
-                <td style="padding: 5px 0">{{$cartItem['price']/$cartItem['qty']}} ₽</td>
-                <td style="padding: 5px 0" align="right">{{$cartItem['price']}} ₽</td>
+                <td style="padding: 5px 0">{{$cartItem['price']/$cartItem['qty']}} р.</td>
+                <td style="padding: 5px 0" align="right">{{$cartItem['price']}} р.</td>
             </tr>
         @endforeach
-        <tr style="padding: 10px 0">
+        <tr style="padding: 10px">
             <td colspan="4" align="right"><strong>Предварительная стоимость:</strong></td>
             <td align="right">
-                <strong>{{$cart->totalPrice}} ₽</strong>
+                <strong>{{$cart->totalPrice}} р.</strong>
             </td>
         </tr>
+        @if($order->shipment_method)
+            <tr style="padding: 10px">
+                <td colspan="4" align="right"><strong>{{$order->shipment_method}}</strong></td>
+                <td align="right">
+                    <strong>{{$order->shipment_price}} р.</strong>
+                </td>
+            </tr>
+        @endif
         @if($cart->coupon)
-            <tr style="padding: 10px 0">
+            <tr style="padding: 10px">
                 <td colspan="4" align="right"><strong>Купон:</strong></td>
                 <td align="right">
                     <strong>{{$cart->coupon->name}}</strong>
                 </td>
             </tr>
-            <tr style="padding: 10px 0">
-                <td colspan="4" align="right"><strong>Итоговая сумма:</strong></td>
-                <td align="right">
-                    <strong>{{$cart->totalPrice - $cart->totalPrice*$cart->coupon->discount/100}} р.</strong>
-                </td>
-            </tr>
         @endif
+        <tr style="padding: 10px 0">
+            <td colspan="4" align="right"><strong>Итоговая сумма:</strong></td>
+            <td align="right">
+                <strong>{{$order->totalPrice}} р.</strong>
+            </td>
+        </tr>
         </tbody>
     </table>
 
 </div>
 <br>
+<div style="background: #e0e0e0; max-width: 300px; padding: 5px"><strong>Способ оплаты:</strong></div>
+<p class="panel-body">{{$order->payment_method}} {{$order->payment_id}}</p>
+</div>
+<br>
 @if($order->comment)
     <div style="background: #e0e0e0; max-width: 300px; padding: 5px"><strong>Комментарий к заказу:</strong></div>
-    <div class="panel-body">
-        {{$order->comment}}
-    </div>
-
+    <p class="panel-body">{{$order->comment}}</p>
 @endif
-<br>
-<div style="background: #e0e0e0; max-width: 300px; padding: 5px"><strong>Способ оплаты:</strong></div>
-<p class="panel-body">
-    {{$order->payment_method}} {{$order->payment_id}}
-</p>
-</div>
+
+</body>
+</html>

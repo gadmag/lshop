@@ -108,7 +108,7 @@ class CheckoutController extends Controller
         Auth::user()->orders()->save($order);
         $this->reduceQuantity($cart);
         Session::forget('cart');
-        Mail::to(['gadjim4@gmail.com', $order->email])->send(new OrderShipped($order));
+        Mail::to([config('payment.send_mail'), $order->email])->send(new OrderShipped($order));
         return redirect()->route('product.index')->with('success', 'Ваш заказ принят. Данные для оплаты будут отправленны на Вашу почту.');
     }
 
