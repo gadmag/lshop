@@ -1,6 +1,4 @@
-<div class="row">
-    {{--{{dd($newProducts)}}--}}
-    @foreach ($specials->chunk(4) as $productChunk)
+@foreach ($specials->chunk(4) as $productChunk)
         <div class="row">
             @foreach($productChunk as $product)
                 <div class="col-sm-6 col-md-3">
@@ -20,5 +18,4 @@
                 </div>
             @endforeach
         </div>
-    @endforeach
-</div>
+@endforeach
