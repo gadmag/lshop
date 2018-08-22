@@ -19,7 +19,7 @@
                 </div>
             </div>
         @endif
-        <div class="row">
+        <div class="list-product">
             @foreach ($products->chunk(4) as $productChunk)
                 <div class="row">
                     @foreach($productChunk as $product)

@@ -14,11 +14,8 @@
     <div class="body">
         {!! $catalog->description !!}
     </div>
-    {{--@if($article->type == 'news')--}}
-        {{--<div class="article-pub"><span><i class="fa fa-calendar"></i> <i>{{$catalog->created_at}}</i></span></div>--}}
-    {{--@endif--}}
-<div class="row">
-    @foreach ($catalog->products->chunk(4) as $productChunk)
+<div class="list-product">
+    @foreach ($products->chunk(4) as $productChunk)
         <div class="row">
             @foreach($productChunk as $product)
                 <div class="col-sm-6 col-md-3">
@@ -39,6 +36,7 @@
             @endforeach
         </div>
     @endforeach
+        {{$products->links()}}
 </div>
 
 @endsection

@@ -175,17 +175,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <hr>
-                        <div style="max-width: 180px" class="form-group">
-                            <label for="coupon">Промокод</label>
-                            <input v-on:change="isCoupon" v-model="coupon" type="text" name="coupon" id="coupon"
-                                   class="form-control">
-                        </div>
-                        <div class="form-group" v-bind:class="{'has-error': errors.comment }">
-                            <label for="comment">Комментарий</label>
-                            <textarea class="form-control" rows="5" name="comment" id="comment"
-                                      v-model="comment"></textarea>
-                            <span v-if="errors.comment" class="help-block">{{ errors.comment}}</span>
+                        <div class="col-xs-12">
+                            <hr>
+                            <div style="max-width: 180px" class="form-group">
+                                <label for="coupon">Промокод</label>
+                                <input v-on:change="isCoupon" v-model="coupon" type="text" name="coupon" id="coupon"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group" v-bind:class="{'has-error': errors.comment }">
+                                <label for="comment">Комментарий</label>
+                                <textarea class="form-control" rows="5" name="comment" id="comment"
+                                          v-model="comment"></textarea>
+                                <span v-if="errors.comment" class="help-block">{{ errors.comment}}</span>
+                            </div>
                         </div>
                     </div>
                 </tab-content>
