@@ -193,24 +193,26 @@
                 </tab-content>
                 <tab-content title="Подтверждение заказа">
 
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
+                    <div class="">
+                        <table id="cart" class="table table-shopping-cart table-hover table-condensed">
                             <thead>
                             <tr>
-                                <th>Наименование товара</th>
-                                <th>Кол-во</th>
-                                <th class="text-right">Цена за шт</th>
-                                <th class="text-right">Всего</th>
+                                <th style="width: 55%">Наименование</th>
+                                <th style="width: 10%">Кол-во</th>
+                                <th style="width: 15%">Цена за шт</th>
+                                <th style="width: 20%" class="text-right">Всего</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="(cartItem, key, index) in this.$parent.cart.items">
                                 <!--<td>{{cartItem.item.id}}</td>-->
-                                <td>{{cartItem.item.title}}</td>
-                                <td><strong>{{cartItem.qty}}</strong></td>
-                                <td>{{cartItem.price/cartItem.qty}} р.</td>
-                                <td class="text-right">{{cartItem.price}} р.</td>
+                                <td class="title">{{cartItem.item.title}}</td>
+                                <td data-th="Кол-во"><strong>{{cartItem.qty}}</strong></td>
+                                <td data-th="Цена">{{cartItem.price/cartItem.qty}} р.</td>
+                                <td data-th="Итого" class="text-right">{{cartItem.price}} р.</td>
                             </tr>
+                            </tbody>
+                            <tfoot>
                             <tr>
                                 <td colspan="3" class="text-right"><strong>Предварительная стоимость:</strong></td>
                                 <td class="text-right">
@@ -229,8 +231,7 @@
                                 <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
                                 <td class="text-right"><strong>{{getTotalPrice()}} р.</strong></td>
                             </tr>
-
-                            </tbody>
+                            </tfoot>
                         </table>
 
                     </div>

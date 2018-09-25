@@ -24,6 +24,9 @@
     @stack('style')
 </head>
 <body id="app-layout">
+<div class="holder">
+    <div class="preloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
 <div id="app">
     @include('partials.header')
     @include('partials.message')

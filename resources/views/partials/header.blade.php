@@ -46,6 +46,14 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     @include('menu.nav')
+                    <div class="clearfix block-search">
+                        <form class="" method="get" action="/search">
+                            <div class="inline-form">
+                                <input type="text" class="" name="q" placeholder="Поиск"><button type="submit"><span class="fa fa-search"></span></button>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>

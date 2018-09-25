@@ -38,14 +38,13 @@ const app = new Vue({
     },
 
     created() {
-        bus.$on('added-to-cart', (id, optionAddToCart) => {
-            this.addToCart('/add-to-cart', id, optionAddToCart);
+        bus.$on('added-to-cart', (id, options) => {
+            this.addToCart('/add-to-cart', id, options);
         });
         bus.$on('reduce-from-cart', (id) => {
             this.getCartJson('/reduce', id);
         });
         bus.$on('remove-from-cart', (id) => {
-
             this.getCartJson('/remove', id);
         });
         bus.$on('added-to-wishlist', (id) => {
@@ -53,7 +52,6 @@ const app = new Vue({
         });
 
         bus.$on('remove-to-wishlist', (id) => {
-
             this.getWishList('/remove-to-wishlist', id);
         });
 
@@ -97,7 +95,6 @@ const app = new Vue({
         },
 
         handleResponse(data) {
-            // console.log(data);
             if (data.cart) {
                 this.cart = data.cart;
                 this.itemCount = data.cart.totalQty;
@@ -105,7 +102,6 @@ const app = new Vue({
 
         },
         handleResponseWishList(data) {
-            // console.log(data.wishList.items);
             if (data.wishList) {
                 this.wishList = data.wishList.items;
                 this.wishListCount = data.wishList.totalQty;
@@ -113,18 +109,18 @@ const app = new Vue({
 
 
         },
-        getCartJson(url, id = '') {
-            if (id) {
+        getCartJson(url, id = null) {
+            if (id !== null) {
                 url = url + '/' + id;
             }
             this.ajaxGet(url);
         },
 
-        addToCart(url, id,  optionAddToCart) {
+        addToCart(url, id,  options) {
             if (id) {
-                url = url + '/' + id;
+                url = url + '/' + id + '?options='+ JSON.stringify(options);
             }
-            this.ajaxPost(url, optionAddToCart);
+            this.ajaxGet(url);
         },
 
         getWishList(url, id) {

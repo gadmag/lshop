@@ -15,10 +15,7 @@ use Gate;
 use Carbon\Carbon;
 
 use App\Product;
-use App\Seo;
 use App\Catalog;
-use App\Alias;
-
 use Validator;
 use Image;
 use File;

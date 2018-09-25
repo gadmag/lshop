@@ -12,15 +12,15 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"
           integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
-    {{--<link href="https://fonts.googleapis.com/css?family=EB+Garamond&amp;subset=cyrillic-ext" rel="stylesheet">--}}
-    {{--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>--}}
 <!-- Styles -->
-    {{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">--}}
     <link href="{{ elixir('/css/all.css') }}" rel="stylesheet">
     <link href="{{ elixir('/css/app.css') }}" rel="stylesheet">
     <link href="{{elixir('/css/fancy.slide.css')}}" rel="stylesheet">
 </head>
 <body id="app-layout">
+<div class="holder">
+    <div class="preloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
 <div id="app">
     @include('partials.header')
 
@@ -62,5 +62,8 @@
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{ elixir('/js/all.js') }}"></script>
 <script src="{{asset('js/fancy.slide.js')}}"></script>
+<script>
+
+</script>
 </body>
 </html>

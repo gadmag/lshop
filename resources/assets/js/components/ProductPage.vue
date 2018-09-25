@@ -48,20 +48,16 @@
 
 
             <div v-if="options" class="options-block">
-                <!--<h4>Доступные опции</h4>-->
-
-                    <!--<input v-model="optionAddToCart.product_id" type="hidden" name="product_id">-->
-                <!--<div>{{options}}</div>-->
                     <div id="options"  v-if="options.length > 0" class="form-group">
                         <label for="options_color">Цвет</label>
-                        <select class="form-control" name="options_color" v-model="optionAddToCart.color" id="options_color">
+                        <select class="form-control" name="options_color" v-model="query_options.option_id" id="options_color">
                             <option :selected="null" v-bind:value="null">Выбрать</option>
                             <option :disabled="option.quantity <= 0" v-for="option in options" :value="option.id">{{option.color}}</option>
                         </select>
                     </div>
                     <div class="quantity form-group">
                         <label for="quantity">Кол-во</label>
-                        <input type="number" v-model="optionAddToCart.quantity" name="quantity" id="quantity"
+                        <input type="number" v-model="query_options.quantity" name="quantity" id="quantity"
                                class="form-control"  :max="product.quantity">
                     </div>
                     <div class="button-block clearfix">
@@ -88,12 +84,11 @@
         data: function () {
             return {
                 className: '',
-                optionAddToCart: {
+                query_options: {
                    // product_id: this.product.id,
-                    color: null,
+                    option_id: null,
                     quantity: 1,
                 },
-                // csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             }
         },
         mounted() {
@@ -101,7 +96,7 @@
         },
         methods: {
             addToCart(id) {
-                bus.$emit('added-to-cart', id, this.optionAddToCart);
+                bus.$emit('added-to-cart', id, this.query_options);
             },
 
             addToWishList(id) {

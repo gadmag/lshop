@@ -11,7 +11,6 @@
 
     <h1 class="title text-center">Дизайнерские идеи</h1>
     <div class="photo-list">
-        <div class="row">
             @foreach ($designs->chunk(4) as $designChunk)
                 <div class="row">
                     @foreach($designChunk as $design)
@@ -36,7 +35,6 @@
                     @endforeach
                 </div>
             @endforeach
-        </div>
 
     </div>
     {{$designs->links()}}

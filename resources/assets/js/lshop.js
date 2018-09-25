@@ -19,3 +19,10 @@ $(document).ready(function () {
     //
     // $('div.alert').not('alert-important').delay(3000).slideUp(300);
 });
+
+$(window).on('load', function () {
+    var $preloader = $('.holder'),
+        $spinner   = $preloader.find('.preloader');
+    $spinner.fadeOut();
+    $preloader.delay(350).fadeOut('slow');
+});

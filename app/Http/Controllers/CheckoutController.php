@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
+use App\Events\OrderCreateEvent;
 use Illuminate\Support\Facades\Redirect;
 use App\Catalog;
 use App\Cart;
 use App\Coupon;
 use App\Http\Requests\CheckoutRequest;
-use App\Mail\OrderShipped;
 use App\Option;
-use App\WishList;
 use App\Product;
 use App\Order;
 use App\Country;
 use App\Region;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -106,29 +105,11 @@ class CheckoutController extends Controller
         }
         $order->cart = serialize($cart);
         Auth::user()->orders()->save($order);
-        $this->reduceQuantity($cart);
+        event(new OrderCreateEvent($order));
         Session::forget('cart');
-        Mail::to([config('payment.send_mail'), $order->email])->send(new OrderShipped($order));
         return redirect()->route('product.index')->with('success', 'Ваш заказ принят. Данные для оплаты будут отправленны на Вашу почту.');
     }
 
-    protected function reduceQuantity(Cart $cart)
-    {
-        foreach ($cart->items as $id => $item)
-        {
-            $ids = explode('_',$id, 2);
-            $product = Product::findOrFail($ids[0]);
-            $product->quantity -= $item['qty'];
-            $product->save();
-            if (count($ids) > 1)
-            {
-                $option = Option::findOrFail($ids[1]);
-                $option->quantity -= $item['qty'];
-                $option->save();
-            }
-        }
-
-    }
 
     protected function getShipmentPrice($params, $weight)
     {

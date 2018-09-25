@@ -19,13 +19,11 @@ elixir(function(mix) {
         .webpack('app.js');
     mix.styles([
         'libs/bootstrap.min.css',
-        'libs/select2.min.css'
+        'libs/select2.min.css',
+        "libs/preload.css"
     ]);
 
     mix.scripts([
-        // 'libs/jquery.min.js',
-        // 'libs/select2.min.js'
-        // 'app.js'
         'lshop.js'
     ]);
 

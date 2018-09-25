@@ -15,8 +15,6 @@
                     </thead>
                     <tbody>
                     <tr v-for="(cartItem, key, index) in cart.items">
-                        <!--<td>{{key}}</td>-->
-
                         <td class="img-cart"><img v-if="cartItem.item.files[0]" class="img-responsive"
                                                   :src="'/storage/files/90x110/'+cartItem.item.files[0].filename"
                                                   alt="Картинка товара"></td>
@@ -25,7 +23,7 @@
                         <td class="cart-qty">
                             <div>
                                 <span @click="reduceFromCart(key)" type="button"><i class="fa fa-minus"></i> </span>  <b>{{cartItem.qty}}</b>
-                                <span @click="addToCart(key)" type="button"> <i class="fa fa-plus"></i></span>
+                                <span @click="addToCart(cartItem)" type="button"> <i class="fa fa-plus"></i></span>
                             </div>
                         </td>
                         <td class="price-sum">{{cartItem.price}} р.</td>
@@ -33,18 +31,7 @@
                     </tr>
                     <tr>
 
-                        <!--<td class="button-cart text-left">-->
-                           <!--<div style=""><a href="/shopping-cart" class="btn lotus-button">Просмотр корзины</a></div>-->
-                        <!--</td>-->
-                        <!--<td class="img-cart"></td>-->
-                        <!--<td class="price-cart"></td>-->
-                        <!--<td></td>-->
-                        <!--<td></td>-->
-                        <!--<td class="total-cart text-right">-->
-                            <!--<strong>Итого: {{cart.totalPrice}} р.</strong>-->
-                        <!--</td>-->
                     </tr>
-                    <!--<div>{{carttotal}}</div>-->
                     </tbody>
                 </table>
                 <div class="cart-detail-bottom">
@@ -73,11 +60,14 @@
                 bus.$emit('remove-from-cart', id)
             },
             reduceFromCart(key) {
-
                 bus.$emit('reduce-from-cart', key)
             },
             addToCart(item) {
-                bus.$emit('added-to-cart', item)
+               var query_options = {
+                    option_id: item.option_id,
+                    quantity: 1,
+                };
+                bus.$emit('added-to-cart', item.product_id, query_options)
             }
         }
     }

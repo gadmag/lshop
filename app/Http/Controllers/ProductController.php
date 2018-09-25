@@ -30,7 +30,6 @@ class ProductController extends Controller
         $products = Product::whereHas('catalogs', function ($query) use ($product) {
             $query->where('id', $product->catalogs()->exists()? $product->catalogs()->first()->id: null);
         })->whereNotIn('id', [$product->id])->active()->latest('created_at')->get()->take(4);
-//        dd($products);
         return view('product.show', [
             'product' => $product,
             'options' => $product->productOptions,
@@ -44,11 +43,10 @@ class ProductController extends Controller
 
     public function addToCart(Request $request, $id)
     {
-
         $product = Product::with('files')->findOrFail($id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->add($product, $product->id, $request->optionAddToCart);
+        $cart->add($product, $product->id, json_decode($request->get('options')));
         $request->session()->put('cart', $cart);
         $request->session()->save();
         return Response::json([
@@ -84,7 +82,6 @@ class ProductController extends Controller
         return Response::json([
             'cart' => $cart
         ]);
-//        return redirect()->route('product.shoppingCart');
     }
 
     public function getCartDetail()
@@ -114,6 +111,7 @@ class ProductController extends Controller
         return view('shop.shopping-cart', [
             'products' => collect($cart->items),
             'totalPrice' => $cart->totalPrice,
+            'actionCheckout' => route('checkout'),
             'paymentConf' => $paymentConfig
         ]);
     }

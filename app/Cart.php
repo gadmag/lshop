@@ -3,6 +3,8 @@
 namespace App;
 
 
+use Illuminate\Support\Facades\Session;
+
 class Cart
 {
     public $items = null;
@@ -28,19 +30,20 @@ class Cart
         $totalWeight = 0;
         $optionPrice = 0;
         $optionWeight = 0;
-        $quantity = ($option['quantity'] > 0) ? $option['quantity'] : 1;
-        $color_id = $option['color'];
-        if ($color_id) {
-            $productOption = $item->productOptions->find($color_id);
-            $id = $id . '_' . $color_id;
+        $quantity = ($option->quantity > 0) ? $option->quantity : 1;
+        $option_id = $option->option_id;
+        $productKey = self::searchCartKey($this->items, $id, $option_id);
+        if ($option_id) {
+            $productOption = $item->productOptions->find($option_id);
             $item->title = $item->title . "($productOption->color)";
             $optionPrice = floatval($productOption->price_prefix . $productOption->price);
             $optionWeight = floatval($productOption->weight_prefix . $productOption->weight);
         }
-        $storedItem = ['qty' => 0, 'price' => $item->price, 'weight' => $item->weight, 'item' => $item];
+        $storedItem = ['qty' => 0, 'product_id' => $item->id, 'price' => $item->price, 'weight' => $item->weight, 'option_id' => $option_id ? $option_id : null, 'item' => $item];
+
         if ($this->items) {
-            if (array_key_exists($id, $this->items)) {
-                $storedItem = $this->items[$id];
+            if (!is_null($productKey)) {
+                $storedItem = $this->items[$productKey];
             }
         }
 
@@ -55,7 +58,11 @@ class Cart
         }
 
 
-        $this->items[$id] = $storedItem;
+        if (!is_null($productKey)){
+            $this->items[$productKey] = $storedItem;
+        }else {
+            $this->items[] = $storedItem;
+        }
 
 
         foreach ($this->items as $cartItem) {
@@ -71,21 +78,17 @@ class Cart
 
     public function reduceByOne($id)
     {
-        $ids = explode('_', $id, 2);
-//        dd(count($ids));
-        if (count($ids) > 1){
-            $color_id = $ids[1];
-        }else {
-            $color_id = null;
-        }
-        $discount_price = 0; $special_price = 0;
-        $totalPrice = 0; $totalWeight = 0;
-        $optionPrice = 0; $optionWeight = 0;
+        $option_id = $this->items[$id]['option_id'];
+        $discount_price = 0;
+        $special_price = 0;
+        $totalPrice = 0;
+        $totalWeight = 0;
+        $optionPrice = 0;
+        $optionWeight = 0;
         $this->items[$id]['qty']--;
         $item = $this->items[$id]['item'];
-        if ($color_id) {
-            $productOption = $this->items[$id]['item']->productOptions->find($color_id);
-//            dd($color_id);
+        if ($option_id) {
+            $productOption = $this->items[$id]['item']->productOptions->find($option_id);
             $optionPrice = floatval($productOption->price_prefix . $productOption->price);
             $optionWeight = floatval($productOption->weight_prefix . $productOption->weight);
         }
@@ -124,5 +127,22 @@ class Cart
         $this->totalPrice -= $this->items[$id]['price'];
         $this->totalWeight -= $this->items[$id]['weight'];
         unset($this->items[$id]);
+    }
+
+
+    /**
+     * @param $items
+     * @param $id
+     * @return int|null
+     */
+    protected static function searchCartKey($items, $id, $option_id)
+    {
+        if (!$items) return null;
+        foreach ($items as $key => $item) {
+            if (($item['product_id'] == $id) && ($item['option_id'] == $option_id)) {
+                return $key;
+            }
+        }
+        return null;
     }
 }

@@ -61,8 +61,7 @@ Route::group(['middleware' => 'web'], function () {
     /*product*/
     Route::get('products/{product_alias}', ['as' => 'product.show', 'uses' => 'ProductController@show']);
     Route::get('products', ['as' => 'product.index', 'uses' => 'ProductController@index']);
-//    Route::get('add-to-cart/{id}/{quantity}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
-    Route::post('add-to-cart/{id}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
+    Route::get('add-to-cart/{id}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
     Route::get('reduce/{id}', ['as' => 'product.reduceByOne', 'uses' => 'ProductController@getReduceByOne']);
     Route::get('remove/{id}', ['as' => 'product.removeItem', 'uses' => 'ProductController@getRemoveItem']);
     Route::get('add-to-wishlist/{id}', ['as' => 'product.addToWishList', 'uses' => 'ProductController@addToWishList']);
@@ -84,12 +83,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('rss.xml', ['as' => 'feed', 'uses' => 'ArticleController@feed']);
 
 
-//Route::get('tags/{tags}', 'TagsController@show');
+    //Route::get('tags/{tags}', 'TagsController@show');
     Route::get('/', ['as' => 'front', 'uses' => 'FrontController@index']);
-
-//    Route::get('sendorder', 'SubscriberController@sendOrder');
-//    Route::get('sendcall', 'SubscriberController@sendBackCall');
-
 });
 
 
@@ -107,13 +102,4 @@ Route::group(['prefix' => 'user', 'middleware' => 'web'], function () {
 
 Route::get('/home', 'HomeController@index');
 
-//Route::group(['prefix'=>'dashboard'], function () {
-//
-//    //admins
-//
-//    Route::get('login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-//    Route::post('login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-//    Route::get('/', 'AdminController@index')->name('admin.dashboard');
-//
-//});
 
