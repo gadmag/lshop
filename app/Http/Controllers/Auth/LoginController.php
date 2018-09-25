@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 
 class LoginController extends Controller
 {
@@ -40,5 +43,19 @@ class LoginController extends Controller
     public function username()
     {
         return 'email';
+    }
+
+    protected function redirectTo()
+    {
+        $user = Auth::user();
+        $role = $user->roles->first();
+
+        if ($role->name == 'Admin') {
+            return '/admin';
+        } elseif (Session::has('cart')) {
+            return route('checkout');
+        } else {
+            return route('user.profile');
+        }
     }
 }

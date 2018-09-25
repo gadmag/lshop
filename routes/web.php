@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,8 +47,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
     /**
      * filemanager
      */
-    Route::get('/laravel-filemanager', '\Unisharp\Laravelfilemanager\controllers\LfmController@show');
-    Route::post('/laravel-filemanager/upload', '\Unisharp\Laravelfilemanager\controllers\UploadController@upload');
+    Route::get('/laravel-filemanager', '\UniSharp\LaravelFilemanager\Controllers\LfmController@show');
+    Route::post('/laravel-filemanager/upload', '\UniSharp\LaravelFilemanager\Controllers\UploadController@upload');
 });
 
 Route::group(['middleware' => 'web'], function () {
@@ -79,7 +78,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('catalogs', ['as' => 'catalog.index', 'uses' => 'CatalogController@index']);
 
 
-    Route::get('search', 'ProductController@search');
+    Route::get('search', ['as' => 'product.search', 'uses' => 'ProductController@search']);
 
     Route::get('rss.xml', ['as' => 'feed', 'uses' => 'ArticleController@feed']);
 

@@ -15,6 +15,7 @@
         "laravel/framework": "5.3.*",
         "laravelcollective/html": "^5.3.0",
         "maddhatter/laravel-fullcalendar": "^1.2",
+        "phpunit/phpunit": "5.7",
         "unisharp/laravel-ckeditor": "^4.6",
         "unisharp/laravel-filemanager": "^1.8"
     },
@@ -22,7 +23,6 @@
         "deployer/deployer": "^6.2",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*"
     },

@@ -72,7 +72,6 @@ class Cart
     public function reduceByOne($id)
     {
         $ids = explode('_', $id, 2);
-//        dd(count($ids));
         if (count($ids) > 1){
             $color_id = $ids[1];
         }else {
@@ -85,7 +84,6 @@ class Cart
         $item = $this->items[$id]['item'];
         if ($color_id) {
             $productOption = $this->items[$id]['item']->productOptions->find($color_id);
-//            dd($color_id);
             $optionPrice = floatval($productOption->price_prefix . $productOption->price);
             $optionWeight = floatval($productOption->weight_prefix . $productOption->weight);
         }

@@ -6,8 +6,10 @@ use App\User;
 use App\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -75,8 +77,13 @@ class RegisterController extends Controller
         return $user;
     }
 
-//    protected function redirectTo()
-//    {
-//        redirect()->route('front');
-//    }
+    public function redirectTo()
+    {
+        if (Session::has('cart'))
+        {
+            return route('product.shoppingCart');
+        }
+        return route('product.index');
+    }
+
 }
