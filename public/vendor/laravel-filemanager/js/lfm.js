@@ -1,7 +1,6 @@
 (function( $ ){
 
   $.fn.filemanager = function(type, options) {
-
     type = type || 'file';
 
     this.on('click', function(e) {

@@ -76,7 +76,15 @@ class Product extends Model
     {
         $query->where('status', 1);
     }
+    public function scopeNotActive($query)
+    {
+        $query->where('status', 0);
+    }
 
+    public function scopeLargerQuantity($query)
+    {
+        $query->where('quantity', '>', 0);
+    }
     public static function isAliasExist($alias,$id) {
         if (static::query()->where('id', $id)->first()){
             return false;

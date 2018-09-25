@@ -16,7 +16,6 @@ return [
 
     // The url to this package. Change it if necessary.
     'url_prefix' => 'laravel-filemanager',
-//    'url_prefix' => 'storage/files',
 
     /*
     |--------------------------------------------------------------------------
@@ -25,7 +24,7 @@ return [
     */
 
     // If true, private folders will be created for each signed-in user.
-    'allow_multi_user' => false,
+    'allow_multi_user' => true,
     // If true, share folder will be created when allow_multi_user is true.
     'allow_share_folder' => true,
 
@@ -34,7 +33,7 @@ return [
     // Then you can rewrite userField function in App\Handler\ConfigHander class
     // And set 'user_field' to App\Handler\ConfigHander::class
     // Ex: The private folder of user will be named as the user id.
-    'user_field' => Unisharp\Laravelfilemanager\Handlers\ConfigHandler::class,
+    'user_field' => UniSharp\LaravelFilemanager\Handlers\ConfigHandler::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -44,8 +43,8 @@ return [
 
     // Which folder to store files in project, fill in 'public', 'resources', 'storage' and so on.
     // You should create routes to serve images if it is not set to public.
-	//'base_directory' => 'storage/app/public/files',
-	'base_directory' => '/public/storage/files',
+    'base_directory' => 'public',
+
     'images_folder_name' => 'photos',
     'files_folder_name'  => 'files',
 
@@ -111,6 +110,9 @@ return [
 
     // permissions to be set on file upload.
     'create_file_mode' => 0644,
+    
+    // If true, it will attempt to chmod the file after upload
+    'should_change_file_mode' => true,
 
     // available since v1.3.0
     // only when '/laravel-filemanager?type=Files'

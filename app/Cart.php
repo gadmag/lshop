@@ -89,6 +89,7 @@ class Cart
         $item = $this->items[$id]['item'];
         if ($option_id) {
             $productOption = $this->items[$id]['item']->productOptions->find($option_id);
+
             $optionPrice = floatval($productOption->price_prefix . $productOption->price);
             $optionWeight = floatval($productOption->weight_prefix . $productOption->weight);
         }

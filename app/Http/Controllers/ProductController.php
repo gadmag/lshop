@@ -43,7 +43,7 @@ class ProductController extends Controller
 
     public function addToCart(Request $request, $id)
     {
-        $product = Product::with('files')->findOrFail($id);
+        $product = Product::with('files')->active()->largerQuantity()->findOrFail($id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->add($product, $product->id, json_decode($request->get('options')));
