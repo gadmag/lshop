@@ -161,7 +161,8 @@ class Product extends Model
             Storage::disk('public')->delete('files/' . $file->filename);
             Storage::disk('public')->delete('files/thumbnail/' . $file->filename);
             Storage::disk('public')->delete('files/600x450/' . $file->filename);
-            Storage::disk('public')->delete('files/400x300/' . $file->filename);
+            Storage::disk('public')->delete('files/250x250/' . $file->filename);
+            Storage::disk('public')->delete('files/90x110/' . $file->filename);
             $file->delete();
         }
         parent::delete();

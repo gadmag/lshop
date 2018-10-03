@@ -32,14 +32,19 @@ class Cart
         $optionWeight = 0;
         $quantity = ($option->quantity > 0) ? $option->quantity : 1;
         $option_id = $option->option_id;
+        $optionImage = null;
         $productKey = self::searchCartKey($this->items, $id, $option_id);
         if ($option_id) {
             $productOption = $item->productOptions->find($option_id);
+            if ($productOption->files()->exists()){
+                $optionImage = $productOption->files;
+            }
             $item->title = $item->title . "($productOption->color)";
             $optionPrice = floatval($productOption->price_prefix . $productOption->price);
             $optionWeight = floatval($productOption->weight_prefix . $productOption->weight);
         }
-        $storedItem = ['qty' => 0, 'product_id' => $item->id, 'price' => $item->price, 'weight' => $item->weight, 'option_id' => $option_id ? $option_id : null, 'item' => $item];
+        $storedItem = ['qty' => 0, 'product_id' => $item->id, 'price' => $item->price, 'weight' => $item->weight,
+            'option_id' => $option_id ? $option_id : null, 'optionImage' => $optionImage, 'item' => $item];
 
         if ($this->items) {
             if (!is_null($productKey)) {

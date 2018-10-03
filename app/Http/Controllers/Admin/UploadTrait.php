@@ -23,17 +23,13 @@ trait UploadTrait
      * @return bool
      */
 
-    public function multipleUpload(Request $request, $page, $imageStyle = array())
+    public function multipleUpload(array $files, $page, $imageStyle = array(), $fieldName = "images")
     {
-        $files = Input::file('images');
 
         if ($files) {
-
             foreach ($files as $file):
-
                 $validator = Validator::make(array('file' => $file), $this->rules);
                 if ($validator->passes()) {
-
                     $filename = md5(microtime()) . '-' . $file->getClientOriginalName();
                     $path = storage_path('app/public/files');
                     Storage::disk('public')->put('files/' . $filename, file_get_contents($file));
@@ -53,7 +49,6 @@ trait UploadTrait
                         'filename' => $filename,
                         'mime' => $mimetype,
                     ]);
-//                    dd($image);
                     $page->files()->save($image);
 
                 } else {

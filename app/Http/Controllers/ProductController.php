@@ -32,7 +32,7 @@ class ProductController extends Controller
         })->whereNotIn('id', [$product->id])->active()->latest('created_at')->get()->take(4);
         return view('product.show', [
             'product' => $product,
-            'options' => $product->productOptions,
+            'options' => $product->productOptions()->with("files")->get(),
             'discount' => $product->productDiscount,
             'special' => $product->productSpecial()->betweenDate()->first(),
             'products' => $products,
@@ -43,7 +43,7 @@ class ProductController extends Controller
 
     public function addToCart(Request $request, $id)
     {
-        $product = Product::with('files')->active()->largerQuantity()->findOrFail($id);
+        $product = Product::with(['files', 'productOptions.files'])->active()->largerQuantity()->findOrFail($id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->add($product, $product->id, json_decode($request->get('options')));

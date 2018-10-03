@@ -1,6 +1,4 @@
 <div class="row">
-
-    {{--    {!! dd($product->seo_ele) !!}--}}
     <div class="col-md-8 page-default">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -111,6 +109,7 @@
                         <thead>
                         <tr>
                             <td>Значение:</td>
+                            <td>Фото:</td>
                             <td>Цена:</td>
                             <td>Вес</td>
                             <td>Кол-во</td>
@@ -124,7 +123,7 @@
                         @endforeach
                         </tbody>
                         <tfoot>
-                        <td colspan="4"></td>
+                        <td colspan="5"></td>
                         <td class="text-left">
                             <button id="add-options" type="button" data-toggle="tooltip" class="btn btn-primary"><i
                                         class="fa fa-plus-circle"></i></button>

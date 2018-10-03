@@ -16,3 +16,7 @@
 .tab-options table.table td{
     vertical-align: middle;
 }
+
+.tab-options table.table tr td div.remove-file + div.form-group{
+display: none;
+}

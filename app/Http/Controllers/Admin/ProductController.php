@@ -226,22 +226,25 @@ class ProductController extends Controller
             $this->createMultipleOptions($request, $product);
         }
 
-        $this->multipleUpload($request, $product, [
-            '600x450' => array(
-                'width' => 600,
-                'height' => 450
-            ),
+        if($request->file('images')) {
+            $this->multipleUpload($request->file('images'), $product, [
+                '600x450' => array(
+                    'width' => 600,
+                    'height' => 450
+                ),
 
-            '250x250' => array(
-                'width' => 280,
-                'height' => 280
-            ),
+                '250x250' => array(
+                    'width' => 280,
+                    'height' => 280
+                ),
 
-            '90x110' => array(
-                'width' => 90,
-                'height' => 110
-            )
-        ]);
+                '90x110' => array(
+                    'width' => 90,
+                    'height' => 110
+                )
+            ]);
+        }
+
 
         $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
         return $product;
@@ -275,21 +278,23 @@ class ProductController extends Controller
             $this->updateMultipleOptions($request, $product);
         }
 
+        if($request->file('images')) {
+            $this->multipleUpload($request->file('images'), $product, [
+                '600x450' => array(
+                    'width' => 250,
+                    'height' => 300
+                ),
+                '250x250' => array(
+                    'width' => 280,
+                    'height' => 280
+                ),
+                '90x110' => array(
+                    'width' => 90,
+                    'height' => 110
+                )
+            ]);
+        }
 
-        $this->multipleUpload($request, $product, [
-            '600x450' => array(
-                'width' => 250,
-                'height' => 300
-            ),
-            '250x250' => array(
-                'width' => 280,
-                'height' => 280
-            ),
-            '90x110' => array(
-                'width' => 90,
-                'height' => 110
-            )
-        ]);
 
         $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
 
@@ -297,13 +302,28 @@ class ProductController extends Controller
 
     }
 
-
     protected function createMultipleOptions(Request $request, $product)
     {
         $options = $request->extractOptions();
         foreach ($options as $optionAttr) {
             if ($optionAttr['color']) {
                 $option = Option::create($optionAttr);
+                if ($optionAttr['image_option']) {
+                    $this->multipleUpload([$optionAttr['image_option']], $option, [
+                        '600x450' => array(
+                            'width' => 250,
+                            'height' => 300
+                        ),
+                        '250x250' => array(
+                            'width' => 280,
+                            'height' => 280
+                        ),
+                        '90x110' => array(
+                            'width' => 90,
+                            'height' => 110
+                        )
+                    ]);
+                }
                 $product->productOptions()->save($option);
             }
 
@@ -314,8 +334,29 @@ class ProductController extends Controller
     protected function updateMultipleOptions(Request $request, Product $product)
     {
         $options = collect($request->extractOptions());
+
         foreach ($options as $optionAttr) {
-            $product->productOptions()->updateOrCreate(['id' => $optionAttr['id']], $optionAttr);
+
+            $id = $product->productOptions()->updateOrCreate(['id' => $optionAttr['id']], $optionAttr)->id;
+            $option = Option::where('id', "=", $id)->first();
+            if ($optionAttr['image_option']) {
+
+                $this->multipleUpload([$optionAttr['image_option']], $option, [
+                    '600x450' => array(
+                        'width' => 250,
+                        'height' => 300
+                    ),
+                    '250x250' => array(
+                        'width' => 280,
+                        'height' => 280
+                    ),
+                    '90x110' => array(
+                        'width' => 90,
+                        'height' => 110
+                    )
+                ]);
+
+            }
         }
     }
 }

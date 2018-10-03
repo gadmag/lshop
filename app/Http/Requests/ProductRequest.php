@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
 {
+    const OPTION_ROWS = 7;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -47,7 +48,7 @@ class ProductRequest extends FormRequest
         {
             foreach ($this->request->get('productOptions') as $key => $option)
             {
-                if ($key < 7) continue;
+                if ($key < ProductRequest::OPTION_ROWS) continue;
 
                 $rules += ["productOptions.$key.color" => 'sometimes|required'];
                 $rules += ["productOptions.$key.price" => 'sometimes|required|numeric'];
@@ -73,17 +74,27 @@ class ProductRequest extends FormRequest
 
     public function extractOptions()
     {
-        $productOptions = array_chunk($this->productOptions, 7);
+        $productOptions = self::array_flatten(array_chunk($this->productOptions, ProductRequest::OPTION_ROWS), $this->file('image_option'));
+        unset($productOptions[0]);
+        return $productOptions;
+    }
+
+    static function array_flatten($array, $image_option)
+    {
+
         $massive = []; $output = [];
-        foreach ($productOptions as $key => $item){
+        foreach ($array as $key => $item){
             foreach ($item as $field){
                 $massive = array_merge($massive, $field);
             }
             $output[$key] = $massive;
+            if ($image_option){
+                $output[$key]['image_option'] = array_key_exists($key, $image_option)? $image_option[$key]: null;
+            } else{
+                $output[$key]['image_option'] = null;
+            }
         }
-        unset($output[0]);
         return $output;
     }
-
 
 }

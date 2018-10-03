@@ -4,10 +4,16 @@
 @section('title', $product->title)
 @push('style')
     <link href="{{elixir('css/lightslider.css')}}" rel="stylesheet">
+    <link href="{{elixir('/css/colorbox.css')}}" rel="stylesheet">
 @endpush
 @push('scripts')
+    <script src="{{elixir('/js/jquery.colorbox.js')}}"></script>
     <script src="{{elixir('js/lightslider.js')}}"></script>
     <script>
+        $(document).ready(function(){
+            //Examples of how to assign the Colorbox event to elements
+            $(".group2").colorbox({rel:'group1', maxWidth:'95%', maxHeight:'95%'});
+        });
         $(document).ready(function () {
             $('#light-slider').lightSlider({
                 gallery: true,
@@ -37,38 +43,37 @@
 <div class="product-page">
 
     <product-page :product="{{$product}}"
-                  @if($options) :options="{{$options}}"@endif
-                  @if($discount)  :discount="{{$discount}}"@endif
-                  @if($special) :special="{{$special}}"@endif
-                    {{--action="{{route('product.addToCart')}}"--}}
-                  @if($product->files()->exists())
-                  :images="{{$product->files}}"
-            @endif
+                  @if($options) :options="{{$options}}" @endif
+                  @if($discount)  :discount="{{$discount}}" @endif
+                  @if($special) :special="{{$special}}" @endif
+                  {{--action="{{route('product.addToCart')}}"--}}
+                  @if($product->files()->exists()):images="{{$product->files}}" @endif
+                  {{--@if($options->files()->exists()):images_option="{{$options->files}}" @endif--}}
 
     ></product-page>
 </div>
 @if(count($products) > 0)
-<div class="block bottom-page">
-    <h2 class="title text-center">Похожие товары</h2>
-    <div class="row">
-        @foreach($products as $product)
-            <div class="col-sm-6 col-md-3">
-                <product-list :product="{{$product}}"
-                              @if($product->productSpecial()->betweenDate()->exists())
-                              pricespecial = "{{$product->productSpecial->price}}"
-                              persentprice = "{{intval((($product->price - $product->productSpecial->price)/$product->price)*100)}}"
-                              @endif
-                              price="{{$product->price}}"
-                              productlink="{{$product->alias? "/products/$product->url_alias" : "products/$product->id"}}"
-                              @if($product->files()->first())
-                              imagepath="{{asset('storage/files/250x250/'.$product->files()->first()->filename)}}"
-                        @endif
+    <div class="block bottom-page">
+        <h2 class="title text-center">Похожие товары</h2>
+        <div class="row">
+            @foreach($products as $product)
+                <div class="col-sm-6 col-md-3">
+                    <product-list :product="{{$product}}"
+                                  @if($product->productSpecial()->betweenDate()->exists())
+                                  pricespecial="{{$product->productSpecial->price}}"
+                                  persentprice="{{intval((($product->price - $product->productSpecial->price)/$product->price)*100)}}"
+                                  @endif
+                                  price="{{$product->price}}"
+                                  productlink="{{$product->alias? "/products/$product->url_alias" : "products/$product->id"}}"
+                                  @if($product->files()->first())
+                                  imagepath="{{asset('storage/files/250x250/'.$product->files()->first()->filename)}}"
+                            @endif
 
-                ></product-list>
+                    ></product-list>
 
-            </div>
-        @endforeach
+                </div>
+            @endforeach
+        </div>
     </div>
-</div>
 @endif
 @endsection

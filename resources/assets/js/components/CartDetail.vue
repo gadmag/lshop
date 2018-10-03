@@ -15,9 +15,11 @@
                     </thead>
                     <tbody>
                     <tr v-for="(cartItem, key, index) in cart.items">
-                        <td class="img-cart"><img v-if="cartItem.item.files[0]" class="img-responsive"
+                        <td class="img-cart">
+                            <img v-if="cartItem.optionImage" :src="'/storage/files/90x110/'+cartItem.optionImage.filename" alt="Фото товара">
+                            <img v-else-if="cartItem.item.files[0]" class="img-responsive"
                                                   :src="'/storage/files/90x110/'+cartItem.item.files[0].filename"
-                                                  alt="Картинка товара"></td>
+                                                  alt="Фото товара"></td>
                         <td>{{cartItem.item.title}}</td>
                         <td class="price-cart">{{cartItem.price/cartItem.qty}} р.</td>
                         <td class="cart-qty">
