@@ -3,29 +3,15 @@
 @section('content')
 @section('title', $product->title)
 @push('style')
-    <link href="{{elixir('css/lightslider.css')}}" rel="stylesheet">
     <link href="{{elixir('/css/colorbox.css')}}" rel="stylesheet">
 @endpush
 @push('scripts')
     <script src="{{elixir('/js/jquery.colorbox.js')}}"></script>
-    <script src="{{elixir('js/lightslider.js')}}"></script>
     <script>
         $(document).ready(function(){
-            //Examples of how to assign the Colorbox event to elements
-            $(".group2").colorbox({rel:'group1', maxWidth:'95%', maxHeight:'95%'});
+            $(".group2").colorbox({rel:'group1', current: 'Фото {current} из {total}', maxWidth:'95%', maxHeight:'95%'});
         });
-        $(document).ready(function () {
-            $('#light-slider').lightSlider({
-                gallery: true,
-                item: 1,
-                vertical: true,
-                verticalHeight: 300,
-                vThumbWidth: 90,
-                thumbItem: 4,
-                thumbMargin: 4,
-                slideMargin: 0
-            });
-        });
+
     </script>
     <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
     <script src="//yastatic.net/share2/share.js"></script>
