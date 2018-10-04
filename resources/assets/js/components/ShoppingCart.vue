@@ -1,5 +1,8 @@
 <template>
     <div class="shopping-cart">
+        <div v-if="!(cart.totalPrice >= minsum)" class="alert alert-danger">
+            <div class="text-center">Минимальная сумма заказа {{minsum}} р.</div>
+        </div>
         <div v-if="carttotal > 0">
             <table id="cart" class="table table-shopping-cart table-hover table-condensed">
                 <thead>
@@ -26,7 +29,7 @@
                         <a href="#" @click="reduceFromCart(key)" type="button"><i
                                 class="fa fa-minus"></i></a>
                         <strong>{{cartItem.qty}}</strong>
-                        <a href="#" @click="addToCart(key)" type="button"><i
+                        <a href="#" @click="addToCart(cartItem)" type="button"><i
                                 class="fa fa-plus"></i></a>
                     </td>
                     <td data-th="Итого" class="text-center">{{cartItem.price}} р.</td>
@@ -47,8 +50,7 @@
                 <div class="pull-right">
                     <a href="/" style="max-width: 200px; display: inline-block" class="hidden-xs lotus-button"><i
                             class="fa fa-angle-left"></i> Продолжить покупки</a>
-                    <a style="max-width: 160px; display: inline-block" :href="route" class="lotus-button ">Оформить
-                        заказ <i class="fa fa-angle-right"></i></a>
+                    <a :href="route"><button style="max-width: 160px; display: inline-block"  class="lotus-button " :disabled="!(cart.totalPrice >= minsum)">Оформить заказ <i class="fa fa-angle-right"></i></button></a>
                 </div>
             </div>
 
@@ -72,8 +74,13 @@
                 bus.$emit('reduce-from-cart', item)
             },
             addToCart(item) {
-                bus.$emit('added-to-cart', item)
-            }
+                var query_options = {
+                    option_id: item.option_id,
+                    quantity: 1,
+                };
+                bus.$emit('added-to-cart', item.product_id, query_options)
+            },
+
         }
     }
 </script>
