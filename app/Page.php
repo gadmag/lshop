@@ -2,24 +2,24 @@
 
 namespace App;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use App\Service\TransliteratedService;
 
 class Page extends Model
 {
-    use TransliteratedService;
+//    use TransliteratedService;
+    use Sluggable;
 
     protected $fillable = ['title', 'body', 'alias', 'user_id', 'status'];
 
-
-
-    public function setAliasAttribute($alias)
+    public function sluggable()
     {
-        if (!empty($alias)) {
-            $this->attributes['alias'] = $this->transliterate($alias);
-        } else {
-            $this->attributes['alias'] = $this->transliterate($this->attributes['title']);
-        }
+        return [
+            'alias' => [
+                'source' => 'title'
+            ]
+        ];
     }
 
     public function scopeActive($query)

@@ -2,9 +2,6 @@
     <div class="row">
         <div class="col-sm-6">
             <ul class="list-unstyled" v-if="getConcateImages" id="thumbnails">
-                <!--<li v-for="image in files" class="text-center" :data-thumb="'/storage/files/90x110/'+ image.filename">-->
-                    <!--<img class="img-responsive" :src="'/storage/files/600x450/' + image.filename"/>-->
-                <!--</li>-->
                 <li class="image-product-item" v-for="(image, key, index) in files">
                     <a class="group2" v-if="key == 0" :href="'/storage/files/'+ image.filename"><img class="img-responsive" :src="'/storage/files/600x450/'+ image.filename" alt="Фото продукта"></a>
                     <a class="group2 thumbnail" v-else :href="'/storage/files/'+ image.filename"><img  :src="'/storage/files/90x110/'+ image.filename" alt="Фото продукта"></a>

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Service\TransliteratedService;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -31,32 +32,42 @@ use Illuminate\Support\Facades\DB;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tag[] $tags
  * @property-read \App\User $user
  * @property-read \App\VideoUrl $videoAttr
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles ofType($type)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles published()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles unpublished()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereAlias($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles wherePublishedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Articles whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article ofType($type)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article published()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article unpublished()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereUserId($value)
  * @mixin \Eloquent
  */
 class Article extends Model
 {
-    use TransliteratedService;
+    use Sluggable;
 
     protected $type = ['news', 'photo'];
     protected $fillable = ['title', 'type', 'body', 'user_id', 'status', 'published_at', 'alias'];
 
 
     protected $dates = ['published_at'];
+
+
+    public function sluggable()
+    {
+        return [
+            'alias' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     public function setPublishedAtAttribute($date)
     {
@@ -71,14 +82,6 @@ class Article extends Model
     }
 
 
-    public function setAliasAttribute($alias)
-    {
-        if (!empty($alias)) {
-            $this->attributes['alias'] = self::transliterate($alias);
-        } else {
-            $this->attributes['alias'] = self::transliterate($this->attributes['title']);
-        }
-    }
 
     public function setBodyAttribute($body)
     {
@@ -192,15 +195,12 @@ class Article extends Model
     {
         return $this->morphMany('App\Upload', 'uploadstable');
     }
-//    public function files()
-//    {
-//        return $this->hasMany('App\Upload', 'article_id', 'id');
-//    }
+
 
     /** Seo аттрибуты статьи
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function seoAttr()
+    public function articleSeo()
     {
         return $this->morphOne('App\Seo', 'seostable');
     }
@@ -224,7 +224,7 @@ class Article extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function menuLink()
+    public function articleMenu()
     {
 
         return $this->morphOne('App\Menu', 'menu_linktable');
@@ -233,19 +233,17 @@ class Article extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
-    public function alias()
-    {
-        return $this->morphOne('App\Alias', 'aliastable');
-    }
+//    public function alias()
+//    {
+//        return $this->morphOne('App\Alias', 'aliastable');
+//    }
 
     function delete()
     {
-        $this->alias()->delete();
-        $this->seoAttr()->delete();
-        $this->menuLink()->delete();
+        $this->articleSeo()->delete();
+        $this->articleMenu()->delete();
 
         foreach ($this->files as $file) {
-            // dd(Storage::disk('public')->exists('files/'.$file->filename));
             Storage::disk('public')->delete('files/' . $file->filename);
             Storage::disk('public')->delete('files/thumbnail/' . $file->filename);
             Storage::disk('public')->delete('files/1250x700/' . $file->filename);

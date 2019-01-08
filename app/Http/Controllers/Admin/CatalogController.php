@@ -34,7 +34,6 @@ class CatalogController extends Controller
     public function index()
     {
         $catalogs = Catalog::whereParentId(0)->order()->get();
-//        dd($catalogs);
         return view('AdminLTE.catalog.index')->with([
             'catalogs' => $catalogs
         ]);
@@ -148,14 +147,14 @@ class CatalogController extends Controller
      */
     private function createCatalog(Request $request)
     {
-
         $catalog = Auth::user()->catalogs()->create($request->except('parent_id'));
-        if($request->has('pageMenu.link_title'))
+        dd($catalog->title);
+        if($request->filled('catalogMenu.link_title'))
         {
             $catalog->catalogMenu()->create($request->pageMenu);
         }
 
-        if ($request->has('catalogSeo')) {
+        if ($request->filled('catalogSeo')) {
             $catalog->catalogSeo()->create($request->catalogSeo);
         }
         $this->addParentCatalog($catalog, $request->parent_list);
@@ -169,7 +168,7 @@ class CatalogController extends Controller
     {
         $catalog->update($request->except('parent_id'));
 
-        if($request->has('pageMenu.link_title'))
+        if($request->filled('catalogMenu.link_title'))
         {
             $catalog->catalogMenu()->updateOrCreate(['menu_linktable_id' => $catalog->id], $request->pageMenu);
         }
@@ -177,7 +176,7 @@ class CatalogController extends Controller
             $catalog->catalogMenu()->delete();
         }
 
-        if ($request->has('catalogSeo')) {
+        if ($request->filled('catalogSeo')) {
             $catalog->catalogSeo()->update($request->catalogSeo);
         }
 

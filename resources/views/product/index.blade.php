@@ -19,30 +19,13 @@
                 </div>
             </div>
         @endif
+        {{--@include('product._filtered')--}}
+
         <div class="list-product">
-            @foreach ($products->chunk(4) as $productChunk)
-                <div class="row">
-                    @foreach($productChunk as $product)
-                        <div class="col-sm-6 col-md-3">
-                            <product-list :product="{{$product}}"
-                                     @if($product->productSpecial()->betweenDate()->exists())
-                                            pricespecial = "{{$product->productSpecial->price}}"
-                                            persentprice = "{{intval((($product->price - $product->productSpecial->price)/$product->price)*100)}}"
-                                     @endif
-                                     price="{{$product->price}}"
-                                     productlink="{{$product->alias? "/products/$product->url_alias" : "products/$product->id"}}"
-                                     @if($product->files()->first())
-                                     imagepath="{{asset('storage/files/250x250/'.$product->files()->first()->filename)}}"
-                                    @endif
+                <product-list2></product-list2>
 
-                            ></product-list>
-
-                        </div>
-                    @endforeach
-                </div>
-            @endforeach
         </div>
     </div>
-    {{$products->links()}}
+    {{--{{$products->links()}}--}}
 
 @endsection

@@ -6,7 +6,8 @@
 
 require('./bootstrap');
 
-window.bus = new Vue();
+window.Vue = require('vue');
+window.bus = new Vue;
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -16,6 +17,7 @@ window.bus = new Vue();
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('product-list', require('./components/ProductList.vue'));
+Vue.component('product-list2', require('./components/ProductList2.vue'));
 Vue.component('product-page', require('./components/ProductPage.vue'));
 Vue.component('cart-count', require('./components/CartCount.vue'));
 Vue.component('cart-detail', require('./components/CartDetail.vue'));
@@ -23,6 +25,7 @@ Vue.component('shopping-cart', require('./components/ShoppingCart.vue'));
 Vue.component('checkout', require('./components/Checkout.vue'));
 Vue.component('wish-list', require('./components/WishList.vue'));
 Vue.component('wish-count', require('./components/WishListCount.vue'));
+Vue.component('filterable', require('./components/Filterable.vue'))
 
 const app = new Vue({
     el: '#app',

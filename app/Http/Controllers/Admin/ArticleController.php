@@ -121,40 +121,40 @@ class ArticleController extends Controller
     public function update(ArticleRequest $request, $id)
     {
         $article = Article::findOrFail($id);
-        $images = $request->only('images');
-        $article->update($request->except('seoAttr', 'eventAttr', 'menuLink', 'images[]'));
 
-        if ($request->has('menuLink.link_title')) {
+        $article->update($request->all());
+
+        if ($request->filled('menuLink.link_title')) {
             $this->updateMenuAttr($request, $article);
         }
 
-        if ($request->has('seoAttr')) {
-            $this->updateSeoAttr($request, $article);
+        if ($request->filled('articleSeo')) {
+            $article->articleSeo()->update($request->articleSeo);
+        } else {
+            $article->articleSeo()->delete();
         }
-        if ($request->has('alias')) {
-            $this->updateAliasAttr($request, $article);
-        }
-        if ($request->has('eventAttr')) {
+
+        if ($request->filled('eventAttr')) {
             $this->updateEventAttr($request, $article->id);
         }
 
-        if ($request->has('videoAttr')) {
+        if ($request->filled('videoAttr')) {
             $this->updateVideoAttr($request, $article->id);
         }
 
+        if($request->file('images')) {
+            $this->multipleUpload($request->file('images'), $article, [
 
-        $this->multipleUpload($request, $article, [
-
-            '600x450' => array(
-                'width' => 800,
-                'height' => 650
-            ),
-            '400x300' => array(
-                'width' => 400,
-                'height' => 300
-            )
-        ]);
-
+                '600x450' => array(
+                    'width' => 800,
+                    'height' => 650
+                ),
+                '400x300' => array(
+                    'width' => 400,
+                    'height' => 300
+                )
+            ]);
+        }
         $articleType = $this->getArticleType($article->type);
         $this->syncTags($article, $request->input('tag_list') ?: []);
         $this->syncCatalogs($article, $request->input('catalog_list') ?: []);
@@ -204,57 +204,39 @@ class ArticleController extends Controller
      */
     private function createArticle(ArticleRequest $request)
     {
-        $seo = $request->only('seoAttr');
-        $event = $request->only('eventAttr');
-        $video = $request->only('videoAttr');
-        $menu = $request->only('menuLink')['menuLink'];
-        $alias_url = $request->only('alias');
-        // dd($alias_url);
-        $article = Auth::user()->articles()->create($request->except('seoAttr', 'eventAttr', 'menuLink', 'images[]'));
 
-        $this->multipleUpload($request, $article, [
-            '600x450' => array(
-                'width' => 600,
-                'height' => 450
-            ),
-            '400x300' => array(
-                'width' => 350,
-                'height' => null
-            ),
+        $article = Auth::user()->articles()->create($request->all());
 
-
-        ]);
-
-        if ($request->has('alias')) {
-
-            // $alias = new Alias($request->input('alias'));
-            //$article->alias()->save($alias);
+        if ($request->filled('articleSeo')) {
+            $article->productSeo()->create($request->productSeo);
         }
 
-        if ($request->has('seoAttr')) {
-            $seo_attr = new Seo($request->input('seoAttr'));
-            $article->seoAttr()->save($seo_attr);
+        if ($request->filled('eventAttr')) {
+            $article->eventAttr()->create($request->eventAttr);
         }
 
-        if (!empty($event['eventAttr'])) {
-//            var_dump($event['eventAttr']);
-            $event_attr = new Event($event['eventAttr']);
-            $article->eventAttr()->save($event_attr);
+        if ($request->filled('videoAttr')) {
+            $article->videoAttr()->create($request->videoAttr);
         }
 
-        if ($request->has('videoAttr')) {
-            $video_attr = new VideoUrl($video['videoAttr']);
-            $article->videoAttr()->save($video_attr);
-
+        if($request->filled('articleMenu.link_title'))
+        {
+            $article->articleMenu()->create($request->articleMenu);
         }
 
-        if ($request->input('hasMenu')) {
+        if($request->file('images')) {
+            $this->multipleUpload($request->file('images'), $article, [
+                '600x450' => array(
+                    'width' => 600,
+                    'height' => 450
+                ),
+                '400x300' => array(
+                    'width' => 350,
+                    'height' => null
+                ),
 
-            $menu['link_path'] = $alias_url['alias'];
 
-            $menu_link = new Menu($menu);
-            $article->menuLink()->save($menu_link);
-
+            ]);
         }
 
         $this->syncCatalogs($article, $request->input('catalog_list') ?: []);

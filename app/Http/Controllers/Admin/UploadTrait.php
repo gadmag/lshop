@@ -17,15 +17,15 @@ trait UploadTrait
     protected $rules = ['file' => 'mimes:png,gif,jpeg,jpg'];
 
     /** Мультизвгрузка изображений
-     * @param Request $request
+     * @param array $files
      * @param $page
      * @param array $imageStyle
+     * @param bool $watermark
      * @return bool
      */
 
-    public function multipleUpload(array $files, $page, $imageStyle = array(), $fieldName = "images")
+    public function multipleUpload(array $files, $page, $imageStyle = array(), $watermark = false)
     {
-
         if ($files) {
             foreach ($files as $file):
                 $validator = Validator::make(array('file' => $file), $this->rules);
@@ -35,6 +35,12 @@ trait UploadTrait
                     Storage::disk('public')->put('files/' . $filename, file_get_contents($file));
                     $mimetype = Storage::disk('public')->mimeType('files/' . $filename);
                     $imageStyle = array_merge($imageStyle, ['thumbnail' => ['width' => 100, 'height' => 100]]);
+                    if ($watermark){
+
+                        $img = Image::make($path . '/' . $filename)->insert(public_path().'/watermark.png','center');
+                        $img->save();
+                    }
+
                     foreach ($imageStyle as $key => $value) {
                         if (!Storage::disk('public')->has("files/$key")) {
                             Storage::disk('public')->makeDirectory("files/$key", 777, true);

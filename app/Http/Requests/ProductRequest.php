@@ -33,13 +33,13 @@ class ProductRequest extends FormRequest
             'weight' => 'required|numeric'
         ];
 
-        if ($this->has('productDiscount.price') || $this->has('productDiscount.quantity'))
+        if ($this->filled('productDiscount.price') || $this->filled('productDiscount.quantity'))
         {
             $rules += ['productDiscount.price'=> 'required|numeric'];
             $rules += ['productDiscount.quantity'=> 'required|numeric'];
         }
 
-        if ($this->has('productSpecial.price'))
+        if ($this->filled('productSpecial.price'))
         {
             $rules += ['productSpecial.price'=> 'required|numeric'];
         }

@@ -7,4 +7,5 @@
 Homestead.json
 Homestead.yaml
 .env
+.htaccess
 _ide_helper.php

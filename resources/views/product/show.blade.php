@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', $product->title)
+{{--@section('title', $product->title)--}}
 @push('style')
-    <link href="{{elixir('/css/colorbox.css')}}" rel="stylesheet">
+    <link href="{{asset('/css/colorbox.css')}}" rel="stylesheet">
 @endpush
 @push('scripts')
-    <script src="{{elixir('/js/jquery.colorbox.js')}}"></script>
+    <script src="{{asset('/js/jquery.colorbox.js')}}"></script>
     <script>
         $(document).ready(function(){
             $(".group2").colorbox({rel:'group1', current: 'Фото {current} из {total}', maxWidth:'95%', maxHeight:'95%'});

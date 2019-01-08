@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     //dropdown hover
     $('ul.nav li.dropdown').hover(function () {

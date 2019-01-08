@@ -33,12 +33,12 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $f = $request->get('f', []);
-        $title = isset($f['title'])? $f['title']: null;
-        $group_by = !empty($f['order_by'])? $f['order_by']: "created_at";
-        $group_dir = isset($f['order_dir'])? $f['order_dir']: "DESC";
+        $title = isset($f['title']) ? $f['title'] : null;
+        $group_by = !empty($f['order_by']) ? $f['order_by'] : "created_at";
+        $group_dir = isset($f['order_dir']) ? $f['order_dir'] : "DESC";
         $products = Product::orderBy($group_by, $group_dir);
-        if ($title){
-            $products->where('title', 'like', '%'.$title.'%');
+        if ($title) {
+            $products->where('title', 'like', '%' . $title . '%');
         }
 
         $grid = new \Datagrid($products->paginate(10), $f);
@@ -210,23 +210,23 @@ class ProductController extends Controller
 
         $product = Auth::user()->products()->create($request->all());
 
-        if ($request->has('productSeo')) {
+        if ($request->filled('productSeo')) {
             $product->productSeo()->create($request->productSeo);
         }
 
-        if ($request->has('productDiscount.price') || $request->has('productDiscount.quantity')) {
+        if ($request->filled('productDiscount.price') || $request->filled('productDiscount.quantity')) {
             $product->productDiscount()->create($request->productDiscount);
         }
 
-        if ($request->has('productSpecial.price')) {
+        if ($request->filled('productSpecial.price')) {
             $product->productSpecial()->create($request->productSpecial);
         }
 
-        if ($request->has('productOptions')) {
+        if ($request->filled('productOptions')) {
             $this->createMultipleOptions($request, $product);
         }
 
-        if($request->file('images')) {
+        if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $product, [
                 '600x450' => array(
                     'width' => 600,
@@ -242,7 +242,7 @@ class ProductController extends Controller
                     'width' => 90,
                     'height' => 110
                 )
-            ]);
+            ], true);
         }
 
 
@@ -254,31 +254,31 @@ class ProductController extends Controller
     {
         $product->update($request->all());
 
-        if ($request->has('productSeo')) {
+        if ($request->filled('productSeo')) {
             $product->productSeo()->update($request->productSeo);
         } else {
             $product->productSeo()->delete();
         }
 
-        if ($request->has('productDiscount.price') || $request->has('productDiscount.quantity')) {
+        if ($request->filled('productDiscount.price') || $request->filled('productDiscount.quantity')) {
             $discount_id = isset($request->productDiscount['id']) ? $request->productDiscount['id'] : null;
             $product->productDiscount()->updateOrCreate(['id' => $discount_id], $request->productDiscount);
         } else {
             $product->productDiscount()->delete();
         }
 
-        if ($request->has('productSpecial.price')) {
+        if ($request->filled('productSpecial.price')) {
             $special_id = isset($request->productSpecial['id']) ? $request->productSpecial['id'] : null;
             $product->productSpecial()->updateOrCreate(['id' => $special_id], $request->productSpecial);
         } else {
             $product->productSpecial()->delete();
         }
 
-        if ($request->has('productOptions')) {
+        if ($request->filled('productOptions')) {
             $this->updateMultipleOptions($request, $product);
         }
 
-        if($request->file('images')) {
+        if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $product, [
                 '600x450' => array(
                     'width' => 250,
@@ -292,7 +292,7 @@ class ProductController extends Controller
                     'width' => 90,
                     'height' => 110
                 )
-            ]);
+            ], true);
         }
 
 
@@ -322,7 +322,7 @@ class ProductController extends Controller
                             'width' => 90,
                             'height' => 110
                         )
-                    ]);
+                    ], true);
                 }
                 $product->productOptions()->save($option);
             }
@@ -354,7 +354,7 @@ class ProductController extends Controller
                         'width' => 90,
                         'height' => 110
                     )
-                ]);
+                ], true);
 
             }
         }

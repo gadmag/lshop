@@ -28,7 +28,7 @@ class PageRequest extends FormRequest
             'status' => 'boolean',
         ];
 
-        if ($this->has('pageMenu.link_title'))
+        if ($this->filled('pageMenu.link_title'))
         {
             $rules += ['pageMenu.menu_type'=> 'required'];
         }

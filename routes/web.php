@@ -60,6 +60,7 @@ Route::group(['middleware' => 'web'], function () {
     /*product*/
     Route::get('products/{product_alias}', ['as' => 'product.show', 'uses' => 'ProductController@show']);
     Route::get('products', ['as' => 'product.index', 'uses' => 'ProductController@index']);
+    Route::get('api/products', ['as' => 'product.api', 'uses' => 'ProductController@getJsonProducts']);
     Route::get('add-to-cart/{id}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
     Route::get('reduce/{id}', ['as' => 'product.reduceByOne', 'uses' => 'ProductController@getReduceByOne']);
     Route::get('remove/{id}', ['as' => 'product.removeItem', 'uses' => 'ProductController@getRemoveItem']);

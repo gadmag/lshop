@@ -19,16 +19,22 @@ use Session;
 class ProductController extends Controller
 {
 
-    public function index()
+
+    public function index(Request $request)
     {
-        $products = Product::with('productUser')->active()->latest('created_at')->paginate(10);
-        return view('product.index')->with('products', $products);
+        return view('product.index');
+    }
+
+    public function getJsonProducts(Request $request)
+    {
+        $products = Product::with(['productUser', 'files','productSpecial'])->active()->advancedFilter();
+        return response()->json(['collection' => $products]);
     }
 
     public function show(Product $product)
     {
         $products = Product::whereHas('catalogs', function ($query) use ($product) {
-            $query->where('id', $product->catalogs()->exists()? $product->catalogs()->first()->id: null);
+            $query->where('id', $product->catalogs()->exists() ? $product->catalogs()->first()->id : null);
         })->whereNotIn('id', [$product->id])->active()->latest('created_at')->get()->take(4);
         return view('product.show', [
             'product' => $product,
@@ -182,8 +188,8 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('q');
-        $products = Product::active()->where('title', 'like', '%'.$search.'%')->latest('created_at')->paginate(12);
-        return view('product.search',[
+        $products = Product::active()->where('title', 'like', '%' . $search . '%')->latest('created_at')->paginate(12);
+        return view('product.search', [
             'products' => $products
         ]);
     }

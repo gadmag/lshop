@@ -3,12 +3,14 @@
 namespace App;
 
 use App\Service\TransliteratedService;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\User;
 use App\Alias;
 use App\Seo;
+use App\Service\ProductFilter;
 
 /**
  * App\Product
@@ -41,26 +43,32 @@ use App\Seo;
  */
 class Product extends Model
 {
-    use TransliteratedService;
+    use Sluggable;
+    use ProductFilter;
 
     protected $fillable = ['title', 'price', 'description',
-                        'model', 'sku', 'quantity', 'weight', 'size', 'status',
+                        'model', 'sku', 'quantity', 'total_selling', 'weight', 'size', 'status',
                         'material','coating','alias','user_id'];
 
 
-    public function setAliasAttribute($alias)
+    protected $allowedFilters = [
+       'id','material', 'size', 'productOptions.color'
+    ];
+
+    protected $orderable = [
+        'id', 'title', 'price', 'created_at', 'weight', 'total_selling'
+    ];
+
+    public function sluggable()
     {
-        if (!empty($alias)) {
-            $this->attributes['alias'] = $this->transliterate($alias);
-        } else {
-            $this->attributes['alias'] = $this->transliterate($this->attributes['title']);
-        }
+        return [
+            'alias' => [
+                'source' => 'title'
+            ]
+        ];
     }
 
-    public function getUrlAliasAttribute()
-    {
-        return $this->attributes['alias']."-".$this->attributes['id'];
-    }
+
     public function setPriceAttribute($value)
     {
         $this->attributes['price'] = (float)$value;
@@ -72,19 +80,36 @@ class Product extends Model
     }
 
 
+
+    /**
+     * @param $query
+     */
     public function scopeActive($query)
     {
         $query->where('status', 1);
     }
+
+    /**
+     * @param $query
+     */
     public function scopeNotActive($query)
     {
         $query->where('status', 0);
     }
 
+    /**
+     * @param $query
+     */
     public function scopeLargerQuantity($query)
     {
         $query->where('quantity', '>', 0);
     }
+
+    /**
+     * @param $alias
+     * @param $id
+     * @return bool
+     */
     public static function isAliasExist($alias,$id) {
         if (static::query()->where('id', $id)->first()){
             return false;
@@ -96,6 +121,9 @@ class Product extends Model
         return false;
     }
 
+    /**
+     * @return array
+     */
     public function getCatalogListAttribute()
     {
 

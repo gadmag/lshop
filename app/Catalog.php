@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Service\TreeService;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Service\TransliteratedService;
@@ -38,19 +39,17 @@ use Carbon\Carbon;
  */
 class Catalog extends Model
 {
-    use TransliteratedService;
+    use Sluggable;
 
-   protected $fillable = ['name', 'parent_id', 'description', 'alias' ,'status',  'user_id', 'type','order'];
+    protected $fillable = ['name', 'parent_id', 'description', 'alias', 'status', 'user_id', 'type', 'order'];
 
-
-
-    public function setAliasAttribute($alias)
+    public function sluggable()
     {
-        if (!empty($alias)) {
-            $this->attributes['alias'] = $this->transliterate($alias);
-        } else {
-            $this->attributes['alias'] = $this->transliterate($this->attributes['name']);
-        }
+        return [
+            'alias' => [
+                'source' => 'title'
+            ]
+        ];
     }
 
     public function scopePublished($query)
@@ -60,29 +59,32 @@ class Catalog extends Model
 
     public function scopeOrder($query)
     {
-            $query->orderBy('order','ASC');
+        $query->orderBy('order', 'ASC');
     }
+
     public function scopeUnpublished($query)
     {
         $query->where('status', 0);
     }
 
-    public function scopeOfType($query,$type)
+    public function scopeOfType($query, $type)
     {
         $query->where('type', $type);
     }
 
 
-    public  function scopeExcludeSelf($query, $id)
+    public function scopeExcludeSelf($query, $id)
     {
         $query->where([
             ['id', '!=', $id]
         ]);
     }
+
     public function setParentIdAttribute($value)
     {
         $this->attributes['parent_id'] = $value;
     }
+
     public function getParentListAttribute()
     {
         return $this->pluck('id');
@@ -102,10 +104,10 @@ class Catalog extends Model
     /** Список статей категории
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-   public function products()
+    public function products()
     {
 
-       // return $this->belongsToMany('App\Product', 'product_catalog','catalog_id','product_id')->withTimestamps();
+        // return $this->belongsToMany('App\Product', 'product_catalog','catalog_id','product_id')->withTimestamps();
         return $this->morphedByMany('App\Product', 'cataloggable');
 
     }
@@ -124,7 +126,6 @@ class Catalog extends Model
     }
 
 
-
     /**
      * Получить файлы каталога
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -137,19 +138,17 @@ class Catalog extends Model
     function delete()
     {
         $this->catalogSeo()->delete();
-        foreach ($this->files as $file)
-        {
-           // dd(Storage::disk('public')->exists('files/'.$file->filename));
-            Storage::disk('public')->delete('files/'.$file->filename);
-            Storage::disk('public')->delete('files/thumbnail/'.$file->filename);
-            Storage::disk('public')->delete('files/1250x700/'.$file->filename);
+        foreach ($this->files as $file) {
+            // dd(Storage::disk('public')->exists('files/'.$file->filename));
+            Storage::disk('public')->delete('files/' . $file->filename);
+            Storage::disk('public')->delete('files/thumbnail/' . $file->filename);
+            Storage::disk('public')->delete('files/1250x700/' . $file->filename);
             $file->delete();
         }
         //$this->files()->delete();
 
         parent::delete();
     }
-
 
 
 }

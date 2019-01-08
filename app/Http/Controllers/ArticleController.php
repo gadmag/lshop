@@ -138,7 +138,6 @@ class ArticleController extends Controller
     {
         $news = Article::published()->OfType('news')->where('lang', '!=', 'no')->latest()->take(10)->get();
 
-       // dd($news);
         return response()->view('xml.rss',[
             'news' => $news
         ])->header('Content-Type','text/xml');

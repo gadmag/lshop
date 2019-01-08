@@ -65,7 +65,7 @@ class RouteServiceProvider extends ServiceProvider
             if (is_numeric($id)) {
                 $page = Page::active()->findOrFail(intval($id));
             } else {
-                $page = Page::where('alias', $id)->active()->firstOrFail();
+                $page = Page::whereAlias($id)->active()->firstOrFail();
             }
             return $page;
         });
@@ -80,15 +80,10 @@ class RouteServiceProvider extends ServiceProvider
 //            return $catalog;
 //        });
         Route::bind('product_alias', function ($id) {
-
             if (is_numeric($id)) {
                 $product = Product::active()->findOrFail($id);
-
             } else {
-                $exploded = explode('-', $id);
-                $id = end($exploded);
-                $product = Product::active()->findOrFail($id);
-
+                $product = Product::active()->whereAlias($id)->firstOrFail();
             }
             return $product;
         });

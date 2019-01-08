@@ -13,14 +13,15 @@
     <meta name="image" content="@yield('og_image')"/>
     <meta property="og:description" content="@yield('description')"/>
     <meta name="description" content="@yield('description')"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <link rel="icon" href="{{elixir('/img/favicon.ico')}}" type="image/x-icon"/>
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"
           integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
     <!-- Styles -->
-    <link href="{{ elixir('/css/all.css') }}" rel="stylesheet">
-    <link href="{{ elixir('/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     @stack('style')
 </head>
 <body id="app-layout">
@@ -45,9 +46,9 @@
     </div>
 </div>
 <!-- JavaScripts -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <script src="{{asset('js/app.js')}}"></script>
-<script src="{{ elixir('/js/all.js') }}"></script>
+<script src="{{asset('/js/all.js') }}"></script>
 @stack('scripts')
 </body>
 </html>
