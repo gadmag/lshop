@@ -13,11 +13,11 @@
                            @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
                                 :class="toggleWishList? className: className"></span></a>
                         <div class="caption">
-                            <div class="product-name text-center"><a class="" :href="item.alias">{{item.title}}</a>
+                            <div class="product-name text-center"><a class="" :href="'/products/'+item.alias">{{item.title}}</a>
                             </div>
                             <div class="product-price text-center"><span class="special" v-if="item.product_special">{{Number(item.product_special.price).toFixed(0)}} р.</span>
                                 <span>{{Number(item.price).toFixed(0)}} р.</span></div>
-                            <div class="product-link text-center"><a class="button action primary" :href="item.alias">Подробнее</a>
+                            <div class="product-link text-center"><a class="button action primary" :href="'/products/'+item.alias">Подробнее</a>
                             </div>
                         </div>
                     </div>

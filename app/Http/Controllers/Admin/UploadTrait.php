@@ -44,7 +44,7 @@ trait UploadTrait
                         $img = Image::make($path . '/' . $filename)->resize(null, $value['height'], function ($constraint) {
                             $constraint->aspectRatio();
                         });
-                        
+
                         $img->save($path . "/$key/" . $filename);
                     }
                     if ($isWatermark) {
@@ -69,7 +69,7 @@ trait UploadTrait
 
     protected function watermark($filename, $imgStyles)
     {
-        $resizePercentage = 60;
+        $resizePercentage = 20;
         $watermark = Image::make(public_path() . '/watermark.png');
         foreach ($imgStyles as $style) {
             $img = Image::make(storage_path("app/public/files/$style/") . $filename);

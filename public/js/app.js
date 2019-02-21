@@ -34157,9 +34157,11 @@ var render = function() {
                             "div",
                             { staticClass: "product-name text-center" },
                             [
-                              _c("a", { attrs: { href: item.alias } }, [
-                                _vm._v(_vm._s(item.title))
-                              ])
+                              _c(
+                                "a",
+                                { attrs: { href: "/products/" + item.alias } },
+                                [_vm._v(_vm._s(item.title))]
+                              )
                             ]
                           ),
                           _vm._v(" "),
@@ -34195,7 +34197,7 @@ var render = function() {
                                 "a",
                                 {
                                   staticClass: "button action primary",
-                                  attrs: { href: item.alias }
+                                  attrs: { href: "/products/" + item.alias }
                                 },
                                 [_vm._v("Подробнее")]
                               )
