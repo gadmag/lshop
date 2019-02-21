@@ -24,7 +24,7 @@ trait UploadTrait
      * @return bool
      */
 
-    public function multipleUpload(array $files, $page, $imageStyle = array(), $watermark = false)
+    public function multipleUpload(array $files, $page, $imageStyle = array(), $isWatermark = false)
     {
         if ($files) {
             foreach ($files as $file):
@@ -35,20 +35,20 @@ trait UploadTrait
                     Storage::disk('public')->put('files/' . $filename, file_get_contents($file));
                     $mimetype = Storage::disk('public')->mimeType('files/' . $filename);
                     $imageStyle = array_merge($imageStyle, ['thumbnail' => ['width' => 100, 'height' => 100]]);
-                    if ($watermark){
-
-                        $img = Image::make($path . '/' . $filename)->insert(public_path().'/watermark.png','center');
-                        $img->save();
-                    }
 
                     foreach ($imageStyle as $key => $value) {
                         if (!Storage::disk('public')->has("files/$key")) {
                             Storage::disk('public')->makeDirectory("files/$key", 777, true);
                         }
-                        $img = Image::make($path . '/' . $filename)->resize($value['width'], $value['height'], function ($constraint) {
+
+                        $img = Image::make($path . '/' . $filename)->resize(null, $value['height'], function ($constraint) {
                             $constraint->aspectRatio();
                         });
+                        
                         $img->save($path . "/$key/" . $filename);
+                    }
+                    if ($isWatermark) {
+                        $this->watermark($filename, ['', '600x450']);
                     }
                     $image = Upload::create([
                         //'uploadstable_id' => $article->id,
@@ -65,6 +65,22 @@ trait UploadTrait
         } else {
             return true;
         }
+    }
+
+    protected function watermark($filename, $imgStyles)
+    {
+        $resizePercentage = 60;
+        $watermark = Image::make(public_path() . '/watermark.png');
+        foreach ($imgStyles as $style) {
+            $img = Image::make(storage_path("app/public/files/$style/") . $filename);
+            $watermarkSize = round($img->width() * ((100 - $resizePercentage) / 100), 2);
+            $watermark->resize($watermarkSize, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->insert($watermark, 'center');
+            $img->save();
+        }
+
     }
 
 }

@@ -53,6 +53,9 @@
             <li class="treeview"><a href="{{route('products.index')}}"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
                     <span>Продукты</span></a></li>
             <li>
+            <li class="treeview"><a href="{{route('fieldOptions.index')}}"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                    <span>Параметры товаров</span></a></li>
+            <li>
 
             {{--<li>--}}
                 {{--<a href="{{url('admin/article/event/all')}}">--}}

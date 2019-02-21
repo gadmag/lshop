@@ -114,7 +114,7 @@
                                         <label for="credit_card" class="radio-inline">
                                             <input id="credit_card" type="radio" name="payment" v-model="payment"
                                                    value="credit_card">
-                                            <img src="/img/sber.jpg" alt=""> Кредитная карта
+                                            <img src="/img/sber.jpg" alt="Банковская карта"> Банковская карта
                                         </label>
                                     </div>
                                     <div class="radio">
@@ -135,6 +135,13 @@
                                             <input type="radio" name="payment" id="paypal" v-model="payment"
                                                    value="paypal">
                                             <img src="/img/paypal.jpg" alt=""> Paypal кошелек
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label for="cash" class="radio-inline">
+                                            <input type="radio" name="payment" id="cash" v-model="payment"
+                                                   value="cash">
+                                            <img src="/img/cash.png" alt=""> Оплата при получении
                                         </label>
                                     </div>
                                     <span v-if="errors['payment']" class="help-block">{{errors['payment']}}</span>
@@ -167,6 +174,14 @@
                                                    name="shipment">
                                             <span class="img-shipp"><img src="/img/cdek.jpg" alt="Почта России"></span>
                                             СДЭК пункт выдачи
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label for="pickup" class="radio-inline">
+                                            <input id="pickup" v-model="shipment" type="radio" value="pickup"
+                                                   name="shipment">
+                                            <span class="img-shipp"><img src="/img/pickup.png" alt="Самовывоз"></span>
+                                            Самовывоз
                                         </label>
                                     </div>
                                     <span v-if="errors['shipment']" class="help-block">{{errors['shipment']}}</span>
@@ -220,7 +235,8 @@
                                 </td>
                             </tr>
                             <tr v-if="this.shipment">
-                                <td colspan="3" class="text-right"><strong>{{this.paymentConfig.shipment_method[this.shipment].method}}</strong></td>
+                                <td colspan="3" class="text-right"><strong>{{this.paymentConfig.shipment_method[this.shipment].method}}</strong>
+                                </td>
                                 <td class="text-right"><strong>{{this.shipmentCountry(this.shipment)}} р</strong></td>
                             </tr>
                             <tr v-if="this.couponItem">
@@ -274,6 +290,8 @@
                 shipment: null,
                 coupon: null,
                 couponItem: null,
+                postcode: null,
+                company: null,
 
                 errors: [],
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -281,6 +299,9 @@
 
         },
         methods: {
+            text: function () {
+             console.log('text');
+            },
 
             stepFirstValid: function () {
                 this.errors = [];
@@ -341,7 +362,6 @@
             },
 
             checkWeight: function (weight, shipments) {
-
                 if (this.$parent.cart.totalPrice >= this.paymentConfig.cart_setting.free_shipping) {
                     return 0;
                 } else {
@@ -363,11 +383,11 @@
 
             getTotalPrice: function () {
                 var total = parseFloat(this.$parent.cart.totalPrice);
-                if (this.shipment ){
+                if (this.shipment) {
                     total = total + parseFloat(this.shipmentCountry(this.shipment));
                 }
-                if (this.couponItem){
-                  total =  total - parseFloat(total*this.couponItem.discount/100);
+                if (this.couponItem) {
+                    total = total - parseFloat(total * this.couponItem.discount / 100);
                 }
                 return total;
             }

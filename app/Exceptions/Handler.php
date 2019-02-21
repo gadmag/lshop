@@ -11,8 +11,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException as ModelNotFoundExceptio
 
 class Handler extends ExceptionHandler
 {
+
     /**
-     * A list of the exception types that should not be reported.
+     * A list of the exception types that are not reported.
      *
      * @var array
      */
@@ -25,10 +26,20 @@ class Handler extends ExceptionHandler
         \Illuminate\Validation\ValidationException::class,
     ];
 
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
+    ];
+
+
     /**
      * Report or log an exception.
-     *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
      * @param  \Exception  $exception
      * @return void
@@ -47,20 +58,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-//        check if exception is an instance of ModelNotFoundException.
-//        or NotFoundHttpException
-//        dd($exception);
-       // if ($exception instanceof ModelNotFoundException or $exception instanceof NotFoundHttpException) {
-             //ajax 404 json feedback
-         //   if ($request->ajax()) {
-             //   return response()->json(['error' => 'Not Found'], 404);
-          //  }
-
-             //normal 404 view page feedback
-            //return response()->view('errors.404', [], 200);
-            //return parent::render('errors.404', 404);
-       // }
-
         return parent::render($request, $exception);
     }
 

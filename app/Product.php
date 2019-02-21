@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\User;
 use App\Alias;
-use App\Seo;
+use App\FieldOption;
 use App\Service\ProductFilter;
 
 /**
@@ -47,12 +47,12 @@ class Product extends Model
     use ProductFilter;
 
     protected $fillable = ['title', 'price', 'description',
-                        'model', 'sku', 'quantity', 'total_selling', 'weight', 'size', 'status',
-                        'material','coating','alias','user_id'];
+        'model', 'sku', 'quantity', 'total_selling', 'weight', 'size', 'status',
+        'material', 'color', 'alias', 'user_id'];
 
 
     protected $allowedFilters = [
-       'id','material', 'size', 'productOptions.color'
+        'id', 'material', 'color', 'size', 'productOptions.color'
     ];
 
     protected $orderable = [
@@ -80,6 +80,10 @@ class Product extends Model
     }
 
 
+    public function getFieldOptions(string $type)
+    {
+        return FieldOption::whereType($type)->pluck('name', 'name')->all();
+    }
 
     /**
      * @param $query
@@ -105,21 +109,6 @@ class Product extends Model
         $query->where('quantity', '>', 0);
     }
 
-    /**
-     * @param $alias
-     * @param $id
-     * @return bool
-     */
-    public static function isAliasExist($alias,$id) {
-        if (static::query()->where('id', $id)->first()){
-            return false;
-        }
-        $aliasProduct = static::query()->where('alias', $alias)->first();
-        if ($aliasProduct) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * @return array
@@ -144,6 +133,7 @@ class Product extends Model
     {
         return $this->hasMany('App\Option');
     }
+
     /**
      * Получить  пользователя продукта
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

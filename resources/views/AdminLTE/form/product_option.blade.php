@@ -2,7 +2,14 @@
     <td>
         <div class="form-group">
             <input type="hidden" name="productOptions[][id]" @if($option != null) value="{{$option->id}}" @endif>
-            {!! Form::text('productOptions[][color]', $option? $option->color : null, ['class' => 'form-control', 'placeholder' => 'Цвет:']) !!}
+            {{--{!! Form::text('productOptions[][color]', $option? $option->color : null, ['class' => 'form-control', 'placeholder' => 'Цвет:']) !!}--}}
+            {!! Form::select('productOptions[][color]', $product->getFieldOptions('color'), $option? $option->color : null, ['class' => 'form-control', 'placeholder' => 'Цвет:']) !!}
+            {{--{{$option->color}}--}}
+        </div>
+    </td>
+    <td>
+        <div class="form-group">
+            {!! Form::select('productOptions[][color_stone]', $product->getFieldOptions('color'), $option? $option->color_stone : null, ['class' => 'form-control', 'placeholder' => 'Цвет камня:']) !!}
         </div>
     </td>
     <td>

@@ -23,12 +23,7 @@ class BlockController extends Controller
      */
     public function index()
     {
-
-
-
         $blocks = Block::latest('created_at')->paginate(10);
-
-//        dd($blocks);
         return view('AdminLTE.block.index')->with([
             'blocks' => $blocks,
 
@@ -59,14 +54,8 @@ class BlockController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, $this->rules);
-
         $block = new Block();
-        $block->title = $request->input('title');
-        $block->region = $request->input('region.0');
-        $block->body = $request->input('body');
-        $block->weight = $request->input('weight');
-        $block->status = $request->input('status');
-        $block->save();
+        $block->create($request->all());
 
         return  redirect("admin/blocks/")->with([
             'flash_message'               =>   "Блок добавлен",
@@ -94,12 +83,9 @@ class BlockController extends Controller
     public function edit($id)
     {
         $block = Block::find($id);
-
         if (Gate::denies('update-post', $block)) {
             abort(403, 'Unauthorized action');
-
         }
-
         return view('AdminLTE.block.edit', [
             'block' => $block,
 
@@ -118,14 +104,7 @@ class BlockController extends Controller
         $this->validate($request, $this->rules);
 
         $block = Block::find($id);
-
-        $block->title = $request->input('title');
-        $block->region = $request->input('region.0');
-        $block->body = $request->input('body');
-        $block->weight = $request->input('weight');
-        $block->status = $request->input('status');
-        $block->save();
-       // $block->update($request->all());
+        $block->update($request->all());
         return redirect("admin/blocks")->with([
             'flash_message'               =>   "Блок обновлен",
 //          'flash_message_important'     => true
@@ -142,7 +121,6 @@ class BlockController extends Controller
     {
 
         $block = Block::findOrFail($id);
-//        dd()
         $blockTitle = $block->title;
         $block->delete();
         return redirect("admin/blocks")->with([

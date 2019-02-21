@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Catalog;
 use App\Cart;
+use App\FieldOption;
 use App\WishList;
 use App\Product;
 use App\Order;
@@ -22,12 +23,13 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        return view('product.index');
+        $filters = FieldOption::all(['type','name'])->groupBy('type');
+        return view('product.index', ['filters' => $filters]);
     }
 
     public function getJsonProducts(Request $request)
     {
-        $products = Product::with(['productUser', 'files','productSpecial'])->active()->advancedFilter();
+        $products = Product::with(['productOptions', 'files','productSpecial'])->active()->advancedFilter();
         return response()->json(['collection' => $products]);
     }
 

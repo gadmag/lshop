@@ -61,6 +61,7 @@ trait ProductFilter
     {
         return implode(',', [
             'equal_to',
+            'equal_in',
             'not_equal_to',
             'less_than',
             'greater_than',

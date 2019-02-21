@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
 {
-    const OPTION_ROWS = 7;
+    const OPTION_ROWS = 8;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -51,6 +51,7 @@ class ProductRequest extends FormRequest
                 if ($key < ProductRequest::OPTION_ROWS) continue;
 
                 $rules += ["productOptions.$key.color" => 'sometimes|required'];
+                $rules += ["productOptions.$key.color_stone" => 'sometimes|required'];
                 $rules += ["productOptions.$key.price" => 'sometimes|required|numeric'];
                 $rules += ["productOptions.$key.quantity" => 'sometimes|required|numeric'];
             }

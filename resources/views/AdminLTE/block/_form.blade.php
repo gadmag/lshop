@@ -10,7 +10,7 @@
 
         <div class="form-group">
             {!! Form::label('region', 'Регион') !!}
-            {!! Form::select('region[]',[
+            {!! Form::select('region',[
             'right_top' => 'Правый верхний блок',
             'right_bottom' => 'Правый нижний блок'
             ], null, ['class' => 'form-control', 'placeholder' => 'Выбрать регион']) !!}

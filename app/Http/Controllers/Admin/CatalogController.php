@@ -148,7 +148,7 @@ class CatalogController extends Controller
     private function createCatalog(Request $request)
     {
         $catalog = Auth::user()->catalogs()->create($request->except('parent_id'));
-        dd($catalog->title);
+
         if($request->filled('catalogMenu.link_title'))
         {
             $catalog->catalogMenu()->create($request->pageMenu);
@@ -157,9 +157,11 @@ class CatalogController extends Controller
         if ($request->filled('catalogSeo')) {
             $catalog->catalogSeo()->create($request->catalogSeo);
         }
-        $this->addParentCatalog($catalog, $request->parent_list);
 
-        $this->multipleUpload($request, $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
+        $this->addParentCatalog($catalog, $request->parent_list);
+        if($request->file('images')) {
+            $this->multipleUpload($request->file('images'), $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
+        }
         return $catalog;
 
     }
@@ -181,7 +183,9 @@ class CatalogController extends Controller
         }
 
         $this->addParentCatalog($catalog, $request->parent_list);
-        $this->multipleUpload($request, $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
+        if($request->file('images')) {
+            $this->multipleUpload($request->file('images'), $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
+        }
         return $catalog;
     }
 

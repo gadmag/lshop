@@ -34,7 +34,7 @@ host('vh130.timeweb.ru')
 desc('Vendor');
 task('deploy:vendor:lshop', function () {
     cd('{{release_path}}');
-    run('/opt/php7.1/bin/php /usr/bin/composer install');
+    run('/opt/php7.1/bin/php /usr/local/bin/composer install');
 });
 desc('Execute artisan migrate');
 task('artisan:migrate', function () {

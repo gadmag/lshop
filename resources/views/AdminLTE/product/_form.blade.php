@@ -83,12 +83,12 @@
                         {!! Form::text('price',null, ['class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
-                        {!! Form::label('coating', 'Покрытие:') !!}
-                        {!! Form::text('coating', null, ['class' => 'form-control']) !!}
+                        {!! Form::label('color', 'Цвет:') !!}
+                        {!! Form::select('color',$product->getFieldOptions('color'), null, ['class' => 'form-control', 'placeholder' => 'Выбрать цвет']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('material', 'Материал:') !!}
-                        {!! Form::text('material', null, ['class' => 'form-control']) !!}
+                        {!! Form::select('material', $product->getFieldOptions('material'), null, ['class' => 'form-control', 'placeholder' => 'Выбрать материал']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('quantity', 'Количество:') !!}

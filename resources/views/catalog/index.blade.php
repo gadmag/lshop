@@ -11,9 +11,7 @@
     </nav>
 <h2>Наша продукция</h2>
 <div class="our-products">
-
-{{--                    {!! dd($catalogs) !!}--}}
-        <div class="block-content-middle row">
+     <div class="block-content-middle row">
         @foreach ($catalogs as $catalog)
 
                 <div class="col-sm-4 item-rows">

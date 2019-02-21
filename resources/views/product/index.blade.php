@@ -22,7 +22,7 @@
         {{--@include('product._filtered')--}}
 
         <div class="list-product">
-                <product-list2></product-list2>
+                <product-list2 :filters="{{$filters}}"></product-list2>
 
         </div>
     </div>
