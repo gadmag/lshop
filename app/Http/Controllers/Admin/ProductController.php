@@ -334,7 +334,7 @@ class ProductController extends Controller
     protected function updateMultipleOptions(Request $request, Product $product)
     {
         $options = collect($request->extractOptions());
-
+//        dd($options);
         foreach ($options as $optionAttr) {
 
             $id = $product->productOptions()->updateOrCreate(['id' => $optionAttr['id']], $optionAttr)->id;

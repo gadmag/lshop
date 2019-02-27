@@ -1,109 +1,89 @@
 <template>
     <div class="container">
-        <div class="panel">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <div v-if="filterCandidates" v-for="filters in filterCandidates">
-                        <span v-if="filters" v-for="filter in filters">{{filter}} &nbsp;</span>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <div v-if="filterCandidates" v-for="filters in filterCandidates">
+                                <span v-if="filters" v-for="filter in filters">{{filter}} &nbsp;</span>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="panel-body">
-                <div class="filter">
-                    <!-- Single button -->
-                    <div v-for="(group, f) in filterGroups" class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            {{group.title}} <span class="caret"></span>
-                        </button>
-                        <div class="dropdown-menu">
-                            <div class="checkbox">
-                                <div v-for="(item,i) in group.item" class="form-group">
-                                    <label>
-                                        <input class="" type="checkbox" :value="JSON.stringify(item.name)"
-                                               @input="selectField(item, f, $event)">{{item.name}}
-                                    </label>
+                    <div class="panel-body">
+                        <div class="filter">
+                            <!-- Single button -->
+                            <div v-for="(group, f) in filterGroups" class="">
+                                <h4>{{group.title}} <span class="caret"></span></h4>
+                                <div class="filter-list">
+                                    <div class="checkbox">
+                                        <div v-for="(item,i) in group.item" class="form-group">
+                                            <input :id="item.type+'-'+i" type="checkbox" :value="JSON.stringify(item.name)"
+                                                   @input="selectField(item, f, $event)">
+                                            <label :for="item.type+'-'+i">{{item.name}}</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <!--<li><input id="act" type="checkbox"> <label for="act">Action</label></li>-->
-                            <!--<li class="link-item" v-for="(item,i) in group.item"><a @click="selectField(item, i, $event)" href="#">{{item.name}}</a></li>-->
+
                         </div>
                     </div>
-                    <!--<div class="filter-item" v-for="(f,i) in filterCandidates">-->
-                    <!--<div class="filter-field">-->
-                    <!--<div class="form-group">-->
-                    <!--<select  @input="selectField(f,i,$event)" class="form-control">-->
-                    <!--<option value="">Select a filter</option>-->
-                    <!--<optgroup v-for="group in filterGroups" :label="group.name">-->
-                    <!--<option v-for="x in group.filters" :value="JSON.stringify(x)"-->
-                    <!--:selected="f.field && x.name === f.field.name"-->
-                    <!--&gt;{{x.title}}</option>-->
-                    <!--</optgroup>-->
-                    <!--</select>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="filter-operator" v-if="f.field">-->
-                    <!--<div class="form-group">-->
-                    <!--<select class="form-control" @input="selectOperator(f,i, $event)">-->
-                    <!--<option v-for="y in fetchOperators(f)"-->
-                    <!--:value="JSON.stringify(y)"-->
-                    <!--:selected="f.operator && y.name === f.operator.name"-->
-                    <!--&gt;{{y.title}}</option>-->
-                    <!--</select>-->
-                    <!--</div>-->
-                    <!--</div>-->
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="filterable-export clearfix">
+
+                    <div class="form-inline">
+                        <div class="form-group pull-right">
+                            <span>Сортировать:</span>
+                            <select class="form-control" :disabled="loading" @input="updateOrderField">
+                                <option v-for="field in orderables" :value="JSON.stringify(field.options)"
+                                        :selected="field && field.options.name == query.order_by && field.options.direction == query.order_direction">
+                                    {{field.title}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <slot v-if="collection.data && collection.data.length"
+                          v-for="item in collection.data"
+                          :item='item'>
+
+                    </slot>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <select class="form-control" v-model="query.limit" name="" id="" :disabled="loading"
+                                    @change="updateLimit">
+                                <option>12</option>
+                                <option>16</option>
+                                <option>24</option>
+                                <option>50</option>
+                            </select>
+                            <small> Показано с {{collection.from}} по {{collection.to}} из {{collection.total}}
+                                записей.
+                            </small>
+                        </div>
+                        <div class="text-right col-xs-6">
+                            <button class="btn" :disabled="!collection.prev_page_url || loading" @click="prevPage">
+                                &laquo;
+                                Prev
+                            </button>
+                            <button class="btn" :disabled="!collection.next_page_url || loading" @click="nextPage">Next
+                                &raquo;
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="filterable-export clearfix">
 
 
-            <div class="form-inline">
-                <!--<div class="form-group">-->
-                <!--<button class="btn btn-default" @click="exportToCSV()">Export</button>-->
-                <!--</div>-->
-                <div class="form-group pull-right">
-                    <span>Сортировать:</span>
-                    <select class="form-control" :disabled="loading" @input="updateOrderField">
-                        <option v-for="field in orderables" :value="JSON.stringify(field.options)"
-                                :selected="field && field.options.name == query.order_by && field.options.direction == query.order_direction">
-                            {{field.title}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="panel-body">
-
-            <slot v-if="collection.data && collection.data.length"
-                  v-for="item in collection.data"
-                  :item='item'>
-
-            </slot>
-        </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-xs-6">
-                    <select class="form-control" v-model="query.limit" name="" id="" :disabled="loading"
-                            @change="updateLimit">
-                        <option>12</option>
-                        <option>16</option>
-                        <option>24</option>
-                        <option>50</option>
-                    </select>
-                    <small> Показано с {{collection.from}} по {{collection.to}} из {{collection.total}} записей.</small>
-                </div>
-                <div class="text-right col-xs-6">
-                    <button class="btn" :disabled="!collection.prev_page_url || loading" @click="prevPage">&laquo;
-                        Prev
-                    </button>
-                    <button class="btn" :disabled="!collection.next_page_url || loading" @click="nextPage">Next
-                        &raquo;
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 <script>
@@ -257,7 +237,7 @@
                 const f = {}
                 this.appliedFilters.forEach((filter, i) => {
 
-                    if(filter.field_value.length > 0){
+                    if (filter.field_value.length > 0) {
                         // console.log(i);
                         f[`f[${i}][field]`] = filter.field;
                         f[`f[${i}][operator]`] = filter.operator

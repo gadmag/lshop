@@ -4,9 +4,10 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab_1" data-toggle="tab">Общие</a></li>
                 <li class=""><a href="#tab_2" data-toggle="tab">Данные</a></li>
-                <li class=""><a href="#tab_3" data-toggle="tab">Опции</a></li>
-                <li class=""><a href="#tab_4" data-toggle="tab">Скидки</a></li>
-                <li class=""><a href="#tab_5" data-toggle="tab">Акция</a></li>
+                <li class=""><a href="#tab_3" data-toggle="tab">Цвет покрытия</a></li>
+                <li class=""><a href="#tab_4" data-toggle="tab">Цвет камня</a></li>
+                <li class=""><a href="#tab_5" data-toggle="tab">Скидки</a></li>
+                <li class=""><a href="#tab_6" data-toggle="tab">Акция</a></li>
             </ul>
             <div class="tab-content">
                 <div id="tab_1" class="tab-pane active">
@@ -84,7 +85,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('color', 'Цвет:') !!}
-                        {!! Form::select('color',$product->getFieldOptions('color'), null, ['class' => 'form-control', 'placeholder' => 'Выбрать цвет']) !!}
+                        {!! Form::select('color',$product->getFieldOptions('coating'), null, ['class' => 'form-control', 'placeholder' => 'Выбрать цвет']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('material', 'Материал:') !!}
@@ -104,7 +105,8 @@
                     </div>
 
                 </div>
-                <div id="tab_3" class="tab-options tab-pane">
+                {{--{{dd($product->productOptions()->colorType('coating')->get())}}--}}
+                <div id="tab_3" class="tab-option-coating tab-options tab-pane">
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
@@ -117,21 +119,52 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @include('AdminLTE.form.product_option',['option' => null])
-                        @foreach($product->productOptions as $option)
-                            @include('AdminLTE.form.product_option', $option)
+                        <template id="optionCoating">
+                            @include('AdminLTE.form.product_option',['color_type' => 'coating', 'option' => null])
+                        </template>
+                        @foreach($product->productOptions()->colorType('coating')->get() as $option)
+                            @include('AdminLTE.form.product_option', ['color_type' => 'coating', 'option' => $option])
                         @endforeach
                         </tbody>
                         <tfoot>
                         <td colspan="5"></td>
                         <td class="text-left">
-                            <button id="add-options" type="button" data-toggle="tooltip" class="btn btn-primary"><i
+                            <button id="add-options-coating" data-type="coating" type="button" data-toggle="tooltip" class="option-button btn btn-primary"><i
                                         class="fa fa-plus-circle"></i></button>
                         </td>
                         </tfoot>
                     </table>
                 </div>
-                <div id="tab_4" class="tab-pane">
+                <div id="tab_4" class="tab-option-stone tab-options tab-pane">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <td>Значение:</td>
+                            <td>Фото:</td>
+                            <td>Цена:</td>
+                            <td>Вес</td>
+                            <td>Кол-во</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <template id="optionStone">
+                            @include('AdminLTE.form.product_option',['color_type' => 'stone', 'option' => null])
+                        </template>
+                        @foreach($product->productOptions()->colorType('stone')->get() as $option)
+                            @include('AdminLTE.form.product_option', ['color_type' => 'stone','option' => $option])
+                        @endforeach
+                        </tbody>
+                        <tfoot>
+                        <td colspan="5"></td>
+                        <td class="text-left">
+                            <button id="add-options-stone" data-type="stone" type="button" data-toggle="tooltip" class="option-button btn btn-primary"><i
+                                        class="fa fa-plus-circle"></i></button>
+                        </td>
+                        </tfoot>
+                    </table>
+                </div>
+                <div id="tab_5" class="tab-pane">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -148,7 +181,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab_5" class="tab-pane">
+                <div id="tab_6" class="tab-pane">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

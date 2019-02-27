@@ -43,7 +43,7 @@ class ProductRequest extends FormRequest
         {
             $rules += ['productSpecial.price'=> 'required|numeric'];
         }
-
+//        dd($this->has('productOptions.*.color'));
         if ($this->has('productOptions.*.color'))
         {
             foreach ($this->request->get('productOptions') as $key => $option)
@@ -51,7 +51,7 @@ class ProductRequest extends FormRequest
                 if ($key < ProductRequest::OPTION_ROWS) continue;
 
                 $rules += ["productOptions.$key.color" => 'sometimes|required'];
-                $rules += ["productOptions.$key.color_stone" => 'sometimes|required'];
+                $rules += ["productOptions.$key.type" => 'sometimes|required'];
                 $rules += ["productOptions.$key.price" => 'sometimes|required|numeric'];
                 $rules += ["productOptions.$key.quantity" => 'sometimes|required|numeric'];
             }
@@ -76,7 +76,8 @@ class ProductRequest extends FormRequest
     public function extractOptions()
     {
         $productOptions = self::array_flatten(array_chunk($this->productOptions, ProductRequest::OPTION_ROWS), $this->file('image_option'));
-        unset($productOptions[0]);
+//        unset($productOptions[0]);
+//        unset($productOptions[1]);
         return $productOptions;
     }
 

@@ -2274,26 +2274,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -34109,7 +34089,7 @@ var render = function() {
                 key: "default",
                 fn: function(ref) {
                   var item = ref.item
-                  return _c("div", { staticClass: "col-md-3" }, [
+                  return _c("div", { staticClass: "col-md-4" }, [
                     _c("div", { staticClass: "product-item" }, [
                       _c("div", { staticClass: "thumbnail" }, [
                         item.files && item.files.length
@@ -34321,221 +34301,228 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "panel" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c(
-          "div",
-          { staticClass: "panel-title" },
-          _vm._l(_vm.filterCandidates, function(filters) {
-            return _vm.filterCandidates
-              ? _c(
-                  "div",
-                  _vm._l(filters, function(filter) {
-                    return filters
-                      ? _c("span", [_vm._v(_vm._s(filter) + "  ")])
-                      : _vm._e()
-                  }),
-                  0
-                )
-              : _vm._e()
-          }),
-          0
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "clearfix" })
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-3" }, [
+        _c("div", { staticClass: "panel" }, [
+          _c("div", { staticClass: "panel-heading" }, [
+            _c(
+              "div",
+              { staticClass: "panel-title" },
+              _vm._l(_vm.filterCandidates, function(filters) {
+                return _vm.filterCandidates
+                  ? _c(
+                      "div",
+                      _vm._l(filters, function(filter) {
+                        return filters
+                          ? _c("span", [_vm._v(_vm._s(filter) + "  ")])
+                          : _vm._e()
+                      }),
+                      0
+                    )
+                  : _vm._e()
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "clearfix" })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c(
+              "div",
+              { staticClass: "filter" },
+              _vm._l(_vm.filterGroups, function(group, f) {
+                return _c("div", {}, [
+                  _c("h4", [
+                    _vm._v(_vm._s(group.title) + " "),
+                    _c("span", { staticClass: "caret" })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "filter-list" }, [
+                    _c(
+                      "div",
+                      { staticClass: "checkbox" },
+                      _vm._l(group.item, function(item, i) {
+                        return _c("div", { staticClass: "form-group" }, [
+                          _c("input", {
+                            attrs: {
+                              id: item.type + "-" + i,
+                              type: "checkbox"
+                            },
+                            domProps: { value: JSON.stringify(item.name) },
+                            on: {
+                              input: function($event) {
+                                _vm.selectField(item, f, $event)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: item.type + "-" + i } }, [
+                            _vm._v(_vm._s(item.name))
+                          ])
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ])
+        ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "panel-body" }, [
-        _c(
-          "div",
-          { staticClass: "filter" },
-          _vm._l(_vm.filterGroups, function(group, f) {
-            return _c("div", { staticClass: "btn-group" }, [
+      _c("div", { staticClass: "col-md-9" }, [
+        _c("div", { staticClass: "filterable-export clearfix" }, [
+          _c("div", { staticClass: "form-inline" }, [
+            _c("div", { staticClass: "form-group pull-right" }, [
+              _c("span", [_vm._v("Сортировать:")]),
+              _vm._v(" "),
               _c(
-                "button",
+                "select",
                 {
-                  staticClass: "btn btn-default dropdown-toggle",
-                  attrs: {
-                    type: "button",
-                    "data-toggle": "dropdown",
-                    "aria-haspopup": "true",
-                    "aria-expanded": "false"
-                  }
+                  staticClass: "form-control",
+                  attrs: { disabled: _vm.loading },
+                  on: { input: _vm.updateOrderField }
                 },
-                [
-                  _vm._v(
-                    "\n                        " + _vm._s(group.title) + " "
-                  ),
-                  _c("span", { staticClass: "caret" })
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "dropdown-menu" }, [
-                _c(
-                  "div",
-                  { staticClass: "checkbox" },
-                  _vm._l(group.item, function(item, i) {
-                    return _c("div", { staticClass: "form-group" }, [
-                      _c("label", [
-                        _c("input", {
-                          attrs: { type: "checkbox" },
-                          domProps: { value: JSON.stringify(item.name) },
-                          on: {
-                            input: function($event) {
-                              _vm.selectField(item, f, $event)
-                            }
-                          }
-                        }),
-                        _vm._v(
-                          _vm._s(item.name) +
-                            "\n                                "
-                        )
-                      ])
-                    ])
-                  }),
-                  0
-                )
-              ])
-            ])
-          }),
-          0
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "filterable-export clearfix" }, [
-      _c("div", { staticClass: "form-inline" }, [
-        _c("div", { staticClass: "form-group pull-right" }, [
-          _c("span", [_vm._v("Сортировать:")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              staticClass: "form-control",
-              attrs: { disabled: _vm.loading },
-              on: { input: _vm.updateOrderField }
-            },
-            _vm._l(_vm.orderables, function(field) {
-              return _c(
-                "option",
-                {
-                  domProps: {
-                    value: JSON.stringify(field.options),
-                    selected:
-                      field &&
-                      field.options.name == _vm.query.order_by &&
-                      field.options.direction == _vm.query.order_direction
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(field.title) +
-                      "\n                    "
+                _vm._l(_vm.orderables, function(field) {
+                  return _c(
+                    "option",
+                    {
+                      domProps: {
+                        value: JSON.stringify(field.options),
+                        selected:
+                          field &&
+                          field.options.name == _vm.query.order_by &&
+                          field.options.direction == _vm.query.order_direction
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(field.title) +
+                          "\n                            "
+                      )
+                    ]
                   )
-                ]
+                }),
+                0
               )
-            }),
-            0
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "panel-body" },
-      [
-        _vm._l(_vm.collection.data, function(item) {
-          return _vm.collection.data && _vm.collection.data.length
-            ? _vm._t("default", null, { item: item })
-            : _vm._e()
-        })
-      ],
-      2
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "panel-footer" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-xs-6" }, [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.query.limit,
-                  expression: "query.limit"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { name: "", id: "", disabled: _vm.loading },
-              on: {
-                change: [
-                  function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.query,
-                      "limit",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  },
-                  _vm.updateLimit
-                ]
-              }
-            },
-            [
-              _c("option", [_vm._v("12")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("16")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("24")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("50")])
-            ]
-          ),
-          _vm._v(" "),
-          _c("small", [
-            _vm._v(
-              " Показано с " +
-                _vm._s(_vm.collection.from) +
-                " по " +
-                _vm._s(_vm.collection.to) +
-                " из " +
-                _vm._s(_vm.collection.total) +
-                " записей."
-            )
+            ])
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "text-right col-xs-6" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn",
-              attrs: { disabled: !_vm.collection.prev_page_url || _vm.loading },
-              on: { click: _vm.prevPage }
-            },
-            [_vm._v("«\n                    Prev\n                ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn",
-              attrs: { disabled: !_vm.collection.next_page_url || _vm.loading },
-              on: { click: _vm.nextPage }
-            },
-            [_vm._v("Next\n                    »\n                ")]
-          )
+        _c(
+          "div",
+          { staticClass: "panel-body" },
+          [
+            _vm._l(_vm.collection.data, function(item) {
+              return _vm.collection.data && _vm.collection.data.length
+                ? _vm._t("default", null, { item: item })
+                : _vm._e()
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "panel-footer" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-xs-6" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.query.limit,
+                      expression: "query.limit"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "", id: "", disabled: _vm.loading },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.query,
+                          "limit",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      _vm.updateLimit
+                    ]
+                  }
+                },
+                [
+                  _c("option", [_vm._v("12")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("16")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("24")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("50")])
+                ]
+              ),
+              _vm._v(" "),
+              _c("small", [
+                _vm._v(
+                  " Показано с " +
+                    _vm._s(_vm.collection.from) +
+                    " по " +
+                    _vm._s(_vm.collection.to) +
+                    " из " +
+                    _vm._s(_vm.collection.total) +
+                    "\n                            записей.\n                        "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-right col-xs-6" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn",
+                  attrs: {
+                    disabled: !_vm.collection.prev_page_url || _vm.loading
+                  },
+                  on: { click: _vm.prevPage }
+                },
+                [
+                  _vm._v(
+                    "\n                            «\n                            Prev\n                        "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn",
+                  attrs: {
+                    disabled: !_vm.collection.next_page_url || _vm.loading
+                  },
+                  on: { click: _vm.nextPage }
+                },
+                [
+                  _vm._v(
+                    "Next\n                            »\n                        "
+                  )
+                ]
+              )
+            ])
+          ])
         ])
       ])
     ])

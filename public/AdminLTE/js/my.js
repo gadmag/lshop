@@ -141,9 +141,17 @@ $(document).ready(function () {
 //options product
 (function ($) {
     var row = $('table.table tbody').children().length - 1;
-    $('#add-options').on('click', function (e) {
+    $('#add-options-coating').on('click', function (e) {
+       // var  row = $('optionHide');
         e.preventDefault();
-        $('#option-value-row').clone().toggleClass('hide').attr('id', '#option-value-row' + row).appendTo('.tab-options table.table tbody');
+       // $('#option-value-row').clone().toggleClass('hide').attr('id', '#option-value-row' + row).appendTo('.tab-option-coating table.table tbody');
+        $('.tab-option-coating table.table tbody')[0].appendChild(optionCoating.content.cloneNode(true));
+        row++;
+    });
+    $('#add-options-stone').on('click', function (e) {
+        e.preventDefault();
+        $('.tab-option-stone table.table tbody')[0].appendChild(optionStone.content.cloneNode(true));
+       // $('#option-value-row').clone().toggleClass('hide').attr('id', '#option-value-row' + row).appendTo('.tab-option-stone table.table tbody');
         row++;
     });
 
@@ -160,8 +168,6 @@ $(document).ready(function () {
                 dataType: 'json',
                 cache: false,
                 success: function (data) {
-                    console.log(data.status);
-                    console.log(fields);
                     fields.remove();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

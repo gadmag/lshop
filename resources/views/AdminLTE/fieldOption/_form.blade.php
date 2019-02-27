@@ -12,8 +12,8 @@
             {!! Form::label('type', 'Поле') !!}
             {!! Form::select('type[]',[
             'material' => 'Материал',
-           // 'coating' => 'Покрытие',
-            'color' => 'Цвет'
+            'coating' => 'Цвет покрытия',
+            'stone' => 'Цвет камня'
             ], null, ['class' => 'form-control', 'placeholder' => 'Выбрать тип']) !!}
         </div>
 

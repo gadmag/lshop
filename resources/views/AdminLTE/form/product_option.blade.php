@@ -1,18 +1,15 @@
-<tr @if($option == null) class="hide" @endif id="option-value-row{{$option?$loop->index:''}}">
+<tr  id="option-value-row{{$option?$loop->index:''}}">
     <td>
         <div class="form-group">
             <input type="hidden" name="productOptions[][id]" @if($option != null) value="{{$option->id}}" @endif>
+            <input type="hidden" name="productOptions[][type]"  value="{{$color_type}}" >
             {{--{!! Form::text('productOptions[][color]', $option? $option->color : null, ['class' => 'form-control', 'placeholder' => 'Цвет:']) !!}--}}
-            {!! Form::select('productOptions[][color]', $product->getFieldOptions('color'), $option? $option->color : null, ['class' => 'form-control', 'placeholder' => 'Цвет:']) !!}
+            {!! Form::select('productOptions[][color]', $product->getFieldOptions($color_type), $option? $option->color : null, ['class' => 'form-control', 'placeholder' => 'Цвет:']) !!}
             {{--{{$option->color}}--}}
         </div>
     </td>
     <td>
-        <div class="form-group">
-            {!! Form::select('productOptions[][color_stone]', $product->getFieldOptions('color'), $option? $option->color_stone : null, ['class' => 'form-control', 'placeholder' => 'Цвет камня:']) !!}
-        </div>
-    </td>
-    <td>
+
         @if($option && $option->files()->exists())
             <div id="file-item-{{$option->files()->first()->id}}" class="remove-file"
                  data-id="{{$option->files()->first()->id}}"><span

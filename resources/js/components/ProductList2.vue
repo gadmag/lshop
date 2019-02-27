@@ -1,7 +1,7 @@
 <template>
     <div>
         <filterable v-bind="filterable">
-            <div class="col-md-3" slot-scope="{item}">
+            <div class="col-md-4" slot-scope="{item}">
                 <div class="product-item">
                     <div class="thumbnail">
 
