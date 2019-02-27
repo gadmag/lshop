@@ -43,14 +43,14 @@ class ProductRequest extends FormRequest
         {
             $rules += ['productSpecial.price'=> 'required|numeric'];
         }
-//        dd($this->has('productOptions.*.color'));
-        if ($this->has('productOptions.*.color'))
+
+        if ($this->filled('productOptions.*.color'))
         {
             foreach ($this->request->get('productOptions') as $key => $option)
             {
                 if ($key < ProductRequest::OPTION_ROWS) continue;
 
-                $rules += ["productOptions.$key.color" => 'sometimes|required'];
+                $rules += ["productOptions.$key.color" => 'required'];
                 $rules += ["productOptions.$key.type" => 'sometimes|required'];
                 $rules += ["productOptions.$key.price" => 'sometimes|required|numeric'];
                 $rules += ["productOptions.$key.quantity" => 'sometimes|required|numeric'];
@@ -61,7 +61,7 @@ class ProductRequest extends FormRequest
         return $rules;
     }
 
-    public function messages()
+    /*public function messages()
     {
         $messages = [];
         foreach($this->request->get('productOptions') as $key => $val)
@@ -71,7 +71,7 @@ class ProductRequest extends FormRequest
             $messages['productOptions.'.$key.'.quantity.required'] = 'Поле опции: Кол-во обязательно для заполнения';
         }
         return $messages;
-    }
+    }*/
 
     public function extractOptions()
     {
