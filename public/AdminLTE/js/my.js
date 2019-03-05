@@ -125,7 +125,7 @@ $(document).ready(function () {
         }
     });
 
-//fix позволяющий кликать на ссылки в nestable
+
     $(".dd a").on("mousedown", function (event) { // mousedown prevent nestable click
         event.preventDefault();
         return false;
@@ -141,42 +141,38 @@ $(document).ready(function () {
 //options product
 (function ($) {
     var row = $('table.table tbody').children().length - 1;
-    $('#add-options-coating').on('click', function (e) {
+    $('#add-options').on('click', function (e) {
        // var  row = $('optionHide');
+       //  console.log(optionCoating.querySelectorAll('tr'));
         e.preventDefault();
        // $('#option-value-row').clone().toggleClass('hide').attr('id', '#option-value-row' + row).appendTo('.tab-option-coating table.table tbody');
         $('.tab-option-coating table.table tbody')[0].appendChild(optionCoating.content.cloneNode(true));
         row++;
     });
-    $('#add-options-stone').on('click', function (e) {
-        e.preventDefault();
-        $('.tab-option-stone table.table tbody')[0].appendChild(optionStone.content.cloneNode(true));
-       // $('#option-value-row').clone().toggleClass('hide').attr('id', '#option-value-row' + row).appendTo('.tab-option-stone table.table tbody');
-        row++;
-    });
+
 
     $('.tab-options').on("click", '.remove-options', function (e) {
-        e.preventDefault();
-        var dataId = $(this).attr('data-id');
-        var fields = $(this).parent().parent();
-        if (dataId) {
-            var url = "/admin/option/" + dataId;
-
-            $.ajax({
-                type: 'GET',
-                url: url,
-                dataType: 'json',
-                cache: false,
-                success: function (data) {
-                    fields.remove();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.status + ' ' + thrownError);
-                }
-            });
-        } else {
-            fields.remove();
-        }
+        // e.preventDefault();
+        // var dataId = $(this).attr('data-id');
+        // var fields = $(this).parent().parent();
+        // if (dataId) {
+        //     var url = "/admin/option/" + dataId;
+        //
+        //     $.ajax({
+        //         type: 'GET',
+        //         url: url,
+        //         dataType: 'json',
+        //         cache: false,
+        //         success: function (data) {
+        //             fields.remove();
+        //         },
+        //         error: function (xhr, ajaxOptions, thrownError) {
+        //             console.log(xhr.status + ' ' + thrownError);
+        //         }
+        //     });
+        // } else {
+        //     fields.remove();
+        // }
 
     })
 }(jQuery))

@@ -29,7 +29,7 @@ class ProductController extends Controller
 
     public function getJsonProducts(Request $request)
     {
-        $products = Product::with(['productOptions', 'files','productSpecial'])->active()->advancedFilter();
+        $products = Product::with(['productOptions', 'productOptions.files', 'files','productSpecial'])->active()->advancedFilter();
         return response()->json(['collection' => $products]);
     }
 
@@ -38,6 +38,7 @@ class ProductController extends Controller
         $products = Product::whereHas('catalogs', function ($query) use ($product) {
             $query->where('id', $product->catalogs()->exists() ? $product->catalogs()->first()->id : null);
         })->whereNotIn('id', [$product->id])->active()->latest('created_at')->get()->take(4);
+
         return view('product.show', [
             'product' => $product,
             'options' => $product->productOptions()->with("files")->get(),

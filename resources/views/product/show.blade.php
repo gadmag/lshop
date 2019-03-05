@@ -32,9 +32,7 @@
                   @if($options) :options="{{$options}}" @endif
                   @if($discount)  :discount="{{$discount}}" @endif
                   @if($special) :special="{{$special}}" @endif
-                  {{--action="{{route('product.addToCart')}}"--}}
                   @if($product->files()->exists()):images="{{$product->files}}" @endif
-                  {{--@if($options->files()->exists()):images_option="{{$options->files}}" @endif--}}
 
     ></product-page>
 </div>

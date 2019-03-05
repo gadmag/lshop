@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>AdminLTE 2 | Dashboard</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -41,7 +42,7 @@
     <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+<div id="app-admin" class="wrapper">
     {{--Header--}}
 @include('AdminLTE.partials.header')
     {{--sidebar--}}
@@ -117,6 +118,7 @@
 <script src="/AdminLTE/js/demo.js"></script>
 <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 <script src="/AdminLTE/js/jquery.nestable.js"></script>
+<script src="/AdminLTE/js/app-admin.js"></script>
 <script src="/AdminLTE/js/my.js"></script>
 
 <script type="text/javascript">

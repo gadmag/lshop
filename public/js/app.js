@@ -2428,7 +2428,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             var filters = this.getFilters();
 
             var params = _extends({}, filters, this.query);
-            console.log(params);
+
             axios.get(this.url, { params: params }).then(function (res) {
                 Vue.set(_this2.$data, 'collection', res.data.collection);
                 _this2.query.page = res.data.collection.current_page;
@@ -2521,6 +2521,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -2706,6 +2709,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['product', 'action', 'images', 'options', 'special', 'discount'],
@@ -2713,6 +2717,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             className: '',
             files: [],
+            checkedNames: [],
             query_options: {
                 option_id: null,
                 quantity: 1
@@ -2724,6 +2729,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        selectOption: function selectOption(e) {
+            console.log(e.target.value);
+            this.query_options.option_id.push(e.target.value);
+        },
         addToCart: function addToCart(id) {
             bus.$emit('added-to-cart', id, this.query_options);
         },
@@ -33813,11 +33822,11 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.product.coating
+            _vm.product.color
               ? _c("p", [
                   _c("strong", [_vm._v("Покрытие:")]),
                   _vm._v(" "),
-                  _c("span", [_vm._v(_vm._s(_vm.product.coating))])
+                  _c("span", [_vm._v(_vm._s(_vm.product.color))])
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -33878,10 +33887,10 @@ var render = function() {
       _vm._v(" "),
       _vm.options
         ? _c("div", { staticClass: "options-block" }, [
-            _vm.options.length > 0
+            _vm.options && _vm.options.length > 0
               ? _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "options_color" } }, [
-                    _vm._v("Цвет")
+                    _vm._v("Цвет ")
                   ]),
                   _vm._v(" "),
                   _c(

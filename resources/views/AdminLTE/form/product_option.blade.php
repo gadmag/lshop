@@ -1,28 +1,32 @@
-<tr  id="option-value-row{{$option?$loop->index:''}}">
+<tr id="option-value-row">
     <td>
         <div class="form-group">
             <input type="hidden" name="productOptions[][id]" @if($option != null) value="{{$option->id}}" @endif>
-            <input type="hidden" name="productOptions[][type]"  value="{{$color_type}}" >
-            {{--{!! Form::text('productOptions[][color]', $option? $option->color : null, ['class' => 'form-control', 'placeholder' => 'Цвет:']) !!}--}}
-            {!! Form::select('productOptions[][color]', $product->getFieldOptions($color_type), $option? $option->color : null, ['class' => 'form-control', 'placeholder' => 'Цвет:']) !!}
-            {{--{{$option->color}}--}}
+            {!! Form::select('productOptions[][color]', $product->getFieldOptions('coating'), $option? $option->color : null, ['class' => 'form-control', 'placeholder' => 'Цвет покрытия:']) !!}
         </div>
     </td>
+
     <td>
 
-        @if($option && $option->files()->exists())
-            <div id="file-item-{{$option->files()->first()->id}}" class="remove-file"
-                 data-id="{{$option->files()->first()->id}}"><span
-                        href="#"><i class="fa fa-remove fa-lg"></i></span><img class="thumbnail"
-                                                                               src="{{asset('storage/files/thumbnail/'.$option->files()->first()->filename)}}"
-                                                                               alt="Картинка">
-            </div>
-        @endif
         <div class="form-group">
-            {!! Form::label('image_option', 'Фото продукта') !!}
-            {!! Form::file('image_option[]', array('multiple'=> false), ['class' => 'form-control' ]) !!}
-            <p class="help-block">Выберите файл для добавления</p>
+            {!! Form::select('productOptions[][color_stone]', $product->getFieldOptions('stone'), $option? $option->color_stone : null, ['class' => 'form-control', 'placeholder' => 'Цвет камня:']) !!}
         </div>
+    </td>
+
+    <td>
+    @if($option && $option->files()->exists())
+        <div id="file-item-{{$option->files()->first()->id}}" class="remove-file"
+             data-id="{{$option->files()->first()->id}}"><span
+                    href="#"><i class="fa fa-remove fa-lg"></i></span><img class="thumbnail"
+                                                                           src="{{asset('storage/files/thumbnail/'.$option->files()->first()->filename)}}"
+                                                                           alt="Картинка">
+        </div>
+    @endif
+    <div class="form-group">
+        {!! Form::label('productOptions[][image_option]', 'Фото продукта') !!}
+        {!! Form::file('productOptions[][image_option]', array('multiple'=> false), ['class' => 'form-control' ]) !!}
+        <p class="help-block">Выберите файл для добавления</p>
+    </div>
 
     </td>
     <td>

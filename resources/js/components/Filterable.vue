@@ -256,7 +256,7 @@
                     ...filters,
                     ...this.query,
                 }
-                console.log(params);
+
                 axios.get(this.url, {params: params})
                     .then((res) => {
                         Vue.set(this.$data, 'collection', res.data.collection);

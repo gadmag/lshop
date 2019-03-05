@@ -306,9 +306,8 @@ class ProductController extends Controller
     {
         $options = $request->extractOptions();
         foreach ($options as $optionAttr) {
-            if ($optionAttr['color']) {
                 $option = Option::create($optionAttr);
-                if ($optionAttr['image_option']) {
+                if (!empty($optionAttr['image_option'])) {
                     $this->multipleUpload([$optionAttr['image_option']], $option, [
                         '600x450' => array(
                             'width' => 600,
@@ -325,7 +324,7 @@ class ProductController extends Controller
                     ], true);
                 }
                 $product->productOptions()->save($option);
-            }
+
 
         }
 
@@ -333,14 +332,12 @@ class ProductController extends Controller
 
     protected function updateMultipleOptions(Request $request, Product $product)
     {
-        $options = collect($request->extractOptions());
-//        dd($options);
-        foreach ($options as $optionAttr) {
+        $options = $request->extractOptions();
 
+        foreach ($options as $optionAttr) {
             $id = $product->productOptions()->updateOrCreate(['id' => $optionAttr['id']], $optionAttr)->id;
             $option = Option::where('id', "=", $id)->first();
-            if ($optionAttr['image_option']) {
-
+            if (!empty($optionAttr['image_option'])) {
                 $this->multipleUpload([$optionAttr['image_option']], $option, [
                     '600x450' => array(
                         'width' => 600,

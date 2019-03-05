@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Option extends Model
 {
-    protected $fillable = ['product_id', 'color', 'type', 'price', 'price_prefix', 'weight', 'weight_prefix', 'quantity'];
+    protected $fillable = ['product_id', 'color', 'color_stone', 'price', 'price_prefix', 'weight', 'weight_prefix', 'quantity'];
     protected $table = 'product_options';
 
     public function setPriceAttribute($value)

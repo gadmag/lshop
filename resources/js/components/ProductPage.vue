@@ -29,7 +29,7 @@
                     <div id="menu1" class="tab-pane fade">
                         <p v-if="product.model"><strong>Модель:</strong> <span>{{product.model}}</span></p>
                         <p v-if="product.material"><strong>Материал:</strong> <span>{{product.material}}</span></p>
-                        <p v-if="product.coating"><strong>Покрытие:</strong> <span>{{product.coating}}</span></p>
+                        <p v-if="product.color"><strong>Покрытие:</strong> <span>{{product.color}}</span></p>
                         <p v-if="product.size"><strong>Размер:</strong> <span>{{product.size}}</span></p>
                         <p v-if="product.weight"><strong>Вес:</strong> <span>{{product.weight}}</span></p>
                     </div>
@@ -50,8 +50,9 @@
 
 
             <div v-if="options" class="options-block">
-                <div v-if="options.length > 0" class="form-group">
-                    <label for="options_color">Цвет</label>
+
+                <div v-if="options && options.length > 0" class="form-group">
+                    <label for="options_color">Цвет </label>
                     <select class="form-control" name="options_color" v-model="query_options.option_id"
                             id="options_color">
                         <option :selected="null" v-bind:value="null">Выбрать</option>
@@ -99,6 +100,7 @@
             return {
                 className: '',
                 files: [],
+                checkedNames: [],
                 query_options: {
                     option_id: null,
                     quantity: 1,
@@ -110,6 +112,11 @@
 
         },
         methods: {
+            selectOption(e){
+                console.log(e.target.value);
+                this.query_options.option_id.push(e.target.value);
+            },
+
             addToCart(id) {
                 bus.$emit('added-to-cart', id, this.query_options);
             },

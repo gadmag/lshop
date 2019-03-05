@@ -4,10 +4,13 @@
             <div class="col-md-4" slot-scope="{item}">
                 <div class="product-item">
                     <div class="thumbnail">
-
                         <img v-if="item.files && item.files.length" class="img-responsive"
                              :src="'/storage/files/250x250/'+item.files[0].filename"
                              alt="Картинка">
+
+                        <!--<img v-else-if="item.product_options && item.product_options.length" class="img-responsive"-->
+                             <!--:src="'/storage/files/250x250/'+item.product_options.files.filename"-->
+                             <!--alt="Картинка">-->
                         <span v-if="item.product_special" class="special-badge"> -{{specialPrice(item)}}%</span>
                         <a :class=""
                            @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
