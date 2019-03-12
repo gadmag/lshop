@@ -104,7 +104,7 @@ class PageController extends Controller
          $page =  Auth::user()->pages()->create($request->all());
         if($request->has('pageMenu.link_title'))
         {
-            $page->pageMenu()->create($request->pageMenu);
+            $page->pageMenu()->create($request->pageMenu + ['link_path' => $page->alias]);
         }
 
         if ($request->has('pageSeo'))
@@ -118,7 +118,7 @@ class PageController extends Controller
     {
         if($request->has('pageMenu.link_title'))
         {
-            $page->pageMenu()->updateOrCreate(['menu_linktable_id' => $page->id], $request->pageMenu);
+            $page->pageMenu()->updateOrCreate(['menu_linktable_id' => $page->id], $request->pageMenu + ['link_path' => $page->alias]);
         }
         else {
             $page->pageMenu()->delete();

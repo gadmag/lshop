@@ -1,6 +1,6 @@
 <li class="">
 
-    {{str_repeat('-', $catalog->depth)}} <a target="_blank" href="{{action('CatalogController@show', [$catalog->alias])}}">{{$catalog->name}}</a>
+    {{str_repeat('-', $catalog->depth)}} <a target="_blank" href="{{action('CatalogController@show', [$catalog->id])}}">{{$catalog->name}}</a>
 
 
     <a style="display: inline-block" href="{{action('Admin\CatalogController@edit',[$catalog->id])}}"
