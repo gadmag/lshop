@@ -9,34 +9,6 @@ use Illuminate\Support\Facades\Storage;
 use App\Service\TransliteratedService;
 use Carbon\Carbon;
 
-/**
- * App\Catalog
- *
- * @property int $id
- * @property string $name
- * @property string $alias
- * @property string $description
- * @property int $status
- * @property int $user_id
- * @property string $type
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $products
- * @property-read \App\Seo $seoAttr
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog ofType($type)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog published()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog unpublished()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog whereAlias($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Catalog whereUserId($value)
- * @mixin \Eloquent
- */
 class Catalog extends Model
 {
     use Sluggable;
@@ -47,7 +19,7 @@ class Catalog extends Model
     {
         return [
             'alias' => [
-                'source' => 'title'
+                'source' => 'name'
             ]
         ];
     }

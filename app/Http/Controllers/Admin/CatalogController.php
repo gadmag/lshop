@@ -151,7 +151,7 @@ class CatalogController extends Controller
 
         if($request->filled('catalogMenu.link_title'))
         {
-            $catalog->catalogMenu()->create($request->pageMenu);
+            $catalog->catalogMenu()->create($request->catalogMenu + ['link_path' => $catalog->alias]);
         }
 
         if ($request->filled('catalogSeo')) {
@@ -172,7 +172,7 @@ class CatalogController extends Controller
 
         if($request->filled('catalogMenu.link_title'))
         {
-            $catalog->catalogMenu()->updateOrCreate(['menu_linktable_id' => $catalog->id], $request->pageMenu);
+            $catalog->catalogMenu()->updateOrCreate(['menu_linktable_id' => $catalog->id], $request->catalogMenu+['link_path' => $catalog->alias]);
         }
         else {
             $catalog->catalogMenu()->delete();

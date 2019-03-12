@@ -23,9 +23,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home" v-html="product.description" class="tab-pane fade in active">
-
-                    </div>
+                    <div id="home" v-html="product.description" class="tab-pane fade in active"></div>
                     <div id="menu1" class="tab-pane fade">
                         <p v-if="product.model"><strong>Модель:</strong> <span>{{product.model}}</span></p>
                         <p v-if="product.material"><strong>Материал:</strong> <span>{{product.material}}</span></p>
@@ -133,6 +131,9 @@
         },
 
         computed: {
+            getPrice(){
+
+            },
             toggleWishList() {
                 if (this.$parent.wishList[this.product.id]) {
                     if (window.location.pathname.replace('/', '') == 'wishlist') {

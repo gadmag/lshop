@@ -2,6 +2,7 @@
 
 @section('content')
 @section('title', $catalog->name)
+
 <nav aria-label="breadcrumb" role="navigation">
     <br>
     <ol class="breadcrumb">

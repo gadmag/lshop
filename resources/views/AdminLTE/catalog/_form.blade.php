@@ -77,13 +77,13 @@
                     <legend>Меню</legend>
                     <div style="">
                         <div class="form-group">
-                            {!! Form::label('pageMenu[link_title]', 'Название ссылки:') !!}
-                            {!! Form::text( 'pageMenu[link_title]', null, ['class' => 'form-control']) !!}
+                            {!! Form::label('catalogMenu[link_title]', 'Название ссылки:') !!}
+                            {!! Form::text( 'catalogMenu[link_title]', null, ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('pageMenu[menu_type]', 'Меню') !!}
-                            {!! Form::select('pageMenu[menu_type]',[
+                            {!! Form::label('catalogMenu[menu_type]', 'Меню') !!}
+                            {!! Form::select('catalogMenu[menu_type]',[
                             'main_menu' => 'Главное меню',
                             'second_menu' => 'Второстепенное меню',
 

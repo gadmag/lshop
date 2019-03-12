@@ -4,27 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * App\Menu
- *
- * @property int $id
- * @property string $link_title
- * @property int $parent_id
- * @property string $link_path
- * @property int $order
- * @property int $article_id
- * @property int $visible
- * @property string $menu_type
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Menu whereArticleId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Menu whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Menu whereLinkPath($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Menu whereLinkTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Menu whereMenuType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Menu whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Menu whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Menu whereVisible($value)
- * @mixin \Eloquent
- */
+
 class Menu extends Model
 {
     protected $table = 'menu_link';

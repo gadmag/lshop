@@ -30,7 +30,7 @@ class CatalogRequest extends FormRequest
 
         if ($this->filled('pageMenu.link_title'))
         {
-            $rules += ['pageMenu.menu_type'=> 'required'];
+            $rules += ['catalogMenu.menu_type'=> 'required'];
         }
 
         return $rules;

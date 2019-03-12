@@ -75,7 +75,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('checkout', ['as' => 'checkout', 'uses' => 'CheckoutController@getCheckout', 'middleware' => 'auth']);
     Route::post('checkout', ['as' => 'checkoutPost', 'uses' => 'CheckoutController@postCheckout', 'middleware' => 'auth']);
     /*catalog*/
-    Route::get('catalogs/{catalog}', ['as' => 'catalog.show', 'uses' => 'CatalogController@show']);
+    Route::get('catalogs/{catalog_alias}', ['as' => 'catalog.show', 'uses' => 'CatalogController@show']);
     Route::get('catalogs', ['as' => 'catalog.index', 'uses' => 'CatalogController@index']);
 
 
