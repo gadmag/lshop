@@ -1,7 +1,8 @@
-.remove-file{
+.remove-file {
     position: relative;
 }
-.remove-file span{
+
+.remove-file span {
     cursor: pointer;
     font-size: 18px;
     color: red;
@@ -13,10 +14,49 @@
 .remove-file span:hover {
     color: red;
 }
-.tab-options table.table td{
+
+.tab-options table.table td {
     vertical-align: middle;
 }
 
-.tab-options table.table tr td div.remove-file + div.form-group{
-display: none;
+.tab-options table.table tr td div.remove-file + div.form-group {
+    display: none;
+}
+
+/*catalog*/
+.menu-link .sub-menu {
+    list-style: none;
+    padding-left: 10px;
+}
+
+.menu-link li.item-link .inner-item {
+    /*position: relative;*/
+    width: 100%;
+    display: table;
+    padding: 5px;
+    margin: 0 0 3px;
+    border: 1px solid #ebe8e8;
+    background: #ffffff;
+}
+
+.menu-link li.item-link .left-item {
+    display: table-cell;
+    min-width: 200px;
+    font-weight: bold;
+}
+
+.menu-link li.item-link .right-item {
+    display: table-cell;
+    text-align: right;
+
+}
+.menu-link .item-index
+{
+    display: inline-block;
+    border: 1px solid #acb2b4;
+    margin: 8px 0 4px;
+    padding: 4px 0;
+    width: 30px;
+    background: #fff;
+    text-align: center;
 }

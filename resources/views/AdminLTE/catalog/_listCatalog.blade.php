@@ -6,12 +6,15 @@
             Добавить категорию
         </a>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <ul class="list-unstyled">
+    <div class="col-md-8">
+        <div class="">
+            <ul class="menu-link list-unstyled">
             @each('AdminLTE.catalog._list_item', $catalogs, 'catalog')
             </ul>
         </div>
     </div>
+
+    <div class="col-md-4"></div>
+    <div class="clearfix"></div>
 
 </div>
