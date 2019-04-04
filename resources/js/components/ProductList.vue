@@ -1,19 +1,18 @@
 <template>
-    <div class="product-item">
-        <div class="thumbnail">
-            <img class="img-responsive"
-                 :src="imagepath"
-                 alt="Картинка">
-            <span v-if="persentprice" class="special-badge">-{{persentprice}}%</span>
-            <a :class="" @click="toggleWishList? removeToWishList(product.id) : addToWishList(product.id)"><span
-                    :class="toggleWishList? className: className"></span></a>
-            <div class="caption">
-                <div class="product-name text-center"><a class="" :href="productlink">{{product.title}}</a></div>
-                <div class="product-price text-center"><span class="special" v-if="pricespecial">{{pricespecial}} р.</span> <span>{{price}} р.</span>
-                </div>
-                <div class="product-link text-center"><a class="button action primary" :href="productlink">Подробнее</a>
+
+    <div class="product-item mb-3 card">
+        <img class="card-img-top img-fluid" :src="imagepath" alt="Картинка">
+        <span v-if="persentprice" class="special-badge">-{{persentprice}}%</span>
+        <a :class="" @click="toggleWishList? removeToWishList(product.id) : addToWishList(product.id)"><span
+                :class="toggleWishList? className: className"></span></a>
+        <div class="card-body">
+            <h5 class="card-title text-center"><a class="" :href="productlink">{{product.title}}</a></h5>
+            <div class="card-text">
+                <div class="product-price text-center">
+                    <span class="special" v-if="pricespecial">{{pricespecial}} р.</span> <span>{{price}} р.</span>
                 </div>
             </div>
+            <div class="product-link text-center"><a class="button action primary" :href="productlink">Подробнее</a></div>
         </div>
     </div>
 </template>

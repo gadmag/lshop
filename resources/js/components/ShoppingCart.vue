@@ -17,20 +17,36 @@
                 <tbody>
                 <tr v-for="(cartItem, key, index) in cart.items">
                     <td class="title" data-th=" ">
-                        <div class="row">
-                            <div class="col-sm-3 col-xs-4"><img v-if="cartItem.item.files[0]" class="img-responsive"
-                                                                 :src="'/storage/files/90x110/'+cartItem.item.files[0].filename"
-                                                                 alt="Картинка товара"></div>
-                            <div class="col-sm-9 col-xs-8">{{cartItem.item.title}}</div>
-                        </div>
+                        <figure class="media">
+                            <div class="mr-2 img-wrap">
+                                <img v-if="cartItem.optionImage"
+                                     :src="'/storage/files/90x110/'+cartItem.optionImage.filename" class="" alt="Фото товара">
+                                <img v-else-if="cartItem.item.files[0]"
+                                     :src="'/storage/files/90x110/'+cartItem.item.files[0].filename"
+                                     class="" alt="Фото товара">
+                            </div>
+                            <div class="media-body">
+                                <figcaption>{{cartItem.item.title}}</figcaption>
+                                <div v-if="cartItem.item.color" class="small">
+                                    <span><strong>Цвет:</strong> {{cartItem.item.color}}</span>
+                                </div>
+                                <div v-if="cartItem.item.color_stone" class="small">
+                                    <span><strong>Цвет камня:</strong> {{cartItem.item.color_stone}}</span>
+                                </div>
+                            </div>
+                        </figure>
+<!--                        <div class="row">-->
+<!--                            <div class="col-sm-3 col-xs-4"><img v-if="cartItem.item.files[0]" class="img-responsive"-->
+<!--                                                                 :src="'/storage/files/90x110/'+cartItem.item.files[0].filename"-->
+<!--                                                                 alt="Картинка товара"></div>-->
+<!--                            <div class="col-sm-9 col-xs-8">{{cartItem.item.title}}</div>-->
+<!--                        </div>-->
                     </td>
                     <td class="price" data-th="Цена">{{cartItem.price/cartItem.qty}} р.</td>
                     <td data-th="Кол-во">
-                        <a href="#" @click="reduceFromCart(key)" type="button"><i
-                                class="fa fa-minus"></i></a>
+                        <a href="#" @click="reduceFromCart(key)"><i class="fa fa-minus"></i></a>
                         <strong>{{cartItem.qty}}</strong>
-                        <a href="#" @click="addToCart(cartItem)" type="button"><i
-                                class="fa fa-plus"></i></a>
+                        <a href="#" @click="addToCart(cartItem)"><i class="fa fa-plus"></i></a>
                     </td>
                     <td data-th="Итого" class="text-center">{{cartItem.price}} р.</td>
                     <td class=" text-center actions"><a @click="removeFromCart(key)" href="#"><i class="fa fa-remove"></i></a></td>

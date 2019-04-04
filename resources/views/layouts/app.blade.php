@@ -14,13 +14,14 @@
     <meta property="og:description" content="@yield('description')"/>
     <meta name="description" content="@yield('description')"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
-    <link rel="icon" href="{{elixir('/img/favicon.ico')}}" type="image/x-icon"/>
+    <link rel="icon" href="{{elixir('/favicon.ico')}}" type="image/x-icon"/>
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"
           integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
     <!-- Styles -->
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-ui.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     @stack('style')
 </head>

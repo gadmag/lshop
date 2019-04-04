@@ -14,12 +14,17 @@
                     <div class="panel-body">
                         <div class="filter">
                             <!-- Single button -->
+                            <div class="custom-control custom-checkbox mb-3">
+                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
+                                <label class="custom-control-label" for="customCheck1">Checkboxes are cool</label>
+                            </div>
                             <div v-for="(group, f) in filterGroups" class="">
                                 <h4>{{group.title}} <span class="caret"></span></h4>
+
                                 <div class="filter-list">
                                     <div class="checkbox">
-                                        <div v-for="(item,i) in group.item" class="form-group">
-                                            <input :id="item.type+'-'+i" type="checkbox" :value="JSON.stringify(item.name)"
+                                        <div v-for="(item,i) in group.item" class="form-group form-check">
+                                            <input class="form-check-input" :id="item.type+'-'+i" type="checkbox" :value="JSON.stringify(item.name)"
                                                    @input="selectField(item, f, $event)">
                                             <label :for="item.type+'-'+i">{{item.name}}</label>
                                         </div>
@@ -33,11 +38,10 @@
             </div>
 
             <div class="col-md-9">
-                <div class="filterable-export clearfix">
-
+                <div class="header filterable-sort clearfix">
                     <div class="form-inline">
-                        <div class="form-group pull-right">
-                            <span>Сортировать:</span>
+                        <div class="form-group align-content-end mb-2">
+                            <span>Сортировать: </span>
                             <select class="form-control" :disabled="loading" @input="updateOrderField">
                                 <option v-for="field in orderables" :value="JSON.stringify(field.options)"
                                         :selected="field && field.options.name == query.order_by && field.options.direction == query.order_direction">
@@ -48,12 +52,12 @@
                     </div>
                 </div>
                 <div class="panel-body">
-
-                    <slot v-if="collection.data && collection.data.length"
-                          v-for="item in collection.data"
-                          :item='item'>
-
-                    </slot>
+                    <div class="row">
+                        <slot v-if="collection.data && collection.data.length"
+                              v-for="(item, key, index) in collection.data"
+                              :item='item, key'>
+                        </slot>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <div class="row">
@@ -70,11 +74,11 @@
                             </small>
                         </div>
                         <div class="text-right col-xs-6">
-                            <button class="btn" :disabled="!collection.prev_page_url || loading" @click="prevPage">
+                            <button class="btn btn-outline-black" :disabled="!collection.prev_page_url || loading" @click="prevPage">
                                 &laquo;
                                 Prev
                             </button>
-                            <button class="btn" :disabled="!collection.next_page_url || loading" @click="nextPage">Next
+                            <button class="btn btn-outline-black" :disabled="!collection.next_page_url || loading" @click="nextPage">Next
                                 &raquo;
                             </button>
                         </div>
@@ -126,7 +130,6 @@
 
         computed: {
             fetchOperators(f) {
-
                 return (f) => {
                     return this.availableOperators().filter((operator) => {
                         if (f.field && operator.parent.includes(f.field.type)) {
@@ -135,6 +138,12 @@
                     })
                 }
             },
+            chunkedItems () {
+                if (this.collection.data && this.collection.data.length > 0) {
+                    return _.chunk(this.collection.data, 3)
+                }
+
+            }
         },
 
         methods: {

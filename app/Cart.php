@@ -33,13 +33,17 @@ class Cart
         $quantity = ($option->quantity > 0) ? $option->quantity : 1;
         $option_id = $option->option_id;
         $optionImage = null;
+//        $colors = [];
         $productKey = self::searchCartKey($this->items, $id, $option_id);
         if ($option_id) {
+
             $productOption = $item->productOptions->find($option_id);
             if ($productOption->files()->exists()){
                 $optionImage = $productOption->files;
             }
-            $item->title = $item->title . "($productOption->color)";
+            if ($productOption->color) $item->color = $productOption->color;
+            if ($productOption->color_stone) $item->color_stone = $productOption->color_stone;
+
             $optionPrice = floatval($productOption->price_prefix . $productOption->price);
             $optionWeight = floatval($productOption->weight_prefix . $productOption->weight);
         }

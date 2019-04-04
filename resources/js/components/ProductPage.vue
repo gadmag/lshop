@@ -1,10 +1,12 @@
 <template>
     <div class="row">
         <div class="col-sm-6">
-            <ul class="list-unstyled" v-if="getConcateImages" id="thumbnails">
+            <ul class="list-unstyled" v-if="files" id="thumbnails">
                 <li class="image-product-item" v-for="(image, key, index) in files">
-                    <a class="group2" v-if="key == 0" :href="'/storage/files/'+ image.filename"><img class="img-responsive" :src="'/storage/files/600x450/'+ image.filename" alt="Фото продукта"></a>
-                    <a class="group2 thumbnail" v-else :href="'/storage/files/'+ image.filename"><img  :src="'/storage/files/90x110/'+ image.filename" alt="Фото продукта"></a>
+                    <a class="group2" v-if="key == 0" :href="'/storage/files/'+ image.filename"><img
+                            class="img-fluid" :src="'/storage/files/600x450/'+ image.filename" alt="Фото продукта"></a>
+                    <a class="group2 thumbnail" v-else :href="'/storage/files/'+ image.filename"><img
+                            :src="'/storage/files/90x110/'+ image.filename" alt="Фото продукта"></a>
                 </li>
             </ul>
             <div class="clearfix"></div>
@@ -17,13 +19,13 @@
             </div>
             <div class="description-block">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#home">Описание</a></li>
-                    <li><a data-toggle="tab" href="#menu1">Характеристики</a></li>
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Описание</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu1">Характеристики</a></li>
 
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home" v-html="product.description" class="tab-pane fade in active"></div>
+                    <div id="home" v-html="product.description" class="tab-pane fade show active"></div>
                     <div id="menu1" class="tab-pane fade">
                         <p v-if="product.model"><strong>Модель:</strong> <span>{{product.model}}</span></p>
                         <p v-if="product.material"><strong>Материал:</strong> <span>{{product.material}}</span></p>
@@ -35,14 +37,15 @@
                 </div>
             </div>
             <div class="price-block">
-                <h2><span v-bind:class="{'through': isSpecial}" class="price">{{product.price}} р.</span></h2>
-                <h2 v-if="special"><span class="special-price">{{special.price}} </span><span>р.</span></h2>
+                <h2><span v-bind:class="{'through': isSpecial}" class="price">{{getPrice}} р.</span></h2>
+                <h2 v-if="special"><span class="special-price">{{getSpecialPrice}} </span><span>р.</span></h2>
+                <!--<h2>{{getPrice}}</h2>-->
             </div>
 
 
             <div v-if="discount" class="discount-block">
                 <hr>
-                <span>{{discount.quantity}} и более {{discount.price}} р.</span>
+                <span>{{discount.quantity}} и более {{getDiscountPrice}} р.</span>
                 <hr>
             </div>
 
@@ -55,7 +58,7 @@
                             id="options_color">
                         <option :selected="null" v-bind:value="null">Выбрать</option>
                         <option :disabled="option.quantity <= 0" v-for="option in options" :value="option.id">
-                            {{option.color}}
+                            {{fullOptionName(option)}}
                         </option>
                     </select>
                 </div>
@@ -65,20 +68,15 @@
                            class="form-control" :max="product.quantity">
                 </div>
                 <div class="button-block clearfix">
-                    <ul class=" list-inline">
-                        <li>
-                            <button :disabled="product.quantity <= 0" class="lotus-button btn"
+                            <button :disabled="product.quantity <= 0" class="mb-2 lotus-button btn"
                                     @click="addToCart(product.id)">Добавить в корзину
                             </button>
-                        </li>
-                        <li>
-                            <button class="lotus-button btn"
+
+                            <button class="mb-2 lotus-button btn"
                                     @click="toggleWishList? removeToWishList(product.id) : addToWishList(product.id)">
                                 Добавить
                                 в избранное
                             </button>
-                        </li>
-                    </ul>
                 </div>
 
 
@@ -106,13 +104,54 @@
             }
         },
         mounted() {
+            this.allImagesProduct();
             console.log('Component mounted.');
 
         },
         methods: {
-            selectOption(e){
-                console.log(e.target.value);
-                this.query_options.option_id.push(e.target.value);
+
+
+            getOptionByID(id) {
+                let option = false;
+                this.options.forEach(function (item, i) {
+                    if (id === item.id) {
+                        option = item;
+                    }
+                });
+                return option;
+            },
+            addOptionPrice(price) {
+                let id = this.query_options.option_id
+                if (id !== null) {
+                    let option = this.getOptionByID(id);
+                    let total_price = parseFloat(price) + parseFloat(option.price_prefix + option.price);
+                    return total_price.toFixed(2);
+                }
+                return price
+            },
+
+            fullOptionName(option) {
+                let optionFullName = '';
+                if (option.color) {
+                    optionFullName = "Цвет: " + option.color
+                }
+                if (option.color_stone) {
+                    let separator = optionFullName ? optionFullName + '/' : '';
+                    optionFullName = separator + "Цвет камня: " + option.color_stone
+                }
+                return optionFullName
+            },
+
+            allImagesProduct() {
+                let _this = this;
+                this.files = this.images ? this.images : [];
+                this.options.forEach(function (item, i) {
+                    if (item.files != undefined && item.files != null) {
+                        _this.files.push(item.files);
+                    }
+                });
+
+                return this.files;
             },
 
             addToCart(id) {
@@ -131,9 +170,22 @@
         },
 
         computed: {
-            getPrice(){
 
+            getPrice() {
+
+                return this.addOptionPrice(this.product.price);
             },
+
+            getDiscountPrice() {
+
+                return this.addOptionPrice(this.discount.price)
+            },
+
+            getSpecialPrice() {
+
+                return this.addOptionPrice(this.special.price);
+            },
+
             toggleWishList() {
                 if (this.$parent.wishList[this.product.id]) {
                     if (window.location.pathname.replace('/', '') == 'wishlist') {
@@ -155,21 +207,6 @@
                 return false
             },
 
-            getConcateImages() {
-                if (this.images)
-                {
-                    this.files = this.images
-                }
-                if (this.options) {
-                    for (var key in this.options) {
-                        if (this.options[key].files !== undefined && this.options[key].files !== null) {
-                            this.files.push(this.options[key].files)
-                        }
-                    }
-                }
-
-                return this.files;
-            }
 
         }
     }

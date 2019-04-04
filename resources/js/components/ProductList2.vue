@@ -1,16 +1,13 @@
 <template>
     <div>
         <filterable v-bind="filterable">
-            <div class="col-md-4" slot-scope="{item}">
-                <div class="product-item">
-                    <div class="thumbnail">
-                        <img v-if="item.files && item.files.length" class="img-responsive"
+            <template slot-scope="{item, key}">
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="product-item mb-3  card">
+                        <img v-if="item.files && item.files.length" class="card-img-top img-fluid"
                              :src="'/storage/files/250x250/'+item.files[0].filename"
                              alt="Картинка">
 
-                        <!--<img v-else-if="item.product_options && item.product_options.length" class="img-responsive"-->
-                             <!--:src="'/storage/files/250x250/'+item.product_options.files.filename"-->
-                             <!--alt="Картинка">-->
                         <span v-if="item.product_special" class="special-badge"> -{{specialPrice(item)}}%</span>
                         <a :class=""
                            @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
@@ -20,12 +17,15 @@
                             </div>
                             <div class="product-price text-center"><span class="special" v-if="item.product_special">{{Number(item.product_special.price).toFixed(0)}} р.</span>
                                 <span>{{Number(item.price).toFixed(0)}} р.</span></div>
-                            <div class="product-link text-center"><a class="button action primary" :href="'/products/'+item.alias">Подробнее</a>
+                            <div class="product-link text-center"><a class="button action primary"
+                                                                     :href="'/products/'+item.alias">Подробнее</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div v-if="(key+1) % 3 == 0" class="w-100 d-none d-lg-block"></div>
+                <div v-if="(key+1) % 2 == 0" class="w-100 d-none d-sm-block d-lg-none"></div>
+            </template>
         </filterable>
     </div>
 </template>
@@ -47,12 +47,12 @@
                         {title: 'Имя (А - Я)', options: {name: 'title', direction: 'asc'}},
                     ],
                     filterGroups: [
-                            {title: 'Материал', name: 'material', item: this.filters.material},
-                            {title: 'Покрытие', name: 'coating', item: this.filters.coating},
-                            {title: 'Цвет', name: 'productOptions.color', item: this.filters.color},
-                        ],
-                    }
+                        {title: 'Материал', name: 'material', item: this.filters.material},
+                        {title: 'Покрытие', name: 'coating', item: this.filters.coating},
+                        {title: 'Цвет', name: 'productOptions.color', item: this.filters.color},
+                    ],
                 }
+            }
         },
         mounted() {
             console.log('Component ProductList2 mounted.')
@@ -78,6 +78,8 @@
         },
 
         computed: {
+
+
             toggleWishList(id) {
 
                 // console.log(this.$parent.wishList[this.product.id])

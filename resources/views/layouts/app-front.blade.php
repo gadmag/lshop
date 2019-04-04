@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{--<link rel="icon" href="{{elixir('/img/favicon.ico')}}" type="image/x-icon"/>--}}
+    <link rel="icon" href="{{elixir('/favicon.ico')}}" type="image/x-icon"/>
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,8 +15,9 @@
           integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
 <!-- Styles -->
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-ui.css') }}" rel="stylesheet">
     <link href="{{asset('/css/fancy.slide.css')}}" rel="stylesheet">
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 </head>
 <body id="app-layout">
 <div class="holder">
@@ -61,10 +62,7 @@
 <!-- JavaScripts -->
 
 <script src="{{asset('js/app.js')}}"></script>
-<script src="{{asset('/js/all.js') }}"></script>
 <script src="{{asset('js/fancy.slide.js')}}"></script>
-<script>
-
-</script>
+<script src="{{asset('/js/all.js') }}"></script>
 </body>
 </html>

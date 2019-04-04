@@ -13,11 +13,12 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js/')
     .less('resources/less/app.less', 'public/css/')
+    .sass('resources/sass/bootstrap.scss', 'public/css/')
     .styles([
         "resources/css/preload.css",
-        "resources/css/bootstrap.min.css"
+        "public/css/bootstrap.css",
     ], 'public/css/all.css');
-
+mix.sass('resources/sass/bootstrap-ui.scss', 'public/css');
 mix.scripts([
     'resources/js/lshop.js'
 ], 'public/js/all.js');

@@ -5,7 +5,7 @@
                 <table class="table table-detail table-hover">
                     <thead>
                     <tr class="hidden-xs">
-                        <th class="img-cart">Фото</th>
+                        <!--<th class="img-cart">Фото</th>-->
                         <th>Наименование</th>
                         <th class="price-cart">Цена</th>
                         <th>Кол-во</th>
@@ -15,21 +15,36 @@
                     </thead>
                     <tbody>
                     <tr v-for="(cartItem, key, index) in cart.items">
-                        <td class="img-cart">
-                            <img v-if="cartItem.optionImage" :src="'/storage/files/90x110/'+cartItem.optionImage.filename" alt="Фото товара">
-                            <img v-else-if="cartItem.item.files[0]" class="img-responsive"
-                                                  :src="'/storage/files/90x110/'+cartItem.item.files[0].filename"
-                                                  alt="Фото товара"></td>
-                        <td>{{cartItem.item.title}}</td>
+                        <td>
+                            <figure class="media">
+                                <div class="mr-2 img-wrap">
+                                    <img v-if="cartItem.optionImage"
+                                         :src="'/storage/files/90x110/'+cartItem.optionImage.filename" class="" alt="Фото товара">
+                                    <img v-else-if="cartItem.item.files[0]"
+                                         :src="'/storage/files/90x110/'+cartItem.item.files[0].filename"
+                                         class="" alt="Фото товара">
+                                </div>
+                                <div class="media-body">
+                                    <figcaption>{{cartItem.item.title}}</figcaption>
+                                    <div v-if="cartItem.item.color" class="small">
+                                        <span><strong>Цвет:</strong> {{cartItem.item.color}}</span>
+                                    </div>
+                                    <div v-if="cartItem.item.color_stone" class="small">
+                                        <span><strong>Цвет камня:</strong> {{cartItem.item.color_stone}}</span>
+                                    </div>
+                                </div>
+                            </figure>
+                        </td>
                         <td class="price-cart">{{cartItem.price/cartItem.qty}} р.</td>
                         <td class="cart-qty">
                             <div>
-                                <span @click="reduceFromCart(key)" type="button"><i class="fa fa-minus"></i> </span>  <b>{{cartItem.qty}}</b>
-                                <span @click="addToCart(cartItem)" type="button"> <i class="fa fa-plus"></i></span>
+                                <span @click="reduceFromCart(key)"><i class="fa fa-minus"></i> </span> <b>{{cartItem.qty}}</b>
+                                <span @click="addToCart(cartItem)"> <i class="fa fa-plus"></i></span>
                             </div>
                         </td>
                         <td class="price-sum">{{cartItem.price}} р.</td>
-                        <td class="text-center"><a @click="removeFromCart(key)" href="#"><i class="fa fa-remove"></i></a></td>
+                        <td class="text-center"><a @click="removeFromCart(key)" href="#"><i
+                                class="fa fa-remove"></i></a></td>
                     </tr>
                     <tr>
 
@@ -37,7 +52,8 @@
                     </tbody>
                 </table>
                 <div class="cart-detail-bottom">
-                    <div class="button-cart"><a href="/shopping-cart" class="btn lotus-button">Просмотр корзины</a></div>
+                    <div class="button-cart"><a href="/shopping-cart" class="btn lotus-button">Просмотр корзины</a>
+                    </div>
                     <div class="total-cart"><strong>Итого: {{cart.totalPrice}} р.</strong></div>
                 </div>
 
@@ -65,7 +81,7 @@
                 bus.$emit('reduce-from-cart', key)
             },
             addToCart(item) {
-               var query_options = {
+                var query_options = {
                     option_id: item.option_id,
                     quantity: 1,
                 };

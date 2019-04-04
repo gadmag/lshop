@@ -1,4 +1,4 @@
-<ul class="nav navbar-nav nav-main">
+<ul class="navbar-nav nav-main">
 
 @foreach($mainMenu as $menu)
         @include('menu.menu_item', $menu)
