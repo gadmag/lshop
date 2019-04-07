@@ -1718,13 +1718,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['cart', 'carttotal'],
@@ -1732,6 +1725,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log('Component Cart detail mounted.');
     },
 
+
+    computed: {
+        qtyNameSuffix: function qtyNameSuffix() {
+            var str = '';
+            if (this.cart.totalQty && this.cart.totalQty > 0) {
+                switch (this.cart.totalQty) {
+                    case 1:
+                        str = this.cart.totalQty + ' товар';
+                        break;
+                    case 2:
+                        str = this.cart.totalQty + ' товара';
+                        break;
+                    case 3:
+                        str = this.cart.totalQty + ' товара';
+                        break;
+                    case 4:
+                        str = this.cart.totalQty + ' товара';
+                        break;
+                    default:
+                        str = this.cart.totalQty + ' товаров';
+                }
+                return str;
+            }
+            return '';
+        }
+    },
 
     methods: {
         removeFromCart: function removeFromCart(id) {
@@ -39226,19 +39245,27 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "cart-detail" }, [
     _vm.carttotal > 0
-      ? _c("div", {}, [
-          _c("div", { staticClass: "table-responsive" }, [
-            _c("table", { staticClass: "table table-detail table-hover" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.cart.items, function(cartItem, key, index) {
-                    return _c("tr", [
-                      _c("td", [
-                        _c("figure", { staticClass: "media" }, [
-                          _c("div", { staticClass: "mr-2 img-wrap" }, [
+      ? _c("div", { staticClass: "table-responsive" }, [
+          _c("table", { staticClass: "table table-detail table-hover" }, [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _c("th", { attrs: { colspan: "4", scope: "col" } }, [
+                  _c("b", [_vm._v("В корзине " + _vm._s(_vm.qtyNameSuffix))])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              [
+                _vm._l(_vm.cart.items, function(cartItem, key, index) {
+                  return _c("tr", [
+                    _c("td", [
+                      _c("figure", { staticClass: "media" }, [
+                        _c(
+                          "div",
+                          { staticClass: "mr-2 d-none d-sm-block img-wrap" },
+                          [
                             cartItem.optionImage
                               ? _c("img", {
                                   attrs: {
@@ -39258,104 +39285,100 @@ var render = function() {
                                   }
                                 })
                               : _vm._e()
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "media-body" }, [
+                          _c("figcaption", [
+                            _vm._v(_vm._s(cartItem.item.title))
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "media-body" }, [
-                            _c("figcaption", [
-                              _vm._v(_vm._s(cartItem.item.title))
-                            ]),
-                            _vm._v(" "),
-                            cartItem.item.color
-                              ? _c("div", { staticClass: "small" }, [
-                                  _c("span", [
-                                    _c("strong", [_vm._v("Цвет:")]),
-                                    _vm._v(" " + _vm._s(cartItem.item.color))
-                                  ])
+                          cartItem.item.color
+                            ? _c("div", { staticClass: "small" }, [
+                                _c("span", [
+                                  _c("strong", [_vm._v("Цвет:")]),
+                                  _vm._v(" " + _vm._s(cartItem.item.color))
                                 ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            cartItem.item.color_stone
-                              ? _c("div", { staticClass: "small" }, [
-                                  _c("span", [
-                                    _c("strong", [_vm._v("Цвет камня:")]),
-                                    _vm._v(
-                                      " " + _vm._s(cartItem.item.color_stone)
-                                    )
-                                  ])
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          cartItem.item.color_stone
+                            ? _c("div", { staticClass: "small" }, [
+                                _c("span", [
+                                  _c("strong", [_vm._v("Цвет камня:")]),
+                                  _vm._v(
+                                    " " + _vm._s(cartItem.item.color_stone)
+                                  )
                                 ])
-                              : _vm._e()
-                          ])
+                              ])
+                            : _vm._e()
                         ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "price-cart" }, [
-                        _vm._v(_vm._s(cartItem.price / cartItem.qty) + " р.")
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "cart-qty" }, [
-                        _c("div", [
-                          _c(
-                            "span",
-                            {
-                              on: {
-                                click: function($event) {
-                                  return _vm.reduceFromCart(key)
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-minus" })]
-                          ),
-                          _vm._v(" "),
-                          _c("b", [_vm._v(_vm._s(cartItem.qty))]),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              on: {
-                                click: function($event) {
-                                  return _vm.addToCart(cartItem)
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-plus" })]
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "price-sum" }, [
-                        _vm._v(_vm._s(cartItem.price) + " р.")
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-center" }, [
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "cart-qty" }, [
+                      _c("div", [
                         _c(
-                          "a",
+                          "span",
                           {
-                            attrs: { href: "#" },
                             on: {
                               click: function($event) {
-                                return _vm.removeFromCart(key)
+                                return _vm.reduceFromCart(key)
                               }
                             }
                           },
-                          [_c("i", { staticClass: "fa fa-remove" })]
+                          [_c("i", { staticClass: "fa fa-minus" })]
+                        ),
+                        _vm._v(" "),
+                        _c("b", [_vm._v(_vm._s(cartItem.qty))]),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.addToCart(cartItem)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-plus" })]
                         )
                       ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "price-sum" }, [
+                      _vm._v(_vm._s(cartItem.price) + " р.")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-center" }, [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              return _vm.removeFromCart(key)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-remove" })]
+                      )
                     ])
-                  }),
-                  _vm._v(" "),
-                  _c("tr")
-                ],
-                2
-              )
-            ]),
+                  ])
+                }),
+                _vm._v(" "),
+                _c("tr")
+              ],
+              2
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "p-2 cart-detail-bottom" }, [
+            _vm._m(0),
             _vm._v(" "),
-            _c("div", { staticClass: "cart-detail-bottom" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("div", { staticClass: "total-cart" }, [
-                _c("strong", [
-                  _vm._v("Итого: " + _vm._s(_vm.cart.totalPrice) + " р.")
-                ])
+            _c("div", { staticClass: "total-cart" }, [
+              _c("strong", [
+                _vm._v("Итого: " + _vm._s(_vm.cart.totalPrice) + " р.")
               ])
             ])
           ])
@@ -39366,24 +39389,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", { staticClass: "hidden-xs" }, [
-        _c("th", [_vm._v("Наименование")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "price-cart" }, [_vm._v("Цена")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Кол-во")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Итого")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Удалить")])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

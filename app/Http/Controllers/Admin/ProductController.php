@@ -229,8 +229,8 @@ class ProductController extends Controller
         if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $product, [
                 '600x450' => array(
-                    'width' => 600,
-                    'height' => 450
+                    'width' => 500,
+                    'height' => 500
                 ),
 
                 '250x250' => array(
@@ -239,7 +239,7 @@ class ProductController extends Controller
                 ),
 
                 '90x110' => array(
-                    'width' => 90,
+                    'width' => 110,
                     'height' => 110
                 )
             ], true);
@@ -281,15 +281,15 @@ class ProductController extends Controller
         if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $product, [
                 '600x450' => array(
-                    'width' => 600,
-                    'height' => 450
+                    'width' => 500,
+                    'height' => 500
                 ),
                 '250x250' => array(
                     'width' => 280,
                     'height' => 280
                 ),
                 '90x110' => array(
-                    'width' => 90,
+                    'width' => 110,
                     'height' => 110
                 )
             ], true);
@@ -310,15 +310,15 @@ class ProductController extends Controller
                 if (!empty($optionAttr['image_option'])) {
                     $this->multipleUpload([$optionAttr['image_option']], $option, [
                         '600x450' => array(
-                            'width' => 600,
-                            'height' => 450
+                            'width' => 500,
+                            'height' => 500
                         ),
                         '250x250' => array(
                             'width' => 280,
                             'height' => 280
                         ),
                         '90x110' => array(
-                            'width' => 90,
+                            'width' => 110,
                             'height' => 110
                         )
                     ], true);
@@ -340,15 +340,15 @@ class ProductController extends Controller
             if (!empty($optionAttr['image_option'])) {
                 $this->multipleUpload([$optionAttr['image_option']], $option, [
                     '600x450' => array(
-                        'width' => 600,
-                        'height' => 450
+                        'width' => 500,
+                        'height' => 500
                     ),
                     '250x250' => array(
                         'width' => 280,
                         'height' => 280
                     ),
                     '90x110' => array(
-                        'width' => 90,
+                        'width' => 110,
                         'height' => 110
                     )
                 ], true);

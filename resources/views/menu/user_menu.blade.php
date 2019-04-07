@@ -6,7 +6,7 @@
         </div>
     </li>
     <li class="nav-item dropdown">
-        <a href="#" id="userDropdown" class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <a href="#" id="userDropdown" class="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             <img src="{{asset('img/user.png')}}" alt="">
         </a>
         <div class="dropdown-menu" aria-labelledby="userDropdown">
@@ -19,16 +19,16 @@
             @endif
         </div>
     </li>
-    <li class="nav-item cart-item-detail dropdown">
-        <a class="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{{route('product.shoppingCart')}}">
+    <li id="cartDetailBlock" class="nav-item cart-item-detail dropdown">
+        <a class=""  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{{route('product.shoppingCart')}}">
             <img src="{{asset('img/shopping-basket_small.png')}}" alt="Корзина"><cart-count :cartcount="itemCount"></cart-count>
         </a>
-        <div class="cart-block dropdown-menu">
+        <div class="cart-block dropdown-menu"  aria-labelledby="cartDetailBlock">
             <cart-detail :cart="cart" :carttotal="itemCount"></cart-detail>
         </div>
     </li>
     <li class="nav-item">
-        <a href="{{route('product.WishList')}}"><img src="{{asset('img/like.png')}}" alt=""></a>
+        <a class="" href="{{route('product.WishList')}}"><img src="{{asset('img/like.png')}}" alt=""></a>
         <wish-count :wishcount="wishListCount"></wish-count>
     </li>
 

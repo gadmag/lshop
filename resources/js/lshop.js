@@ -1,12 +1,20 @@
 
 $(document).ready(function () {
-    //dropdown hover
-    $('ul.nav li.dropdown, ul.navbar-nav li.dropdown').hover(function () {
+    //dropdown hover ul.nav li.dropdown
+    $('ul.navbar-nav li.dropdown').hover(function () {
         $(this).find('.dropdown-menu').first().stop(true, true).delay(200).fadeIn(500);
     }, function () {
         $(this).find('.dropdown-menu').first().stop(true, true).delay(200).fadeOut(500);
     });
 
+    $('.cart-block').click(function (e) {
+        console.log(e);
+        e.preventDefault();
+    });
+    // $("#cartDetailBlock").on("click", function(e) {
+    //     e.preventDefault();
+    //     $(this).find('.cart-block').fadeToggle( "fast");
+    // });
     //
     $('.block-forms a.btn').click(function (e) {
         e.preventDefault();
@@ -21,7 +29,7 @@ $(document).ready(function () {
         var height = affixElement.outerHeight(),
             top = wrapper.offset().top;
 
-        if (scrollElement.scrollTop() >= top){
+        if (scrollElement.scrollTop() >= top + 40){
              // wrapper.height(height);
             affixElement.addClass("affix");
         }

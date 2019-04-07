@@ -18,7 +18,7 @@ class Option extends Model
 
     public function setWeightAttribute($value)
     {
-        $this->attributes['weight'] = (int)$value;
+        $this->attributes['weight'] = (float)$value;
     }
 
 

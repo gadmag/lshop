@@ -1,23 +1,18 @@
 <template>
     <div class="cart-detail">
-        <div v-if="carttotal > 0" class="">
-            <div class="table-responsive">
+        <div v-if="carttotal > 0" class="table-responsive">
                 <table class="table table-detail table-hover">
-                    <thead>
-                    <tr class="hidden-xs">
+                    <thead class="thead-light">
+                    <tr>
                         <!--<th class="img-cart">Фото</th>-->
-                        <th>Наименование</th>
-                        <th class="price-cart">Цена</th>
-                        <th>Кол-во</th>
-                        <th>Итого</th>
-                        <th>Удалить</th>
+                        <th colspan="4" scope="col"><b>В корзине {{qtyNameSuffix}}</b></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="(cartItem, key, index) in cart.items">
                         <td>
                             <figure class="media">
-                                <div class="mr-2 img-wrap">
+                                <div class="mr-2 d-none d-sm-block img-wrap">
                                     <img v-if="cartItem.optionImage"
                                          :src="'/storage/files/90x110/'+cartItem.optionImage.filename" class="" alt="Фото товара">
                                     <img v-else-if="cartItem.item.files[0]"
@@ -35,7 +30,7 @@
                                 </div>
                             </figure>
                         </td>
-                        <td class="price-cart">{{cartItem.price/cartItem.qty}} р.</td>
+<!--                        <td class="d-none d-sm-block price-cart">{{cartItem.price/cartItem.qty}} р.</td>-->
                         <td class="cart-qty">
                             <div>
                                 <span @click="reduceFromCart(key)"><i class="fa fa-minus"></i> </span> <b>{{cartItem.qty}}</b>
@@ -51,13 +46,11 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="cart-detail-bottom">
+                <div class="p-2 cart-detail-bottom">
                     <div class="button-cart"><a href="/shopping-cart" class="btn lotus-button">Просмотр корзины</a>
                     </div>
                     <div class="total-cart"><strong>Итого: {{cart.totalPrice}} р.</strong></div>
                 </div>
-
-            </div>
         </div>
         <div class="empty-cart" v-else>
             <p class="text-center">Корзина пуста</p>
@@ -71,6 +64,32 @@
         mounted() {
             console.log('Component Cart detail mounted.');
 
+        },
+
+        computed: {
+          qtyNameSuffix(){
+              let str = '';
+              if(this.cart.totalQty && this.cart.totalQty > 0){
+                  switch (this.cart.totalQty) {
+                      case 1:
+                          str = this.cart.totalQty + ' товар';
+                          break;
+                      case 2:
+                          str = this.cart.totalQty + ' товара';
+                          break;
+                      case 3:
+                          str = this.cart.totalQty + ' товара';
+                          break;
+                      case 4:
+                          str = this.cart.totalQty + ' товара';
+                          break;
+                      default:
+                          str = this.cart.totalQty + ' товаров';
+                  }
+                  return str;
+              }
+              return '';
+          }
         },
 
         methods: {

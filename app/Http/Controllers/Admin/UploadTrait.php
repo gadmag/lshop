@@ -41,8 +41,9 @@ trait UploadTrait
                             Storage::disk('public')->makeDirectory("files/$key", 777, true);
                         }
 
-                        $img = Image::make($path . '/' . $filename)->resize(null, $value['height'], function ($constraint) {
-                            $constraint->aspectRatio();
+                        $img = Image::make($path . '/' . $filename)->fit($value['width'], $value['height'], function ($constraint) {
+//                            $constraint->aspectRatio();
+                            $constraint->upsize();
                         });
 
                         $img->save($path . "/$key/" . $filename);
