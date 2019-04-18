@@ -49,17 +49,13 @@
             <div class="block block-new-product">
                 <h2 class="py-2 title text-center">Новое на сайте</h2>
                 <div class="container">
-                    <div class="row">
                         @include('block.new_product', $newProducts)
-                    </div>
                 </div>
             </div>
             <div class="last block block-special">
                 <h2 class="py-2 title text-center">Акции</h2>
                 <div class="container">
-                    <div class="row">
                         @include('block.special_product', $specials)
-                    </div>
                 </div>
             </div>
 
