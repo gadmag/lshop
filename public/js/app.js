@@ -1715,9 +1715,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['cart', 'carttotal'],
@@ -2547,10 +2544,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     delete this.product;
                 }
 
-                this.className = 'ico ico-wishlist link-wishlist fa fa-heart';
+                this.className = 'ico ico-wishlist link-wishlist fas fa-heart';
                 return true;
             } else {
-                this.className = 'ico ico-wishlist link-wishlist fa fa-heart-o';
+                this.className = 'ico ico-wishlist link-wishlist fal fa-heart';
                 return false;
             }
         }
@@ -2641,10 +2638,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     delete this.product;
                 }
 
-                this.className = 'ico ico-wishlist link-wishlist fa fa-heart';
+                this.className = 'ico ico-wishlist link-wishlist fas fa-heart';
                 return true;
             } else {
-                this.className = 'ico ico-wishlist link-wishlist fa fa-heart-o';
+                this.className = 'ico ico-wishlist link-wishlist fal fa-heart';
                 return false;
             }
         }
@@ -2658,9 +2655,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
 //
 //
 //
@@ -2779,13 +2773,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return option;
         },
         addOptionPrice: function addOptionPrice(price) {
+            var discount_price = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
             var id = this.query_options.option_id;
             if (id !== null) {
                 var option = this.getOptionByID(id);
-                var total_price = parseFloat(price) + parseFloat(option.price_prefix + option.price);
-                return total_price.toFixed(2);
+                var _total_price = parseFloat(option.price) - parseFloat(discount_price);
+                return _total_price.toFixed(2);
             }
-            return price;
+            var total_price = price - discount_price;
+            return total_price.toFixed(2);
         },
         fullOptionName: function fullOptionName(option) {
             var optionFullName = '';
@@ -2822,16 +2819,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         getPrice: function getPrice() {
-
             return this.addOptionPrice(this.product.price);
         },
         getDiscountPrice: function getDiscountPrice() {
-
-            return this.addOptionPrice(this.discount.price);
+            return this.addOptionPrice(this.product.price, this.discount.price);
         },
         getSpecialPrice: function getSpecialPrice() {
-
-            return this.addOptionPrice(this.special.price);
+            return this.addOptionPrice(this.product.price, this.special.price);
         },
         toggleWishList: function toggleWishList() {
             if (this.$parent.wishList[this.product.id]) {
@@ -39245,7 +39239,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "cart-detail" }, [
     _vm.carttotal > 0
-      ? _c("div", { staticClass: "table-responsive" }, [
+      ? _c("div", {}, [
           _c("table", { staticClass: "table table-detail table-hover" }, [
             _c("thead", { staticClass: "thead-light" }, [
               _c("tr", [
@@ -39257,135 +39251,128 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              [
-                _vm._l(_vm.cart.items, function(cartItem, key, index) {
-                  return _c("tr", [
-                    _c("td", [
-                      _c("figure", { staticClass: "media" }, [
-                        _c(
-                          "div",
-                          { staticClass: "mr-2 d-none d-sm-block img-wrap" },
-                          [
-                            cartItem.optionImage
-                              ? _c("img", {
-                                  attrs: {
-                                    src:
-                                      "/storage/files/90x110/" +
-                                      cartItem.optionImage.filename,
-                                    alt: "Фото товара"
-                                  }
-                                })
-                              : cartItem.item.files[0]
-                              ? _c("img", {
-                                  attrs: {
-                                    src:
-                                      "/storage/files/90x110/" +
-                                      cartItem.item.files[0].filename,
-                                    alt: "Фото товара"
-                                  }
-                                })
-                              : _vm._e()
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "media-body" }, [
-                          _c("figcaption", [
-                            _vm._v(_vm._s(cartItem.item.title))
-                          ]),
-                          _vm._v(" "),
-                          cartItem.item.color
-                            ? _c("div", { staticClass: "small" }, [
-                                _c("span", [
-                                  _c("strong", [_vm._v("Цвет:")]),
-                                  _vm._v(" " + _vm._s(cartItem.item.color))
-                                ])
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          cartItem.item.color_stone
-                            ? _c("div", { staticClass: "small" }, [
-                                _c("span", [
-                                  _c("strong", [_vm._v("Цвет камня:")]),
-                                  _vm._v(
-                                    " " + _vm._s(cartItem.item.color_stone)
-                                  )
-                                ])
-                              ])
-                            : _vm._e()
-                        ])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "cart-qty" }, [
-                      _c("div", [
-                        _c(
-                          "span",
-                          {
-                            on: {
-                              click: function($event) {
-                                return _vm.reduceFromCart(key)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-minus" })]
-                        ),
-                        _vm._v(" "),
-                        _c("b", [_vm._v(_vm._s(cartItem.qty))]),
-                        _vm._v(" "),
-                        _c(
-                          "span",
-                          {
-                            on: {
-                              click: function($event) {
-                                return _vm.addToCart(cartItem)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-plus" })]
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "price-sum" }, [
-                      _vm._v(_vm._s(cartItem.price) + " р.")
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "text-center" }, [
+              _vm._l(_vm.cart.items, function(cartItem, key, index) {
+                return _c("tr", [
+                  _c("td", { staticClass: "title" }, [
+                    _c("figure", { staticClass: "media" }, [
                       _c(
-                        "a",
+                        "div",
+                        { staticClass: "mr-2 d-none d-sm-block img-wrap" },
+                        [
+                          cartItem.optionImage
+                            ? _c("img", {
+                                attrs: {
+                                  src:
+                                    "/storage/files/90x110/" +
+                                    cartItem.optionImage.filename,
+                                  alt: "Фото товара"
+                                }
+                              })
+                            : cartItem.item.files[0]
+                            ? _c("img", {
+                                attrs: {
+                                  src:
+                                    "/storage/files/90x110/" +
+                                    cartItem.item.files[0].filename,
+                                  alt: "Фото товара"
+                                }
+                              })
+                            : _vm._e()
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "media-body" }, [
+                        _c("figcaption", [_vm._v(_vm._s(cartItem.item.title))]),
+                        _vm._v(" "),
+                        cartItem.item.color
+                          ? _c("div", { staticClass: "small" }, [
+                              _c("span", [
+                                _c("strong", [_vm._v("Цвет:")]),
+                                _vm._v(" " + _vm._s(cartItem.item.color))
+                              ])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        cartItem.item.color_stone
+                          ? _c("div", { staticClass: "small" }, [
+                              _c("span", [
+                                _c("strong", [_vm._v("Цвет камня:")]),
+                                _vm._v(" " + _vm._s(cartItem.item.color_stone))
+                              ])
+                            ])
+                          : _vm._e()
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "cart-qty" }, [
+                    _c("div", [
+                      _c(
+                        "span",
                         {
-                          attrs: { href: "#" },
                           on: {
                             click: function($event) {
-                              return _vm.removeFromCart(key)
+                              return _vm.reduceFromCart(key)
                             }
                           }
                         },
-                        [_c("i", { staticClass: "fa fa-remove" })]
+                        [_vm._v("-")]
+                      ),
+                      _vm._v(
+                        " " +
+                          _vm._s(cartItem.qty) +
+                          "\n                                "
+                      ),
+                      _c(
+                        "span",
+                        {
+                          on: {
+                            click: function($event) {
+                              return _vm.addToCart(cartItem)
+                            }
+                          }
+                        },
+                        [_vm._v("+")]
                       )
                     ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "price-sum" }, [
+                    _vm._v(_vm._s(cartItem.price) + " р.")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "remove text-center" }, [
+                    _c(
+                      "span",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.removeFromCart(key)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fa fa-times" })]
+                    )
                   ])
-                }),
-                _vm._v(" "),
-                _c("tr")
-              ],
-              2
+                ])
+              }),
+              0
             )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "p-2 cart-detail-bottom" }, [
+            _c("hr"),
+            _vm._v(" "),
             _vm._m(0),
             _vm._v(" "),
-            _c("div", { staticClass: "total-cart" }, [
+            _c("div", { staticClass: "total-cart text-right" }, [
               _c("strong", [
                 _vm._v("Итого: " + _vm._s(_vm.cart.totalPrice) + " р.")
               ])
             ])
           ])
         ])
-      : _c("div", { staticClass: "empty-cart" }, [
-          _c("p", { staticClass: "text-center" }, [_vm._v("Корзина пуста")])
-        ])
+      : _c("div", { staticClass: "empty-cart" }, [_vm._m(1)])
   ])
 }
 var staticRenderFns = [
@@ -39393,12 +39380,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "button-cart" }, [
+    return _c("div", { staticClass: "float-left button-cart" }, [
       _c(
         "a",
         { staticClass: "btn lotus-button", attrs: { href: "/shopping-cart" } },
         [_vm._v("Просмотр корзины")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "py-2 text-center" }, [
+      _c("span", { staticClass: "align-middle" }, [_vm._v("Корзина пуста")])
     ])
   }
 ]

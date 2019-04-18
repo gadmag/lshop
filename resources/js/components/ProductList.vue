@@ -55,10 +55,10 @@
                         delete this.product;
                     }
 
-                    this.className = 'ico ico-wishlist link-wishlist fa fa-heart';
+                    this.className = 'ico ico-wishlist link-wishlist fas fa-heart';
                     return true;
                 } else {
-                    this.className = 'ico ico-wishlist link-wishlist fa fa-heart-o';
+                    this.className = 'ico ico-wishlist link-wishlist fal fa-heart';
                     return false;
                 }
             }

@@ -28,26 +28,26 @@ class Cart
     {
         $totalPrice = 0;
         $totalWeight = 0;
-        $optionPrice = 0;
-        $optionWeight = 0;
         $quantity = ($option->quantity > 0) ? $option->quantity : 1;
         $option_id = $option->option_id;
         $optionImage = null;
-//        $colors = [];
         $productKey = self::searchCartKey($this->items, $id, $option_id);
-        if ($option_id) {
+        $price = $item->price;
+        $weight = $item->weight;
 
+        if ($option_id) {
             $productOption = $item->productOptions->find($option_id);
-            if ($productOption->files()->exists()){
+            if ($productOption->files()->exists()) {
                 $optionImage = $productOption->files;
             }
             if ($productOption->color) $item->color = $productOption->color;
             if ($productOption->color_stone) $item->color_stone = $productOption->color_stone;
 
-            $optionPrice = floatval($productOption->price_prefix . $productOption->price);
-            $optionWeight = floatval($productOption->weight_prefix . $productOption->weight);
+            $price = $productOption->price;
+            $weight = $productOption->weight;
         }
-        $storedItem = ['qty' => 0, 'product_id' => $item->id, 'price' => $item->price, 'weight' => $item->weight,
+
+        $storedItem = ['qty' => 0, 'product_id' => $item->id, 'price' => $price, 'weight' => $weight,
             'option_id' => $option_id ? $option_id : null, 'optionImage' => $optionImage, 'item' => $item];
 
         if ($this->items) {
@@ -57,19 +57,28 @@ class Cart
         }
 
         $storedItem['qty'] += $quantity;
-        $storedItem['weight'] = ($item->weight + $optionWeight) * $storedItem['qty'];
-        if ($item->productDiscount()->exists() && $storedItem['qty'] >= $item->productDiscount->quantity) {
-            $storedItem['price'] = ($item->productDiscount->price + $optionPrice) * $storedItem['qty'];
-        } elseif ($item->productSpecial()->exists()) {
-            $storedItem['price'] = ($item->productSpecial->price + $optionPrice) * $storedItem['qty'];
-        } else {
-            $storedItem['price'] = ($item->price + $optionPrice) * $storedItem['qty'];
+        $storedItem['weight'] = $weight * $storedItem['qty'];
+        $storedItem['price'] = $price * $storedItem['qty'];
+
+        if ($item->productSpecial()->exists()) {
+            if ($item->productDiscount->price_prefix == '%') {
+                $storedItem['price'] = ($price * intval($item->productSpecial->price) / 100) * $storedItem['qty'];
+            } else {
+                $storedItem['price'] = floatval($price - $item->productSpecial->price) * $storedItem['qty'];
+            }
         }
 
+        if ($item->productDiscount()->exists() && $storedItem['qty'] >= $item->productDiscount->quantity) {
+            if ($item->productDiscount->price_prefix == '%') {
+                $storedItem['price'] = ($price * intval($item->productDiscount->price) / 100) * $storedItem['qty'];
+            } else {
+                $storedItem['price'] = floatval($price - $item->productDiscount->price) * $storedItem['qty'];
+            }
+        }
 
-        if (!is_null($productKey)){
+        if (!is_null($productKey)) {
             $this->items[$productKey] = $storedItem;
-        }else {
+        } else {
             $this->items[] = $storedItem;
         }
 
@@ -88,35 +97,38 @@ class Cart
     public function reduceByOne($id)
     {
         $option_id = $this->items[$id]['option_id'];
-        $discount_price = 0;
-        $special_price = 0;
         $totalPrice = 0;
         $totalWeight = 0;
-        $optionPrice = 0;
-        $optionWeight = 0;
         $this->items[$id]['qty']--;
         $item = $this->items[$id]['item'];
+        $price = $item['price'];
+        $weight = $item['weight'];
         if ($option_id) {
             $productOption = $this->items[$id]['item']->productOptions->find($option_id);
 
-            $optionPrice = floatval($productOption->price_prefix . $productOption->price);
-            $optionWeight = floatval($productOption->weight_prefix . $productOption->weight);
+            $price = $productOption->price;
+            $weight = $productOption->weight;
         }
 
-        $this->items[$id]['item']['weight'] = ($this->items[$id]['item']['weight'] + $optionWeight) * $this->items[$id]['qty'];
-        if ($item->productDiscount()->exists() && $this->items[$id]['qty'] >= $item->productDiscount->quantity) {
-            $discount_price = $item->productDiscount->price;
-        }
+        $this->items[$id]['item']['weight'] = $weight * $this->items[$id]['qty'];
+        $this->items[$id]['item']['price'] = $price * $this->items[$id]['qty'];
+
         if ($item->productSpecial()->exists()) {
-            $special_price = $item->productSpecial->price;
+            if ($item->productDiscount->price_prefix == '%') {
+                $this->items[$id]['price'] = ($price * intval($item->productSpecial->price) / 100) * $this->items[$id]['qty'];
+            } else {
+                $this->items[$id]['price'] = floatval($price - $item->productSpecial->price) * $this->items[$id]['qty'];
+            }
         }
-        if ($discount_price > 0) {
-            $this->items[$id]['price'] = $this->items[$id]['qty'] * ($discount_price + $optionPrice);
-        } elseif ($special_price > 0) {
-            $this->items[$id]['price'] = $this->items[$id]['qty'] * ($special_price + $optionPrice);
-        } else {
-            $this->items[$id]['price'] = $this->items[$id]['qty'] * ($this->items[$id]['item']['price'] + $optionPrice);
+
+        if ($item->productDiscount()->exists() && $this->items[$id]['qty'] >= $item->productDiscount->quantity) {
+            if ($item->productDiscount->price_prefix == '%') {
+                $this->items[$id]['price'] = ($price * intval($item->productDiscount->price) / 100) * $this->items[$id]['qty'];
+            } else {
+                $this->items[$id]['price'] = floatval($price - $item->productDiscount->price) * $this->items[$id]['qty'];
+            }
         }
+
 
         $this->totalQty--;
 

@@ -1726,11 +1726,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1743,7 +1738,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            prefixOptions: ['+', '-'],
             forms: this.options
         };
     },
@@ -19632,29 +19626,6 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [
                   _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "select",
-                      {
-                        staticClass: "form-control",
-                        attrs: {
-                          name: "productOptions[" + key + "][price_prefix]"
-                        }
-                      },
-                      _vm._l(_vm.prefixOptions, function(prefix) {
-                        return _c(
-                          "option",
-                          {
-                            domProps: {
-                              selected: prefix == item.price_prefix,
-                              value: prefix
-                            }
-                          },
-                          [_vm._v(_vm._s(prefix))]
-                        )
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
                     _c("input", {
                       staticClass: "form-control",
                       attrs: {
@@ -19669,29 +19640,6 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [
                   _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "select",
-                      {
-                        staticClass: "form-control",
-                        attrs: {
-                          name: "productOptions[" + key + "][weight_prefix]"
-                        }
-                      },
-                      _vm._l(_vm.prefixOptions, function(prefix) {
-                        return _c(
-                          "option",
-                          {
-                            domProps: {
-                              selected: prefix == item.weight_prefix,
-                              value: prefix
-                            }
-                          },
-                          [_vm._v(_vm._s(prefix))]
-                        )
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
                     _c("input", {
                       staticClass: "form-control",
                       attrs: {

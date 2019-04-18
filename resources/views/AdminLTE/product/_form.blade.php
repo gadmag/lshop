@@ -108,45 +108,15 @@
                 <div id="tab_3" class="tab-option-coating tab-options tab-pane">
 
 
-                    <option-item @if ($product->productOptions()->exists()) :options="{{$product->productOptions()->with('files')->get()}}"
-                                 {{--@else--}}
-                                 {{--:options="[]"--}}
-                                 @endif
-                                 :colors="{{collect($product->getFieldOptions('coating'))}}"
-                                 :colors_stone="{{collect($product->getFieldOptions('stone'))}}"
-                    >
+                    <option-item
+                            @if ($product->productOptions()->exists()) :options="{{$product->productOptions()->with('files')->get()}}"
+                            {{--@else--}}
+                            {{--:options="[]"--}}
+                            @endif
+                            :colors="{{collect($product->getFieldOptions('coating'))}}"
+                            :colors_stone="{{collect($product->getFieldOptions('stone'))}}">
 
                     </option-item>
-                    {{--<table class="table table-striped table-bordered table-hover">--}}
-                    {{--<thead>--}}
-                    {{--<tr>--}}
-                    {{--<td>Цвет покрытия:</td>--}}
-                    {{--<td>Цвет камня:</td>--}}
-                    {{--<td>Фото:</td>--}}
-                    {{--<td>Цена:</td>--}}
-                    {{--<td>Вес</td>--}}
-                    {{--<td>Кол-во</td>--}}
-                    {{--<td></td>--}}
-                    {{--</tr>--}}
-                    {{--</thead>--}}
-
-
-                    {{--<tbody>--}}
-                    {{--<template id="optionCoating">--}}
-                    {{--@include('AdminLTE.form.product_option',[ 'option' => null])--}}
-                    {{--</template>--}}
-                    {{--@foreach($product->productOptions as $option)--}}
-                    {{--@include('AdminLTE.form.product_option', ['option' => $option])--}}
-                    {{--@endforeach--}}
-                    {{--</tbody>--}}
-                    {{--<tfoot>--}}
-                    {{--<td colspan="5"></td>--}}
-                    {{--<td class="text-left">--}}
-                    {{--<button id="add-options" data-type="coating" type="button" data-toggle="tooltip" class="option-button btn btn-primary"><i--}}
-                    {{--class="fa fa-plus-circle"></i></button>--}}
-                    {{--</td>--}}
-                    {{--</tfoot>--}}
-                    {{--</table>--}}
                 </div>
 
                 <div id="tab_4" class="tab-pane">
@@ -159,9 +129,14 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                {!! Form::label('productDiscount[price]', 'Цена:') !!}
-                                {!! Form::text('productDiscount[price]', null, ['class' => 'form-control']) !!}
+                            {!! Form::label('productDiscount[price]', 'Цена:') !!}
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    {!! Form::text('productDiscount[price]', null, ['class' => 'form-control']) !!}
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::select('productDiscount[price_prefix]', ['-' => '-', '%' => '%'], null, ['class' => 'form-control']) !!}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -169,10 +144,17 @@
                 <div id="tab_5" class="tab-pane">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
-                                {!! Form::hidden('productSpecial[id]', null) !!}
-                                {!! Form::label('productSpecial[price]', 'Цена:') !!}
-                                {!! Form::text('productSpecial[price]', null, ['class' => 'form-control']) !!}
+                            {!! Form::label('productSpecial[price]', 'Цена:') !!}
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    {!! Form::hidden('productSpecial[id]', null) !!}
+
+                                    {!! Form::text('productSpecial[price]', null, ['class' => 'form-control']) !!}
+
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::select('productSpecial[price_prefix]', ['-' => '-', '%' => '%'], null, ['class' => 'form-control']) !!}
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">

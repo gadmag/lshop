@@ -15,6 +15,7 @@ mix.js('resources/js/app.js', 'public/js/')
     .less('resources/less/app.less', 'public/css/')
     .sass('resources/sass/bootstrap.scss', 'public/css/')
     .styles([
+        "public/css/fontawesome.css",
         "resources/css/preload.css",
         "public/css/bootstrap.css",
     ], 'public/css/all.css');

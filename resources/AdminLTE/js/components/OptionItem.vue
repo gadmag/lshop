@@ -47,9 +47,7 @@
             </td>
             <td>
                 <div class="form-group">
-                    <select class="form-control" :name="'productOptions['+key+'][price_prefix]'">
-                        <option :selected="prefix == item.price_prefix" v-for="prefix in prefixOptions" :value="prefix">{{prefix}}</option>
-                    </select>
+
                     <input class="form-control" :name="'productOptions['+key+'][price]'" type="text" :value="item.price"
                            placeholder="Цена:">
                 </div>
@@ -57,9 +55,6 @@
 
             <td>
                 <div class="form-group">
-                    <select class="form-control" :name="'productOptions['+key+'][weight_prefix]'">
-                        <option :selected="prefix == item.weight_prefix" v-for="prefix in prefixOptions" :value="prefix">{{prefix}}</option>
-                    </select>
                     <input class="form-control" :name="'productOptions['+key+'][weight]'" type="text" :value="item.weight"
                            placeholder="Вес:">
                 </div>
@@ -103,7 +98,6 @@
         },
         data() {
             return {
-                prefixOptions: ['+', '-'],
                 forms: this.options
             }
         },

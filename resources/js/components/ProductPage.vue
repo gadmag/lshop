@@ -48,10 +48,7 @@
                 <span>{{discount.quantity}} и более {{getDiscountPrice}} р.</span>
                 <hr>
             </div>
-
-
             <div v-if="options" class="options-block">
-
                 <div v-if="options && options.length > 0" class="form-group">
                     <label for="options_color">Цвет </label>
                     <select class="form-control" name="options_color" v-model="query_options.option_id"
@@ -110,7 +107,6 @@
         },
         methods: {
 
-
             getOptionByID(id) {
                 let option = false;
                 this.options.forEach(function (item, i) {
@@ -120,14 +116,15 @@
                 });
                 return option;
             },
-            addOptionPrice(price) {
-                let id = this.query_options.option_id
+            addOptionPrice(price, discount_price = 0) {
+                let id = this.query_options.option_id;
                 if (id !== null) {
                     let option = this.getOptionByID(id);
-                    let total_price = parseFloat(price) + parseFloat(option.price_prefix + option.price);
+                     let total_price = parseFloat(option.price) - parseFloat(discount_price) ;
                     return total_price.toFixed(2);
                 }
-                return price
+                let total_price = (price - discount_price)
+                return total_price.toFixed(2);
             },
 
             fullOptionName(option) {
@@ -172,18 +169,15 @@
         computed: {
 
             getPrice() {
-
                 return this.addOptionPrice(this.product.price);
             },
 
             getDiscountPrice() {
-
-                return this.addOptionPrice(this.discount.price)
+                return this.addOptionPrice(this.product.price, this.discount.price);
             },
 
             getSpecialPrice() {
-
-                return this.addOptionPrice(this.special.price);
+                return this.addOptionPrice(this.product.price, this.special.price);
             },
 
             toggleWishList() {

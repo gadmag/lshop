@@ -7,10 +7,7 @@ $(document).ready(function () {
         $(this).find('.dropdown-menu').first().stop(true, true).delay(200).fadeOut(500);
     });
 
-    $('.cart-block').click(function (e) {
-        console.log(e);
-        e.preventDefault();
-    });
+    $('.cart-block .table').on("click.bs.dropdown", function (e) { e.stopPropagation(); e.preventDefault(); });
     // $("#cartDetailBlock").on("click", function(e) {
     //     e.preventDefault();
     //     $(this).find('.cart-block').fadeToggle( "fast");

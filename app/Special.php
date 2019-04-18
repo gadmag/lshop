@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Special extends Model
 {
-    protected $fillable = ['product_id','priority', 'price','date_start', 'date_end'];
+    protected $fillable = ['product_id','priority', 'price', 'price_prefix', 'date_start', 'date_end'];
 
     protected $table = 'product_specials';
     public $timestamps = false;

@@ -44,11 +44,10 @@
                 <div class="social-wrapper">
                     <h2>Следите за новостями</h2>
                     <ul class="social nav justify-content-center">
-                        <li class="nav-item ico-social"><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li class="nav-item ico-social"><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li class="nav-item ico-social"><a href="#"><i class="fa fa-youtube"></i></a></li>
-                        <li class="nav-item ico-social"><a href="#"><i class="fa fa-instagram"></i></a></li>
-                        <li class="nav-item ico-social"><a href="#"><i class="fa fa-google"></i></a></li>
+                        <li class="nav-item ico-social"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li class="nav-item ico-social"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li class="nav-item ico-social"><a href="#"><i class="fab fa-youtube"></i></a></li>
+                        <li class="nav-item ico-social"><a href="#"><i class="fab fa-instagram"></i></a></li>
                     </ul>
                 </div>
 

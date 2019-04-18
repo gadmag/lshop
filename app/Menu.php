@@ -18,7 +18,8 @@ class Menu extends Model
          if ($row->parent_id == $pid) {
 
              $child = self::getTree($tree, $row->id);
-             $a[] = array('item' => $row, 'child' => $child );
+             $children = $child?true:false;
+             $a[] = array('item' => $row, 'children' => $children, 'child' => $child );
          }
      }
 

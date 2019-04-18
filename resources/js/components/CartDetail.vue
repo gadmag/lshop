@@ -1,6 +1,6 @@
 <template>
     <div class="cart-detail">
-        <div v-if="carttotal > 0" class="table-responsive">
+        <div v-if="carttotal > 0" class="">
                 <table class="table table-detail table-hover">
                     <thead class="thead-light">
                     <tr>
@@ -10,7 +10,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="(cartItem, key, index) in cart.items">
-                        <td>
+                        <td class="title">
                             <figure class="media">
                                 <div class="mr-2 d-none d-sm-block img-wrap">
                                     <img v-if="cartItem.optionImage"
@@ -33,27 +33,24 @@
 <!--                        <td class="d-none d-sm-block price-cart">{{cartItem.price/cartItem.qty}} р.</td>-->
                         <td class="cart-qty">
                             <div>
-                                <span @click="reduceFromCart(key)"><i class="fa fa-minus"></i> </span> <b>{{cartItem.qty}}</b>
-                                <span @click="addToCart(cartItem)"> <i class="fa fa-plus"></i></span>
+                                <span @click="reduceFromCart(key)">-</span> {{cartItem.qty}}
+                                <span @click="addToCart(cartItem)">+</span>
                             </div>
                         </td>
                         <td class="price-sum">{{cartItem.price}} р.</td>
-                        <td class="text-center"><a @click="removeFromCart(key)" href="#"><i
-                                class="fa fa-remove"></i></a></td>
-                    </tr>
-                    <tr>
-
+                        <td class="remove text-center"><span @click="removeFromCart(key)"><i
+                                class="fa fa-times"></i></span></td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="p-2 cart-detail-bottom">
-                    <div class="button-cart"><a href="/shopping-cart" class="btn lotus-button">Просмотр корзины</a>
-                    </div>
-                    <div class="total-cart"><strong>Итого: {{cart.totalPrice}} р.</strong></div>
+                    <hr>
+                    <div class="float-left button-cart"><a href="/shopping-cart" class="btn lotus-button">Просмотр корзины</a></div>
+                    <div class="total-cart text-right"><strong>Итого: {{cart.totalPrice}} р.</strong></div>
                 </div>
         </div>
         <div class="empty-cart" v-else>
-            <p class="text-center">Корзина пуста</p>
+            <div class="py-2 text-center"><span class="align-middle">Корзина пуста</span></div>
         </div>
     </div>
 </template>
@@ -63,6 +60,7 @@
         props: ['cart', 'carttotal'],
         mounted() {
             console.log('Component Cart detail mounted.');
+
 
         },
 
