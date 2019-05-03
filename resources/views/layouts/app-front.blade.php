@@ -11,25 +11,10 @@
     <title>{{ config('app.name') }}</title>
     <!-- Styles -->
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/bootstrap-ui.css') }}" rel="stylesheet">
     <link href="{{asset('/css/fancy.slide.css')}}" rel="stylesheet">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 </head>
 <body id="app-layout">
-<div class="holder">
-    <div class="preloader">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-</div>
 <div id="app">
     @include('partials.header')
 
@@ -47,23 +32,23 @@
                 </div>
             </div>
             <div class="block block-new-product">
-                <h2 class="py-2 title text-center">Новое на сайте</h2>
+                <h2 class="title-head mb-5 py-2 title text-center">Новое на сайте</h2>
                 <div class="container">
                         @include('block.new_product', $newProducts)
                 </div>
             </div>
             <div class="last block block-special">
-                <h2 class="py-2 title text-center">Акции</h2>
+                <h2 class="title-head mb-5 py-2 title text-center">Акции</h2>
                 <div class="container">
                         @include('block.special_product', $specials)
                 </div>
             </div>
 
             @if($designItem->first())
-                <h2 class="py-2 title text-center">Дизайнерские идеи</h2>
-                <div class="block block-catalog-product">
+                <h2 class="title-head mb-5 py-2 title text-center">Дизайнерские идеи</h2>
+                <div class="block photo-list">
                     <div class="container">
-                            @include('block.design', ['designItem' => $designItem])
+                            @include('block.design', ['designs' => $designItem])
                     </div>
                 </div>
             @endif

@@ -27,7 +27,7 @@ $(document).ready(function () {
             top = wrapper.offset().top;
 
         if (scrollElement.scrollTop() >= top + 40){
-             // wrapper.height(height);
+              wrapper.height(height);
             affixElement.addClass("affix");
         }
         else {
@@ -56,9 +56,9 @@ $(document).ready(function () {
 
 
 
-$(window).on('load', function () {
-    var $preloader = $('.holder'),
-        $spinner   = $preloader.find('.preloader');
-    $spinner.fadeOut();
-    $preloader.delay(350).fadeOut('slow');
-});
+// $(window).on('load', function () {
+//     var $preloader = $('.holder'),
+//         $spinner   = $preloader.find('.preloader');
+//     $spinner.fadeOut();
+//     $preloader.delay(350).fadeOut('slow');
+// });

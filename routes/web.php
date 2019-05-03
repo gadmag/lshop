@@ -71,16 +71,16 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('wishlist-json', ['as' => 'product.WishListJson', 'uses' => 'ProductController@getWishListJson']);
     Route::get('shopping-cart', ['as' => 'product.shoppingCart', 'uses' => 'ProductController@getCart']);
     Route::get('shopping-cart-detail', ['as' => 'product.shoppingCartDerail', 'uses' => 'ProductController@getCartDetail']);
+
     /*checkout*/
     Route::get('checkout', ['as' => 'checkout', 'uses' => 'CheckoutController@getCheckout', 'middleware' => 'auth']);
     Route::post('checkout', ['as' => 'checkoutPost', 'uses' => 'CheckoutController@postCheckout', 'middleware' => 'auth']);
+
     /*catalog*/
     Route::get('catalogs/{catalog_alias}', ['as' => 'catalog.show', 'uses' => 'CatalogController@show']);
     Route::get('catalogs', ['as' => 'catalog.index', 'uses' => 'CatalogController@index']);
 
-
     Route::get('search', ['as' => 'product.search', 'uses' => 'ProductController@search']);
-
     Route::get('rss.xml', ['as' => 'feed', 'uses' => 'ArticleController@feed']);
 
 

@@ -47,7 +47,7 @@
                         <li class="nav-item ico-social"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                         <li class="nav-item ico-social"><a href="#"><i class="fab fa-twitter"></i></a></li>
                         <li class="nav-item ico-social"><a href="#"><i class="fab fa-youtube"></i></a></li>
-                        <li class="nav-item ico-social"><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li class="nav-item ico-social"><a target="_blank" href="http://instagram.com/Lotus_furnitura"><i class="fab fa-instagram"></i></a></li>
                     </ul>
                 </div>
 

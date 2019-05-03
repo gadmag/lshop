@@ -17,7 +17,9 @@ mix.js('resources/js/app.js', 'public/js/')
     .styles([
         "public/css/fontawesome.css",
         "resources/css/preload.css",
+        "resources/css/nprogress.css",
         "public/css/bootstrap.css",
+        "public/css/bootstrap-ui.css",
     ], 'public/css/all.css');
 mix.sass('resources/sass/bootstrap-ui.scss', 'public/css');
 mix.scripts([

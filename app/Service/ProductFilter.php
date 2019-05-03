@@ -8,13 +8,11 @@ use Illuminate\Validation\ValidationException;
 trait ProductFilter
 {
 
-
     public function scopeAdvancedFilter($query)
     {
-
         return $this->process($query, request()->all())
             ->orderBy(
-                request('order_by', 'created_at'),
+                'products.'.request('order_by', 'created_at'),
                 request('order_direction', 'desc')
             )
             ->paginate(request('limit', 12));

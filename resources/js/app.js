@@ -5,7 +5,6 @@
  */
 
 require('./bootstrap');
-
 window.Vue = require('vue');
 window.bus = new Vue;
 
@@ -17,7 +16,8 @@ window.bus = new Vue;
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('product-list', require('./components/ProductList.vue'));
-Vue.component('product-list2', require('./components/ProductList2.vue'));
+Vue.component('product-index', require('./components/ProductIndex.vue'));
+Vue.component('catalog-index', require('./components/CatalogIndex.vue'));
 Vue.component('product-page', require('./components/ProductPage.vue'));
 Vue.component('cart-count', require('./components/CartCount.vue'));
 Vue.component('cart-detail', require('./components/CartDetail.vue'));

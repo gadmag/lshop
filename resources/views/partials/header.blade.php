@@ -7,7 +7,7 @@
                         <div class=""><a href="#"><i class="fab fa-facebook"></i></a></div>
                         <div class=""><a href="#"><i class="fab fa-twitter"></i></a></div>
                         <div class=""><a href="#"><i class="fab fa-youtube"></i></a></div>
-                        <div class=""><a href="#"><i class="fab fa-instagram"></i></a></div>
+                        <div class=""><a target="_blank" href="http://instagram.com/Lotus_furnitura"><i class="fab fa-instagram"></i></a></div>
                         <div class="mail "><a href="mailto:lotus_furnitura@mail.ru"><i class="fal fa-enveloper"></i> lotus_furnitura@mail.ru</a></div>
                     </div>
                 </div>

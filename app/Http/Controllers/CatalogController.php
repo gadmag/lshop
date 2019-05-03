@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\FieldOption;
+use App\Product;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,15 +17,9 @@ use Illuminate\Support\Facades\Auth;
 class CatalogController extends Controller
 {
 
-    function __construct()
-    {
-//        return $this->middleware('auth',['expert' => 'index']);
-    }
-
     public function index()
     {
 
-//       dd(\Auth::user()->articles);
         $catalogs = Catalog::latest('published_at')->published()->paginate(10);
 
         return view('catalog.index')->with('catalogs', $catalogs);
@@ -31,14 +27,12 @@ class CatalogController extends Controller
 
     public function show(Catalog $catalog)
     {
-
-        $products = $catalog->products()->latest('created_at')->active()->paginate(12);
+        $filters = FieldOption::all(['type', 'name'])->groupBy('type');
         return view('catalog.show',[
-            'products' => $products,
-            'catalog' => $catalog
+            'filters' => $filters,
+            'category' => $catalog
         ]);
 
     }
-
 
 }

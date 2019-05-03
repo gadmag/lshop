@@ -10,7 +10,7 @@
 {{--            <img src="{{asset('img/user.png')}}" alt="">--}}
 {{--            <i class="fal fa-user"></i>--}}
 {{--        </a>--}}
-        <div class="dropdown-menu" aria-labelledby="userDropdown">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
             @if(Auth::check())
                 <a class="dropdown-item" href="{{route('user.profile')}}">Профиль пользователя</a>
                 <a class="dropdown-item" href="{{route('user.logout')}}">Выйти</a>
@@ -25,7 +25,7 @@
 {{--            <img src="{{asset('img/shopping-basket_small.png')}}" alt="Корзина">--}}
             <i class="fal fa-shopping-basket"></i><cart-count :cartcount="itemCount"></cart-count>
         </a>
-        <div class="cart-block dropdown-menu"  aria-labelledby="cartDetailBlock">
+        <div class="cart-block dropdown-menu dropdown-menu-right"  aria-labelledby="cartDetailBlock">
             <cart-detail :cart="cart" :carttotal="itemCount"></cart-detail>
         </div>
     </li>

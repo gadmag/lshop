@@ -49,9 +49,9 @@
                 <hr>
             </div>
             <div v-if="options" class="options-block">
-                <div v-if="options && options.length > 0" class="form-group">
+                <div v-if="options && options.length > 0" class="w-50 form-group">
                     <label for="options_color">Цвет </label>
-                    <select class="form-control" name="options_color" v-model="query_options.option_id"
+                    <select class="custom-select form-control" name="options_color" v-model="query_options.option_id"
                             id="options_color">
                         <option :selected="null" v-bind:value="null">Выбрать</option>
                         <option :disabled="option.quantity <= 0" v-for="option in options" :value="option.id">
@@ -65,11 +65,11 @@
                            class="form-control" :max="product.quantity">
                 </div>
                 <div class="button-block clearfix">
-                            <button :disabled="product.quantity <= 0" class="mb-2 lotus-button btn"
+                            <button :disabled="product.quantity <= 0" class="mb-2 btn-dark btn"
                                     @click="addToCart(product.id)">Добавить в корзину
                             </button>
 
-                            <button class="mb-2 lotus-button btn"
+                            <button class="mb-2 btn-dark btn"
                                     @click="toggleWishList? removeToWishList(product.id) : addToWishList(product.id)">
                                 Добавить
                                 в избранное

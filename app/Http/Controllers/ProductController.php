@@ -23,13 +23,25 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $filters = FieldOption::all(['type','name'])->groupBy('type');
+        $filters = FieldOption::all(['type', 'name'])->groupBy('type');
+        $filters['categories'] = DB::table(DB::raw('catalogs as c'))
+            ->leftJoin(DB::raw('cataloggables as ct'), 'ct.catalog_id', '=', 'c.id')
+            ->select(DB::raw('c.*, count(ct.cataloggable_id) as productcount'))
+            ->where('c.status','=',1)
+            ->groupBy('c.id')
+            ->get();
         return view('product.index', ['filters' => $filters]);
     }
 
     public function getJsonProducts(Request $request)
     {
-        $products = Product::with(['productOptions', 'productOptions.files', 'files','productSpecial'])->active()->advancedFilter();
+        $id = $request->get('cat_id');
+        if ($id){
+            $catalog = Catalog::published()->findOrFail(intval($id));
+            $products = $catalog->products()->with([ 'productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->advancedFilter();
+        }else {
+            $products = Product::with(['productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->advancedFilter();
+        }
         return response()->json(['collection' => $products]);
     }
 

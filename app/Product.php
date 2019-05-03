@@ -12,35 +12,6 @@ use App\Alias;
 use App\FieldOption;
 use App\Service\ProductFilter;
 
-/**
- * App\Product
- *
- * @property int $id
- * @property string $title
- * @property string $description
- * @property string $code
- * @property string $alias
- * @property int $status
- * @property int $user_id
- * @property \Carbon\Carbon $published_at
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Catalog[] $catalogs
- * @property-read \App\Seo $seoAttr
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product published()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product unpublished()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereAlias($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product wherePublishedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUserId($value)
- * @mixin \Eloquent
- */
 class Product extends Model
 {
     use Sluggable;
@@ -52,7 +23,7 @@ class Product extends Model
 
 
     protected $allowedFilters = [
-        'id', 'material', 'color', 'size', 'productOptions.color'
+        'id', 'material', 'color', 'productOptions.price', 'productOptions.color', 'productOptions.color_stone','catalogs.name'
     ];
 
     protected $orderable = [

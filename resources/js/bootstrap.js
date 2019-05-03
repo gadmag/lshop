@@ -1,5 +1,6 @@
 
 window._ = require('lodash');
+window.NProgress =  require('nprogress');
 // window.Popper = require('popper.js').default;
 
 /**

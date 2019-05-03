@@ -1,1 +1,76 @@
 //@import "~shards-ui/src/scss/shards";
+.btn.btn-dark {
+  text-transform: uppercase;
+  border-radius: 0;
+  white-space: nowrap;
+  background-color: #00263b;
+  border-color: #00263b;
+
+}
+
+.btn.btn-dark:hover {
+  color: #fff;
+  background-color: #00162a;
+  border-color: #001224;
+}
+.btn.btn-dark.focus, .btn.btn-dark:focus{
+  box-shadow: 0 0 0 0.2rem rgba(0, 67, 95, 0.5);
+}
+
+.btn.btn-outline-dark{
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #052534;
+  border: 1px solid #052534;
+  border-radius: 0;
+}
+.btn.btn-outline-dark:hover{
+  color: #fff;
+  background-color:  #052534;
+}
+
+//checkout
+.custom-checkbox .custom-control-label:before{
+  border-radius: 3px;
+  top: .1875rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
+  transition: all 250ms cubic-bezier(.27,.01,.38,1.06);
+  //box-shadow: none;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before{
+  background-color:#fff;
+  border: 1px solid #e3e3e3;
+  box-shadow: 0 0 0 0.2rem rgba(194, 194, 194, 0.25);
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::after{
+  font-family: "Font Awesome 5 Pro";
+  font-weight: 400;
+  content: "\f00c";
+  color: #9e9e9e;
+  background-image: none;
+  font-size: 13px;
+  top: 0.25rem;
+  left: -1.35rem;
+  //background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%052534' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E");
+}
+.custom-control-input:focus ~ .custom-control-label::before{
+  box-shadow: 0 0 0 0.2rem rgba(194, 194, 194, 0.25);
+}
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before{
+  border: 1px solid #e3e3e3;
+}
+.custom-control .custom-control-input:disabled ~ .custom-control-label{
+  cursor: not-allowed;
+}
+.custom-control-input:active~.custom-control-label::before{
+  //background-color:green;
+}
+
+/** focus shadow pinkish **/
+.custom-checkbox .custom-control-input:focus~.custom-control-label::before{
+  //box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(255, 0, 247, 0.25);
+}
+

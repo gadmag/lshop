@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="list-product">
         <filterable v-bind="filterable">
             <template slot-scope="{item, key}">
                 <div class="col-sm-6 col-md-6 col-lg-4">
@@ -9,15 +9,14 @@
                              alt="Картинка">
 
                         <span v-if="item.product_special" class="special-badge"> -{{specialPrice(item)}}%</span>
-                        <a :class=""
-                           @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
-                                :class="toggleWishList? className: className"></span></a>
-                        <div class="caption">
+                        <a @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
+                                :class="toggleWishList(item.id)? className: className"></span></a>
+                        <div class="card-body">
                             <div class="product-name text-center"><a class="" :href="'/products/'+item.alias">{{item.title}}</a>
                             </div>
                             <div class="product-price text-center"><span class="special" v-if="item.product_special">{{Number(item.product_special.price).toFixed(0)}} р.</span>
                                 <span>{{Number(item.price).toFixed(0)}} р.</span></div>
-                            <div class="product-link text-center"><a class="button action primary"
+                            <div class="product-link text-center"><a class="text-uppercase btn btn-outline-dark"
                                                                      :href="'/products/'+item.alias">Подробнее</a>
                             </div>
                         </div>
@@ -32,25 +31,43 @@
 
 <script>
     export default {
-        props: ['filters'],
+        props: ['filters', 'category'],
         data() {
             return {
                 className: '',
                 filterable: {
-                    url: 'api/products',
+                    url: '/api/products?cat_id=' + this.category.id,
                     orderables: [
-                        {title: 'Дата (старые)', options: {name: 'created_at', direction: 'asc'}},
                         {title: 'Дата (новые)', options: {name: 'created_at', direction: 'desc'}},
+                        {title: 'Дата (старые)', options: {name: 'created_at', direction: 'asc'}},
                         {title: 'Цена (убывание)', options: {name: 'price', direction: 'desc'}},
                         {title: 'Цена (возрастание)', options: {name: 'price', direction: 'asc'}},
                         {title: 'Имя (Я - А)', options: {name: 'title', direction: 'desc'}},
                         {title: 'Имя (А - Я)', options: {name: 'title', direction: 'asc'}},
                     ],
                     filterGroups: [
-                        {title: 'Материал', name: 'material', item: this.filters.material},
-                        {title: 'Покрытие', name: 'coating', item: this.filters.coating},
-                        {title: 'Цвет', name: 'productOptions.color', item: this.filters.color},
+                        {title: 'Стоимость', name: 'price', field: 'productOptions.price', collapsed: true},
+                        {
+                            title: 'Материал',
+                            name: 'material',
+                            field: 'material',
+                            collapsed: true,
+                            item: this.filters.material
+                        },
+                        {
+                            title: 'Цвет покрытия',
+                            name: 'coating',
+                            field: 'productOptions.color',
+                            item: this.filters.coating
+                        },
+                        {
+                            title: 'Цвет камня',
+                            name: 'stone',
+                            field: 'productOptions.color_stone',
+                            item: this.filters.stone
+                        },
                     ],
+                    paginateItemLimits: [12, 24, 50]
                 }
             }
         },
@@ -58,6 +75,16 @@
             console.log('Component ProductList2 mounted.')
         },
         methods: {
+            toggleWishList(id) {
+                if (this.$parent.wishList[id]) {
+                    this.className = 'ico ico-wishlist link-wishlist fas fa-heart';
+                    return true;
+                } else {
+                    this.className = 'ico ico-wishlist link-wishlist fal fa-heart';
+                    return false;
+                }
+            },
+
             addToCart() {
                 bus.$emit('added-to-cart', this.product);
             },
@@ -74,30 +101,6 @@
 
                 return Math.floor(((item.price - item.product_special.price) / item.price) * 100);
             }
-
-        },
-
-        computed: {
-
-
-            toggleWishList(id) {
-
-                // console.log(this.$parent.wishList[this.product.id])
-                if (this.$parent.wishList[id]) {
-                    if (window.location.pathname.replace('/', '') == 'wishlist') {
-                        // console.log(this.wishList[product.id].title);
-                        // Vue.delete(this.$parent.wishList, this.product.id);
-                        // delete this.$parent.wishList[this.product.id];
-                        delete this.product;
-                    }
-
-                    this.className = 'ico ico-wishlist link-wishlist fas fa-heart';
-                    return true;
-                } else {
-                    this.className = 'ico ico-wishlist link-wishlist fal fa-heart';
-                    return false;
-                }
-            },
 
         }
     }

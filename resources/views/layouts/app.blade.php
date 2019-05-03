@@ -17,10 +17,8 @@
     <link rel="icon" href="{{elixir('/favicon.ico')}}" type="image/x-icon"/>
     <!-- Styles -->
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/bootstrap-ui.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     @stack('style')
-{{--    <link href="https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css" rel="stylesheet">--}}
 </head>
 <body id="app-layout">
 <div id="app">
@@ -28,18 +26,14 @@
     @include('partials.message')
 
     <div class="main">
-
-
         <section class="content">
-            <div class="container">
                 @yield('content')
-            </div>
         </section><!-- content -->
         <br>
         @include('partials.footer')
 
     </div>
-    @include('partials.preload')
+{{--    @include('partials.preload')--}}
 </div>
 <!-- JavaScripts -->
 

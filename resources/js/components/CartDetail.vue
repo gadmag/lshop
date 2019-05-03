@@ -37,7 +37,7 @@
                                 <span @click="addToCart(cartItem)">+</span>
                             </div>
                         </td>
-                        <td class="price-sum">{{cartItem.price}} р.</td>
+                        <td class="price-sum">{{cartItem.price.toFixed(2)}} р.</td>
                         <td class="remove text-center"><span @click="removeFromCart(key)"><i
                                 class="fa fa-times"></i></span></td>
                     </tr>
@@ -46,7 +46,7 @@
                 <div class="p-2 cart-detail-bottom">
                     <hr>
                     <div class="float-left button-cart"><a href="/shopping-cart" class="btn lotus-button">Просмотр корзины</a></div>
-                    <div class="total-cart text-right"><strong>Итого: {{cart.totalPrice}} р.</strong></div>
+                    <div class="total-cart text-right"><strong>Итого: {{cart.totalPrice.toFixed(2)}} р.</strong></div>
                 </div>
         </div>
         <div class="empty-cart" v-else>
@@ -94,9 +94,11 @@
             removeFromCart(id) {
                 bus.$emit('remove-from-cart', id)
             },
+
             reduceFromCart(key) {
                 bus.$emit('reduce-from-cart', key)
             },
+
             addToCart(item) {
                 var query_options = {
                     option_id: item.option_id,
