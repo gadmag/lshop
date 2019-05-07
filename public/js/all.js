@@ -1,18 +1,25 @@
 
 $(document).ready(function () {
-    //dropdown hover ul.nav li.dropdown
+
     $('ul.navbar-nav li.dropdown').hover(function () {
-        $(this).find('.dropdown-menu').first().stop(true, true).delay(200).fadeIn(500);
+        $(this).addClass('show');
+        $(this).find('.dropdown-menu').addClass('show');
+
     }, function () {
-        $(this).find('.dropdown-menu').first().stop(true, true).delay(200).fadeOut(500);
+        $(this).removeClass('show');
+        $(this).find('.dropdown-menu').removeClass('show');
     });
 
-    $('.cart-block .table').on("click.bs.dropdown", function (e) { e.stopPropagation(); e.preventDefault(); });
-    // $("#cartDetailBlock").on("click", function(e) {
-    //     e.preventDefault();
-    //     $(this).find('.cart-block').fadeToggle( "fast");
-    // });
-    //
+    $('ul.navbar-nav li.dropdown').on('click', function() {
+        var $el = $(this);
+        if ($el.hasClass('show')) {
+            var $a = $el.children('a');
+            if ($a.length && $a.attr('href')) {
+                  location.href = $a.attr('href');
+            }
+        }
+    });
+
     $('.block-forms a.btn').click(function (e) {
         e.preventDefault();
         $('.block-forms a.active').removeClass('active');
