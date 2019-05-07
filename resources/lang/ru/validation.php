@@ -147,6 +147,7 @@ return [
         'code' => "Код",
         'productDiscount.price' => 'Скидки цена',
         'productDiscount.quantity' => 'Скидки: количество',
+        'productOptions' => 'Опции',
         'productOptions.*.color' => 'Опции: цвет',
         'productOptions.*.price' => 'Опции: цена',
         'productOptions.*.quantity' => 'Опции: кол-во',

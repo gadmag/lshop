@@ -21,12 +21,10 @@ class CreateProductsTable extends Migration
             $table->string('alias');
             $table->string('model', 64);
             $table->string('sku', 64);
-            $table->decimal('price',13,2)->default(0.00);
             $table->integer('quantity');
-            $table->decimal('weight',13,2)->default(0);
+            $table->integer('total_selling')->default(0);
             $table->string('size',128);
             $table->string('material');
-            $table->string('color');
             $table->boolean('status')->default(0);
             $table->integer('user_id')->unsigned();
             $table->timestamps();

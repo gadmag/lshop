@@ -27,12 +27,9 @@ class ProductRequest extends FormRequest
     {
         $rules = [
             'title' => 'required|min:3',
-            'quantity' => 'required|numeric',
             'status' => 'boolean',
             'sku' => 'required',
-            'price' => 'required|numeric',
-            'weight' => 'required|numeric',
-
+            'productOptions' => 'required'
         ];
 
         if ($this->filled('productDiscount.price') || $this->filled('productDiscount.quantity')) {

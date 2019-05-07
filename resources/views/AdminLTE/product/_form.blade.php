@@ -80,24 +80,8 @@
                     </div>
 
                     <div class="form-group">
-                        {!! Form::label('price', 'Цена:') !!}
-                        {!! Form::text('price',null, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('color', 'Цвет:') !!}
-                        {!! Form::select('color',$product->getFieldOptions('coating'), null, ['class' => 'form-control', 'placeholder' => 'Выбрать цвет']) !!}
-                    </div>
-                    <div class="form-group">
                         {!! Form::label('material', 'Материал:') !!}
                         {!! Form::select('material', $product->getFieldOptions('material'), null, ['class' => 'form-control', 'placeholder' => 'Выбрать материал']) !!}
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('quantity', 'Количество:') !!}
-                        {!! Form::text('quantity',null, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('weight', 'Вес:') !!}
-                        {!! Form::text('weight',null, ['class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('size', 'Размер:') !!}

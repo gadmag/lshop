@@ -225,7 +225,9 @@ class ProductController extends Controller
         if ($request->filled('productOptions')) {
             $this->createMultipleOptions($request, $product);
         }
-
+        if ($product->productOptions()->exists()){
+            $this->updateQuantity($product);
+        }
         if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $product, [
                 '600x450' => array(
@@ -276,6 +278,10 @@ class ProductController extends Controller
 
         if ($request->filled('productOptions')) {
             $this->updateMultipleOptions($request, $product);
+        }
+
+        if ($product->productOptions()->exists()){
+            $this->updateQuantity($product);
         }
 
         if ($request->file('images')) {
@@ -355,5 +361,16 @@ class ProductController extends Controller
 
             }
         }
+    }
+
+    protected function updateQuantity(Product $product)
+    {
+        $sum_quantity = 0;
+        foreach ($product->productOptions as $option)
+        {
+            $sum_quantity += $option->quantity;
+        }
+        $product->quantity = $sum_quantity;
+        $product->save();
     }
 }

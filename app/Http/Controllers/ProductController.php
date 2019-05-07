@@ -38,7 +38,7 @@ class ProductController extends Controller
         $id = $request->get('cat_id');
         if ($id){
             $catalog = Catalog::published()->findOrFail(intval($id));
-            $products = $catalog->products()->with([ 'productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->advancedFilter();
+            $products = $catalog->products()->with(['productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->advancedFilter();
         }else {
             $products = Product::with(['productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->advancedFilter();
         }
@@ -47,10 +47,10 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $products = Product::whereHas('catalogs', function ($query) use ($product) {
+        $products = Product::with(['productOptions','productOptions.files', 'productSpecial','files'])
+            ->whereHas('catalogs', function ($query) use ($product) {
             $query->where('id', $product->catalogs()->exists() ? $product->catalogs()->first()->id : null);
         })->whereNotIn('id', [$product->id])->active()->latest('created_at')->get()->take(4);
-
         return view('product.show', [
             'product' => $product,
             'options' => $product->productOptions()->with("files")->get(),

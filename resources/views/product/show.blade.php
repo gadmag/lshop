@@ -44,28 +44,10 @@
 
     </div>
     @if(count($products) > 0)
-        <div class="block bottom-page">
-            <h2 class="title text-center">Похожие товары</h2>
+        <div class="block bottom-page mt-5">
+            <h2 class="py-3 title text-center">Похожие товары</h2>
             <div class="container">
-                <div class="row">
-                    @foreach($products as $product)
-                        <div class="col-sm-6 col-md-3">
-                            <product-list :product="{{$product}}"
-                                          @if($product->productSpecial()->betweenDate()->exists())
-                                          pricespecial="{{$product->productSpecial->price}}"
-                                          persentprice="{{intval((($product->price - $product->productSpecial->price)/$product->price)*100)}}"
-                                          @endif
-                                          price="{{$product->price}}"
-                                          productlink="{{$product->alias? "/products/$product->url_alias" : "products/$product->id"}}"
-                                          @if($product->files()->first())
-                                          imagepath="{{asset('storage/files/250x250/'.$product->files()->first()->filename)}}"
-                                    @endif
-
-                            ></product-list>
-
-                        </div>
-                    @endforeach
-                </div>
+                <product-list :products="{{$products}}"></product-list>
             </div>
         </div>
     @endif

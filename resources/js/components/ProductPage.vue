@@ -29,9 +29,8 @@
                     <div id="menu1" class="tab-pane fade">
                         <p v-if="product.model"><strong>Модель:</strong> <span>{{product.model}}</span></p>
                         <p v-if="product.material"><strong>Материал:</strong> <span>{{product.material}}</span></p>
-                        <p v-if="product.color"><strong>Покрытие:</strong> <span>{{product.color}}</span></p>
                         <p v-if="product.size"><strong>Размер:</strong> <span>{{product.size}}</span></p>
-                        <p v-if="product.weight"><strong>Вес:</strong> <span>{{product.weight}}</span></p>
+                        <p v-if="product.quantity"><strong>В наличии:</strong> <span>{{product.quantity}} штук</span></p>
                     </div>
 
                 </div>
@@ -39,7 +38,6 @@
             <div class="price-block">
                 <h2><span v-bind:class="{'through': isSpecial}" class="price">{{getPrice}} р.</span></h2>
                 <h2 v-if="special"><span class="special-price">{{getSpecialPrice}} </span><span>р.</span></h2>
-                <!--<h2>{{getPrice}}</h2>-->
             </div>
 
 
@@ -53,10 +51,8 @@
                     <label for="options_color">Цвет </label>
                     <select class="custom-select form-control" name="options_color" v-model="query_options.option_id"
                             id="options_color">
-                        <option :selected="null" v-bind:value="null">Выбрать</option>
-                        <option :disabled="option.quantity <= 0" v-for="option in options" :value="option.id">
-                            {{fullOptionName(option)}}
-                        </option>
+                        <option  :disabled="option.quantity <= 0"
+                                 v-for="(option) in options" :value="option.id">{{fullOptionName(option)}}</option>
                     </select>
                 </div>
                 <div class="quantity form-group">
@@ -95,7 +91,7 @@
                 files: [],
                 checkedNames: [],
                 query_options: {
-                    option_id: null,
+                    option_id: this.options[0].id,
                     quantity: 1,
                 },
             }
@@ -142,7 +138,10 @@
             allImagesProduct() {
                 let _this = this;
                 this.files = this.images ? this.images : [];
-                this.options.forEach(function (item, i) {
+                if (!this.product.product_options){
+                    return this.files
+                }
+                this.product.product_options.forEach(function (item, i) {
                     if (item.files != undefined && item.files != null) {
                         _this.files.push(item.files);
                     }

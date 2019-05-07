@@ -81,9 +81,11 @@ class RouteServiceProvider extends ServiceProvider
         });
         Route::bind('product_alias', function ($id) {
             if (is_numeric($id)) {
-                $product = Product::active()->findOrFail($id);
+                $product = Product::active()->with(['productOptions','productOptions.files',
+                    'productSpecial','productDiscount','files'])->findOrFail($id);
             } else {
-                $product = Product::active()->whereAlias($id)->firstOrFail();
+                $product = Product::active()->with(['productOptions','productOptions.files',
+                    'productSpecial','productDiscount','files'])->whereAlias($id)->firstOrFail();
             }
             return $product;
         });
