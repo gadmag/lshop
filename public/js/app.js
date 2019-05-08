@@ -1805,6 +1805,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['filters', 'category'],
@@ -1860,6 +1861,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         specialPrice: function specialPrice(item) {
             return Math.floor((item.product_options[0].price - item.product_special.price) / item.product_options[0].price * 100);
+        },
+        getImage: function getImage(product) {
+            var filename = '';
+            if (product.files && product.files.length) {
+                filename = product.files[0].filename;
+            }
+            if (!product.product_options) {
+                return '';
+            }
+
+            product.product_options.forEach(function (item, i) {
+                if (item.files) {
+                    filename = item.files.filename;
+                }
+            });
+            return filename;
         }
     }
 });
@@ -2780,6 +2797,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         specialPrice: function specialPrice(item) {
             return Math.floor((item.product_options[0].price - item.product_special.price) / item.product_options[0].price * 100);
+        },
+        getImage: function getImage(product) {
+            var filename = '';
+            if (product.files && product.files.length) {
+                filename = product.files[0].filename;
+            }
+            if (!product.product_options) {
+                return '';
+            }
+
+            product.product_options.forEach(function (item, i) {
+                if (item.files) {
+                    filename = item.files.filename;
+                }
+            });
+            return filename;
         }
     }
 
@@ -2822,12 +2855,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['products'],
     data: function data() {
         return {
-            className: ''
+            className: '',
+            image: []
         };
     },
     mounted: function mounted() {
@@ -2864,6 +2899,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.className = 'ico ico-wishlist link-wishlist fal fa-heart';
                 return false;
             }
+        },
+        getImage: function getImage(product) {
+            var filename = '';
+            if (product.files && product.files.length) {
+                filename = product.files[0].filename;
+            }
+            if (!product.product_options) {
+                return '';
+            }
+            product.product_options.forEach(function (item, i) {
+                if (item.files) {
+                    filename = item.files.filename;
+                }
+            });
+            return filename;
         }
     },
 
@@ -39419,15 +39469,13 @@ var render = function() {
         return [
           _c("div", { staticClass: "col-sm-6 col-md-4 col-lg-3" }, [
             _c("div", { staticClass: "product-item mb-3 card" }, [
-              item.files && item.files.length
-                ? _c("img", {
-                    staticClass: "card-img-top img-fluid",
-                    attrs: {
-                      src: "/storage/files/250x250/" + item.files[0].filename,
-                      alt: "Картинка"
-                    }
-                  })
-                : _vm._e(),
+              _c("img", {
+                staticClass: "card-img-top img-fluid",
+                attrs: {
+                  src: "/storage/files/250x250/" + _vm.getImage(item),
+                  alt: "Картинка"
+                }
+              }),
               _vm._v(" "),
               item.product_special && item.product_options[0]
                 ? _c("span", { staticClass: "special-badge" }, [
@@ -39547,17 +39595,13 @@ var render = function() {
                   return [
                     _c("div", { staticClass: "col-sm-6 col-md-6 col-lg-4" }, [
                       _c("div", { staticClass: "product-item mb-3  card" }, [
-                        item.files && item.files.length
-                          ? _c("img", {
-                              staticClass: "card-img-top img-fluid",
-                              attrs: {
-                                src:
-                                  "/storage/files/250x250/" +
-                                  item.files[0].filename,
-                                alt: "Картинка"
-                              }
-                            })
-                          : _vm._e(),
+                        _c("img", {
+                          staticClass: "card-img-top img-fluid",
+                          attrs: {
+                            src: "/storage/files/250x250/" + _vm.getImage(item),
+                            alt: "Картинка"
+                          }
+                        }),
                         _vm._v(" "),
                         item.product_special && item.product_options[0]
                           ? _c("span", { staticClass: "special-badge" }, [
@@ -40405,17 +40449,13 @@ var render = function() {
                   return [
                     _c("div", { staticClass: "col-sm-6 col-md-6 col-lg-4" }, [
                       _c("div", { staticClass: "product-item mb-3  card" }, [
-                        item.files && item.files.length
-                          ? _c("img", {
-                              staticClass: "card-img-top img-fluid",
-                              attrs: {
-                                src:
-                                  "/storage/files/250x250/" +
-                                  item.files[0].filename,
-                                alt: "Картинка"
-                              }
-                            })
-                          : _vm._e(),
+                        _c("img", {
+                          staticClass: "card-img-top img-fluid",
+                          attrs: {
+                            src: "/storage/files/250x250/" + _vm.getImage(item),
+                            alt: "Картинка"
+                          }
+                        }),
                         _vm._v(" "),
                         item.product_special && item.product_options[0]
                           ? _c("span", { staticClass: "special-badge" }, [

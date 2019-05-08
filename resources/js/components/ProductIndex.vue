@@ -4,8 +4,8 @@
             <template slot-scope="{item, key}">
                 <div class="col-sm-6 col-md-6 col-lg-4">
                     <div class="product-item mb-3  card">
-                        <img v-if="item.files && item.files.length" class="card-img-top img-fluid"
-                             :src="'/storage/files/250x250/'+item.files[0].filename"
+                        <img class="card-img-top img-fluid"
+                             :src="'/storage/files/250x250/'+getImage(item)"
                              alt="Картинка">
 
                         <span v-if="item.product_special && item.product_options[0]" class="special-badge"> -{{specialPrice(item)}}%</span>
@@ -103,9 +103,26 @@
                 bus.$emit('remove-to-wishlist', id);
             },
 
-                specialPrice(item) {
-                    return Math.floor(((item.product_options[0].price - item.product_special.price) / item.product_options[0].price) * 100);
+            specialPrice(item) {
+                return Math.floor(((item.product_options[0].price - item.product_special.price) / item.product_options[0].price) * 100);
+            },
+
+            getImage(product) {
+                let filename = '';
+                if (product.files && product.files.length) {
+                    filename = product.files[0].filename;
                 }
+                if (!product.product_options) {
+                    return ''
+                }
+
+                product.product_options.forEach(function (item, i) {
+                    if (item.files) {
+                        filename = item.files.filename;
+                    }
+                });
+                return filename;
+            }
 
         },
 

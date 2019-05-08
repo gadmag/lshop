@@ -1,30 +1,31 @@
 <template>
     <div class="row">
-    <template v-for="(item, key) in products">
-    <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="product-item mb-3 card">
-            <img v-if="item.files && item.files.length" class="card-img-top img-fluid"
-                 :src="'/storage/files/250x250/'+item.files[0].filename"
-                 alt="Картинка">
-            <span v-if="item.product_special && item.product_options[0]" class="special-badge"> -{{specialPrice(item)}}%</span>
-            <a @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
-                    :class="toggleWishList(item.id)? className: className"></span></a>
-            <div class="card-body">
-                <div class="product-name text-center"><a class="" :href="'/products/'+item.alias">{{item.title}}</a>
-                </div>
-                <div class="product-price text-center">
-                    <span class="special" v-if="item.product_special">{{Number(item.product_special.price).toFixed(0)}} р.</span>
-                    <span v-if="item.product_options[0]">{{Number(item.product_options[0].price).toFixed(0)}} р.</span>
-                </div>
-                <div class="product-link text-center"><a class="text-uppercase btn btn-outline-dark"
-                                                         :href="'/products/'+item.alias">Подробнее</a>
+        <template v-for="(item, key) in products">
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="product-item mb-3 card">
+                    <img class="card-img-top img-fluid"
+                         :src="'/storage/files/250x250/'+getImage(item)"
+                         alt="Картинка">
+                    <span v-if="item.product_special && item.product_options[0]" class="special-badge"> -{{specialPrice(item)}}%</span>
+                    <a @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
+                            :class="toggleWishList(item.id)? className: className"></span></a>
+                    <div class="card-body">
+                        <div class="product-name text-center"><a class=""
+                                                                 :href="'/products/'+item.alias">{{item.title}}</a>
+                        </div>
+                        <div class="product-price text-center">
+                            <span class="special" v-if="item.product_special">{{Number(item.product_special.price).toFixed(0)}} р.</span>
+                            <span v-if="item.product_options[0]">{{Number(item.product_options[0].price).toFixed(0)}} р.</span>
+                        </div>
+                        <div class="product-link text-center"><a class="text-uppercase btn btn-outline-dark"
+                                                                 :href="'/products/'+item.alias">Подробнее</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div v-if="(key+1) % 4 == 0" class="w-100 d-none d-lg-block"></div>
-    <div v-if="(key+1) % 2 == 0" class="w-100 d-none d-sm-block d-lg-none"></div>
-    </template>
+            <div v-if="(key+1) % 4 == 0" class="w-100 d-none d-lg-block"></div>
+            <div v-if="(key+1) % 2 == 0" class="w-100 d-none d-sm-block d-lg-none"></div>
+        </template>
     </div>
 </template>
 
@@ -34,6 +35,7 @@
         data: function () {
             return {
                 className: '',
+                image: []
             }
         },
         mounted() {
@@ -73,10 +75,24 @@
                     this.className = 'ico ico-wishlist link-wishlist fal fa-heart';
                     return false;
                 }
+            },
+            getImage(product) {
+                let filename = '';
+                if (product.files && product.files.length) {
+                    filename = product.files[0].filename;
+                }
+                if (!product.product_options) {
+                    return ''
+                }
+                product.product_options.forEach(function (item, i) {
+                    if (item.files) {
+                        filename = item.files.filename;
+                    }
+                });
+                return filename;
             }
         },
 
-        computed: {
-        }
+        computed: {}
     }
 </script>

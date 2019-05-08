@@ -4,8 +4,8 @@
             <template slot-scope="{item, key}">
                 <div class="col-sm-6 col-md-6 col-lg-4">
                     <div class="product-item mb-3  card">
-                        <img v-if="item.files && item.files.length" class="card-img-top img-fluid"
-                             :src="'/storage/files/250x250/'+item.files[0].filename"
+                        <img class="card-img-top img-fluid"
+                             :src="'/storage/files/250x250/'+getImage(item)"
                              alt="Картинка">
 
                         <span v-if="item.product_special && item.product_options[0]"
@@ -16,7 +16,8 @@
                             <div class="product-name text-center"><a class="" :href="'/products/'+item.alias">{{item.title}}</a>
                             </div>
                             <div class="product-price text-center"><span class="special" v-if="item.product_special">{{Number(item.product_special.price).toFixed(0)}} р.</span>
-                                <span v-if="item.product_options[0]">{{Number(item.product_options[0].price).toFixed(0)}} р.</span></div>
+                                <span v-if="item.product_options[0]">{{Number(item.product_options[0].price).toFixed(0)}} р.</span>
+                            </div>
                             <div class="product-link text-center"><a class="text-uppercase btn btn-outline-dark"
                                                                      :href="'/products/'+item.alias">Подробнее</a>
                             </div>
@@ -100,6 +101,23 @@
 
             specialPrice(item) {
                 return Math.floor(((item.product_options[0].price - item.product_special.price) / item.product_options[0].price) * 100);
+            },
+
+            getImage(product) {
+                let filename = '';
+                if (product.files && product.files.length) {
+                    filename = product.files[0].filename;
+                }
+                if (!product.product_options) {
+                    return ''
+                }
+
+                product.product_options.forEach(function (item, i) {
+                    if (item.files) {
+                        filename = item.files.filename;
+                    }
+                });
+                return filename;
             }
 
         }
