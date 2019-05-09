@@ -3011,9 +3011,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['product', 'action', 'images', 'options', 'special', 'discount'],
+    props: ['product', 'action', 'options', 'special', 'discount'],
     data: function data() {
         return {
             className: '',
@@ -3031,6 +3032,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        selectOption: function selectOption() {
+            var id = this.query_options.option_id;
+            var length = this.files.length;
+            var first_element = this.files[0];
+            this.files.forEach(function (file, i, arr) {
+                if (file.uploadstable_id == id) {
+                    var element = file;
+                    arr.splice(i, 1);
+                    arr.splice(length, 0, element);
+                }
+            });
+            // console.log(this.files);
+        },
         getOptionByID: function getOptionByID(id) {
             var option = false;
             this.options.forEach(function (item, i) {
@@ -3065,7 +3079,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         allImagesProduct: function allImagesProduct() {
             var _this = this;
-            this.files = this.images ? this.images : [];
+            this.files = this.product.files ? this.product.files : [];
             if (!this.product.product_options) {
                 return this.files;
             }
@@ -39221,14 +39235,6 @@ var render = function() {
                   _vm._v(" "),
                   _c("span", [_vm._v(_vm._s(_vm.product.size))])
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.product.quantity
-              ? _c("p", [
-                  _c("strong", [_vm._v("В наличии:")]),
-                  _vm._v(" "),
-                  _c("span", [_vm._v(_vm._s(_vm.product.quantity) + " штук")])
-                ])
               : _vm._e()
           ])
         ])
@@ -39292,6 +39298,9 @@ var render = function() {
                       staticClass: "custom-select form-control",
                       attrs: { name: "options_color", id: "options_color" },
                       on: {
+                        input: function($event) {
+                          return _vm.selectOption($event)
+                        },
                         change: function($event) {
                           var $$selectedVal = Array.prototype.filter
                             .call($event.target.options, function(o) {
@@ -39318,7 +39327,12 @@ var render = function() {
                           attrs: { disabled: option.quantity <= 0 },
                           domProps: { value: option.id }
                         },
-                        [_vm._v(_vm._s(_vm.fullOptionName(option)))]
+                        [
+                          _vm._v(
+                            _vm._s(_vm.fullOptionName(option)) +
+                              "\n                    "
+                          )
+                        ]
                       )
                     }),
                     0
@@ -39369,7 +39383,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Добавить в корзину\n                        ")]
+                [_vm._v("Добавить в корзину\n                ")]
               ),
               _vm._v(" "),
               _c(
@@ -39386,7 +39400,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\n                            Добавить\n                            в избранное\n                        "
+                    "\n                    Добавить\n                    в избранное\n                "
                   )
                 ]
               )

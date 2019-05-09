@@ -37,8 +37,6 @@
                           @if($options) :options="{{$options}}" @endif
                           @if($discount)  :discount="{{$discount}}" @endif
                           @if($special) :special="{{$special}}" @endif
-                          @if($product->files()->exists()):images="{{$product->files}}" @endif
-
             ></product-page>
         </div>
 

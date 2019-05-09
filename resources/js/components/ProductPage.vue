@@ -30,7 +30,6 @@
                         <p v-if="product.model"><strong>Модель:</strong> <span>{{product.model}}</span></p>
                         <p v-if="product.material"><strong>Материал:</strong> <span>{{product.material}}</span></p>
                         <p v-if="product.size"><strong>Размер:</strong> <span>{{product.size}}</span></p>
-                        <p v-if="product.quantity"><strong>В наличии:</strong> <span>{{product.quantity}} штук</span></p>
                     </div>
 
                 </div>
@@ -49,10 +48,12 @@
             <div v-if="options" class="options-block">
                 <div v-if="options && options.length > 0" class="w-50 form-group">
                     <label for="options_color">Цвет </label>
-                    <select class="custom-select form-control" name="options_color" v-model="query_options.option_id"
+                    <select class="custom-select form-control" @input="selectOption($event)" name="options_color"
+                            v-model="query_options.option_id"
                             id="options_color">
-                        <option  :disabled="option.quantity <= 0"
-                                 v-for="(option) in options" :value="option.id">{{fullOptionName(option)}}</option>
+                        <option :disabled="option.quantity <= 0"
+                                v-for="(option) in options" :value="option.id">{{fullOptionName(option)}}
+                        </option>
                     </select>
                 </div>
                 <div class="quantity form-group">
@@ -61,15 +62,15 @@
                            class="form-control" :max="product.quantity">
                 </div>
                 <div class="button-block clearfix">
-                            <button :disabled="product.quantity <= 0" class="mb-2 btn-dark btn"
-                                    @click="addToCart(product.id)">Добавить в корзину
-                            </button>
+                    <button :disabled="product.quantity <= 0" class="mb-2 btn-dark btn"
+                            @click="addToCart(product.id)">Добавить в корзину
+                    </button>
 
-                            <button class="mb-2 btn-dark btn"
-                                    @click="toggleWishList? removeToWishList(product.id) : addToWishList(product.id)">
-                                Добавить
-                                в избранное
-                            </button>
+                    <button class="mb-2 btn-dark btn"
+                            @click="toggleWishList? removeToWishList(product.id) : addToWishList(product.id)">
+                        Добавить
+                        в избранное
+                    </button>
                 </div>
 
 
@@ -84,7 +85,7 @@
 
 <script>
     export default {
-        props: ['product', 'action', 'images', 'options', 'special', 'discount'],
+        props: ['product', 'action', 'options', 'special', 'discount'],
         data: function () {
             return {
                 className: '',
@@ -102,7 +103,19 @@
 
         },
         methods: {
-
+            selectOption() {
+                let id = this.query_options.option_id;
+                let length = this.files.length;
+                let first_element = this.files[0];
+                this.files.forEach(function (file, i, arr) {
+                    if (file.uploadstable_id == id) {
+                        let element = file;
+                        arr.splice(i, 1);
+                        arr.splice(length, 0, element);
+                    }
+                });
+                // console.log(this.files);
+            },
             getOptionByID(id) {
                 let option = false;
                 this.options.forEach(function (item, i) {
@@ -116,7 +129,7 @@
                 let id = this.query_options.option_id;
                 if (id !== null) {
                     let option = this.getOptionByID(id);
-                     let total_price = parseFloat(option.price) - parseFloat(discount_price) ;
+                    let total_price = parseFloat(option.price) - parseFloat(discount_price);
                     return total_price.toFixed(2);
                 }
                 let total_price = (price - discount_price)
@@ -137,8 +150,8 @@
 
             allImagesProduct() {
                 let _this = this;
-                this.files = this.images ? this.images : [];
-                if (!this.product.product_options){
+                this.files = this.product.files ? this.product.files : [];
+                if (!this.product.product_options) {
                     return this.files
                 }
                 this.product.product_options.forEach(function (item, i) {
