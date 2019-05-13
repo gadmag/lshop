@@ -46,15 +46,28 @@
                 <hr>
             </div>
             <div v-if="options" class="options-block">
-                <div v-if="options && options.length > 0" class="w-50 form-group">
-                    <label for="options_color">Цвет </label>
-                    <select class="custom-select form-control" @input="selectOption($event)" name="options_color"
-                            v-model="query_options.option_id"
-                            id="options_color">
-                        <option :disabled="option.quantity <= 0"
-                                v-for="(option) in options" :value="option.id">{{fullOptionName(option)}}
-                        </option>
-                    </select>
+<!--                <div v-if="options && options.length > 0" class="w-50 form-group">-->
+<!--                    <label for="options_color">Цвет </label>-->
+<!--                    <select class="custom-select form-control" @input="selectOption($event)" name="options_color"-->
+<!--                            v-model="query_options.option_id"-->
+<!--                            id="options_color">-->
+<!--                        <option :disabled="option.quantity <= 0"-->
+<!--                                v-for="(option) in options" :value="option.id">{{fullOptionName(option)}}-->
+<!--                        </option>-->
+<!--                    </select>-->
+<!--                </div>-->
+                <div v-if="options && options.length > 0" class="form-group">
+                    <label for="dropdownOptions">Выбор цвета: </label>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" id="dropdownOptions" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">{{titleOption}}</button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownSortHeader">
+                            <button  :disabled="option.quantity <= 0" @click="selectOption($event, option)" v-for="(option) in options"
+                                    :data-id="option.id" class="dropdown-item"
+                                    type="button">{{fullOptionName(option)}}
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="quantity form-group">
                     <label for="quantity">Кол-во</label>
@@ -91,6 +104,7 @@
                 className: '',
                 files: [],
                 checkedNames: [],
+                titleOption: this.fullOptionName(this.options[0]),
                 query_options: {
                     option_id: this.options[0].id,
                     quantity: 1,
@@ -103,15 +117,18 @@
 
         },
         methods: {
-            selectOption() {
-                let id = this.query_options.option_id;
+            selectOption(e, option) {
+                const id = option.id;
+                this.query_options.option_id = id;
+                this.titleOption = this.fullOptionName(option);
+                // let id = this.query_options.option_id;
                 let length = this.files.length;
-                let first_element = this.files[0];
+                // let first_element = this.files[0];
                 this.files.forEach(function (file, i, arr) {
                     if (file.uploadstable_id == id) {
                         let element = file;
                         arr.splice(i, 1);
-                        arr.splice(length, 0, element);
+                        arr.splice(0, 0, element);
                     }
                 });
                 // console.log(this.files);

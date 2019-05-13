@@ -236,8 +236,8 @@ class ProductController extends Controller
                 ),
 
                 '250x250' => array(
-                    'width' => 280,
-                    'height' => 280
+                    'width' => 260,
+                    'height' => 260
                 ),
 
                 '90x110' => array(
@@ -291,8 +291,8 @@ class ProductController extends Controller
                     'height' => 500
                 ),
                 '250x250' => array(
-                    'width' => 280,
-                    'height' => 280
+                    'width' => 260,
+                    'height' => 260
                 ),
                 '90x110' => array(
                     'width' => 110,
@@ -320,8 +320,8 @@ class ProductController extends Controller
                             'height' => 500
                         ),
                         '250x250' => array(
-                            'width' => 280,
-                            'height' => 280
+                            'width' => 260,
+                            'height' => 260
                         ),
                         '90x110' => array(
                             'width' => 110,
@@ -350,8 +350,8 @@ class ProductController extends Controller
                         'height' => 500
                     ),
                     '250x250' => array(
-                        'width' => 280,
-                        'height' => 280
+                        'width' => 260,
+                        'height' => 260
                     ),
                     '90x110' => array(
                         'width' => 110,

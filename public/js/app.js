@@ -3012,6 +3012,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['product', 'action', 'options', 'special', 'discount'],
@@ -3020,6 +3033,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             className: '',
             files: [],
             checkedNames: [],
+            titleOption: this.fullOptionName(this.options[0]),
             query_options: {
                 option_id: this.options[0].id,
                 quantity: 1
@@ -3032,15 +3046,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        selectOption: function selectOption() {
-            var id = this.query_options.option_id;
+        selectOption: function selectOption(e, option) {
+            var id = option.id;
+            this.query_options.option_id = id;
+            this.titleOption = this.fullOptionName(option);
+            // let id = this.query_options.option_id;
             var length = this.files.length;
-            var first_element = this.files[0];
+            // let first_element = this.files[0];
             this.files.forEach(function (file, i, arr) {
                 if (file.uploadstable_id == id) {
                     var element = file;
                     arr.splice(i, 1);
-                    arr.splice(length, 0, element);
+                    arr.splice(0, 0, element);
                 }
             });
             // console.log(this.files);
@@ -39279,64 +39296,59 @@ var render = function() {
       _vm.options
         ? _c("div", { staticClass: "options-block" }, [
             _vm.options && _vm.options.length > 0
-              ? _c("div", { staticClass: "w-50 form-group" }, [
-                  _c("label", { attrs: { for: "options_color" } }, [
-                    _vm._v("Цвет ")
+              ? _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "dropdownOptions" } }, [
+                    _vm._v("Выбор цвета: ")
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.query_options.option_id,
-                          expression: "query_options.option_id"
+                  _c("div", { staticClass: "dropdown" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-light dropdown-toggle",
+                        attrs: {
+                          id: "dropdownOptions",
+                          "data-toggle": "dropdown",
+                          "aria-haspopup": "true",
+                          "aria-expanded": "false"
                         }
-                      ],
-                      staticClass: "custom-select form-control",
-                      attrs: { name: "options_color", id: "options_color" },
-                      on: {
-                        input: function($event) {
-                          return _vm.selectOption($event)
-                        },
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.query_options,
-                            "option_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    _vm._l(_vm.options, function(option) {
-                      return _c(
-                        "option",
-                        {
-                          attrs: { disabled: option.quantity <= 0 },
-                          domProps: { value: option.id }
-                        },
-                        [
-                          _vm._v(
-                            _vm._s(_vm.fullOptionName(option)) +
-                              "\n                    "
-                          )
-                        ]
-                      )
-                    }),
-                    0
-                  )
+                      },
+                      [_vm._v(_vm._s(_vm.titleOption))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "dropdown-menu",
+                        attrs: { "aria-labelledby": "dropdownSortHeader" }
+                      },
+                      _vm._l(_vm.options, function(option) {
+                        return _c(
+                          "button",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: {
+                              disabled: option.quantity <= 0,
+                              "data-id": option.id,
+                              type: "button"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.selectOption($event, option)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(_vm.fullOptionName(option)) +
+                                "\n                            "
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ])
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -39383,7 +39395,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Добавить в корзину\n                ")]
+                [_vm._v("Добавить в корзину\n                    ")]
               ),
               _vm._v(" "),
               _c(
@@ -39400,7 +39412,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\n                    Добавить\n                    в избранное\n                "
+                    "\n                        Добавить\n                        в избранное\n                    "
                   )
                 ]
               )
