@@ -30,6 +30,7 @@
                         <p v-if="product.model"><strong>Модель:</strong> <span>{{product.model}}</span></p>
                         <p v-if="product.material"><strong>Материал:</strong> <span>{{product.material}}</span></p>
                         <p v-if="product.size"><strong>Размер:</strong> <span>{{product.size}}</span></p>
+                        <p v-if="weight"><strong>Вес:</strong> <span>{{weight}} гр.</span></p>
                     </div>
 
                 </div>
@@ -46,16 +47,6 @@
                 <hr>
             </div>
             <div v-if="options" class="options-block">
-<!--                <div v-if="options && options.length > 0" class="w-50 form-group">-->
-<!--                    <label for="options_color">Цвет </label>-->
-<!--                    <select class="custom-select form-control" @input="selectOption($event)" name="options_color"-->
-<!--                            v-model="query_options.option_id"-->
-<!--                            id="options_color">-->
-<!--                        <option :disabled="option.quantity <= 0"-->
-<!--                                v-for="(option) in options" :value="option.id">{{fullOptionName(option)}}-->
-<!--                        </option>-->
-<!--                    </select>-->
-<!--                </div>-->
                 <div v-if="options && options.length > 0" class="form-group">
                     <label for="dropdownOptions">Выбор цвета: </label>
                     <div class="dropdown">
@@ -173,7 +164,9 @@
                 }
                 this.product.product_options.forEach(function (item, i) {
                     if (item.files != undefined && item.files != null) {
-                        _this.files.push(item.files);
+                        item.files.forEach(function (file) {
+                            _this.files.push(file);
+                        })
                     }
                 });
 
@@ -196,7 +189,14 @@
         },
 
         computed: {
-
+            weight(){
+                let id = this.query_options.option_id;
+                if (id){
+                    let option = this.getOptionByID(id);
+                    return option.weight;
+                }
+                return '';
+            },
             getPrice() {
                 return this.addOptionPrice(this.product.price);
             },

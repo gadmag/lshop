@@ -117,8 +117,8 @@
                 }
 
                 product.product_options.forEach(function (item, i) {
-                    if (item.files) {
-                        filename = item.files.filename;
+                    if (item.files && item.files.length) {
+                        filename = item.files[0].filename;
                     }
                 });
                 return filename;

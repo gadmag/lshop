@@ -37,7 +37,7 @@ class Option extends Model
      */
     public function files()
     {
-        return $this->morphOne('App\Upload', 'uploadstable');
+        return $this->morphMany('App\Upload', 'uploadstable');
     }
 
 

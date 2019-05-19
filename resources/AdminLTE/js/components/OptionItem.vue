@@ -18,7 +18,8 @@
                     <input type="hidden" :name="'productOptions['+key+'][id]'" :value="item.id">
                     <select class="form-control" :name="'productOptions['+key+'][color]'">
                         <option :value="null">Выбрать</option>
-                        <option :selected="color == item.color" v-for="color in colors" :value="color">{{color}}</option>
+                        <option :selected="color == item.color" v-for="color in colors" :value="color">{{color}}
+                        </option>
                     </select>
                 </div>
             </td>
@@ -27,22 +28,28 @@
                 <div class="form-group">
                     <select class="form-control" :name="'productOptions['+key+'][color_stone]'">
                         <option :value="null">Выбрать</option>
-                        <option :selected="stone == item.color_stone" v-for="stone in colors_stone" :value="stone">{{stone}}</option>
+                        <option :selected="stone == item.color_stone" v-for="stone in colors_stone" :value="stone">
+                            {{stone}}
+                        </option>
                     </select>
                 </div>
             </td>
             <td>
+                <ul class="list-inline" v-if="item.files && item.files.length">
+                    <li v-for="file in item.files" :id="'file-item-' + file.id" class="remove-file"
+                        :data-id="file.id"><span href="#"><i class="fa fa-remove fa-lg"></i></span>
+                        <img class="thumbnail" :src="'/storage/files/thumbnail/' + file.filename" alt="Картинка">
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
 
-                <div v-if="item.files" :id="'file-item-' + item.files.id" class="remove-file"
-                :data-id="item.files.id"><span href="#"><i class="fa fa-remove fa-lg"></i></span><img class="thumbnail"
-                :src="'/storage/files/thumbnail/' + item.files.filename"
-                alt="Картинка">
-                </div>
-
-                <div class="form-group">
-                      <label> Картинка товара</label>
-                        <input class="form-control" type="file" :name="'productOptions['+key+'][image_option]'">
-                    <p class="help-block">Выберите файл для добавления</p>
+                <div class="input-group">
+                    <label class="input-group-btn">
+                <span class="btn btn-primary">Выбрать файл&hellip;
+                    <input type="file" style="display: none;" :name="'productOptions['+key+'][image_option]'" multiple>
+                </span>
+                    </label>
+                    <input type="text" class="form-control" readonly>
                 </div>
             </td>
             <td>
@@ -55,7 +62,8 @@
 
             <td>
                 <div class="form-group">
-                    <input class="form-control" :name="'productOptions['+key+'][weight]'" type="text" :value="item.weight"
+                    <input class="form-control" :name="'productOptions['+key+'][weight]'" type="text"
+                           :value="item.weight"
                            placeholder="Вес:">
                 </div>
 
@@ -89,10 +97,10 @@
 <script>
     export default {
         props: {
-            options:{
-              type: Array,
-              default: []
-            } ,
+            options: {
+                type: Array,
+                default: []
+            },
             colors: {},
             colors_stone: {}
         },
@@ -116,13 +124,13 @@
                 })
             },
 
-            removeOption(key){
+            removeOption(key) {
                 if (this.forms[key].id) {
                     var url = "/admin/option/" + this.forms[key].id;
 
                     axios.get(url)
                         .then((res) => {
-                            this.forms.splice(key,1)
+                            this.forms.splice(key, 1)
                         })
                         .catch((error) => {
                             console.log(error)
@@ -132,7 +140,7 @@
                         })
 
                 } else {
-                    this.forms.splice(key,1)
+                    this.forms.splice(key, 1)
                 }
             }
         },

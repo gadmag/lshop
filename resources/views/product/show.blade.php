@@ -26,7 +26,7 @@
         <nav aria-label="breadcrumb" role="navigation">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Главная</a></li>
-                <li class="breadcrumb-item"><a href="{{url('products')}}">Продукты</a></li>
+                <li class="breadcrumb-item"><a href="{{url('products')}}">Каталог товаров</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><span>{{$product->title}}</span></li>
             </ol>
         </nav>

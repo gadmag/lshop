@@ -17,6 +17,7 @@ window.Vue = require('vue');
 
 // Vue.component('example', require('./components/Example.vue'));
 Vue.component('option-item', require('./components/OptionItem.vue'));
+Vue.component('order', require('./components/Order.vue'));
 
 
 const app = new Vue({

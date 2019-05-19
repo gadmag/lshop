@@ -1872,8 +1872,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             product.product_options.forEach(function (item, i) {
-                if (item.files) {
-                    filename = item.files.filename;
+                if (item.files && item.files.length) {
+                    filename = item.files[0].filename;
                 }
             });
             return filename;
@@ -2808,8 +2808,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             product.product_options.forEach(function (item, i) {
-                if (item.files) {
-                    filename = item.files.filename;
+                if (item.files && item.files.length) {
+                    filename = item.files[0].filename;
                 }
             });
             return filename;
@@ -2909,8 +2909,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return '';
             }
             product.product_options.forEach(function (item, i) {
-                if (item.files) {
-                    filename = item.files.filename;
+                if (item.files && item.files.length) {
+                    filename = item.files[0].filename;
                 }
             });
             return filename;
@@ -2927,15 +2927,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3102,7 +3093,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
             this.product.product_options.forEach(function (item, i) {
                 if (item.files != undefined && item.files != null) {
-                    _this.files.push(item.files);
+                    item.files.forEach(function (file) {
+                        _this.files.push(file);
+                    });
                 }
             });
 
@@ -3120,6 +3113,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
+        weight: function weight() {
+            var id = this.query_options.option_id;
+            if (id) {
+                var option = this.getOptionByID(id);
+                return option.weight;
+            }
+            return '';
+        },
         getPrice: function getPrice() {
             return this.addOptionPrice(this.product.price);
         },
@@ -39252,6 +39253,14 @@ var render = function() {
                   _vm._v(" "),
                   _c("span", [_vm._v(_vm._s(_vm.product.size))])
                 ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.weight
+              ? _c("p", [
+                  _c("strong", [_vm._v("Вес:")]),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.weight) + " гр.")])
+                ])
               : _vm._e()
           ])
         ])
@@ -39341,7 +39350,7 @@ var render = function() {
                           [
                             _vm._v(
                               _vm._s(_vm.fullOptionName(option)) +
-                                "\n                            "
+                                "\n                        "
                             )
                           ]
                         )
@@ -39395,7 +39404,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Добавить в корзину\n                    ")]
+                [_vm._v("Добавить в корзину\n                ")]
               ),
               _vm._v(" "),
               _c(
@@ -39412,7 +39421,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\n                        Добавить\n                        в избранное\n                    "
+                    "\n                    Добавить\n                    в избранное\n                "
                   )
                 ]
               )

@@ -1,5 +1,6 @@
 .remove-file {
     position: relative;
+    /*float: left;*/
 }
 
 .remove-file span {
@@ -14,7 +15,25 @@
 .remove-file span:hover {
     color: red;
 }
-
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
 .tab-options table.table td {
     vertical-align: middle;
 }
@@ -60,3 +79,9 @@
     background: #fff;
     text-align: center;
 }
+/* orders */
+
+.order .dropdown-menu.active {
+    display: block;
+}
+.order .highlighted { color: red }
