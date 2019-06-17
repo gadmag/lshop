@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Cart;
+use App\Coupon;
 use Illuminate\Http\Request;
 use App\Order;
 use App\Product;
 use App\Http\Controllers\Controller;
+use App\Events\OrderAdminEvent;
+
 
 class OrderController extends Controller
 {
@@ -21,7 +25,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::findOrFail($id);
-        $order->cart = unserialize($order->cart);
+        $order->cart = json_decode($order->cart);
         return view('AdminLTE.order.show', ['order' => $order]);
     }
 
@@ -29,28 +33,79 @@ class OrderController extends Controller
     public function edit($id)
     {
         $order = Order::findOrFail($id);
-        $order->cart = unserialize($order->cart);
-        $products = Product::active()->latest('created_at')->take(5)->get();
+        $order->cart = json_decode($order->cart);
+        $products = Product::with(['productOptions'])->active()->latest('created_at')->take(5)->get();
+        $coupons = Coupon::active()->isQty()->betweenDate()->get();
+        $payment_config = config('payment');
         return view('AdminLTE.order.edit', [
             'order' => $order,
-            'products' => $products
+            'products' => $products,
+            'coupons' => $coupons,
+            'payment_config' => collect($payment_config)
         ]);
     }
 
-    public function upload(Request $request, Order $order)
+    public function update(Request $request, Order $order)
     {
         $order->update($request->all());
+        if ($order->is_send){
+            event( new OrderAdminEvent($order));
+        }
         return redirect("admin/orders")->with([
-            'flash_message' => "Номер {$order->id}. Заказ обновлен",
+            'flash_message' => "Заказ №{$order->id} обновлен",
         ]);
     }
 
     public function search(Request $request)
     {
-        $products = Product::active()->where('title', 'like', '%' . $request->keywords . '%')
+        $products = Product::with(['productOptions'])->active()->where('title', 'like', '%' . $request->keywords . '%')
             ->latest('created_at')->take(10)->get();
         return response()->json($products);
     }
+
+    public function addToCart(Request $request, $id)
+    {
+        $product = Product::with(['files', 'productOptions.files'])->active()->findOrFail($id);
+        $oldCart = json_decode($request->get('cart'));
+        $cart = new Cart($oldCart);
+        $cart->add($product, $product->id, json_decode($request->get('options')));
+        return response()->json([
+            'cart' => json_encode($cart)
+        ]);
+    }
+
+    public function getRemoveItem(Request $request, $id)
+    {
+        $oldCart = json_decode($request->get('cart'));
+        $cart = new Cart($oldCart);
+        $cart->removeItem($id);
+        return response()->json([
+            'cart' => json_encode($cart)
+        ]);
+    }
+
+    public function getUpdateCart(Request $request, $id)
+    {
+        $option = json_decode($request->get('option'));
+        $oldCart = json_decode($request->get('cart'));
+        $product = Product::with(['files', 'productOptions.files'])->active()->findOrFail($id);
+        $cart = new Cart($oldCart);
+        $cart->update($product, json_decode($id), $option);
+
+        return response()->json([
+            'cart' => json_encode($cart)
+        ]);
+    }
+
+
+    public function destroy(Order $order)
+    {
+        $order->delete();
+        return redirect("admin/orders")->with([
+            'flash_message' => "Заказ №'{$order->id}' удален",
+        ]);
+    }
+
 
     public function getGrid(Request $request)
     {
@@ -68,7 +123,7 @@ class OrderController extends Controller
         }
         $orders = $orders->paginate(10);
         $orders->transform(function ($order, $key) {
-            $order->cart = unserialize($order->cart);
+            $order->cart = json_decode($order->cart);
             return $order;
         });
         $grid = new \Datagrid($orders, $f);
@@ -131,11 +186,18 @@ class OrderController extends Controller
                     return '
                     <a class="btn btn-primary" href="' . action('Admin\OrderController@edit', [$row->id]) . '" title="Редактировать" data-toggle="tooltip">
                      <i class="fa fa-edit"></i>
-                    </a> 
+                    </a>
+                  
                     <a style="display: inline-block" href="' . action('Admin\OrderController@show', [$row->id]) . '" class="btn btn-info" title="Просмотр"
                                    data-toggle="tooltip">
                                     <i class="fa fa-eye"></i>
-                                </a>';
+                                </a>
+                    <form style="display: inline-block" action="' . action('Admin\OrderController@destroy', [$row->id]) . '" method="POST">
+                                    ' . csrf_field() . ' ' . method_field('DELETE') . '
+                                    <button style="display: inline-block" type="submit" onclick="return confirm(\'Вы уверены?\')" class="btn btn-danger" data-toggle="tooltip" title="Удалить">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>';
                 }
             ]);
         return $grid;

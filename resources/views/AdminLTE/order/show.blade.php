@@ -10,7 +10,6 @@
                 <li class="breadcrumb-item active" aria-current="page">Номер заказа {{$order->id}}</li>
             </ol>
         </nav>
-        {{dd($order->cart)}}
         <div class="row">
             <div class="col-sm-4">
                 <div class="box box-default ">

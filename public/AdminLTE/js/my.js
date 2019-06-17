@@ -142,10 +142,10 @@ $(document).ready(function () {
 (function ($) {
     var row = $('table.table tbody').children().length - 1;
     $('#add-options').on('click', function (e) {
-       // var  row = $('optionHide');
-       //  console.log(optionCoating.querySelectorAll('tr'));
+        // var  row = $('optionHide');
+        //  console.log(optionCoating.querySelectorAll('tr'));
         e.preventDefault();
-       // $('#option-value-row').clone().toggleClass('hide').attr('id', '#option-value-row' + row).appendTo('.tab-option-coating table.table tbody');
+        // $('#option-value-row').clone().toggleClass('hide').attr('id', '#option-value-row' + row).appendTo('.tab-option-coating table.table tbody');
         $('.tab-option-coating table.table tbody')[0].appendChild(optionCoating.content.cloneNode(true));
         row++;
     });
@@ -175,4 +175,12 @@ $(document).ready(function () {
         // }
 
     })
+
+
+    $('input').iCheck({
+        checkboxClass: 'icheckbox_flat-blue',
+        radioClass: 'iradio_flat-blue'
+    });
+
+
 }(jQuery))

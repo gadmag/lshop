@@ -103,7 +103,7 @@
 <script src="/AdminLTE/js/bootstrap-datepicker.js"></script>
 <script src="/AdminLTE/js/bootstrap-datepicker.ru.js"></script>
 {{--iChek--}}
-{{--<script src="/AdminLTE/js/icheck.min.js"></script>--}}
+<script src="/AdminLTE/js/icheck.min.js"></script>
 {{--<!-- Bootstrap WYSIHTML5 -->--}}
 <script src="/AdminLTE/js/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- Slimscroll -->

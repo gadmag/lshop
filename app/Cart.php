@@ -3,6 +3,7 @@
 namespace App;
 
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Session;
 
 class Cart
@@ -34,7 +35,6 @@ class Cart
         $productKey = self::searchCartKey($this->items, $id, $option_id);
         $price = $item->price;
         $weight = $item->weight;
-
         if ($option_id) {
             $productOption = $item->productOptions->find($option_id);
             if ($productOption->files()->exists()) {
@@ -47,7 +47,8 @@ class Cart
             $weight = $productOption->weight;
         }
 
-        $storedItem = ['qty' => 0, 'product_id' => $item->id, 'price' => $price, 'weight' => $weight,
+
+        $storedItem = (Object)['qty' => 0, 'product_id' => $item->id, 'price' => $price, 'weight' => $weight,
             'option_id' => $option_id ? $option_id : null, 'optionImage' => $optionImage, 'item' => $item];
 
         if ($this->items) {
@@ -56,25 +57,27 @@ class Cart
             }
         }
 
-        $storedItem['qty'] += $quantity;
-        $storedItem['weight'] = $weight * $storedItem['qty'];
-        $storedItem['price'] = $price * $storedItem['qty'];
 
         if ($item->productSpecial()->exists()) {
-            if ($item->productDiscount->price_prefix == '%') {
-                $storedItem['price'] = ($price * intval($item->productSpecial->price) / 100) * $storedItem['qty'];
+            if ($item->productSpecial->price_prefix == '%') {
+                $price= $price * intval($item->productSpecial->price) / 100;
             } else {
-                $storedItem['price'] = floatval($price - $item->productSpecial->price) * $storedItem['qty'];
+                $price= floatval($price - $item->productSpecial->price);
             }
         }
 
-        if ($item->productDiscount()->exists() && $storedItem['qty'] >= $item->productDiscount->quantity) {
+        if ($item->productDiscount()->exists() && $storedItem->qty >= $item->productDiscount->quantity) {
             if ($item->productDiscount->price_prefix == '%') {
-                $storedItem['price'] = ($price * intval($item->productDiscount->price) / 100) * $storedItem['qty'];
+                $price = $price * intval($item->productDiscount->price) / 100;
             } else {
-                $storedItem['price'] = floatval($price - $item->productDiscount->price) * $storedItem['qty'];
+                $price = floatval($price - $item->productDiscount->price);
             }
         }
+
+        $storedItem->qty += $quantity;
+        $item->price = $price;
+        $storedItem->weight = $weight * $storedItem->qty;
+        $storedItem->price = $price * $storedItem->qty;
 
         if (!is_null($productKey)) {
             $this->items[$productKey] = $storedItem;
@@ -84,8 +87,8 @@ class Cart
 
 
         foreach ($this->items as $cartItem) {
-            $totalPrice += $cartItem['price'];
-            $totalWeight += $cartItem['weight'];
+            $totalPrice += $cartItem->price;
+            $totalWeight += $cartItem->weight;
         }
         $this->totalPrice = $totalPrice;
         $this->totalWeight = $totalWeight;
@@ -94,61 +97,131 @@ class Cart
 
     }
 
+
     public function reduceByOne($id)
     {
-        $option_id = $this->items[$id]['option_id'];
+        $option_id = $this->items[$id]->option_id;
         $totalPrice = 0;
         $totalWeight = 0;
-        $this->items[$id]['qty']--;
-        $item = $this->items[$id]['item'];
-        $price = $item['price'];
-        $weight = $item['weight'];
+        $this->items[$id]->qty--;
+        $item = $this->items[$id]->item;
         if ($option_id) {
-            $productOption = $this->items[$id]['item']->productOptions->find($option_id);
+            $productOption = $item->productOptions->find($option_id);
 
             $price = $productOption->price;
             $weight = $productOption->weight;
         }
 
-        $this->items[$id]['item']['weight'] = $weight * $this->items[$id]['qty'];
-        $this->items[$id]['item']['price'] = $price * $this->items[$id]['qty'];
-
         if ($item->productSpecial()->exists()) {
-            if ($item->productDiscount->price_prefix == '%') {
-                $this->items[$id]['price'] = ($price * intval($item->productSpecial->price) / 100) * $this->items[$id]['qty'];
+            if ($item->productSpecial->price_prefix == '%') {
+                $price = $price * intval($item->productSpecial->price) / 100;
             } else {
-                $this->items[$id]['price'] = floatval($price - $item->productSpecial->price) * $this->items[$id]['qty'];
+                $price = floatval($price - $item->productSpecial->price);
             }
         }
 
-        if ($item->productDiscount()->exists() && $this->items[$id]['qty'] >= $item->productDiscount->quantity) {
+        if ($item->productDiscount()->exists() && $this->items[$id]->qty >= $item->productDiscount->quantity) {
             if ($item->productDiscount->price_prefix == '%') {
-                $this->items[$id]['price'] = ($price * intval($item->productDiscount->price) / 100) * $this->items[$id]['qty'];
+                $price = $price * intval($item->productDiscount->price) / 100;
             } else {
-                $this->items[$id]['price'] = floatval($price - $item->productDiscount->price) * $this->items[$id]['qty'];
+                $price = floatval($price - $item->productDiscount->price);
             }
         }
 
+        $this->items[$id]->item->weight = $weight * $this->items[$id]->qty;
+        $this->items[$id]->item->price = $price * $this->items[$id]->qty;
 
         $this->totalQty--;
 
         foreach ($this->items as $cartItem) {
-            $totalPrice += $cartItem['price'];
-            $totalWeight += $cartItem['weight'];
+            $totalPrice += $cartItem->price;
+            $totalWeight += $cartItem->weight;
         }
         $this->totalPrice = $totalPrice;
         $this->totalWeight = $totalWeight;
-        if ($this->items[$id]['qty'] <= 0) {
-            unset($this->items[$id]);
+        if ($this->items[$id]->qty <= 0) {
+            array_splice($this->items, $id, 1);
         }
+    }
+
+    public function update($item, $id, $option)
+    {
+        $totalPrice = 0; $totalWeight = 0; $totalQty = 0;
+        $quantity = ($option->quantity > 0) ? $option->quantity : 1;
+        $option_id = $option->option_id?$option->option_id:null;
+        $optionImage = null;
+        $productKey = self::searchCartKey($this->items, $id, $option_id);
+        $price = $item->price;
+        $weight = $item->weight;
+        if ($option_id) {
+            $productOption = $item->productOptions->find($option_id);
+
+            if ($productOption->files()->exists()) {
+                $optionImage = $productOption->files;
+            }
+            if ($productOption->color) $item->color = $productOption->color;
+            if ($productOption->color_stone) $item->color_stone = $productOption->color_stone;
+
+            $price = $productOption->price;
+            $weight = $productOption->weight;
+        }
+
+        $storedItem = (object)['qty' => $quantity, 'product_id' => $item->id, 'price' => $price, 'weight' => $weight,
+            'option_id' => $option_id ? $option_id : null, 'optionImage' => $optionImage, 'item' => $item];
+
+        if ($this->items) {
+            if (!is_null($productKey)) {
+                $storedItem = $this->items[$productKey];
+            }
+        }
+
+
+        if ($item->productSpecial()->exists()) {
+            if ($item->productSpecial->price_prefix == '%') {
+                $price = $price * intval($item->productSpecial->price) / 100;
+            } else {
+                $price = floatval($price - $item->productSpecial->price);
+            }
+        }
+
+        if ($item->productDiscount()->exists() && $storedItem->qty >= $item->productDiscount->quantity) {
+            if ($item->productDiscount->price_prefix == '%') {
+                $price = $price * intval($item->productDiscount->price) / 100;
+            } else {
+                $price = floatval($price - $item->productDiscount->price);
+            }
+        }
+
+        $storedItem->qty = $quantity;
+        $item->price = $price;
+        $storedItem->weight = $weight * $storedItem->qty;
+        $storedItem->price = $price * $storedItem->qty;
+
+        if (!is_null($productKey)) {
+            $this->items[$productKey] = $storedItem;
+        } else {
+            $this->items[] = $storedItem;
+        }
+
+
+        foreach ($this->items as $cartItem) {
+            $totalPrice += $cartItem->price;
+            $totalWeight += $cartItem->weight;
+            $totalQty += $cartItem->qty;
+        }
+        $this->totalPrice = $totalPrice;
+        $this->totalWeight = $totalWeight;
+        $this->totalQty = $totalQty;
+
     }
 
     public function removeItem($id)
     {
-        $this->totalQty -= $this->items[$id]['qty'];
-        $this->totalPrice -= $this->items[$id]['price'];
-        $this->totalWeight -= $this->items[$id]['weight'];
-        unset($this->items[$id]);
+
+        $this->totalQty -= $this->items[$id]->qty;
+        $this->totalPrice -= $this->items[$id]->price;
+        $this->totalWeight -= $this->items[$id]->weight;
+        array_splice($this->items, $id, 1);
     }
 
 
@@ -161,7 +234,7 @@ class Cart
     {
         if (!$items) return null;
         foreach ($items as $key => $item) {
-            if (($item['product_id'] == $id) && ($item['option_id'] == $option_id)) {
+            if (($item->product_id == $id) && ($item->option_id == $option_id)) {
                 return $key;
             }
         }

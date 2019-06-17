@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\OrderCreateEvent;
+use App\Events\OrderCheckoutEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Product;
@@ -24,16 +24,16 @@ class OrderAfterSaveListener
     /**
      * Handle the event.
      *
-     * @param  OrderCreateEvent  $event
+     * @param  OrderCheckoutEvent  $event
      * @return void
      */
-    public function handle(OrderCreateEvent $event)
+    public function handle(OrderCheckoutEvent $event)
     {
-        $cart = unserialize($event->order->cart);
+        $cart = json_decode($event->order->cart);
         $this->reduceQuantity($cart);
     }
 
-    protected function reduceQuantity(Cart $cart)
+    protected function reduceQuantity($cart)
     {
         foreach ($cart->items as $id => $item)
         {

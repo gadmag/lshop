@@ -18,7 +18,7 @@ class Product extends Model
     use ProductFilter;
 
     protected $fillable = ['title', 'description',
-        'model', 'sku', 'quantity', 'total_selling', 'size', 'status',
+        'model', 'sku', 'price', 'type', 'quantity', 'total_selling', 'size', 'status',
         'material', 'alias', 'user_id'];
 
 

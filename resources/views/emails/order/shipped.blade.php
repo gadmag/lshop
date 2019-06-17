@@ -46,16 +46,16 @@
         @foreach($cart->items as $cartItem)
             <tr>
                 <td style="">
-                    @if ($cartItem['item']->files()->exists())
+                    @if ($cartItem->item->files)
                         <img class="img-responsive"
-                             src="{{asset('/storage/files/90x110/'.$cartItem['item']->files()->first()->filename)}}"
+                             src="{{asset('/storage/files/90x110/'.$cartItem['item']->files[0]->filename)}}"
                              alt="Картинка товара">
                     @endif
                 </td>
-                <td style="padding: 5px 0">{{$cartItem['item']['title']}}</td>
-                <td style="padding: 5px 0">{{$cartItem['qty']}}</td>
-                <td style="padding: 5px 0">{{$cartItem['price']/$cartItem['qty']}} р.</td>
-                <td style="padding: 5px 0" align="right">{{$cartItem['price']}} р.</td>
+                <td style="padding: 5px 0">{{$cartItem->item->title}}</td>
+                <td style="padding: 5px 0">{{$cartItem->qty}}</td>
+                <td style="padding: 5px 0">{{$cartItem->price/$cartItem->qty}} р.</td>
+                <td style="padding: 5px 0" align="right">{{$cartItem->price}} р.</td>
             </tr>
         @endforeach
         <tr style="padding: 10px">
@@ -95,9 +95,9 @@
 <p class="panel-body">{{$order->payment_method}} {{$order->payment_id}}</p>
 </div>
 <br>
-@if($order->comment)
-    <div style="background: #e0e0e0; max-width: 300px; padding: 5px"><strong>Комментарий к заказу:</strong></div>
-    <p class="panel-body">{{$order->comment}}</p>
+@if($order->comment_admin)
+    <div style="background: #e0e0e0; max-width: 300px; padding: 5px"><strong>Комментарий администратора:</strong></div>
+    <p class="panel-body">{{$order->comment_admin}}</p>
 @endif
 
 </body>

@@ -85,3 +85,32 @@
     display: block;
 }
 .order .highlighted { color: red }
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+.order .table-bordered > tfoot > tr > td {
+    border:none !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-top: none !important;
+    border-right-style: none !important;
+    border-left-style: none !important;
+}
+.order #shipment_method{
+    width: auto;
+    float: right;
+}
+
+.order .form-field{
+    padding: 5px 0;
+}

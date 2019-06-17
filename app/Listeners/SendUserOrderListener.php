@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\OrderCreateEvent;
+use App\Events\OrderAdminEvent;
+use App\Mail\OrderUserShipped;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Mail\OrderShipped;
 use Illuminate\Support\Facades\Mail;
 
-class OrderShippedListener
+class SendUserOrderListener
 {
     /**
      * Create the event listener.
@@ -23,12 +23,13 @@ class OrderShippedListener
     /**
      * Handle the event.
      *
-     * @param  OrderCreateEvent  $event
+     * @param  OrderAdminEvent  $event
      * @return void
      */
-    public function handle(OrderCreateEvent $event)
+    public function handle(OrderAdminEvent $event)
     {
-        Mail::to([config('payment.send_mail'), $event->order->email])->send(new OrderShipped($event->order));
+
+        Mail::to($event->order->email)->send(new OrderUserShipped($event->order));
 
     }
 }

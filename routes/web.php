@@ -38,9 +38,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
     //orders
     Route::get('orders', ['as' => 'order.index', 'uses' => 'OrderController@index']);
     Route::get('orders/{order}/edit', ['as' => 'order.edit', 'uses' => 'OrderController@edit']);
+    Route::delete('orders/{order}', ['as' => 'orders.destroy', 'uses' => 'OrderController@destroy']);
     Route::put('orders/{order}', ['as' => 'order.update', 'uses' => 'OrderController@update']);
     Route::get('orders/{order}', ['as' => 'order.show', 'uses' => 'OrderController@show']);
     Route::get('api/orders', ['as' => 'order.api', 'uses' => 'OrderController@search']);
+    Route::post('api/orders/add-to-cart/{id}', ['as' => 'order.addToCart', 'uses' => 'OrderController@addToCart']);
+    Route::post('api/orders/remove-to-cart/{id}', ['as' => 'order.removeToCart', 'uses' => 'OrderController@getRemoveItem']);
+    Route::post('api/orders/update-cart/{id}', ['as' => 'order.updateCart', 'uses' => 'OrderController@getUpdateCart']);
     //relates
     Route::get('option/{id}', 'ProductController@deleteOption');
     //upload

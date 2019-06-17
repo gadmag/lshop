@@ -10,7 +10,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class OrderCreateEvent
+class OrderAdminEvent
 {
     use InteractsWithSockets, SerializesModels;
 
@@ -22,6 +22,7 @@ class OrderCreateEvent
      */
     public function __construct(Order $order)
     {
+
         $this->order = $order;
     }
 

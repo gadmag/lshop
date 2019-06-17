@@ -7,7 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-// window.bus = new Vue;
+window.bus = new Vue;
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -15,7 +15,6 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// Vue.component('example', require('./components/Example.vue'));
 Vue.component('option-item', require('./components/OptionItem.vue'));
 Vue.component('order', require('./components/Order.vue'));
 
@@ -30,12 +29,21 @@ const app = new Vue({
     },
 
     created() {
-
+        // bus.$on('added-to-cart', (id, options) => {
+        //     this.addToCart('/add-to-cart', id, options);
+        // });
     },
     methods: {
 
-
-
+        // addToCart(url, id,  options) {
+        //     axios.get('/add-to-cart/'+id, {params: {options: options}})
+        //         .then(response => {
+        //             console.log(response.data);
+        //         })
+        //         .catch(error => {
+        //             console.log(error)
+        //         });
+        // },
 
     },
 

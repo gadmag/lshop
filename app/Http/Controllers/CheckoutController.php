@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Events\OrderCreateEvent;
+use App\Events\OrderCheckoutEvent;
 use Illuminate\Support\Facades\Redirect;
 use App\Catalog;
 use App\Cart;
@@ -93,8 +93,9 @@ class CheckoutController extends Controller
             if ($coupon){
                 $coupon->uses_total = $coupon->uses_total - 1;
                 $coupon->save();
-                $cart->coupon = $coupon;
-                $order->totalPrice = $order->totalPrice - $order->totalPrice*$cart->coupon->discount/100;
+                $order->cart->coupon = $coupon;
+                $order->coupon = $coupon->code;
+                $order->totalPrice = $order->totalPrice - $order->totalPrice*$coupon->discount/100;
             }
         }
 
@@ -103,9 +104,9 @@ class CheckoutController extends Controller
         if($request->comment){
             $order->comment = $request->comment;
         }
-        $order->cart = serialize($cart);
+        $order->cart = json_encode($cart);
         Auth::user()->orders()->save($order);
-        event(new OrderCreateEvent($order));
+        event(new OrderCheckoutEvent($order));
         Session::forget('cart');
         return redirect()->route('product.index')->with('success', 'Ваш заказ принят. Данные для оплаты будут отправленны на Вашу почту.');
     }

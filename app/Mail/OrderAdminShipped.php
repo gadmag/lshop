@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderShipped extends Mailable
+class OrderAdminShipped extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,9 +30,9 @@ class OrderShipped extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.order.shipped',[
+        return $this->view('emails.order.admin',[
             'order' => $this->order,
-            'cart' => unserialize($this->order->cart)
+            'cart' => json_decode($this->order->cart)
         ])->subject('Новый заказ');
     }
 }

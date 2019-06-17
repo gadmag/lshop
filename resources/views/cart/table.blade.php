@@ -12,10 +12,11 @@
 
         @foreach($order->cart->items as $item)
             <tr>
-                <td>{{$item['item']['title']}}</td>
-                <td><strong>{{$item['qty']}}</strong></td>
-                <td>{{$item['price']/$item['qty']}} р.</td>
-                <td class="text-right">{{$item['price']}} р.</td>
+{{--                {{dd($item)}}--}}
+                <td>{{$item->item->title}}</td>
+                <td><strong>{{$item->qty}}</strong></td>
+                <td>{{$item->price/$item->qty}} р.</td>
+                <td class="text-right">{{$item->price}} р.</td>
             </tr>
         @endforeach
 
