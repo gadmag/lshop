@@ -1714,7 +1714,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['cart', 'carttotal'],
@@ -40302,7 +40301,7 @@ var render = function() {
                       _vm._v(
                         " " +
                           _vm._s(cartItem.qty) +
-                          "\n                                "
+                          "\n                            "
                       ),
                       _c(
                         "span",
@@ -40346,12 +40345,8 @@ var render = function() {
             _vm._v(" "),
             _vm._m(0),
             _vm._v(" "),
-            _c("div", { staticClass: "total-cart text-right" }, [
-              _c("strong", [
-                _vm._v(
-                  "Итого: " + _vm._s(_vm.cart.totalPrice.toFixed(2)) + " р."
-                )
-              ])
+            _c("div", { staticClass: "float-right pt-1 total-cart" }, [
+              _vm._v("Итого: " + _vm._s(_vm.cart.totalPrice.toFixed(2)) + " р.")
             ])
           ])
         ])
@@ -40366,8 +40361,8 @@ var staticRenderFns = [
     return _c("div", { staticClass: "float-left button-cart" }, [
       _c(
         "a",
-        { staticClass: "btn lotus-button", attrs: { href: "/shopping-cart" } },
-        [_vm._v("Просмотр корзины")]
+        { staticClass: "btn btn-dark", attrs: { href: "/shopping-cart" } },
+        [_vm._v("Корзина")]
       )
     ])
   },

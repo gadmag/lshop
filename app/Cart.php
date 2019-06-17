@@ -38,7 +38,7 @@ class Cart
         if ($option_id) {
             $productOption = $item->productOptions->find($option_id);
             if ($productOption->files()->exists()) {
-                $optionImage = $productOption->files;
+                $optionImage = $productOption->files->first();
             }
             if ($productOption->color) $item->color = $productOption->color;
             if ($productOption->color_stone) $item->color_stone = $productOption->color_stone;

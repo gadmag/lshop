@@ -30,7 +30,6 @@
                                 </div>
                             </figure>
                         </td>
-<!--                        <td class="d-none d-sm-block price-cart">{{cartItem.price/cartItem.qty}} р.</td>-->
                         <td class="cart-qty">
                             <div>
                                 <span @click="reduceFromCart(key)">-</span> {{cartItem.qty}}
@@ -45,8 +44,8 @@
                 </table>
                 <div class="p-2 cart-detail-bottom">
                     <hr>
-                    <div class="float-left button-cart"><a href="/shopping-cart" class="btn lotus-button">Просмотр корзины</a></div>
-                    <div class="total-cart text-right"><strong>Итого: {{cart.totalPrice.toFixed(2)}} р.</strong></div>
+                    <div class="float-left button-cart"><a href="/shopping-cart" class="btn btn-dark">Корзина</a></div>
+                    <div class="float-right pt-1 total-cart">Итого: {{cart.totalPrice.toFixed(2)}} р.</div>
                 </div>
         </div>
         <div class="empty-cart" v-else>
