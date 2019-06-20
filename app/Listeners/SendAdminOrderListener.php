@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Mail\OrderAdminShipped;
 use Illuminate\Support\Facades\Mail;
 
+
 class SendAdminOrderListener
 {
     /**
@@ -28,7 +29,7 @@ class SendAdminOrderListener
      */
     public function handle(OrderCheckoutEvent $event)
     {
-        Mail::to(env('ADMIN_MAIL'))->send(new OrderAdminShipped($event->order));
+        Mail::to(config('payment.send_mail'))->send(new OrderAdminShipped($event->order));
 
     }
 }

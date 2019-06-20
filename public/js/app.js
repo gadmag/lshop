@@ -2152,6 +2152,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2184,7 +2190,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             postcode: null,
             company: null,
 
-            errors: [],
+            error_toggle: false,
+            error_list: {},
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         };
     },
@@ -2194,34 +2201,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         stepFirstValid: function stepFirstValid() {
-            this.errors = [];
-            if (!this.first_name) this.errors["first_name"] = "Укажите имя.";
-            if (!this.last_name) this.errors["last_name"] = "Укажите фамилию.";
+            this.error_list = [];
+            this.error_toggle = false;
+            if (!this.first_name) this.error_list["first_name"] = "Укажите имя.";
+            if (!this.last_name) this.error_list["last_name"] = "Укажите фамилию.";
             if (!this.email) {
-                this.errors["email"] = "Укажите электронную почту.";
+                this.error_list["email"] = "Укажите электронную почту.";
             } else if (!this.validEmail(this.email)) {
-                this.errors["email"] = "Укажите корректный адрес электронной почты.";
+                this.error_list["email"] = "Укажите корректный адрес электронной почты.";
             }
-            if (!this.telephone) this.errors["telephone"] = "Укажите  телефон.";
-            if (!this.address) this.errors["address"] = "Укажите адрес.";
-            if (!this.city) this.errors["city"] = "Укажите город проживания.";
-            if (!this.country) this.errors["country"] = "Укажите страну проживания.";
+            if (!this.telephone) this.error_list["telephone"] = "Укажите  телефон.";
+            if (!this.address) this.error_list["address"] = "Укажите адрес.";
+            if (!this.city) this.error_list["city"] = "Укажите город проживания.";
+            if (!this.country) this.error_list["country"] = "Укажите страну проживания.";
 
-            if (Object.keys(this.errors).length > 0) {
+            if (Object.keys(this.error_list).length > 0) {
+                this.error_toggle = true;
                 return false;
             }
+
             return true;
         },
 
         stepSecondValid: function stepSecondValid() {
-            this.errors = [];
+            this.error_list = [];
             if (!this.payment) {
-                this.errors["payment"] = "Выберите платежную систему.";
+                this.error_list["payment"] = "Выберите платежную систему.";
             }
             if (!this.shipment) {
-                this.errors["shipment"] = "Выберите способ оплаты.";
+                this.error_list["shipment"] = "Выберите способ оплаты.";
             }
-            if (Object.keys(this.errors).length > 0) {
+            if (Object.keys(this.error_list).length > 0) {
                 return false;
             }
             return true;
@@ -3158,12 +3168,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -40623,6 +40627,7 @@ var render = function() {
     _c(
       "form",
       {
+        class: { "was-validated1": _vm.error_toggle },
         attrs: {
           action: _vm.route,
           method: "post",
@@ -40661,459 +40666,440 @@ var render = function() {
                     _c("fieldset", [
                       _c("legend", [_vm._v("Личные данные")]),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group required",
-                          class: { "has-error": _vm.errors.first_name }
-                        },
-                        [
-                          _c("label", { attrs: { for: "first_name" } }, [
-                            _vm._v("Имя")
-                          ]),
-                          _vm._v(" "),
-                          _vm.text === "checkbox"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.first_name,
-                                    expression: "first_name"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "first_name",
-                                  name: "first_name",
-                                  type: "checkbox"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.first_name)
-                                    ? _vm._i(_vm.first_name, null) > -1
-                                    : _vm.first_name
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.first_name,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          (_vm.first_name = $$a.concat([$$v]))
-                                      } else {
-                                        $$i > -1 &&
-                                          (_vm.first_name = $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1)))
-                                      }
+                      _c("div", { staticClass: "form-group required" }, [
+                        _c("label", { attrs: { for: "first_name" } }, [
+                          _vm._v("Имя")
+                        ]),
+                        _vm._v(" "),
+                        _vm.text === "checkbox"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.first_name,
+                                  expression: "first_name"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: {
+                                "is-invalid": _vm.error_list.first_name
+                              },
+                              attrs: {
+                                id: "first_name",
+                                name: "first_name",
+                                type: "checkbox"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.first_name)
+                                  ? _vm._i(_vm.first_name, null) > -1
+                                  : _vm.first_name
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.first_name,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.first_name = $$a.concat([$$v]))
                                     } else {
-                                      _vm.first_name = $$c
+                                      $$i > -1 &&
+                                        (_vm.first_name = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
                                     }
+                                  } else {
+                                    _vm.first_name = $$c
                                   }
                                 }
-                              })
-                            : _vm.text === "radio"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.first_name,
-                                    expression: "first_name"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "first_name",
-                                  name: "first_name",
-                                  type: "radio"
-                                },
-                                domProps: {
-                                  checked: _vm._q(_vm.first_name, null)
-                                },
-                                on: {
-                                  change: function($event) {
-                                    _vm.first_name = null
-                                  }
+                              }
+                            })
+                          : _vm.text === "radio"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.first_name,
+                                  expression: "first_name"
                                 }
-                              })
-                            : _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.first_name,
-                                    expression: "first_name"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "first_name",
-                                  name: "first_name",
-                                  type: _vm.text
-                                },
-                                domProps: { value: _vm.first_name },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.first_name = $event.target.value
-                                  }
+                              ],
+                              staticClass: "form-control",
+                              class: {
+                                "is-invalid": _vm.error_list.first_name
+                              },
+                              attrs: {
+                                id: "first_name",
+                                name: "first_name",
+                                type: "radio"
+                              },
+                              domProps: {
+                                checked: _vm._q(_vm.first_name, null)
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.first_name = null
                                 }
-                              }),
-                          _vm._v(" "),
-                          _vm.errors.first_name
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors.first_name))
-                              ])
-                            : _vm._e()
-                        ]
-                      ),
+                              }
+                            })
+                          : _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.first_name,
+                                  expression: "first_name"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: {
+                                "is-invalid": _vm.error_list.first_name
+                              },
+                              attrs: {
+                                id: "first_name",
+                                name: "first_name",
+                                type: _vm.text
+                              },
+                              domProps: { value: _vm.first_name },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.first_name = $event.target.value
+                                }
+                              }
+                            }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(_vm._s(_vm.error_list.first_name))
+                        ])
+                      ]),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group required",
-                          class: { "has-error": _vm.errors.last_name }
-                        },
-                        [
-                          _c("label", { attrs: { for: "last_name" } }, [
-                            _vm._v("Фамилия")
-                          ]),
-                          _vm._v(" "),
-                          _vm.text === "checkbox"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.last_name,
-                                    expression: "last_name"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "last_name",
-                                  name: "last_name",
-                                  type: "checkbox"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.last_name)
-                                    ? _vm._i(_vm.last_name, null) > -1
-                                    : _vm.last_name
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.last_name,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          (_vm.last_name = $$a.concat([$$v]))
-                                      } else {
-                                        $$i > -1 &&
-                                          (_vm.last_name = $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1)))
-                                      }
+                      _c("div", { staticClass: "form-group required" }, [
+                        _c("label", { attrs: { for: "last_name" } }, [
+                          _vm._v("Фамилия")
+                        ]),
+                        _vm._v(" "),
+                        _vm.text === "checkbox"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.last_name,
+                                  expression: "last_name"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.last_name },
+                              attrs: {
+                                id: "last_name",
+                                name: "last_name",
+                                type: "checkbox"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.last_name)
+                                  ? _vm._i(_vm.last_name, null) > -1
+                                  : _vm.last_name
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.last_name,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.last_name = $$a.concat([$$v]))
                                     } else {
-                                      _vm.last_name = $$c
+                                      $$i > -1 &&
+                                        (_vm.last_name = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
                                     }
+                                  } else {
+                                    _vm.last_name = $$c
                                   }
                                 }
-                              })
-                            : _vm.text === "radio"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.last_name,
-                                    expression: "last_name"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "last_name",
-                                  name: "last_name",
-                                  type: "radio"
-                                },
-                                domProps: {
-                                  checked: _vm._q(_vm.last_name, null)
-                                },
-                                on: {
-                                  change: function($event) {
-                                    _vm.last_name = null
-                                  }
+                              }
+                            })
+                          : _vm.text === "radio"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.last_name,
+                                  expression: "last_name"
                                 }
-                              })
-                            : _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.last_name,
-                                    expression: "last_name"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "last_name",
-                                  name: "last_name",
-                                  type: _vm.text
-                                },
-                                domProps: { value: _vm.last_name },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.last_name = $event.target.value
-                                  }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.last_name },
+                              attrs: {
+                                id: "last_name",
+                                name: "last_name",
+                                type: "radio"
+                              },
+                              domProps: {
+                                checked: _vm._q(_vm.last_name, null)
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.last_name = null
                                 }
-                              }),
-                          _vm._v(" "),
-                          _vm.errors.last_name
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors.last_name))
-                              ])
-                            : _vm._e()
-                        ]
-                      ),
+                              }
+                            })
+                          : _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.last_name,
+                                  expression: "last_name"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.last_name },
+                              attrs: {
+                                id: "last_name",
+                                name: "last_name",
+                                type: _vm.text
+                              },
+                              domProps: { value: _vm.last_name },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.last_name = $event.target.value
+                                }
+                              }
+                            }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(_vm._s(_vm.error_list.last_name))
+                        ])
+                      ]),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group required",
-                          class: { "has-error": _vm.errors.email }
-                        },
-                        [
-                          _c("label", { attrs: { for: "email" } }, [
-                            _vm._v("E-mail")
-                          ]),
-                          _vm._v(" "),
-                          _vm.text === "checkbox"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.email,
-                                    expression: "email"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "email",
-                                  name: "email",
-                                  type: "checkbox"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.email)
-                                    ? _vm._i(_vm.email, null) > -1
-                                    : _vm.email
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.email,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          (_vm.email = $$a.concat([$$v]))
-                                      } else {
-                                        $$i > -1 &&
-                                          (_vm.email = $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1)))
-                                      }
+                      _c("div", { staticClass: "form-group required" }, [
+                        _c("label", { attrs: { for: "email" } }, [
+                          _vm._v("E-mail")
+                        ]),
+                        _vm._v(" "),
+                        _vm.text === "checkbox"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.email,
+                                  expression: "email"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.email },
+                              attrs: {
+                                id: "email",
+                                name: "email",
+                                type: "checkbox"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.email)
+                                  ? _vm._i(_vm.email, null) > -1
+                                  : _vm.email
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.email,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 && (_vm.email = $$a.concat([$$v]))
                                     } else {
-                                      _vm.email = $$c
+                                      $$i > -1 &&
+                                        (_vm.email = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
                                     }
+                                  } else {
+                                    _vm.email = $$c
                                   }
                                 }
-                              })
-                            : _vm.text === "radio"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.email,
-                                    expression: "email"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "email",
-                                  name: "email",
-                                  type: "radio"
-                                },
-                                domProps: { checked: _vm._q(_vm.email, null) },
-                                on: {
-                                  change: function($event) {
-                                    _vm.email = null
-                                  }
+                              }
+                            })
+                          : _vm.text === "radio"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.email,
+                                  expression: "email"
                                 }
-                              })
-                            : _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.email,
-                                    expression: "email"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "email",
-                                  name: "email",
-                                  type: _vm.text
-                                },
-                                domProps: { value: _vm.email },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.email = $event.target.value
-                                  }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.email },
+                              attrs: {
+                                id: "email",
+                                name: "email",
+                                type: "radio"
+                              },
+                              domProps: { checked: _vm._q(_vm.email, null) },
+                              on: {
+                                change: function($event) {
+                                  _vm.email = null
                                 }
-                              }),
-                          _vm._v(" "),
-                          _vm.errors.email
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors.email))
-                              ])
-                            : _vm._e()
-                        ]
-                      ),
+                              }
+                            })
+                          : _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.email,
+                                  expression: "email"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.email },
+                              attrs: {
+                                id: "email",
+                                name: "email",
+                                type: _vm.text
+                              },
+                              domProps: { value: _vm.email },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.email = $event.target.value
+                                }
+                              }
+                            }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(_vm._s(_vm.error_list.email))
+                        ])
+                      ]),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group required",
-                          class: { "has-error": _vm.errors.telephone }
-                        },
-                        [
-                          _c("label", { attrs: { for: "telephone" } }, [
-                            _vm._v("Телефон")
-                          ]),
-                          _vm._v(" "),
-                          _vm.text === "checkbox"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.telephone,
-                                    expression: "telephone"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "telephone",
-                                  name: "telephone",
-                                  type: "checkbox"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.telephone)
-                                    ? _vm._i(_vm.telephone, null) > -1
-                                    : _vm.telephone
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.telephone,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          (_vm.telephone = $$a.concat([$$v]))
-                                      } else {
-                                        $$i > -1 &&
-                                          (_vm.telephone = $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1)))
-                                      }
+                      _c("div", { staticClass: "form-group required" }, [
+                        _c("label", { attrs: { for: "telephone" } }, [
+                          _vm._v("Телефон")
+                        ]),
+                        _vm._v(" "),
+                        _vm.text === "checkbox"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.telephone,
+                                  expression: "telephone"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.telephone },
+                              attrs: {
+                                id: "telephone",
+                                name: "telephone",
+                                type: "checkbox"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.telephone)
+                                  ? _vm._i(_vm.telephone, null) > -1
+                                  : _vm.telephone
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.telephone,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.telephone = $$a.concat([$$v]))
                                     } else {
-                                      _vm.telephone = $$c
+                                      $$i > -1 &&
+                                        (_vm.telephone = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
                                     }
+                                  } else {
+                                    _vm.telephone = $$c
                                   }
                                 }
-                              })
-                            : _vm.text === "radio"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.telephone,
-                                    expression: "telephone"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "telephone",
-                                  name: "telephone",
-                                  type: "radio"
-                                },
-                                domProps: {
-                                  checked: _vm._q(_vm.telephone, null)
-                                },
-                                on: {
-                                  change: function($event) {
-                                    _vm.telephone = null
-                                  }
+                              }
+                            })
+                          : _vm.text === "radio"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.telephone,
+                                  expression: "telephone"
                                 }
-                              })
-                            : _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.telephone,
-                                    expression: "telephone"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "telephone",
-                                  name: "telephone",
-                                  type: _vm.text
-                                },
-                                domProps: { value: _vm.telephone },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.telephone = $event.target.value
-                                  }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.telephone },
+                              attrs: {
+                                id: "telephone",
+                                name: "telephone",
+                                type: "radio"
+                              },
+                              domProps: {
+                                checked: _vm._q(_vm.telephone, null)
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.telephone = null
                                 }
-                              }),
-                          _vm._v(" "),
-                          _vm.errors.telephone
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors.telephone))
-                              ])
-                            : _vm._e()
-                        ]
-                      )
+                              }
+                            })
+                          : _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.telephone,
+                                  expression: "telephone"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.telephone },
+                              attrs: {
+                                id: "telephone",
+                                name: "telephone",
+                                type: _vm.text
+                              },
+                              domProps: { value: _vm.telephone },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.telephone = $event.target.value
+                                }
+                              }
+                            }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(_vm._s(_vm.error_list.telephone))
+                        ])
+                      ])
                     ])
                   ]),
                   _vm._v(" "),
@@ -41121,607 +41107,555 @@ var render = function() {
                     _c("fieldset", [
                       _c("legend", [_vm._v("Адрес")]),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group",
-                          class: { "has-error": _vm.errors.company }
-                        },
-                        [
-                          _c("label", { attrs: { for: "company" } }, [
-                            _vm._v("Компания")
-                          ]),
-                          _vm._v(" "),
-                          _vm.text === "checkbox"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.company,
-                                    expression: "company"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "company",
-                                  name: "company",
-                                  type: "checkbox"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.company)
-                                    ? _vm._i(_vm.company, null) > -1
-                                    : _vm.company
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.company,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          (_vm.company = $$a.concat([$$v]))
-                                      } else {
-                                        $$i > -1 &&
-                                          (_vm.company = $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1)))
-                                      }
-                                    } else {
-                                      _vm.company = $$c
-                                    }
-                                  }
-                                }
-                              })
-                            : _vm.text === "radio"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.company,
-                                    expression: "company"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "company",
-                                  name: "company",
-                                  type: "radio"
-                                },
-                                domProps: {
-                                  checked: _vm._q(_vm.company, null)
-                                },
-                                on: {
-                                  change: function($event) {
-                                    _vm.company = null
-                                  }
-                                }
-                              })
-                            : _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.company,
-                                    expression: "company"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "company",
-                                  name: "company",
-                                  type: _vm.text
-                                },
-                                domProps: { value: _vm.company },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.company = $event.target.value
-                                  }
-                                }
-                              }),
-                          _vm._v(" "),
-                          _vm.errors.company
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors.company))
-                              ])
-                            : _vm._e()
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group required",
-                          class: { "has-error": _vm.errors.address }
-                        },
-                        [
-                          _c("label", { attrs: { for: "address" } }, [
-                            _vm._v("Адрес")
-                          ]),
-                          _vm._v(" "),
-                          _vm.text === "checkbox"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.address,
-                                    expression: "address"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "address",
-                                  name: "address",
-                                  type: "checkbox"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.address)
-                                    ? _vm._i(_vm.address, null) > -1
-                                    : _vm.address
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.address,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          (_vm.address = $$a.concat([$$v]))
-                                      } else {
-                                        $$i > -1 &&
-                                          (_vm.address = $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1)))
-                                      }
-                                    } else {
-                                      _vm.address = $$c
-                                    }
-                                  }
-                                }
-                              })
-                            : _vm.text === "radio"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.address,
-                                    expression: "address"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "address",
-                                  name: "address",
-                                  type: "radio"
-                                },
-                                domProps: {
-                                  checked: _vm._q(_vm.address, null)
-                                },
-                                on: {
-                                  change: function($event) {
-                                    _vm.address = null
-                                  }
-                                }
-                              })
-                            : _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.address,
-                                    expression: "address"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "address",
-                                  name: "address",
-                                  type: _vm.text
-                                },
-                                domProps: { value: _vm.address },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.address = $event.target.value
-                                  }
-                                }
-                              }),
-                          _vm._v(" "),
-                          _vm.errors.address
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors.address))
-                              ])
-                            : _vm._e()
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group",
-                          class: { "has-error": _vm.errors.postcode }
-                        },
-                        [
-                          _c("label", { attrs: { for: "postcode" } }, [
-                            _vm._v("Индекс")
-                          ]),
-                          _vm._v(" "),
-                          _vm.text === "checkbox"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.postcode,
-                                    expression: "postcode"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "postcode",
-                                  name: "postcode",
-                                  type: "checkbox"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.postcode)
-                                    ? _vm._i(_vm.postcode, null) > -1
-                                    : _vm.postcode
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.postcode,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          (_vm.postcode = $$a.concat([$$v]))
-                                      } else {
-                                        $$i > -1 &&
-                                          (_vm.postcode = $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1)))
-                                      }
-                                    } else {
-                                      _vm.postcode = $$c
-                                    }
-                                  }
-                                }
-                              })
-                            : _vm.text === "radio"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.postcode,
-                                    expression: "postcode"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "postcode",
-                                  name: "postcode",
-                                  type: "radio"
-                                },
-                                domProps: {
-                                  checked: _vm._q(_vm.postcode, null)
-                                },
-                                on: {
-                                  change: function($event) {
-                                    _vm.postcode = null
-                                  }
-                                }
-                              })
-                            : _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.postcode,
-                                    expression: "postcode"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "postcode",
-                                  name: "postcode",
-                                  type: _vm.text
-                                },
-                                domProps: { value: _vm.postcode },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.postcode = $event.target.value
-                                  }
-                                }
-                              }),
-                          _vm._v(" "),
-                          _vm.errors.postcode
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors.postcode))
-                              ])
-                            : _vm._e()
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group required",
-                          class: { "has-error": _vm.errors.city }
-                        },
-                        [
-                          _c("label", { attrs: { for: "city" } }, [
-                            _vm._v("Город")
-                          ]),
-                          _vm._v(" "),
-                          _vm.text === "checkbox"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.city,
-                                    expression: "city"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "city",
-                                  name: "city",
-                                  type: "checkbox"
-                                },
-                                domProps: {
-                                  checked: Array.isArray(_vm.city)
-                                    ? _vm._i(_vm.city, null) > -1
-                                    : _vm.city
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.city,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = null,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          (_vm.city = $$a.concat([$$v]))
-                                      } else {
-                                        $$i > -1 &&
-                                          (_vm.city = $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1)))
-                                      }
-                                    } else {
-                                      _vm.city = $$c
-                                    }
-                                  }
-                                }
-                              })
-                            : _vm.text === "radio"
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.city,
-                                    expression: "city"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "city",
-                                  name: "city",
-                                  type: "radio"
-                                },
-                                domProps: { checked: _vm._q(_vm.city, null) },
-                                on: {
-                                  change: function($event) {
-                                    _vm.city = null
-                                  }
-                                }
-                              })
-                            : _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.city,
-                                    expression: "city"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  id: "city",
-                                  name: "city",
-                                  type: _vm.text
-                                },
-                                domProps: { value: _vm.city },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.city = $event.target.value
-                                  }
-                                }
-                              }),
-                          _vm._v(" "),
-                          _vm.errors.city
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors.city))
-                              ])
-                            : _vm._e()
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "form-group required",
-                          class: { "has-error": _vm.errors.country }
-                        },
-                        [
-                          _c("label", { attrs: { for: "country" } }, [
-                            _vm._v("Страна")
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "select",
-                            {
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "company" } }, [
+                          _vm._v("Компания")
+                        ]),
+                        _vm._v(" "),
+                        _vm.text === "checkbox"
+                          ? _c("input", {
                               directives: [
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.country,
-                                  expression: "country"
+                                  value: _vm.company,
+                                  expression: "company"
                                 }
                               ],
                               staticClass: "form-control",
-                              attrs: { name: "country", id: "country" },
+                              class: { "is-invalid": _vm.error_list.company },
+                              attrs: {
+                                id: "company",
+                                name: "company",
+                                type: "checkbox"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.company)
+                                  ? _vm._i(_vm.company, null) > -1
+                                  : _vm.company
+                              },
                               on: {
                                 change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.country = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
+                                  var $$a = _vm.company,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.company = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.company = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.company = $$c
+                                  }
                                 }
                               }
-                            },
-                            [
-                              _c(
-                                "option",
-                                { domProps: { selected: null, value: null } },
-                                [_vm._v("Выбрать")]
-                              ),
-                              _vm._v(" "),
-                              _vm._l(_vm.countries, function(item) {
-                                return _c(
-                                  "option",
-                                  { domProps: { value: item.id } },
-                                  [_vm._v(_vm._s(item.name))]
-                                )
-                              })
+                            })
+                          : _vm.text === "radio"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.company,
+                                  expression: "company"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.company },
+                              attrs: {
+                                id: "company",
+                                name: "company",
+                                type: "radio"
+                              },
+                              domProps: { checked: _vm._q(_vm.company, null) },
+                              on: {
+                                change: function($event) {
+                                  _vm.company = null
+                                }
+                              }
+                            })
+                          : _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.company,
+                                  expression: "company"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.company },
+                              attrs: {
+                                id: "company",
+                                name: "company",
+                                type: _vm.text
+                              },
+                              domProps: { value: _vm.company },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.company = $event.target.value
+                                }
+                              }
+                            }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(_vm._s(_vm.error_list.company))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group required" }, [
+                        _c("label", { attrs: { for: "address" } }, [
+                          _vm._v("Адрес")
+                        ]),
+                        _vm._v(" "),
+                        _vm.text === "checkbox"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.address,
+                                  expression: "address"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.address },
+                              attrs: {
+                                id: "address",
+                                name: "address",
+                                type: "checkbox"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.address)
+                                  ? _vm._i(_vm.address, null) > -1
+                                  : _vm.address
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.address,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.address = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.address = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.address = $$c
+                                  }
+                                }
+                              }
+                            })
+                          : _vm.text === "radio"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.address,
+                                  expression: "address"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.address },
+                              attrs: {
+                                id: "address",
+                                name: "address",
+                                type: "radio"
+                              },
+                              domProps: { checked: _vm._q(_vm.address, null) },
+                              on: {
+                                change: function($event) {
+                                  _vm.address = null
+                                }
+                              }
+                            })
+                          : _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.address,
+                                  expression: "address"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.address },
+                              attrs: {
+                                id: "address",
+                                name: "address",
+                                type: _vm.text
+                              },
+                              domProps: { value: _vm.address },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.address = $event.target.value
+                                }
+                              }
+                            }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(_vm._s(_vm.error_list.address))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "postcode" } }, [
+                          _vm._v("Индекс")
+                        ]),
+                        _vm._v(" "),
+                        _vm.text === "checkbox"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.postcode,
+                                  expression: "postcode"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.postcode },
+                              attrs: {
+                                id: "postcode",
+                                name: "postcode",
+                                type: "checkbox"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.postcode)
+                                  ? _vm._i(_vm.postcode, null) > -1
+                                  : _vm.postcode
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.postcode,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.postcode = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.postcode = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.postcode = $$c
+                                  }
+                                }
+                              }
+                            })
+                          : _vm.text === "radio"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.postcode,
+                                  expression: "postcode"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.postcode },
+                              attrs: {
+                                id: "postcode",
+                                name: "postcode",
+                                type: "radio"
+                              },
+                              domProps: { checked: _vm._q(_vm.postcode, null) },
+                              on: {
+                                change: function($event) {
+                                  _vm.postcode = null
+                                }
+                              }
+                            })
+                          : _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.postcode,
+                                  expression: "postcode"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.postcode },
+                              attrs: {
+                                id: "postcode",
+                                name: "postcode",
+                                type: _vm.text
+                              },
+                              domProps: { value: _vm.postcode },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.postcode = $event.target.value
+                                }
+                              }
+                            }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(_vm._s(_vm.error_list.postcode))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group required" }, [
+                        _c("label", { attrs: { for: "city" } }, [
+                          _vm._v("Город")
+                        ]),
+                        _vm._v(" "),
+                        _vm.text === "checkbox"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.city,
+                                  expression: "city"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.city },
+                              attrs: {
+                                id: "city",
+                                name: "city",
+                                type: "checkbox"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.city)
+                                  ? _vm._i(_vm.city, null) > -1
+                                  : _vm.city
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.city,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 && (_vm.city = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.city = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.city = $$c
+                                  }
+                                }
+                              }
+                            })
+                          : _vm.text === "radio"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.city,
+                                  expression: "city"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.city },
+                              attrs: {
+                                id: "city",
+                                name: "city",
+                                type: "radio"
+                              },
+                              domProps: { checked: _vm._q(_vm.city, null) },
+                              on: {
+                                change: function($event) {
+                                  _vm.city = null
+                                }
+                              }
+                            })
+                          : _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.city,
+                                  expression: "city"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: { "is-invalid": _vm.error_list.city },
+                              attrs: {
+                                id: "city",
+                                name: "city",
+                                type: _vm.text
+                              },
+                              domProps: { value: _vm.city },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.city = $event.target.value
+                                }
+                              }
+                            }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(_vm._s(_vm.error_list.city))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group required" }, [
+                        _c("label", { attrs: { for: "country" } }, [
+                          _vm._v("Страна")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.country,
+                                expression: "country"
+                              }
                             ],
-                            2
-                          ),
-                          _vm._v(" "),
-                          _vm.errors.country
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors.country))
-                              ])
-                            : _vm._e()
-                        ]
-                      ),
+                            staticClass: "form-control",
+                            class: { "is-invalid": _vm.error_list.country },
+                            attrs: { name: "country", id: "country" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.country = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { domProps: { selected: null, value: null } },
+                              [_vm._v("Выбрать")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.countries, function(item) {
+                              return _c(
+                                "option",
+                                { domProps: { value: item.id } },
+                                [_vm._v(_vm._s(item.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(_vm._s(_vm.error_list.country))
+                        ])
+                      ]),
                       _vm._v(" "),
                       _vm.country
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "form-group",
-                              class: { "has-error": _vm.errors.region }
-                            },
-                            [
-                              _c("label", { attrs: { for: "region" } }, [
-                                _vm._v("Регион/Область")
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "select",
-                                {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.region,
-                                      expression: "region"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { name: "region", id: "region" },
-                                  on: {
-                                    change: function($event) {
-                                      var $$selectedVal = Array.prototype.filter
-                                        .call($event.target.options, function(
-                                          o
-                                        ) {
-                                          return o.selected
-                                        })
-                                        .map(function(o) {
-                                          var val =
-                                            "_value" in o ? o._value : o.value
-                                          return val
-                                        })
-                                      _vm.region = $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    }
+                        ? _c("div", { staticClass: "form-group" }, [
+                            _c("label", { attrs: { for: "region" } }, [
+                              _vm._v("Регион/Область")
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.region,
+                                    expression: "region"
                                   }
-                                },
-                                [
-                                  _c(
-                                    "option",
-                                    {
-                                      domProps: { selected: null, value: null }
-                                    },
-                                    [_vm._v("Выбрать")]
-                                  ),
-                                  _vm._v(" "),
-                                  _vm._l(
-                                    _vm.countries[_vm.country].regions,
-                                    function(region) {
-                                      return _c(
-                                        "option",
-                                        { domProps: { value: region.id } },
-                                        [
-                                          _vm._v(
-                                            "\n                                        " +
-                                              _vm._s(region.name) +
-                                              "\n                                    "
-                                          )
-                                        ]
-                                      )
-                                    }
-                                  )
                                 ],
-                                2
-                              ),
-                              _vm._v(" "),
-                              _vm.errors.region
-                                ? _c("span", { staticClass: "help-block" }, [
-                                    _vm._v(_vm._s(_vm.errors.region))
-                                  ])
-                                : _vm._e()
-                            ]
-                          )
+                                staticClass: "form-control",
+                                class: { "is-invalid": _vm.error_list.region },
+                                attrs: { name: "region", id: "region" },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.region = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "option",
+                                  { domProps: { selected: null, value: null } },
+                                  [_vm._v("Выбрать")]
+                                ),
+                                _vm._v(" "),
+                                _vm._l(
+                                  _vm.countries[_vm.country].regions,
+                                  function(region) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: region.id } },
+                                      [
+                                        _vm._v(
+                                          "\n                                        " +
+                                            _vm._s(region.name) +
+                                            "\n                                    "
+                                        )
+                                      ]
+                                    )
+                                  }
+                                )
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "is-invalid" }, [
+                              _vm._v(_vm._s(_vm.error_list.region))
+                            ])
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -41747,232 +41681,255 @@ var render = function() {
                         "div",
                         {
                           staticClass: "form-group",
-                          class: { "has-error": _vm.errors.payment }
+                          class: { "is-invalid": _vm.error_list.payment }
                         },
                         [
-                          _c("div", { staticClass: "radio" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "radio-inline",
-                                attrs: { for: "credit_card" }
-                              },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.payment,
-                                      expression: "payment"
-                                    }
-                                  ],
-                                  attrs: {
-                                    id: "credit_card",
-                                    type: "radio",
-                                    name: "payment",
-                                    value: "credit_card"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.payment, "credit_card")
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.payment = "credit_card"
-                                    }
+                          _c(
+                            "div",
+                            { staticClass: "custom-control custom-radio" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.payment,
+                                    expression: "payment"
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("img", {
-                                  attrs: {
-                                    src: "/img/sber.jpg",
-                                    alt: "Банковская карта"
+                                ],
+                                staticClass: "custom-control-input",
+                                attrs: {
+                                  id: "credit_card",
+                                  type: "radio",
+                                  name: "payment",
+                                  value: "credit_card"
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.payment, "credit_card")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.payment = "credit_card"
                                   }
-                                }),
-                                _vm._v(
-                                  " Банковская карта\n                                    "
-                                )
-                              ]
-                            )
-                          ]),
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "credit_card" }
+                                },
+                                [
+                                  _c("img", {
+                                    attrs: {
+                                      src: "/img/sber.jpg",
+                                      alt: "Банковская карта"
+                                    }
+                                  }),
+                                  _vm._v(
+                                    " Банковская карта\n                                    "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
                           _vm._v(" "),
-                          _c("div", { staticClass: "radio" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "radio-inline",
-                                attrs: { for: "qiwi" }
-                              },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.payment,
-                                      expression: "payment"
-                                    }
-                                  ],
-                                  attrs: {
-                                    id: "qiwi",
-                                    type: "radio",
-                                    name: "payment",
-                                    value: "qiwi"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.payment, "qiwi")
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.payment = "qiwi"
-                                    }
+                          _c(
+                            "div",
+                            { staticClass: "custom-control custom-radio" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.payment,
+                                    expression: "payment"
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("img", {
-                                  attrs: { src: "/img/qiwi.png", alt: "" }
-                                }),
-                                _vm._v(
-                                  "QIWI Кошелек\n                                    "
-                                )
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "radio" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "radio-inline",
-                                attrs: { for: "yandex" }
-                              },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.payment,
-                                      expression: "payment"
-                                    }
-                                  ],
-                                  attrs: {
-                                    id: "yandex",
-                                    type: "radio",
-                                    name: "payment",
-                                    value: "yandex"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.payment, "yandex")
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.payment = "yandex"
-                                    }
+                                ],
+                                staticClass: "custom-control-input",
+                                attrs: {
+                                  id: "qiwi",
+                                  type: "radio",
+                                  name: "payment",
+                                  value: "qiwi"
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.payment, "qiwi")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.payment = "qiwi"
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("img", {
-                                  attrs: { src: "/img/yandex.jpg", alt: "" }
-                                }),
-                                _vm._v(
-                                  " Яндекс кошелек\n                                    "
-                                )
-                              ]
-                            )
-                          ]),
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "qiwi" }
+                                },
+                                [
+                                  _c("img", {
+                                    attrs: { src: "/img/qiwi.png", alt: "" }
+                                  }),
+                                  _vm._v(
+                                    "QIWI Кошелек\n                                    "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
                           _vm._v(" "),
-                          _c("div", { staticClass: "radio" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "radio-inline",
-                                attrs: { for: "paypal" }
-                              },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.payment,
-                                      expression: "payment"
-                                    }
-                                  ],
-                                  attrs: {
-                                    type: "radio",
-                                    name: "payment",
-                                    id: "paypal",
-                                    value: "paypal"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.payment, "paypal")
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.payment = "paypal"
-                                    }
+                          _c(
+                            "div",
+                            { staticClass: "custom-control custom-radio" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.payment,
+                                    expression: "payment"
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("img", {
-                                  attrs: { src: "/img/paypal.jpg", alt: "" }
-                                }),
-                                _vm._v(
-                                  " Paypal кошелек\n                                    "
-                                )
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "radio" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "radio-inline",
-                                attrs: { for: "cash" }
-                              },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.payment,
-                                      expression: "payment"
-                                    }
-                                  ],
-                                  attrs: {
-                                    type: "radio",
-                                    name: "payment",
-                                    id: "cash",
-                                    value: "cash"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.payment, "cash")
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.payment = "cash"
-                                    }
+                                ],
+                                staticClass: "custom-control-input",
+                                attrs: {
+                                  id: "yandex",
+                                  type: "radio",
+                                  name: "payment",
+                                  value: "yandex"
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.payment, "yandex")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.payment = "yandex"
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("img", {
-                                  attrs: { src: "/img/cash.png", alt: "" }
-                                }),
-                                _vm._v(
-                                  " Оплата при получении\n                                    "
-                                )
-                              ]
-                            )
-                          ]),
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "yandex" }
+                                },
+                                [
+                                  _c("img", {
+                                    attrs: { src: "/img/yandex.jpg", alt: "" }
+                                  }),
+                                  _vm._v(
+                                    " Яндекс кошелек\n                                    "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
                           _vm._v(" "),
-                          _vm.errors["payment"]
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors["payment"]))
-                              ])
-                            : _vm._e()
+                          _c(
+                            "div",
+                            { staticClass: "custom-control custom-radio" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.payment,
+                                    expression: "payment"
+                                  }
+                                ],
+                                staticClass: "custom-control-input",
+                                attrs: {
+                                  type: "radio",
+                                  name: "payment",
+                                  id: "paypal",
+                                  value: "paypal"
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.payment, "paypal")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.payment = "paypal"
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "paypal" }
+                                },
+                                [
+                                  _c("img", {
+                                    attrs: { src: "/img/paypal.jpg", alt: "" }
+                                  }),
+                                  _vm._v(
+                                    " Paypal кошелек\n                                    "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "custom-control custom-radio" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.payment,
+                                    expression: "payment"
+                                  }
+                                ],
+                                staticClass: "custom-control-input",
+                                attrs: {
+                                  type: "radio",
+                                  name: "payment",
+                                  id: "cash",
+                                  value: "cash"
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.payment, "cash")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.payment = "cash"
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "cash" }
+                                },
+                                [
+                                  _c("img", {
+                                    attrs: { src: "/img/cash.png", alt: "" }
+                                  }),
+                                  _vm._v(
+                                    " Оплата при получении\n                                    "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "invalid-feedback" }, [
+                            _vm._v(_vm._s(_vm.error_list.payment))
+                          ])
                         ]
                       )
                     ])
@@ -41986,228 +41943,246 @@ var render = function() {
                         "div",
                         {
                           staticClass: "form-group",
-                          class: { "has-error": _vm.errors.shipment }
+                          class: { "is-invalid": _vm.error_list.shipment }
                         },
                         [
-                          _c("div", { staticClass: "radio" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "radio-inline",
-                                attrs: { for: "pochta_ru" }
-                              },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.shipment,
-                                      expression: "shipment"
-                                    }
-                                  ],
-                                  attrs: {
-                                    id: "pochta_ru",
-                                    type: "radio",
-                                    value: "pochta_ru",
-                                    name: "shipment"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.shipment, "pochta_ru")
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.shipment = "pochta_ru"
-                                    }
+                          _c(
+                            "div",
+                            { staticClass: "custom-control custom-radio" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.shipment,
+                                    expression: "shipment"
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "img-shipp" }, [
-                                  _c("img", {
-                                    attrs: {
-                                      src: "/img/ship3.gif",
-                                      alt: "Почта России"
-                                    }
-                                  })
-                                ]),
-                                _vm._v(
-                                  "\n                                        Доставка почтой по России "
-                                ),
-                                _vm.country
-                                  ? _c("span", [
-                                      _vm._v(
-                                        "(наценка + " +
-                                          _vm._s(
-                                            _vm.shipmentCountry("pochta_ru")
-                                          ) +
-                                          ")"
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "radio" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "radio-inline",
-                                attrs: { for: "pochta_gl" }
-                              },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.shipment,
-                                      expression: "shipment"
-                                    }
-                                  ],
-                                  attrs: {
-                                    id: "pochta_gl",
-                                    type: "radio",
-                                    value: "pochta_gl",
-                                    name: "shipment"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.shipment, "pochta_gl")
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.shipment = "pochta_gl"
-                                    }
+                                ],
+                                staticClass: "custom-control-input",
+                                attrs: {
+                                  id: "pochta_ru",
+                                  type: "radio",
+                                  value: "pochta_ru",
+                                  name: "shipment"
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.shipment, "pochta_ru")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.shipment = "pochta_ru"
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "img-shipp" }, [
-                                  _c("img", {
-                                    attrs: {
-                                      src: "/img/ship3.gif",
-                                      alt: "Почта России"
-                                    }
-                                  })
-                                ]),
-                                _vm._v(
-                                  "\n                                        Доставка почтой за пределы России "
-                                ),
-                                _vm.country
-                                  ? _c("span", [
-                                      _vm._v(
-                                        "(наценка + " +
-                                          _vm._s(
-                                            _vm.shipmentCountry("pochta_gl")
-                                          ) +
-                                          ")"
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ]
-                            )
-                          ]),
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "pochta_ru" }
+                                },
+                                [
+                                  _c("span", { staticClass: "img-shipp" }, [
+                                    _c("img", {
+                                      attrs: {
+                                        src: "/img/ship3.gif",
+                                        alt: "Почта России"
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(
+                                    "\n                                        Доставка почтой по России "
+                                  ),
+                                  _vm.country
+                                    ? _c("span", [
+                                        _vm._v(
+                                          "(наценка + " +
+                                            _vm._s(
+                                              _vm.shipmentCountry("pochta_ru")
+                                            ) +
+                                            ")"
+                                        )
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
+                            ]
+                          ),
                           _vm._v(" "),
-                          _c("div", { staticClass: "radio" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "radio-inline",
-                                attrs: { for: "cdek" }
-                              },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.shipment,
-                                      expression: "shipment"
-                                    }
-                                  ],
-                                  attrs: {
-                                    id: "cdek",
-                                    type: "radio",
-                                    value: "cdek",
-                                    name: "shipment"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.shipment, "cdek")
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.shipment = "cdek"
-                                    }
+                          _c(
+                            "div",
+                            { staticClass: "custom-control custom-radio" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.shipment,
+                                    expression: "shipment"
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "img-shipp" }, [
-                                  _c("img", {
-                                    attrs: {
-                                      src: "/img/cdek.jpg",
-                                      alt: "Почта России"
-                                    }
-                                  })
-                                ]),
-                                _vm._v(
-                                  "\n                                        СДЭК пункт выдачи\n                                    "
-                                )
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "radio" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "radio-inline",
-                                attrs: { for: "pickup" }
-                              },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.shipment,
-                                      expression: "shipment"
-                                    }
-                                  ],
-                                  attrs: {
-                                    id: "pickup",
-                                    type: "radio",
-                                    value: "pickup",
-                                    name: "shipment"
-                                  },
-                                  domProps: {
-                                    checked: _vm._q(_vm.shipment, "pickup")
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.shipment = "pickup"
-                                    }
+                                ],
+                                staticClass: "custom-control-input",
+                                attrs: {
+                                  id: "pochta_gl",
+                                  type: "radio",
+                                  value: "pochta_gl",
+                                  name: "shipment"
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.shipment, "pochta_gl")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.shipment = "pochta_gl"
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "img-shipp" }, [
-                                  _c("img", {
-                                    attrs: {
-                                      src: "/img/pickup.png",
-                                      alt: "Самовывоз"
-                                    }
-                                  })
-                                ]),
-                                _vm._v(
-                                  "\n                                        Самовывоз\n                                    "
-                                )
-                              ]
-                            )
-                          ]),
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "pochta_gl" }
+                                },
+                                [
+                                  _c("span", { staticClass: "img-shipp" }, [
+                                    _c("img", {
+                                      attrs: {
+                                        src: "/img/ship3.gif",
+                                        alt: "Почта России"
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(
+                                    "\n                                        Доставка почтой за пределы России "
+                                  ),
+                                  _vm.country
+                                    ? _c("span", [
+                                        _vm._v(
+                                          "(наценка + " +
+                                            _vm._s(
+                                              _vm.shipmentCountry("pochta_gl")
+                                            ) +
+                                            ")"
+                                        )
+                                      ])
+                                    : _vm._e()
+                                ]
+                              )
+                            ]
+                          ),
                           _vm._v(" "),
-                          _vm.errors["shipment"]
-                            ? _c("span", { staticClass: "help-block" }, [
-                                _vm._v(_vm._s(_vm.errors["shipment"]))
-                              ])
-                            : _vm._e()
+                          _c(
+                            "div",
+                            { staticClass: "custom-control custom-radio" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.shipment,
+                                    expression: "shipment"
+                                  }
+                                ],
+                                staticClass: "custom-control-input",
+                                attrs: {
+                                  id: "cdek",
+                                  type: "radio",
+                                  value: "cdek",
+                                  name: "shipment"
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.shipment, "cdek")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.shipment = "cdek"
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "cdek" }
+                                },
+                                [
+                                  _c("span", { staticClass: "img-shipp" }, [
+                                    _c("img", {
+                                      attrs: {
+                                        src: "/img/cdek.jpg",
+                                        alt: "Почта России"
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(
+                                    "\n                                        СДЭК пункт выдачи\n                                    "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "custom-control custom-radio" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.shipment,
+                                    expression: "shipment"
+                                  }
+                                ],
+                                staticClass: "custom-control-input",
+                                attrs: {
+                                  id: "pickup",
+                                  type: "radio",
+                                  value: "pickup",
+                                  name: "shipment"
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.shipment, "pickup")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.shipment = "pickup"
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "pickup" }
+                                },
+                                [
+                                  _c("span", { staticClass: "img-shipp" }, [
+                                    _c("img", {
+                                      attrs: {
+                                        src: "/img/pickup.png",
+                                        alt: "Самовывоз"
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(
+                                    "\n                                        Самовывоз\n                                    "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "invalid-feedback" }, [
+                            _vm._v(_vm._s(_vm.error_list.shipment))
+                          ])
                         ]
                       )
                     ])
@@ -42215,7 +42190,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-xs-12" }, [
+                  _c("div", { staticClass: "col-12" }, [
                     _c("hr"),
                     _vm._v(" "),
                     _c(
@@ -42254,46 +42229,38 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "form-group",
-                        class: { "has-error": _vm.errors.comment }
-                      },
-                      [
-                        _c("label", { attrs: { for: "comment" } }, [
-                          _vm._v("Комментарий")
-                        ]),
-                        _vm._v(" "),
-                        _c("textarea", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.comment,
-                              expression: "comment"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { rows: "5", name: "comment", id: "comment" },
-                          domProps: { value: _vm.comment },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.comment = $event.target.value
-                            }
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "comment" } }, [
+                        _vm._v("Комментарий")
+                      ]),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.comment,
+                            expression: "comment"
                           }
-                        }),
-                        _vm._v(" "),
-                        _vm.errors.comment
-                          ? _c("span", { staticClass: "help-block" }, [
-                              _vm._v(_vm._s(_vm.errors.comment))
-                            ])
-                          : _vm._e()
-                      ]
-                    )
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.error_list.comment },
+                        attrs: { rows: "5", name: "comment", id: "comment" },
+                        domProps: { value: _vm.comment },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.comment = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "invalid-feedback" }, [
+                        _vm._v(_vm._s(_vm.error_list.comment))
+                      ])
+                    ])
                   ])
                 ])
               ]
@@ -42526,6 +42493,7 @@ var render = function() {
                           _c("div", { staticClass: "mr-2 img-wrap" }, [
                             cartItem.optionImage
                               ? _c("img", {
+                                  staticClass: "img-thumbnail img-sm",
                                   attrs: {
                                     src:
                                       "/storage/files/90x110/" +
@@ -42535,6 +42503,7 @@ var render = function() {
                                 })
                               : cartItem.item.files[0]
                               ? _c("img", {
+                                  staticClass: "img-thumbnail img-sm",
                                   attrs: {
                                     src:
                                       "/storage/files/90x110/" +
@@ -42591,11 +42560,13 @@ var render = function() {
                             }
                           }
                         },
-                        [_c("i", { staticClass: "fa fa-minus" })]
+                        [_c("i", { staticClass: "fal fa-minus" })]
                       ),
-                      _vm._v(" "),
-                      _c("strong", [_vm._v(_vm._s(cartItem.qty))]),
-                      _vm._v(" "),
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(cartItem.qty) +
+                          "\n                    "
+                      ),
                       _c(
                         "a",
                         {
@@ -42606,7 +42577,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_c("i", { staticClass: "fa fa-plus" })]
+                        [_c("i", { staticClass: "fal fa-plus" })]
                       )
                     ]),
                     _vm._v(" "),
@@ -42630,7 +42601,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_c("i", { staticClass: "fa fa-remove" })]
+                        [_c("i", { staticClass: "fal fa-times" })]
                       )
                     ])
                   ])
@@ -42660,18 +42631,14 @@ var render = function() {
           _c("div", { staticClass: "clearfix" }),
           _vm._v(" "),
           _c("div", { staticClass: "checkout-button" }, [
-            _c("div", { staticClass: "pull-right" }, [
+            _c("div", { staticClass: "float-right" }, [
               _vm._m(2),
               _vm._v(" "),
               _c("a", { attrs: { href: _vm.route } }, [
                 _c(
                   "button",
                   {
-                    staticClass: "lotus-button ",
-                    staticStyle: {
-                      "max-width": "160px",
-                      display: "inline-block"
-                    },
+                    staticClass: "btn btn-dark ",
                     attrs: { disabled: !(_vm.cart.totalPrice >= _vm.minsum) }
                   },
                   [
@@ -42691,7 +42658,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
+    return _c("thead", { staticClass: "text-muted" }, [
       _c("tr", [
         _c("th", { staticStyle: { width: "50%" } }, [_vm._v("Наименование")]),
         _vm._v(" "),
@@ -42722,8 +42689,7 @@ var staticRenderFns = [
     return _c(
       "a",
       {
-        staticClass: "hidden-xs lotus-button",
-        staticStyle: { "max-width": "200px", display: "inline-block" },
+        staticClass: "hidden-xs text-muted btn btn-link",
         attrs: { href: "/" }
       },
       [

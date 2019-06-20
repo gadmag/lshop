@@ -566,14 +566,17 @@ ul.nav-main > li > a:hover {
   padding-top: 10px;
   border-top: 1px solid #ddd;
 }
-#checkout-block .radio {
+#checkout-block .custom-radio {
   margin: 15px 0;
 }
-#checkout-block .radio img {
+#checkout-block .custom-radio img {
   margin-right: 10px;
 }
-#checkout-block .radio input[type="radio"] {
+#checkout-block .custom-radio input[type="radio"] {
   margin-top: 10px;
+}
+.form-group.is-invalid > .invalid-feedback {
+  display: block;
 }
 /*---------end checkout-----------*/
 /*-------shopping-cart-------*/
@@ -585,6 +588,10 @@ ul.nav-main > li > a:hover {
 }
 .content .table-shopping-cart tr td.text-left {
   text-align: left;
+}
+.img-sm {
+  width: 80px;
+  height: 80px;
 }
 .media .param-inline dd,
 .media .param-inline dt {

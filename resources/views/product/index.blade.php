@@ -10,13 +10,6 @@
         </nav>
     </div>
     <div class="panel-body">
-        @if(Session::has('success'))
-            <div class="row">
-                <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
-                    <div id="charge-message" class="alert alert-success">{{Session::get('success')}}</div>
-                </div>
-            </div>
-        @endif
         <product-index :filters="{{$filters}}"></product-index>
     </div>
 @endsection

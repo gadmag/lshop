@@ -37,13 +37,13 @@ class OrderAfterSaveListener
     {
         foreach ($cart->items as $id => $item)
         {
-            $product = Product::findOrFail($item['product_id']);
-            $product->quantity -= $item['qty'];
+            $product = Product::findOrFail($item->product_id);
+            $product->quantity -= $item->qty;
             $product->save();
-            if ($item['option_id'])
+            if ($item->option_id)
             {
-                $option = Option::findOrFail($item['option_id']);
-                $option->quantity -= $item['qty'];
+                $option = Option::findOrFail($item->option_id);
+                $option->quantity -= $item->qty;
                 $option->save();
             }
         }

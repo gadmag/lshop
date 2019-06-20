@@ -44,5 +44,5 @@ return [
         'free_shipping' => 10000
     ],
 //    'send_mail' => 'gadjim4@gmail.com'
-    'send_mail' => 'Lotus_furnitura@mail.ru'
+    'send_mail' => env('ADMIN_MAIL','')
 ];

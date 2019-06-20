@@ -108,7 +108,8 @@ class CheckoutController extends Controller
         Auth::user()->orders()->save($order);
         event(new OrderCheckoutEvent($order));
         Session::forget('cart');
-        return redirect()->route('product.index')->with('success', 'Ваш заказ принят. Данные для оплаты будут отправленны на Вашу почту.');
+        return redirect()->route('product.index')
+            ->with('flash_message', 'Ваш заказ принят. Данные для оплаты будут отправленны на Вашу почту.');
     }
 
 

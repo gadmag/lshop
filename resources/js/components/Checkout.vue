@@ -1,7 +1,8 @@
 <template>
     <div id="checkout-block">
 
-        <form :action="route" method="post" id="checkoutForm" name="checkoutForm">
+        <form :action="route" method="post" id="checkoutForm" :class="{'was-validated1': error_toggle}"
+              name="checkoutForm">
 
             <form-wizard @on-complete="onComplete" shape="square"
                          step-size="xs"
@@ -21,84 +22,86 @@
 
                                 <legend>Личные данные</legend>
 
-                                <div class="form-group required" v-bind:class="{'has-error': errors.first_name }">
+                                <div class="form-group required">
 
                                     <label for="first_name">Имя</label>
                                     <input :type="text" id="first_name" name="first_name" v-model="first_name"
-                                           class="form-control">
-                                    <span v-if="errors.first_name"
-                                          class="help-block">{{ errors.first_name }}</span>
+                                           class="form-control" :class="{'is-invalid': error_list.first_name}">
+                                    <div class="invalid-feedback">{{ error_list.first_name }}</div>
 
                                 </div>
 
 
-                                <div class="form-group required" v-bind:class="{'has-error': errors.last_name }">
+                                <div class="form-group required">
                                     <label for="last_name">Фамилия</label>
                                     <input :type="text" id="last_name" name="last_name" v-model="last_name"
-                                           class="form-control">
-                                    <span v-if="errors.last_name" class="help-block">{{errors.last_name}}</span>
+                                           class="form-control" :class="{'is-invalid': error_list.last_name }">
+                                    <div class="invalid-feedback">{{error_list.last_name}}</div>
                                 </div>
 
-                                <div class="form-group required" v-bind:class="{'has-error': errors.email}">
+                                <div class="form-group required">
                                     <label for="email">E-mail</label>
-                                    <input :type="text" id="email" name="email" v-model="email" class="form-control">
-                                    <span v-if="errors.email" class="help-block">{{ errors.email }}</span>
+                                    <input :type="text" id="email" name="email" v-model="email"
+                                           class="form-control" :class="{'is-invalid': error_list.email}">
+                                    <div class="invalid-feedback">{{ error_list.email }}</div>
                                 </div>
 
-                                <div class="form-group required" v-bind:class="{'has-error': errors.telephone }">
+                                <div class="form-group required">
                                     <label for="telephone">Телефон</label>
                                     <input :type="text" id="telephone" name="telephone" v-model="telephone"
-                                           class="form-control">
-                                    <span v-if="errors.telephone" class="help-block">{{ errors.telephone}}</span>
+                                           class="form-control" :class="{'is-invalid': error_list.telephone }">
+                                    <div class="invalid-feedback">{{ error_list.telephone}}</div>
                                 </div>
                             </fieldset>
                         </div>
                         <div class="col-sm-6">
                             <fieldset>
                                 <legend>Адрес</legend>
-                                <div class="form-group" v-bind:class="{'has-error': errors.company }">
+                                <div class="form-group" >
                                     <label for="company">Компания</label>
                                     <input :type="text" id="company" name="company" v-model="company"
-                                           class="form-control">
-                                    <span v-if="errors.company" class="help-block">{{ errors.company}}</span>
+                                           class="form-control" :class="{'is-invalid': error_list.company }">
+                                    <div class="invalid-feedback">{{ error_list.company}}</div>
                                 </div>
-                                <div class="form-group required" v-bind:class="{'has-error': errors.address }">
+                                <div class="form-group required">
                                     <label for="address">Адрес</label>
                                     <input :type="text" id="address" name="address" class="form-control"
-                                           v-model="address">
-                                    <span v-if="errors.address" class="help-block">{{ errors.address }}</span>
+                                           v-model="address" :class="{'is-invalid': error_list.address }">
+                                    <div class="invalid-feedback">{{ error_list.address }}</div>
                                 </div>
-                                <div class="form-group" v-bind:class="{'has-error': errors.postcode }">
+                                <div class="form-group" >
                                     <label for="postcode">Индекс</label>
                                     <input :type="text" id="postcode" name="postcode" v-model="postcode"
-                                           class="form-control">
-                                    <span v-if="errors.postcode" class="help-block">{{ errors.postcode }}</span>
+                                           class="form-control" :class="{'is-invalid': error_list.postcode }">
+                                    <div class="invalid-feedback">{{ error_list.postcode }}</div>
                                 </div>
-                                <div class="form-group required" v-bind:class="{'has-error': errors.city }">
+                                <div class="form-group required">
                                     <label for="city">Город</label>
-                                    <input :type="text" id="city" name="city" v-model="city" class="form-control">
-                                    <span v-if="errors.city" class="help-block">{{ errors.city }}</span>
+                                    <input :type="text" id="city" name="city" v-model="city"
+                                           class="form-control" :class="{'is-invalid': error_list.city }">
+                                    <div class="invalid-feedback">{{ error_list.city }}</div>
                                 </div>
 
-                                <div class="form-group required" v-bind:class="{'has-error': errors.country }">
+                                <div class="form-group required" >
                                     <label for="country">Страна</label>
-                                    <select name="country" id="country" v-model="country" class="form-control">
+                                    <select name="country" id="country" v-model="country"
+                                            class="form-control" :class="{'is-invalid': error_list.country }">
                                         <option :selected="null" v-bind:value="null">Выбрать</option>
                                         <option v-for="item in countries" v-bind:value="item.id">{{item.name}}</option>
                                     </select>
-                                    <span v-if="errors.country" class="help-block">{{ errors.country }}</span>
+                                    <div class="invalid-feedback">{{ error_list.country }}</div>
 
                                 </div>
-                                <div v-if="country" class="form-group" v-bind:class="{'has-error': errors.region }">
+                                <div v-if="country" class="form-group">
                                     <label for="region">Регион/Область</label>
                                     <select name="region" v-model="region" id="region"
-                                            class="form-control">
+                                            class="form-control" :class="{'is-invalid': error_list.region }">
                                         <option :selected="null" v-bind:value="null">Выбрать</option>
                                         <option v-for="region in countries[country].regions" :value="region.id">
                                             {{region.name}}
                                         </option>
                                     </select>
-                                    <span v-if="errors.region" class="help-block">{{ errors.region}}</span>
+                                    <div class="is-invalid">{{ error_list.region}}</div>
                                 </div>
                             </fieldset>
                         </div>
@@ -109,99 +112,102 @@
                         <div class="col-xs-12 col-sm-6">
                             <fieldset>
                                 <legend>Выберите способ оплаты</legend>
-                                <div class="form-group" v-bind:class="{'has-error': errors.payment }">
-                                    <div class="radio">
-                                        <label for="credit_card" class="radio-inline">
-                                            <input id="credit_card" type="radio" name="payment" v-model="payment"
-                                                   value="credit_card">
+                                <div class="form-group" :class="{'is-invalid': error_list.payment }">
+                                    <div class="custom-control custom-radio">
+                                        <input id="credit_card" type="radio" name="payment" v-model="payment"
+                                               value="credit_card" class="custom-control-input">
+                                        <label for="credit_card" class="custom-control-label">
                                             <img src="/img/sber.jpg" alt="Банковская карта"> Банковская карта
                                         </label>
+
                                     </div>
-                                    <div class="radio">
-                                        <label for="qiwi" class="radio-inline">
-                                            <input id="qiwi" type="radio" name="payment" v-model="payment" value="qiwi">
+                                    <div class="custom-control custom-radio">
+                                        <input id="qiwi" type="radio" name="payment" v-model="payment"
+                                               value="qiwi" class="custom-control-input">
+                                        <label for="qiwi" class="custom-control-label">
                                             <img src="/img/qiwi.png" alt="">QIWI Кошелек
                                         </label>
                                     </div>
-                                    <div class="radio">
-                                        <label for="yandex" class="radio-inline">
-                                            <input id="yandex" type="radio" name="payment" v-model="payment"
-                                                   value="yandex">
+                                    <div class="custom-control custom-radio">
+                                        <input id="yandex" type="radio" name="payment" v-model="payment"
+                                               value="yandex" class="custom-control-input">
+                                        <label for="yandex" class="custom-control-label">
                                             <img src="/img/yandex.jpg" alt=""> Яндекс кошелек
                                         </label>
                                     </div>
-                                    <div class="radio">
-                                        <label for="paypal" class="radio-inline">
-                                            <input type="radio" name="payment" id="paypal" v-model="payment"
-                                                   value="paypal">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" name="payment" id="paypal" v-model="payment"
+                                               value="paypal" class="custom-control-input">
+                                        <label for="paypal" class="custom-control-label">
                                             <img src="/img/paypal.jpg" alt=""> Paypal кошелек
                                         </label>
                                     </div>
-                                    <div class="radio">
-                                        <label for="cash" class="radio-inline">
-                                            <input type="radio" name="payment" id="cash" v-model="payment"
-                                                   value="cash">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" name="payment" id="cash" v-model="payment"
+                                               value="cash" class="custom-control-input">
+                                        <label for="cash" class="custom-control-label">
                                             <img src="/img/cash.png" alt=""> Оплата при получении
                                         </label>
                                     </div>
-                                    <span v-if="errors['payment']" class="help-block">{{errors['payment']}}</span>
+                                    <div class="invalid-feedback">{{error_list.payment}}</div>
                                 </div>
                             </fieldset>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <fieldset>
                                 <legend>Выбрать способ доставки</legend>
-                                <div class="form-group" v-bind:class="{'has-error': errors.shipment }">
-                                    <div class="radio">
-                                        <label for="pochta_ru" class="radio-inline">
-                                            <input id="pochta_ru" v-model="shipment" type="radio" value="pochta_ru"
-                                                   name="shipment">
+                                <div class="form-group" :class="{'is-invalid': error_list.shipment }">
+                                    <div class="custom-control custom-radio">
+                                        <input id="pochta_ru" v-model="shipment" type="radio" value="pochta_ru"
+                                               name="shipment" class="custom-control-input">
+                                        <label for="pochta_ru" class="custom-control-label">
                                             <span class="img-shipp"><img src="/img/ship3.gif" alt="Почта России"></span>
                                             Доставка почтой по России <span v-if="country">(наценка + {{shipmentCountry('pochta_ru')}})</span>
                                         </label>
                                     </div>
-                                    <div class="radio">
-                                        <label for="pochta_gl" class="radio-inline">
-                                            <input id="pochta_gl" v-model="shipment" type="radio" value="pochta_gl"
-                                                   name="shipment">
+                                    <div class="custom-control custom-radio">
+                                        <input id="pochta_gl" v-model="shipment" type="radio" value="pochta_gl"
+                                               name="shipment" class="custom-control-input">
+                                        <label for="pochta_gl" class="custom-control-label">
                                             <span class="img-shipp"><img src="/img/ship3.gif" alt="Почта России"></span>
                                             Доставка почтой за пределы России <span v-if="country">(наценка + {{shipmentCountry('pochta_gl')}})</span>
                                         </label>
                                     </div>
-                                    <div class="radio">
-                                        <label for="cdek" class="radio-inline">
-                                            <input id="cdek" v-model="shipment" type="radio" value="cdek"
-                                                   name="shipment">
+                                    <div class="custom-control custom-radio">
+                                        <input id="cdek" v-model="shipment" type="radio" value="cdek"
+                                               name="shipment" class="custom-control-input">
+                                        <label for="cdek" class="custom-control-label">
                                             <span class="img-shipp"><img src="/img/cdek.jpg" alt="Почта России"></span>
                                             СДЭК пункт выдачи
                                         </label>
                                     </div>
-                                    <div class="radio">
-                                        <label for="pickup" class="radio-inline">
+                                    <div class="custom-control custom-radio">
+
                                             <input id="pickup" v-model="shipment" type="radio" value="pickup"
-                                                   name="shipment">
+                                                   name="shipment" class="custom-control-input">
+                                        <label for="pickup" class="custom-control-label">
                                             <span class="img-shipp"><img src="/img/pickup.png" alt="Самовывоз"></span>
                                             Самовывоз
                                         </label>
                                     </div>
-                                    <span v-if="errors['shipment']" class="help-block">{{errors['shipment']}}</span>
+                                    <div class="invalid-feedback">{{error_list.shipment}}</div>
                                 </div>
                             </fieldset>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-12">
                             <hr>
                             <div style="max-width: 180px" class="form-group">
                                 <label for="coupon">Промокод</label>
                                 <input v-on:change="isCoupon" v-model="coupon" type="text" name="coupon" id="coupon"
                                        class="form-control">
                             </div>
-                            <div class="form-group" v-bind:class="{'has-error': errors.comment }">
+                            <div class="form-group">
                                 <label for="comment">Комментарий</label>
-                                <textarea class="form-control" rows="5" name="comment" id="comment"
+                                <textarea class="form-control" :class="{'is-invalid': error_list.comment }" rows="5" name="comment" id="comment"
                                           v-model="comment"></textarea>
-                                <span v-if="errors.comment" class="help-block">{{ errors.comment}}</span>
+                                <div class="invalid-feedback">{{ error_list.comment}}</div>
                             </div>
                         </div>
                     </div>
@@ -293,45 +299,49 @@
                 postcode: null,
                 company: null,
 
-                errors: [],
+                error_toggle: false,
+                error_list: {},
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             }
 
         },
         methods: {
             text: function () {
-             console.log('text');
+                console.log('text');
             },
 
             stepFirstValid: function () {
-                this.errors = [];
-                if (!this.first_name) this.errors["first_name"] = "Укажите имя.";
-                if (!this.last_name) this.errors["last_name"] = "Укажите фамилию.";
+                this.error_list = [];
+                this.error_toggle = false;
+                if (!this.first_name) this.error_list["first_name"] = "Укажите имя.";
+                if (!this.last_name) this.error_list["last_name"] = "Укажите фамилию.";
                 if (!this.email) {
-                    this.errors["email"] = "Укажите электронную почту.";
+                    this.error_list["email"] = "Укажите электронную почту.";
                 } else if (!this.validEmail(this.email)) {
-                    this.errors["email"] = "Укажите корректный адрес электронной почты.";
+                    this.error_list["email"] = "Укажите корректный адрес электронной почты.";
                 }
-                if (!this.telephone) this.errors["telephone"] = "Укажите  телефон.";
-                if (!this.address) this.errors["address"] = "Укажите адрес.";
-                if (!this.city) this.errors["city"] = "Укажите город проживания.";
-                if (!this.country) this.errors["country"] = "Укажите страну проживания.";
+                if (!this.telephone) this.error_list["telephone"] = "Укажите  телефон.";
+                if (!this.address) this.error_list["address"] = "Укажите адрес.";
+                if (!this.city) this.error_list["city"] = "Укажите город проживания.";
+                if (!this.country) this.error_list["country"] = "Укажите страну проживания.";
 
-                if (Object.keys(this.errors).length > 0) {
+                if (Object.keys(this.error_list).length > 0) {
+                    this.error_toggle = true;
                     return false
                 }
+
                 return true
             },
 
             stepSecondValid: function () {
-                this.errors = [];
+                this.error_list = [];
                 if (!this.payment) {
-                    this.errors["payment"] = "Выберите платежную систему."
+                    this.error_list["payment"] = "Выберите платежную систему."
                 }
                 if (!this.shipment) {
-                    this.errors["shipment"] = "Выберите способ оплаты."
+                    this.error_list["shipment"] = "Выберите способ оплаты."
                 }
-                if (Object.keys(this.errors).length > 0) {
+                if (Object.keys(this.error_list).length > 0) {
                     return false
                 }
                 return true
