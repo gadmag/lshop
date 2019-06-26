@@ -44,10 +44,9 @@
         @foreach($cart->items as $cartItem)
             <tr>
                 <td style="">
-                    @if ($cartItem->item->files)
-                        <img class="img-responsive"
-                             src="{{asset('/storage/files/90x110/'.$cartItem['item']->files[0]->filename)}}"
-                             alt="Картинка товара">
+                    @if ($cartItem->frontImg)
+                        <img src="{{asset('/storage/files/90x110/'.$cartItem->frontImg->filename)}}" class=""
+                             alt="Фото товара">
                     @endif
                 </td>
                 <td style="padding: 5px 0">{{$cartItem->item->title}}</td>

@@ -30,6 +30,8 @@ class OrderUserShipped extends Mailable
      */
     public function build()
     {
+//       $cart =  json_decode($this->order->cart);
+//       dd($cart->items[0]->frontImg->filename);
         return $this->view('emails.order.shipped',[
             'order' => $this->order,
             'cart' => json_decode($this->order->cart)

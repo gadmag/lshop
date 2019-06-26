@@ -31,14 +31,19 @@ class Cart
         $totalWeight = 0;
         $quantity = ($option->quantity > 0) ? $option->quantity : 1;
         $option_id = $option->option_id;
-        $optionImage = null;
+        $frontImg = null;
         $productKey = self::searchCartKey($this->items, $id, $option_id);
         $price = $item->price;
         $weight = $item->weight;
+
+        if($item->files()->exists()){
+            $frontImg = $item->files()->first();
+        }
+
         if ($option_id) {
             $productOption = $item->productOptions->find($option_id);
             if ($productOption->files()->exists()) {
-                $optionImage = $productOption->files->first();
+                $frontImg = $productOption->files->first();
             }
             if ($productOption->color) $item->color = $productOption->color;
             if ($productOption->color_stone) $item->color_stone = $productOption->color_stone;
@@ -49,7 +54,7 @@ class Cart
 
 
         $storedItem = (Object)['qty' => 0, 'product_id' => $item->id, 'price' => $price, 'weight' => $weight,
-            'option_id' => $option_id ? $option_id : null, 'optionImage' => $optionImage, 'item' => $item];
+            'option_id' => $option_id ? $option_id : null, 'frontImg' => $frontImg, 'item' => $item];
 
 
         if ($this->items) {
@@ -108,8 +113,8 @@ class Cart
         $totalWeight = 0;
         $this->items[$id]->qty--;
         $item = $this->items[$id]->item;
-        $price = $item->price?:0;
-        $weight = $item->weight?:0;
+        $price = $item->price ?: 0;
+        $weight = $item->weight ?: 0;
         if ($option_id) {
             $productOption = $item->productOptions->find($option_id);
 
@@ -151,18 +156,25 @@ class Cart
 
     public function update($item, $id, $option)
     {
-        $totalPrice = 0; $totalWeight = 0; $totalQty = 0;
+        $totalPrice = 0;
+        $totalWeight = 0;
+        $totalQty = 0;
         $quantity = ($option->quantity > 0) ? $option->quantity : 1;
-        $option_id = $option->option_id?$option->option_id:null;
-        $optionImage = null;
+        $option_id = $option->option_id ? $option->option_id : null;
+        $frontImg = null;
         $productKey = self::searchCartKey($this->items, $id, $option_id);
         $price = $item->price;
         $weight = $item->weight;
+
+        if($item->files()->exists()){
+            $frontImg = $item->files()->first();
+        }
+
         if ($option_id) {
             $productOption = $item->productOptions->find($option_id);
 
             if ($productOption->files()->exists()) {
-                $optionImage = $productOption->files;
+                $frontImg = $productOption->files;
             }
             if ($productOption->color) $item->color = $productOption->color;
             if ($productOption->color_stone) $item->color_stone = $productOption->color_stone;
@@ -172,7 +184,7 @@ class Cart
         }
 
         $storedItem = (object)['qty' => $quantity, 'product_id' => $item->id, 'price' => $price, 'weight' => $weight,
-            'option_id' => $option_id ? $option_id : null, 'optionImage' => $optionImage, 'item' => $item];
+            'option_id' => $option_id ? $option_id : null, 'frontImg' => $frontImg, 'item' => $item];
 
         if ($this->items) {
             if (!is_null($productKey)) {

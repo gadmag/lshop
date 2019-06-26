@@ -1711,9 +1711,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['cart', 'carttotal'],
@@ -3035,6 +3032,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['product', 'action', 'options', 'special', 'discount'],
@@ -3180,9 +3181,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
 //
 //
 //
@@ -39318,136 +39316,140 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm.options && _vm.options.length > 0
-        ? _c("div", { staticClass: "options-block" }, [
-            _vm.options && _vm.options.length > 0
-              ? _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "dropdownOptions" } }, [
-                    _vm._v("Выбор цвета: ")
-                  ]),
+      _c("div", { staticClass: "add-to-cart" }, [
+        _vm.options && _vm.options.length > 0
+          ? _c("div", { staticClass: "options-block" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "dropdownOptions" } }, [
+                  _vm._v("Выбор цвета: ")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "dropdown" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-light dropdown-toggle",
+                      attrs: {
+                        id: "dropdownOptions",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(_vm.titleOption) + "\n                        "
+                      )
+                    ]
+                  ),
                   _vm._v(" "),
-                  _c("div", { staticClass: "dropdown" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-light dropdown-toggle",
-                        attrs: {
-                          id: "dropdownOptions",
-                          "data-toggle": "dropdown",
-                          "aria-haspopup": "true",
-                          "aria-expanded": "false"
-                        }
-                      },
-                      [_vm._v(_vm._s(_vm.titleOption))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "dropdown-menu",
-                        attrs: { "aria-labelledby": "dropdownSortHeader" }
-                      },
-                      _vm._l(_vm.options, function(option) {
-                        return _c(
-                          "button",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: {
-                              disabled: option.quantity <= 0,
-                              "data-id": option.id,
-                              type: "button"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.selectOption($event, option)
-                              }
-                            }
+                  _c(
+                    "div",
+                    {
+                      staticClass: "dropdown-menu",
+                      attrs: { "aria-labelledby": "dropdownSortHeader" }
+                    },
+                    _vm._l(_vm.options, function(option) {
+                      return _c(
+                        "button",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: {
+                            disabled: option.quantity <= 0,
+                            "data-id": option.id,
+                            type: "button"
                           },
-                          [
-                            _vm._v(
-                              _vm._s(_vm.fullOptionName(option)) +
-                                "\n                        "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  ])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "quantity form-group" }, [
-              _c("label", { attrs: { for: "quantity" } }, [_vm._v("Кол-во")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.query_options.quantity,
-                    expression: "query_options.quantity"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "number",
-                  name: "quantity",
-                  id: "quantity",
-                  max: _vm.product.quantity
-                },
-                domProps: { value: _vm.query_options.quantity },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.query_options, "quantity", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "button-block clearfix" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "mb-2 btn-dark btn",
-                  attrs: { disabled: _vm.product.quantity <= 0 },
-                  on: {
-                    click: function($event) {
-                      return _vm.addToCart(_vm.product.id)
-                    }
-                  }
-                },
-                [_vm._v("Добавить в корзину\n                ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "mb-2 btn-dark btn",
-                  on: {
-                    click: function($event) {
-                      _vm.toggleWishList
-                        ? _vm.removeToWishList(_vm.product.id)
-                        : _vm.addToWishList(_vm.product.id)
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                    Добавить\n                    в избранное\n                "
+                          on: {
+                            click: function($event) {
+                              return _vm.selectOption($event, option)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(_vm.fullOptionName(option)) +
+                              "\n                            "
+                          )
+                        ]
+                      )
+                    }),
+                    0
                   )
-                ]
+                ])
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "quantity form-group" }, [
+          _c("label", { attrs: { for: "quantity" } }, [_vm._v("Кол-во")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.query_options.quantity,
+                expression: "query_options.quantity"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "number",
+              name: "quantity",
+              id: "quantity",
+              max: _vm.product.quantity
+            },
+            domProps: { value: _vm.query_options.quantity },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.query_options, "quantity", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "button-block clearfix" }, [
+          _c(
+            "button",
+            {
+              staticClass: "mb-2 btn-dark btn",
+              attrs: { disabled: _vm.product.quantity <= 0 },
+              on: {
+                click: function($event) {
+                  return _vm.addToCart(_vm.product.id)
+                }
+              }
+            },
+            [_vm._v("Добавить в корзину\n                ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "mb-2 btn-dark btn",
+              on: {
+                click: function($event) {
+                  _vm.toggleWishList
+                    ? _vm.removeToWishList(_vm.product.id)
+                    : _vm.addToWishList(_vm.product.id)
+                }
+              }
+            },
+            [
+              _vm._v(
+                "\n                    Добавить\n                    в избранное\n                "
               )
-            ]),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _vm._m(1)
-          ])
-        : _vm._e()
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _vm._m(1)
+      ])
     ])
   ])
 }
@@ -40258,21 +40260,12 @@ var render = function() {
                         "div",
                         { staticClass: "mr-2 d-none d-sm-block img-wrap" },
                         [
-                          cartItem.optionImage
+                          cartItem.frontImg
                             ? _c("img", {
                                 attrs: {
                                   src:
                                     "/storage/files/90x110/" +
-                                    cartItem.optionImage.filename,
-                                  alt: "Фото товара"
-                                }
-                              })
-                            : cartItem.item.files[0]
-                            ? _c("img", {
-                                attrs: {
-                                  src:
-                                    "/storage/files/90x110/" +
-                                    cartItem.item.files[0].filename,
+                                    cartItem.frontImg.filename,
                                   alt: "Фото товара"
                                 }
                               })
@@ -42506,23 +42499,12 @@ var render = function() {
                       [
                         _c("figure", { staticClass: "media" }, [
                           _c("div", { staticClass: "mr-2 img-wrap" }, [
-                            cartItem.optionImage
+                            cartItem.frontImg
                               ? _c("img", {
-                                  staticClass: "img-thumbnail img-sm",
                                   attrs: {
                                     src:
                                       "/storage/files/90x110/" +
-                                      cartItem.optionImage.filename,
-                                    alt: "Фото товара"
-                                  }
-                                })
-                              : cartItem.item.files[0]
-                              ? _c("img", {
-                                  staticClass: "img-thumbnail img-sm",
-                                  attrs: {
-                                    src:
-                                      "/storage/files/90x110/" +
-                                      cartItem.item.files[0].filename,
+                                      cartItem.frontImg.filename,
                                     alt: "Фото товара"
                                   }
                                 })

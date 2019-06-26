@@ -13,11 +13,8 @@
                         <td class="title">
                             <figure class="media">
                                 <div class="mr-2 d-none d-sm-block img-wrap">
-                                    <img v-if="cartItem.optionImage"
-                                         :src="'/storage/files/90x110/'+cartItem.optionImage.filename" class="" alt="Фото товара">
-                                    <img v-else-if="cartItem.item.files[0]"
-                                         :src="'/storage/files/90x110/'+cartItem.item.files[0].filename"
-                                         class="" alt="Фото товара">
+                                    <img v-if="cartItem.frontImg"
+                                         :src="'/storage/files/90x110/'+cartItem.frontImg.filename" class="" alt="Фото товара">
                                 </div>
                                 <div class="media-body">
                                     <figcaption>{{cartItem.item.title}}</figcaption>

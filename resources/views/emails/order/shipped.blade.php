@@ -5,9 +5,9 @@
     <title>Заказ с сайта {{config('app.name')}}</title>
 </head>
 <body>
-<div>{{ $order->last_name}} {{$order->first_name}}, багодарим Вас за выбор нашего интернет-магазина {{config('app.name')}}.
+<div>{{ $order->last_name}} {{$order->first_name}}, багодарим Вас за выбор нашего
+    интернет-магазина {{config('app.name')}}.
 </div>
-<div> В ближайшее время мы свяжемся с Вами по телефону для уточнения информации по заказу.</div>
 <p><strong>Номер заказа:</strong> &nbsp;&nbsp;&nbsp;<strong>{{$order->id}}</strong></p>
 <p><strong>Дата заказа:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>{{$order->created_at}}</strong></p>
 <p><strong>Имя покупателя:</strong> <strong>{{ $order->last_name}} {{$order->first_name}}</strong></p>
@@ -46,10 +46,9 @@
         @foreach($cart->items as $cartItem)
             <tr>
                 <td style="">
-                    @if ($cartItem->item->files)
-                        <img class="img-responsive"
-                             src="{{asset('/storage/files/90x110/'.$cartItem['item']->files[0]->filename)}}"
-                             alt="Картинка товара">
+                    @if ($cartItem->frontImg)
+                        <img src="{{asset('/storage/files/90x110/'.$cartItem->frontImg->filename)}}" class=""
+                             alt="Фото товара">
                     @endif
                 </td>
                 <td style="padding: 5px 0">{{$cartItem->item->title}}</td>

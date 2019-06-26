@@ -6,7 +6,8 @@
                     <a class="group2" v-if="key == 0" :href="'/storage/files/'+ image.filename"><img
                             class="img-fluid" :src="'/storage/files/600x450/'+ image.filename" alt="Фото продукта"></a>
                     <a class="group2" v-else :href="'/storage/files/'+ image.filename"><img class="img-thumbnail"
-                            :src="'/storage/files/90x110/'+ image.filename" alt="Фото продукта"></a>
+                                                                                            :src="'/storage/files/90x110/'+ image.filename"
+                                                                                            alt="Фото продукта"></a>
                 </li>
             </ul>
             <div class="clearfix"></div>
@@ -40,23 +41,26 @@
                 <h2 v-if="special"><span class="special-price">{{getSpecialPrice}} </span><span>р.</span></h2>
             </div>
 
-
             <div v-if="discount" class="discount-block">
                 <hr>
                 <span>{{discount.quantity}} и более {{getDiscountPrice}} р.</span>
                 <hr>
             </div>
-            <div v-if="options && options.length > 0" class="options-block">
-                <div v-if="options && options.length > 0" class="form-group">
-                    <label for="dropdownOptions">Выбор цвета: </label>
-                    <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" id="dropdownOptions" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">{{titleOption}}</button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownSortHeader">
-                            <button  :disabled="option.quantity <= 0" @click="selectOption($event, option)" v-for="(option) in options"
-                                    :data-id="option.id" class="dropdown-item"
-                                    type="button">{{fullOptionName(option)}}
+            <div class="add-to-cart">
+                <div v-if="options && options.length > 0" class="options-block">
+                    <div class="form-group">
+                        <label for="dropdownOptions">Выбор цвета: </label>
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" id="dropdownOptions" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">{{titleOption}}
                             </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownSortHeader">
+                                <button :disabled="option.quantity <= 0" @click="selectOption($event, option)"
+                                        v-for="(option) in options"
+                                        :data-id="option.id" class="dropdown-item"
+                                        type="button">{{fullOptionName(option)}}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,7 +108,7 @@
         },
         mounted() {
             this.allImagesProduct();
-            if (this.options ){
+            if (this.options) {
                 this.titleOption = this.fullOptionName(this.options[0]);
                 this.query_options.option_id = this.options[0].id;
             }
@@ -191,9 +195,9 @@
         },
 
         computed: {
-            weight(){
+            weight() {
                 let id = this.query_options.option_id;
-                if (id){
+                if (id) {
                     let option = this.getOptionByID(id);
                     return option.weight;
                 }
