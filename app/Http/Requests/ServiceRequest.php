@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class ServiceRequest extends FormRequest
 {
     const OPTION_ROWS = 8;
 
@@ -29,11 +29,9 @@ class ProductRequest extends FormRequest
             'title' => 'required|min:3',
             'status' => 'boolean',
             'sku' => 'required',
-            'model' => 'required',
             'sort_order' => 'integer',
             'quantity' => 'integer',
-            'weight' => 'number',
-            'productOptions' => 'required'
+            'model' => 'required',
         ];
 
         if ($this->filled('productDiscount.price') || $this->filled('productDiscount.quantity')) {
@@ -44,27 +42,8 @@ class ProductRequest extends FormRequest
         if ($this->filled('productSpecial.price')) {
             $rules += ['productSpecial.price' => 'required|numeric'];
         }
-        if ($this->filled('productOptions.*.color') || $this->filled('productOptions.*.color_stone')) {
-            $rules += ["productOptions.*.price" => 'sometimes|required|numeric'];
-            $rules += ["productOptions.*.weight" => 'sometimes|required|numeric'];
-            $rules += ["productOptions.*.quantity" => 'sometimes|required|integer'];
-        }
 
         return $rules;
-    }
-
-
-    public function extractOptions()
-    {
-        $productOptions = $this->productOptions;
-        foreach ( $productOptions as $key => $option)
-        {
-            if (!empty($this->file('productOptions')) && in_array( $key, $this->file('productOptions'))){
-                $productOptions[$key] = $this->file('productOptions')[$key];
-            }
-        }
-
-        return $productOptions;
     }
 
 

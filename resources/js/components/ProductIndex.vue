@@ -17,7 +17,8 @@
                             </div>
                             <div class="product-price text-center">
                                 <span class="special" v-if="item.product_special">{{Number(item.product_special.price).toFixed(0)}} р.</span>
-                                <span v-if="item.product_options[0]">{{Number(item.product_options[0].price).toFixed(0)}} р.</span>
+                                <span v-if="item.type == 'service'">{{Number(item.price)}} р.</span>
+                                <span v-else-if="item.product_options[0]">{{Number(item.product_options[0].price).toFixed(0)}} р.</span>
                             </div>
                             <div class="product-link text-center"><a class="text-uppercase btn btn-outline-dark"
                                                                      :href="'/products/'+item.alias">Подробнее</a>

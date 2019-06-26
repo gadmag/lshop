@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Option;
 use App\Service\TreeService;
 use Illuminate\Http\Request;
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ServiceRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Storage;
 use Gate;
-use Carbon\Carbon;
-
 use App\Product;
 use App\Catalog;
 use Validator;
 use Image;
 use File;
 
-class ProductController extends Controller
+class ServiceController extends Controller
 {
     use TreeService;
     use UploadTrait;
@@ -36,7 +30,7 @@ class ProductController extends Controller
         $title = isset($f['title']) ? $f['title'] : null;
         $group_by = !empty($f['order_by']) ? $f['order_by'] : "created_at";
         $group_dir = isset($f['order_dir']) ? $f['order_dir'] : "DESC";
-        $products = Product::with('catalogs')->type('product')->orderBy($group_by, $group_dir);
+        $products = Product::with('catalogs')->type('service')->orderBy($group_by, $group_dir);
         if ($title) {
             $products->where('title', 'like', '%' . $title . '%');
         }
@@ -92,11 +86,11 @@ class ProductController extends Controller
             ->setActionColumn([
                 'attributes' => ['class' => 'text-right'],
                 'wrapper' => function ($value, $row) {
-                    return '<a style="display: inline-block" href="' . action('Admin\ProductController@edit', [$row->id]) . '" class="btn btn-info" title="Редактировать"
+                    return '<a style="display: inline-block" href="' . action('Admin\ServiceController@edit', [$row->id]) . '" class="btn btn-info" title="Редактировать"
                                    data-toggle="tooltip">
                                     <i class="fa fa-edit"></i>
                                 </a>
-					 <form style="display: inline-block" action="' . url('/admin/products/' . $row->id) . '" method="POST">
+					 <form style="display: inline-block" action="' . url('/admin/services/' . $row->id) . '" method="POST">
                                     ' . csrf_field() . ' ' . method_field('DELETE') . '
                                     <button style="display: inline-block" type="submit" onclick="return confirm(\'Вы уверены?\')" class="btn btn-danger" data-toggle="tooltip" title="Удалить">
                                         <i class="fa fa-trash"></i> Удалить
@@ -105,7 +99,7 @@ class ProductController extends Controller
                 }
             ]);
 
-        return view('AdminLTE.product.index')->with([
+        return view('AdminLTE.service.index')->with([
             'products' => $products,
             'grid' => $grid
         ]);
@@ -125,7 +119,7 @@ class ProductController extends Controller
         }
 
         $catalogs = self::getTree(Catalog::all());
-        return view('AdminLTE.product.create', [
+        return view('AdminLTE.service.create', [
             'catalogs' => $catalogs,
             'catalog' => ''
         ]);
@@ -137,11 +131,12 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(ServiceRequest $request)
     {
         $product = $this->createProduct($request);
-
-        return redirect("admin/products")->with([
+        $product->type = 'service';
+        $product->save();
+        return redirect("admin/services")->with([
             'flash_message' => "{$product->title} добавлена",
 //          'flash_message_important'     => true
         ]);
@@ -156,9 +151,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::type('service')->findOrFail($id);
         $catalogs = self::getTree(Catalog::all());
-        return view('AdminLTE.product.edit', [
+        return view('AdminLTE.service.edit', [
             'product' => $product,
             'catalogs' => $catalogs
         ]);
@@ -171,11 +166,13 @@ class ProductController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, Product $product)
+    public function update(ServiceRequest $request, $id)
     {
+        $product = Product::type('service')->findOrFail($id);
         $product = $this->updateProduct($request, $product);
-
-        return redirect("admin/products")->with([
+        $product->type = 'service';
+        $product->save();
+        return redirect("admin/services")->with([
             'flash_message' => "{$product->title} обновлена",
 //          'flash_message_important'     => true
         ]);
@@ -186,22 +183,17 @@ class ProductController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-
+        $product = Product::type('service')->findOrFail($id);
+        $title = $product->title;
         $product->delete();
-        return redirect("admin/products")->with([
-            'flash_message' => "'{$product->title}' продукт удален",
+        return redirect("admin/services")->with([
+            'flash_message' => "'{$title}' услуга удалена",
 //          'flash_message_important'     => true
         ]);
     }
 
-    public function deleteOption($id)
-    {
-        $option = Option::findOrFail($id);
-        $option->delete();
-        return response(['status' => 'Delete option success']);
-    }
 
     /** Синхронизация категорий продукта
      * @param Product $product
@@ -221,7 +213,6 @@ class ProductController extends Controller
     {
 
         $product = Auth::user()->products()->create($request->all());
-
         if ($request->filled('productSeo')) {
             $product->productSeo()->create($request->productSeo);
         }
@@ -234,12 +225,7 @@ class ProductController extends Controller
             $product->productSpecial()->create($request->productSpecial);
         }
 
-        if ($request->filled('productOptions')) {
-            $this->createMultipleOptions($request, $product);
-        }
-        if ($product->productOptions()->exists()){
-            $this->updateQuantity($product);
-        }
+
         if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $product, [
                 '600x450' => array(
@@ -288,13 +274,6 @@ class ProductController extends Controller
             $product->productSpecial()->delete();
         }
 
-        if ($request->filled('productOptions')) {
-            $this->updateMultipleOptions($request, $product);
-        }
-
-        if ($product->productOptions()->exists()){
-            $this->updateQuantity($product);
-        }
 
         if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $product, [
@@ -320,69 +299,6 @@ class ProductController extends Controller
 
     }
 
-    protected function createMultipleOptions(Request $request, $product)
-    {
-        $options = $request->extractOptions();
-        foreach ($options as $optionAttr) {
-                $option = Option::create($optionAttr);
-                if (!empty($optionAttr['image_option'])) {
-                    $this->multipleUpload([$optionAttr['image_option']], $option, [
-                        '600x450' => array(
-                            'width' => 500,
-                            'height' => 500
-                        ),
-                        '250x250' => array(
-                            'width' => 260,
-                            'height' => 260
-                        ),
-                        '90x110' => array(
-                            'width' => 110,
-                            'height' => 110
-                        )
-                    ], true);
-                }
-                $product->productOptions()->save($option);
 
 
-        }
-
-    }
-
-    protected function updateMultipleOptions(Request $request, Product $product)
-    {
-        $options = $request->extractOptions();
-
-        foreach ($options as $optionAttr) {
-            $id = $product->productOptions()->updateOrCreate(['id' => $optionAttr['id']], $optionAttr)->id;
-            $option = Option::where('id', "=", $id)->first();
-            if (!empty($optionAttr['image_option'])) {
-                $this->multipleUpload([$optionAttr['image_option']], $option, [
-                    '600x450' => array(
-                        'width' => 500,
-                        'height' => 500
-                    ),
-                    '250x250' => array(
-                        'width' => 260,
-                        'height' => 260
-                    ),
-                    '90x110' => array(
-                        'width' => 110,
-                        'height' => 110
-                    )
-                ], true);
-
-            }
-        }
-    }
-
-    protected function updateQuantity(Product $product)
-    {
-        $sum_quantity = 0;
-        foreach ($product->productOptions as $option)
-        {
-            $sum_quantity += $option->quantity;
-        }
-        $product->quantity = $sum_quantity;
-        $product->save();
-    }
 }

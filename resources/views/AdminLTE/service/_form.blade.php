@@ -4,7 +4,6 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab_1" data-toggle="tab">Общие</a></li>
                 <li class=""><a href="#tab_2" data-toggle="tab">Данные</a></li>
-                <li class=""><a href="#tab_3" data-toggle="tab">Опции</a></li>
                 <li class=""><a href="#tab_4" data-toggle="tab">Скидки</a></li>
                 <li class=""><a href="#tab_5" data-toggle="tab">Акция</a></li>
             </ul>
@@ -78,6 +77,10 @@
                         {!! Form::label('model', 'Модель:') !!}
                         {!! Form::text('model', null, ['class' => 'form-control']) !!}
                     </div>
+                    <div class="form-group">
+                        {!! Form::label('price', 'Цена:') !!}
+                        {!! Form::text('price', null, ['class' => 'form-control']) !!}
+                    </div>
 
                     <div class="form-group">
                         {!! Form::label('material', 'Материал:') !!}
@@ -91,21 +94,11 @@
                         {!! Form::label('sort_order', 'Порядок сортировки:') !!}
                         {!! Form::text('sort_order',null, ['class' => 'form-control']) !!}
                     </div>
+                    <div class="form-group">
+                        {!! Form::label('quantity', 'Кол-во:') !!}
+                        {!! Form::text('quantity',1, ['class' => 'form-control']) !!}
+                    </div>
                 </div>
-                <div id="tab_3" class="tab-option-coating tab-options tab-pane">
-
-
-                    <option-item
-                            @if ($product->productOptions()->exists()) :options="{{$product->productOptions()->with('files')->get()}}"
-                            {{--@else--}}
-                            {{--:options="[]"--}}
-                            @endif
-                            :colors="{{collect($product->getFieldOptions('coating'))}}"
-                            :colors_stone="{{collect($product->getFieldOptions('stone'))}}">
-
-                    </option-item>
-                </div>
-
                 <div id="tab_4" class="tab-pane">
                     <div class="row">
                         <div class="col-md-4">

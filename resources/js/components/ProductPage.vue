@@ -5,7 +5,7 @@
                 <li class="image-product-item" v-for="(image, key, index) in files">
                     <a class="group2" v-if="key == 0" :href="'/storage/files/'+ image.filename"><img
                             class="img-fluid" :src="'/storage/files/600x450/'+ image.filename" alt="Фото продукта"></a>
-                    <a class="group2 thumbnail" v-else :href="'/storage/files/'+ image.filename"><img
+                    <a class="group2" v-else :href="'/storage/files/'+ image.filename"><img class="img-thumbnail"
                             :src="'/storage/files/90x110/'+ image.filename" alt="Фото продукта"></a>
                 </li>
             </ul>
@@ -46,7 +46,7 @@
                 <span>{{discount.quantity}} и более {{getDiscountPrice}} р.</span>
                 <hr>
             </div>
-            <div v-if="options" class="options-block">
+            <div v-if="options && options.length > 0" class="options-block">
                 <div v-if="options && options.length > 0" class="form-group">
                     <label for="dropdownOptions">Выбор цвета: </label>
                     <div class="dropdown">
@@ -95,15 +95,20 @@
                 className: '',
                 files: [],
                 checkedNames: [],
-                titleOption: this.fullOptionName(this.options[0]),
+                titleOption: null,
                 query_options: {
-                    option_id: this.options[0].id,
+                    option_id: null,
                     quantity: 1,
                 },
             }
         },
         mounted() {
             this.allImagesProduct();
+            if (this.options ){
+                this.titleOption = this.fullOptionName(this.options[0]);
+                this.query_options.option_id = this.options[0].id;
+            }
+
             console.log('Component mounted.');
 
         },
@@ -112,9 +117,6 @@
                 const id = option.id;
                 this.query_options.option_id = id;
                 this.titleOption = this.fullOptionName(option);
-                // let id = this.query_options.option_id;
-                let length = this.files.length;
-                // let first_element = this.files[0];
                 this.files.forEach(function (file, i, arr) {
                     if (file.uploadstable_id == id) {
                         let element = file;

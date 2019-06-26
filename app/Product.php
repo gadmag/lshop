@@ -18,7 +18,7 @@ class Product extends Model
     use ProductFilter;
 
     protected $fillable = ['title', 'description',
-        'model', 'sku', 'price', 'type', 'quantity', 'total_selling', 'size', 'status',
+        'model', 'sku', 'price', 'type', 'quantity', 'total_selling', 'sort_order', 'size', 'status',
         'material', 'alias', 'user_id'];
 
 
@@ -49,6 +49,11 @@ class Product extends Model
         $this->attributes['weight'] = (float)$value;
     }
 
+    public function getStatusAttribute($value)
+    {
+        if ($value == 1) return 'Включено';
+        return 'Отключено';
+    }
 
     public function getFieldOptions(string $type)
     {
@@ -61,6 +66,15 @@ class Product extends Model
     public function scopeActive($query)
     {
         $query->where('status', 1);
+    }
+
+    /**
+     * @param $query
+     * @param string $value
+     */
+    public function scopeType($query, $value = 'product')
+    {
+        $query->where('type', $value);
     }
 
     /**
@@ -141,7 +155,6 @@ class Product extends Model
     function delete()
     {
         $this->productSeo()->delete();
-        $this->productOptions()->delete();
         $this->productDiscount()->delete();
         $this->productSpecial()->delete();
         foreach ($this->files as $file) {

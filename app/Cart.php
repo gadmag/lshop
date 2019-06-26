@@ -51,22 +51,25 @@ class Cart
         $storedItem = (Object)['qty' => 0, 'product_id' => $item->id, 'price' => $price, 'weight' => $weight,
             'option_id' => $option_id ? $option_id : null, 'optionImage' => $optionImage, 'item' => $item];
 
+
         if ($this->items) {
             if (!is_null($productKey)) {
                 $storedItem = $this->items[$productKey];
             }
         }
 
+        $storedItem->qty += $quantity;
 
-        if ($item->productSpecial()->exists()) {
+        if ($item->productSpecial()->betweenDate()->exists()) {
             if ($item->productSpecial->price_prefix == '%') {
-                $price= $price * intval($item->productSpecial->price) / 100;
+                $price = $price * intval($item->productSpecial->price) / 100;
             } else {
-                $price= floatval($price - $item->productSpecial->price);
+                $price = floatval($price - $item->productSpecial->price);
             }
         }
 
         if ($item->productDiscount()->exists() && $storedItem->qty >= $item->productDiscount->quantity) {
+
             if ($item->productDiscount->price_prefix == '%') {
                 $price = $price * intval($item->productDiscount->price) / 100;
             } else {
@@ -74,7 +77,7 @@ class Cart
             }
         }
 
-        $storedItem->qty += $quantity;
+
         $item->price = $price;
         $storedItem->weight = $weight * $storedItem->qty;
         $storedItem->price = $price * $storedItem->qty;
@@ -105,6 +108,8 @@ class Cart
         $totalWeight = 0;
         $this->items[$id]->qty--;
         $item = $this->items[$id]->item;
+        $price = $item->price?:0;
+        $weight = $item->weight?:0;
         if ($option_id) {
             $productOption = $item->productOptions->find($option_id);
 
@@ -112,7 +117,7 @@ class Cart
             $weight = $productOption->weight;
         }
 
-        if ($item->productSpecial()->exists()) {
+        if ($item->productSpecial()->betweenDate()->exists()) {
             if ($item->productSpecial->price_prefix == '%') {
                 $price = $price * intval($item->productSpecial->price) / 100;
             } else {
@@ -128,8 +133,8 @@ class Cart
             }
         }
 
-        $this->items[$id]->item->weight = $weight * $this->items[$id]->qty;
-        $this->items[$id]->item->price = $price * $this->items[$id]->qty;
+        $this->items[$id]->weight = $weight * $this->items[$id]->qty;
+        $this->items[$id]->price = $price * $this->items[$id]->qty;
 
         $this->totalQty--;
 

@@ -2749,6 +2749,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['filters'],
@@ -2865,6 +2866,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['products'],
@@ -2888,8 +2890,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         removeToWishList: function removeToWishList(id) {
             bus.$emit('remove-to-wishlist', id);
         },
-        specialPrice: function specialPrice(item) {
-            return Math.floor((item.product_options[0].price - item.product_special.price) / item.product_options[0].price * 100);
+        percentSpecial: function percentSpecial(item) {
+            var price = item.product_options[0] ? item.product_options[0].price : item.price;
+            // return Math.floor(((price - item.product_special.price) / price) * 100);
+            console.log(item.product_special.price / price * 100);
+            return Math.floor(item.product_special.price / price * 100);
+        },
+        priceSpecial: function priceSpecial(item) {
+            var price = item.product_options[0] ? item.product_options[0].price : item.price;
+            var specialPrice = price - item.product_special.price;
+            return specialPrice.toFixed(0);
         },
         toggleWishList: function toggleWishList(id) {
 
@@ -3033,15 +3043,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             className: '',
             files: [],
             checkedNames: [],
-            titleOption: this.fullOptionName(this.options[0]),
+            titleOption: null,
             query_options: {
-                option_id: this.options[0].id,
+                option_id: null,
                 quantity: 1
             }
         };
     },
     mounted: function mounted() {
         this.allImagesProduct();
+        if (this.options) {
+            this.titleOption = this.fullOptionName(this.options[0]);
+            this.query_options.option_id = this.options[0].id;
+        }
+
         console.log('Component mounted.');
     },
 
@@ -3050,9 +3065,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var id = option.id;
             this.query_options.option_id = id;
             this.titleOption = this.fullOptionName(option);
-            // let id = this.query_options.option_id;
-            var length = this.files.length;
-            // let first_element = this.files[0];
             this.files.forEach(function (file, i, arr) {
                 if (file.uploadstable_id == id) {
                     var element = file;
@@ -39191,11 +39203,12 @@ var render = function() {
                   : _c(
                       "a",
                       {
-                        staticClass: "group2 thumbnail",
+                        staticClass: "group2",
                         attrs: { href: "/storage/files/" + image.filename }
                       },
                       [
                         _c("img", {
+                          staticClass: "img-thumbnail",
                           attrs: {
                             src: "/storage/files/90x110/" + image.filename,
                             alt: "Фото продукта"
@@ -39305,7 +39318,7 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm.options
+      _vm.options && _vm.options.length > 0
         ? _c("div", { staticClass: "options-block" }, [
             _vm.options && _vm.options.length > 0
               ? _c("div", { staticClass: "form-group" }, [
@@ -39515,9 +39528,9 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              item.product_special && item.product_options[0]
+              item.product_special
                 ? _c("span", { staticClass: "special-badge" }, [
-                    _vm._v(" -" + _vm._s(_vm.specialPrice(item)) + "%")
+                    _vm._v(" -" + _vm._s(_vm.percentSpecial(item)) + "%")
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -39551,15 +39564,13 @@ var render = function() {
                 _c("div", { staticClass: "product-price text-center" }, [
                   item.product_special
                     ? _c("span", { staticClass: "special" }, [
-                        _vm._v(
-                          _vm._s(
-                            Number(item.product_special.price).toFixed(0)
-                          ) + " р."
-                        )
+                        _vm._v(_vm._s(_vm.priceSpecial(item)) + " р.")
                       ])
                     : _vm._e(),
                   _vm._v(" "),
-                  item.product_options[0]
+                  item.type == "service"
+                    ? _c("span", [_vm._v(_vm._s(Number(item.price)) + " р.")])
+                    : item.product_options[0]
                     ? _c("span", [
                         _vm._v(
                           _vm._s(
@@ -39698,7 +39709,11 @@ var render = function() {
                                   ])
                                 : _vm._e(),
                               _vm._v(" "),
-                              item.product_options[0]
+                              item.type == "service"
+                                ? _c("span", [
+                                    _vm._v(_vm._s(Number(item.price)) + " р.")
+                                  ])
+                                : item.product_options[0]
                                 ? _c("span", [
                                     _vm._v(
                                       _vm._s(

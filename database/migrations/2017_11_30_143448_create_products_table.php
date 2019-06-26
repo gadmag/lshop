@@ -25,6 +25,8 @@ class CreateProductsTable extends Migration
             $table->integer('total_selling')->default(0);
             $table->string('size',128);
             $table->string('material');
+            $table->string('type',24)->default('product');
+            $table->decimal('price',13,2);
             $table->boolean('status')->default(0);
             $table->integer('user_id')->unsigned();
             $table->timestamps();

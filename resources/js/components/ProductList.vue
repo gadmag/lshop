@@ -6,7 +6,7 @@
                     <img class="card-img-top img-fluid"
                          :src="'/storage/files/250x250/'+getImage(item)"
                          alt="Картинка">
-                    <span v-if="item.product_special && item.product_options[0]" class="special-badge"> -{{specialPrice(item)}}%</span>
+                    <span v-if="item.product_special" class="special-badge"> -{{percentSpecial(item)}}%</span>
                     <a @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
                             :class="toggleWishList(item.id)? className: className"></span></a>
                     <div class="card-body">
@@ -14,8 +14,9 @@
                                                                  :href="'/products/'+item.alias">{{item.title}}</a>
                         </div>
                         <div class="product-price text-center">
-                            <span class="special" v-if="item.product_special">{{Number(item.product_special.price).toFixed(0)}} р.</span>
-                            <span v-if="item.product_options[0]">{{Number(item.product_options[0].price).toFixed(0)}} р.</span>
+                            <span class="special" v-if="item.product_special">{{priceSpecial(item)}} р.</span>
+                            <span v-if="item.type == 'service'">{{Number(item.price)}} р.</span>
+                            <span v-else-if="item.product_options[0]">{{Number(item.product_options[0].price).toFixed(0)}} р.</span>
                         </div>
                         <div class="product-link text-center"><a class="text-uppercase btn btn-outline-dark"
                                                                  :href="'/products/'+item.alias">Подробнее</a>
@@ -54,8 +55,17 @@
                 bus.$emit('remove-to-wishlist', id);
             },
 
-            specialPrice(item) {
-                return Math.floor(((item.product_options[0].price - item.product_special.price) / item.product_options[0].price) * 100);
+            percentSpecial(item) {
+                let price = item.product_options[0]?item.product_options[0].price: item.price;
+                // return Math.floor(((price - item.product_special.price) / price) * 100);
+                console.log(item.product_special.price/price * 100);
+                return Math.floor(item.product_special.price/price *100);
+            },
+
+            priceSpecial(item){
+                let price = item.product_options[0]?item.product_options[0].price: item.price;
+                let specialPrice = price - item.product_special.price
+                return specialPrice.toFixed(0) ;
             },
 
             toggleWishList(id) {
