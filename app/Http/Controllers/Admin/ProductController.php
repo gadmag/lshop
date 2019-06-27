@@ -264,7 +264,7 @@ class ProductController extends Controller
         return $product;
     }
 
-    private function updateProduct(Request $request, $product)
+    private function updateProduct(ProductRequest $request, $product)
     {
         $product->update($request->all());
 
@@ -320,7 +320,7 @@ class ProductController extends Controller
 
     }
 
-    protected function createMultipleOptions(Request $request, $product)
+    protected function createMultipleOptions(ProductRequest $request, $product)
     {
         $options = $request->extractOptions();
         foreach ($options as $optionAttr) {

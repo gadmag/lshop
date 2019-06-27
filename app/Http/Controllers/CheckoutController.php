@@ -115,6 +115,7 @@ class CheckoutController extends Controller
 
     protected function getShipmentPrice($params, $weight)
     {
+        unset($params['method']);
         foreach ($params as $key => $price){
             if ($weight <= $key){
                 return $price;

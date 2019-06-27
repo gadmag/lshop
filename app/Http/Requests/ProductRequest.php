@@ -68,5 +68,4 @@ class ProductRequest extends FormRequest
     }
 
 
-
 }
