@@ -2807,18 +2807,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         getImage: function getImage(product) {
             var filename = '';
+            var options = product.product_options;
             if (product.files && product.files.length) {
-                filename = product.files[0].filename;
+                return filename = product.files[0].filename;
             }
-            if (!product.product_options) {
+            if (!options) {
                 return '';
             }
-
-            product.product_options.forEach(function (item, i) {
-                if (item.files && item.files.length) {
-                    filename = item.files[0].filename;
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].files && options[i].files.length) {
+                    return filename = options[i].files[0].filename;
                 }
-            });
+            }
+
             return filename;
         }
     }
@@ -2890,7 +2891,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         percentSpecial: function percentSpecial(item) {
             var price = item.product_options[0] ? item.product_options[0].price : item.price;
             // return Math.floor(((price - item.product_special.price) / price) * 100);
-            console.log(item.product_special.price / price * 100);
             return Math.floor(item.product_special.price / price * 100);
         },
         priceSpecial: function priceSpecial(item) {
@@ -2918,17 +2918,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         getImage: function getImage(product) {
             var filename = '';
+            var options = product.product_options;
             if (product.files && product.files.length) {
-                filename = product.files[0].filename;
+                return filename = product.files[0].filename;
             }
-            if (!product.product_options) {
+            if (!options) {
                 return '';
             }
-            product.product_options.forEach(function (item, i) {
-                if (item.files && item.files.length) {
-                    filename = item.files[0].filename;
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].files && options[i].files.length) {
+                    return filename = options[i].files[0].filename;
                 }
-            });
+            }
+
             return filename;
         }
     },

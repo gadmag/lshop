@@ -110,19 +110,20 @@
 
             getImage(product) {
                 let filename = '';
+                let options = product.product_options;
                 if (product.files && product.files.length) {
-                    filename = product.files[0].filename;
+                    return   filename = product.files[0].filename;
                 }
-                if (!product.product_options) {
+                if (!options) {
                     return ''
                 }
-
-                product.product_options.forEach(function (item, i) {
-                    if (item.files && item.files.length) {
-                        filename = item.files[0].filename;
+                for (let i = 0; i < options.length; i++){
+                    if (options[i].files && options[i].files.length) {
+                        return  filename =  options[i].files[0].filename;
                     }
-                });
-                return filename;
+                }
+
+                return filename
             }
 
         },

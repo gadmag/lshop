@@ -58,7 +58,6 @@
             percentSpecial(item) {
                 let price = item.product_options[0]?item.product_options[0].price: item.price;
                 // return Math.floor(((price - item.product_special.price) / price) * 100);
-                console.log(item.product_special.price/price * 100);
                 return Math.floor(item.product_special.price/price *100);
             },
 
@@ -88,18 +87,20 @@
             },
             getImage(product) {
                 let filename = '';
+                let options = product.product_options;
                 if (product.files && product.files.length) {
-                    filename = product.files[0].filename;
+                  return   filename = product.files[0].filename;
                 }
-                if (!product.product_options) {
+                if (!options) {
                     return ''
                 }
-                product.product_options.forEach(function (item, i) {
-                    if (item.files && item.files.length) {
-                        filename = item.files[0].filename;
+                for (let i = 0; i < options.length; i++){
+                    if (options[i].files && options[i].files.length) {
+                       return  filename =  options[i].files[0].filename;
                     }
-                });
-                return filename;
+                }
+
+                return filename
             }
         },
 
