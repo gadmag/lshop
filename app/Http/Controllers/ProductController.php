@@ -27,7 +27,7 @@ class ProductController extends Controller
         $filters['categories'] = DB::table(DB::raw('catalogs as c'))
             ->leftJoin(DB::raw('cataloggables as ct'), 'ct.catalog_id', '=', 'c.id')
             ->select(DB::raw('c.*, count(ct.cataloggable_id) as productcount'))
-            ->where('c.status','=',1)
+            ->where('c.status', '=', 1)
             ->groupBy('c.id')
             ->get();
         return view('product.index', ['filters' => $filters]);
@@ -36,10 +36,10 @@ class ProductController extends Controller
     public function getJsonProducts(Request $request)
     {
         $id = $request->get('cat_id');
-        if ($id){
+        if ($id) {
             $catalog = Catalog::published()->findOrFail(intval($id));
             $products = $catalog->products()->with(['productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->advancedFilter();
-        }else {
+        } else {
             $products = Product::with(['productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->advancedFilter();
         }
         return response()->json(['collection' => $products]);
@@ -47,10 +47,10 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $products = Product::with(['productOptions','productOptions.files', 'productSpecial','files'])
+        $products = Product::with(['productOptions', 'productOptions.files', 'productSpecial', 'files'])
             ->whereHas('catalogs', function ($query) use ($product) {
-            $query->where('id', $product->catalogs()->exists() ? $product->catalogs()->first()->id : null);
-        })->whereNotIn('id', [$product->id])->active()->latest('created_at')->get()->take(4);
+                $query->where('id', $product->catalogs()->exists() ? $product->catalogs()->first()->id : null);
+            })->whereNotIn('id', [$product->id])->active()->get()->take(4);
         return view('product.show', [
             'product' => $product,
             'options' => $product->productOptions()->with("files")->get(),
@@ -65,7 +65,7 @@ class ProductController extends Controller
     public function addToCart(Request $request, $id)
     {
         $product = Product::with(['files', 'productOptions.files'])->active()->largerQuantity()->findOrFail($id);
-        $oldCart = Session::has('cart') ? Session::get('cart'): null;
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->add($product, $product->id, json_decode($request->get('options')));
         $request->session()->put('cart', $cart);
@@ -203,7 +203,7 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('q');
-        $products = Product::active()->where('title', 'like', '%' . $search . '%')->latest('created_at')->paginate(12);
+        $products = Product::active()->where('title', 'like', '%' . $search . '%')->paginate(12);
         return view('product.search', [
             'products' => $products
         ]);

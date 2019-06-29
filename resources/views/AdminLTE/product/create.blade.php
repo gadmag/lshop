@@ -1,25 +1,28 @@
 @extends('AdminLTE.admin')
 
 @section('AdminLTE.content')
-    <div class="">
-        <div class="">
-            <div class="">
-                <div class="">
+    <div class="product">
 
-                    <h1 class="heading">Форма создания</h1>
+        <nav aria-label="breadcrumb" role="navigation">
+            <br>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{route('products.index')}}">Продукты</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Добавление товара</li>
+            </ol>
+        </nav>
+        <h1 class="heading">Добавление товара</h1>
 
-                    <div class="product-body">
-                        @include('errors.list')
-                        {!! Form::model($product = new \App\Product, ['url' => route('products.store'),'files' => true, 'class' => 'product', 'autocomplete' => 'off']) !!}
+        <div class="product-body">
+            @include('errors.list')
+            {!! Form::model($product = new \App\Product, ['url' => route('products.store'),'files' => true, 'class' => 'product', 'autocomplete' => 'off']) !!}
 
 
-                        @include('AdminLTE.product._form', ['submitButtonText' => 'Добавить продукт'])
+            @include('AdminLTE.product._form', ['submitButtonText' => 'Добавить продукт'])
 
-                        {!! Form::close() !!}
+            {!! Form::close() !!}
 
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+
 @endsection

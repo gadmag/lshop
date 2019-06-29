@@ -20,7 +20,7 @@ class FrontController extends Controller
     {
 
         $product = new Product();
-        $newProducts = $product->with([ 'productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->latest('created_at')->take(8)->get();
+        $newProducts = $product->with([ 'productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->take(8)->get();
         $specials = Product::with([ 'productOptions', 'productOptions.files', 'files', 'productSpecial'])->has('productSpecial')->active()->take(4)->get();
         $slides = Article::published()->ofType('photo')->latest('created_at')->take(5)->get();
         $designItem = Article::published()->ofType('design')->latest('created_at')->take(4)->get();

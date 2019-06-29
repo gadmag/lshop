@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\User;
 use App\Alias;
 use App\FieldOption;
+use Illuminate\Database\Eloquent\Builder;
 use App\Service\ProductFilter;
 
 class Product extends Model
@@ -29,6 +30,19 @@ class Product extends Model
     protected $orderable = [
         'id', 'title', 'price', 'created_at', 'weight', 'total_selling'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+//        static::addGlobalScope('active', function (Builder $builder) {
+//            $builder->whereStatus(1);
+//        });
+        static::addGlobalScope('sort', function (Builder $builder) {
+            $builder->orderBy('sort_order', 'asc')->latest('created_at');
+        });
+
+    }
 
     public function sluggable()
     {
@@ -67,6 +81,8 @@ class Product extends Model
     {
         $query->where('status', 1);
     }
+
+
 
     /**
      * @param $query

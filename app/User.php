@@ -9,27 +9,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 /**
  * App\User
  *
- * @property int $id
- * @property string $name
- * @property string $email
- * @property string $password
- * @property string|null $remember_token
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Articles[] $articles
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Catalog[] $catalogs
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $products
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Task[] $tasks
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 class User extends Authenticatable
 {
@@ -40,7 +19,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password',];
+    protected $fillable = ['name', 'email', 'password','blocked'];
 
     /**
      * The attributes that should be hidden for arrays.

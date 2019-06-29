@@ -2,36 +2,28 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\User;
+use App\Role;
 
 class UserController extends Controller
 {
-    private $rules = [
-        'username' => 'required|max:255',
-        'name' => 'required|max:255',
-        'email' => 'required|email|max:255|unique:users',
-        'password' => 'required|min:6',
-    ];
-
-    public function __construct(Request $request)
-    {
-
-    }
 
 
     public function index()
     {
         $users = User::all();
-        return view('AdminLTE.user.index',['users' =>$users]);
+        return view('AdminLTE.user.index', ['users' => $users]);
     }
 
     public function create()
     {
-        $roles = \App\Role::pluck('name', 'id');
-        return view('AdminLTE.user.create',[
+        $roles = Role::pluck('name', 'id');
+        return view('AdminLTE.user.create', [
             'roles' => $roles
         ]);
     }
@@ -39,58 +31,50 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $roles = \App\Role::pluck('name', 'id');
+        $roles = Role::pluck('name', 'id');
         return view('AdminLTE.user.edit', [
             'user' => $user,
-            'roles'=> $roles,
+            'roles' => $roles,
         ]);
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $this->validate($request, $this->rules);
         $user = User::create([
-            'username' => $request->username,
             'name' => $request->name,
             'email' => $request->email,
-            'block' => $request->block,
+            'blocked' => $request->blocked,
             'password' => bcrypt($request->password),
         ]);
-        $this->syncRoles($user,$request->input('role_list')? : []);
-//        $role = Role::where('name','Registered')->first();
-//        $user->roles()->attach($role->id);
-        return  redirect("admin/user")->with([
-            'flash_message'               =>   "Пользователь {$user->username} добавлена",
-//          'flash_message_important'     => true
+        $this->syncRoles($user, $request->input('role_list') ?: []);
+        return redirect("admin/users")->with([
+            'flash_message' => "Пользователь {$user->username} добавлена",
         ]);
     }
 
-    public function update($id, Request $request)
+    public function update(UserRequest $request, $id)
     {
-        $this->validate($request, $this->rules);
         $user = User::findOrFail($id);
         $user->update([
-            'username' => $request->username,
+
             'name' => $request->name,
             'email' => $request->email,
-            'block' => $request->block,
+            'blocked' => $request->blocked,
             'password' => bcrypt($request->password),
         ]);
-        $this->syncRoles($user,$request->input('role_list')? : []);
-        return redirect("admin/user/")->with([
-            'flash_message'               =>   "Пользователь обновлен",
-//          'flash_message_important'     => true
+        $this->syncRoles($user, $request->input('role_list') ?: []);
+        return redirect("admin/users")->with([
+            'flash_message' => "Пользователь {$user->name} обновлен",
         ]);
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        $username = $user->username;
+        $username = $user->name;
         $user->delete();
-        return redirect("admin/user")->with([
-            'flash_message'               =>   "Пользователь {$username} удален",
-//          'flash_message_important'     => true
+        return redirect("admin/users")->with([
+            'flash_message' => "Пользователь {$username} удален",
         ]);
     }
 

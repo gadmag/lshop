@@ -1,10 +1,6 @@
 
 <div class="row">
     <div class="col-md-8 page-default">
-        {{--<div class="form-group">--}}
-            {{--{!! Form::label('username', 'Username:') !!}--}}
-            {{--{!! Form::text('username', null, ['class' => 'form-control']) !!}--}}
-        {{--</div>--}}
         <div class="form-group">
             {!! Form::label('name', 'Имя:') !!}
             {!! Form::text('name', null, ['class' => 'form-control']) !!}
@@ -24,9 +20,9 @@
 
         </div>
         <div class="form-group">
-            {!! Form::label('block', 'Блокировать:') !!}&nbsp;&nbsp;
-            {{Form::hidden('block',0)}}
-            {!! Form::checkbox('block') !!}
+            {!! Form::label('blocked', 'Блокировать:') !!}&nbsp;&nbsp;
+            {{Form::hidden('blocked',0)}}
+            {!! Form::checkbox('blocked') !!}
         </div>
         <br>
 
