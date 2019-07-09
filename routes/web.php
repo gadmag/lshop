@@ -94,6 +94,10 @@ Route::group(['middleware' => 'web'], function () {
 
     //Route::get('tags/{tags}', 'TagsController@show');
     Route::get('/', ['as' => 'front', 'uses' => 'FrontController@index']);
+
+    //Auth
+    Route::post('api/user/login', 'Auth\LoginController@apiLogin')->name('apiLogin');
+    Route::post('api/user/register', 'Auth\RegisterController@apiRegister')->name('apiRegister');
 });
 
 

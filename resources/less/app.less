@@ -23,10 +23,20 @@ h3, h2, h1 {
   text-transform: uppercase;
   font-weight: 400;
 }
+
+.btn-link {
+  color: #052030;
+}
+
+.btn-link:hover {
+  color: #052030;
+}
+
 .title-head {
   position: relative;
 }
-.title-head:after{
+
+.title-head:after {
   border-bottom: 1px solid #000;
   bottom: -2px;
   content: '';
@@ -74,7 +84,6 @@ h1.title {
 .main-front .block {
   //border-top: 1px solid #03263b
 }
-
 
 
 .required label:before {
@@ -377,7 +386,9 @@ ul.nav-main > li > a:hover {
 .nav-user .dropdown-menu {
   border-radius: 3px 3px 0 0;
 }
-
+.user-menu .btn-link {
+  text-decoration: none;
+}
 /*----------end main menu------------*/
 
 
@@ -467,9 +478,11 @@ ul.nav-main > li > a:hover {
     font-weight: 900;
     content: '\f0da';
   }
+
   .breadcrumb-item {
     font-size: 0.9rem;
   }
+
   .breadcrumb-item a {
     color: #6c757d;
   }
@@ -578,7 +591,7 @@ ul.nav-main > li > a:hover {
     color: #072d45;
   }
 
-   .product-list-header {
+  .product-list-header {
     border-bottom: 2px dotted #e2dbd3;
     border-top: 2px dotted #e2dbd3;
   }
@@ -586,30 +599,35 @@ ul.nav-main > li > a:hover {
   .product-list-footer {
     border-bottom: 2px dotted #e2dbd3;
     border-top: 2px dotted #e2dbd3;
+
     .limit-buttons, .paginate-badge {
-        a.badge{
-          color: #4a4133;
-          font-weight: 400;
-          cursor: pointer;
-          font-size: 16px;
-          margin-right: 0.2rem;
-        }
+      a.badge {
+        color: #4a4133;
+        font-weight: 400;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 0.2rem;
+      }
+
       a.badge.active {
         background-color: #dae0e5;
       }
     }
   }
-  .filterable-sort .dropdown-toggle{
+
+  .filterable-sort .dropdown-toggle {
     cursor: pointer;
   }
 }
+
 /*--------product list----------*/
 
 .product-item {
   //max-width: 265px;
-  .card-body{
+  .card-body {
     padding: 0.75rem;
   }
+
   .product-price {
     font-size: 15px;
 
@@ -671,15 +689,17 @@ ul.nav-main > li > a:hover {
   border: 1px solid #e1e1df;
   background: linear-gradient(to top right, #f6f7f7, #f6f7f7);
   box-shadow: 0 3px 0 2px rgba(220, 220, 220, 0.7);
+
   label {
     cursor: pointer;
     line-height: 1.6;
   }
+
   .title {
     cursor: pointer;
   }
 
-   .title:before {
+  .title:before {
     font-family: 'Font Awesome 5 Pro';
     font-size: 16px;
     font-weight: 900;
@@ -687,7 +707,7 @@ ul.nav-main > li > a:hover {
     padding-right: 0.2rem;
   }
 
-   .title.collapsed:before {
+  .title.collapsed:before {
     /* symbol for "collapsed" panels */
     content: "\f0d7";
   }
@@ -696,29 +716,58 @@ ul.nav-main > li > a:hover {
     //padding-left: 10px;
   }
 
-.price-input {
-  input{
-    max-width: 80px;
+  .price-input {
+    input {
+      max-width: 80px;
+    }
   }
-}
 }
 
 /*---------end product-----*/
 
 /* CSS Document */
-.photo-list{padding-bottom: 60px; padding-top: 60px;}
-.photo-list .heading{margin-bottom: 50px; text-align: center;}
-.photo-list.cards-gallery h6{font-size: 17px; font-weight: bold;}
+.photo-list {
+  padding-bottom: 60px;
+  padding-top: 60px;
+}
 
-.photo-list .card{transition: all 0.4s ease;}
-.photo-list .card img{box-shadow: 0px 2px 10px rgba(0,0,0,0.15);}
-.photo-list .card-body{text-align: center;}
-.photo-list .card-body p{font-size: 15px;}
-.photo-list a{color:#212529; }
-.photo-list a:hover{text-decoration: none;}
-.photo-list  .card{
+.photo-list .heading {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.photo-list.cards-gallery h6 {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.photo-list .card {
+  transition: all 0.4s ease;
+}
+
+.photo-list .card img {
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.photo-list .card-body {
+  text-align: center;
+}
+
+.photo-list .card-body p {
+  font-size: 15px;
+}
+
+.photo-list a {
+  color: #212529;
+}
+
+.photo-list a:hover {
+  text-decoration: none;
+}
+
+.photo-list .card {
   margin-bottom: 30px;
-  box-shadow: 0px 2px 10px rgba(0,0,0,0.15);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 @media (min-width: 576px) {
@@ -751,9 +800,11 @@ ul.nav-main > li > a:hover {
   }
 
 }
-.form-group.is-invalid > .invalid-feedback{
+
+.form-group.is-invalid > .invalid-feedback {
   display: block;
 }
+
 /*---------end checkout-----------*/
 
 /*-------shopping-cart-------*/
@@ -772,10 +823,12 @@ ul.nav-main > li > a:hover {
   }
 
 }
-.img-sm{
+
+.img-sm {
   width: 80px;
   height: 80px;
 }
+
 .media .param-inline dd, .media .param-inline dt {
   display: inline-block;
 }
@@ -791,6 +844,87 @@ img.cboxPhoto {
 }
 
 /*-------end shopping-cart-------*/
+
+/*----- Auth ---------*/
+
+.modal-header .close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  padding: 0;
+  margin: 0;
+}
+
+#modal-auth {
+  .modal-dialog {
+    max-width: 450px;
+  }
+
+  .modal-header {
+    border: 0;
+  }
+  .email-body {
+    a {
+      text-decoration: underline;
+      color: #6c757d;
+    }
+
+    label {
+      color: #6c757d;
+    }
+  }
+  .auth-tab-link {
+    position: absolute;
+    left: 0;
+    top: 7px;
+    font-size: 24px;
+    color: #6c757d;
+  }
+}
+
+.socials-auth {
+
+  .social-item {
+    a {
+      color: #ffffff;
+      position: relative;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer;
+      font-size: 20px;
+      display: inline-block;
+      background: blue;
+    }
+    .icon-svg-facebook {
+      background: #4f69a2
+    }
+    .icon-svg-twitter{
+      background: #1da1f2;
+    }
+    .icon-svg-vk{
+      background: #6b8caf;
+    }
+    .icon-svg-google{
+      background: #4285f4;
+    }
+    svg {
+      color: #ffffff;
+      position: absolute;
+      display: block;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+      transform: translate(-50%,-50%);
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+/*-------end auth-------*/
 
 /*-----------footer-----------*/
 footer {
@@ -915,8 +1049,8 @@ footer {
   .affix .nav-user {
     display: block;
     position: absolute;
-    right: 5px;
-    top: 13px
+    right: 0;
+    top: 7px
   }
 
   .nav-user {

@@ -1,76 +1,65 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="text-center">Регистрация</h3></div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
+    <div class="container">
 
-                        <div class="required form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Имя</label>
+        <div class="panel-heading text-center py-4"><h1 class="title">Регистрация</h1></div>
+        <div class="row justify-content-center">
+            <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
+                    {{ csrf_field() }}
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                    <div class="form-group{{ $errors->has('name') ? ' is-invalid' : '' }}">
+                        <input id="name" type="text" class="form-control"
+                               name="name" value="{{ old('name') }}" placeholder="Имя"
+                               autofocus>
 
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                        @if ($errors->has('name'))
+                            <span class="invalid-feedback">{{ $errors->first('name') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group{{ $errors->has('email') ? ' is-invalid' : '' }}">
+
+                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
+                               placeholder="Почта">
+
+                        @if ($errors->has('email'))
+                            <span class="invalid-feedback">{{ $errors->first('email') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group{{ $errors->has('password') ? ' is-invalid' : '' }}">
+                        <input id="password" type="password" class="form-control"
+                               name="password" placeholder="Пароль">
+                        @if ($errors->has('password'))
+                            <span class="invalid-feedback">{{ $errors->first('password') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        <input id="password-confirm" type="password" class="form-control"
+                               name="password_confirmation" placeholder="Подтвердите пароль">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="w-100 btn btn-dark">Регистрация</button>
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control text-left custom-checkbox">
+                            <input v-model="privacy_policy" class="custom-control-input{{ $errors->has('privacy_policy') ? ' is-invalid' : '' }}" type="checkbox"
+                                   name="privacy_policy" id="privacy_policy">
+                            <label class="custom-control-label text-muted" for="privacy_policy">
+                                Я принимаю пользовательское <a href="#">соглашение</a> и <a href="#">политику</a>
+                                обработки персональных данных.
+                            </label>
+                            @if ($errors->has('privacy_policy'))
+                                <span class="invalid-feedback">{{ $errors->first('privacy_policy') }}</span>
+                            @endif
                         </div>
-
-                        <div class="required form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Почта</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="required form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Пароль</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group required">
-                            <label for="password-confirm" class="col-md-4 control-label">Подтвердите пароль</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button style="width: 160px" type="submit" class="btn lotus-button">
-                                    Регистрация
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
 @endsection

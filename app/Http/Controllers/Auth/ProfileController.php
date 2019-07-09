@@ -14,7 +14,7 @@ class ProfileController
         $user = Auth::user();
         $orders = Auth::user()->orders()->latest('created_at')->paginate(10);
         $orders->transform(function ($order, $key) {
-            $order->cart = unserialize($order->cart);
+            $order->cart = json_decode($order->cart);
             return $order;
         });
 

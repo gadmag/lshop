@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use http\Env\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 
 class LoginController extends Controller
@@ -31,6 +34,14 @@ class LoginController extends Controller
 //    protected $redirectTo = '/admin';
 
     /**
+     * @return Response
+     */
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -45,11 +56,29 @@ class LoginController extends Controller
         return 'email';
     }
 
+
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+    }
+
+    public function apiLogin(Request $request)
+    {
+        $this->validateLogin($request);
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+            return response()->json(['redirect' => $this->redirectTo()]);
+        }
+        return response()->json(['message' => 'Неверный e-mail и/или пароль.']);
+    }
+
     protected function redirectTo()
     {
         $user = Auth::user();
         $role = $user->roles->first();
-
         if ($role->name == 'Admin') {
             return '/admin';
         } elseif (Session::has('cart')) {

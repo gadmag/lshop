@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+
 
 class RegisterController extends Controller
 {
@@ -46,7 +48,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -55,35 +57,46 @@ class RegisterController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'privacy_policy' => 'accepted',
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return User
      */
     protected function create(array $data)
     {
-         $user = User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-        $role = Role::where('name','Registered')->first();
+        $role = Role::where('name', 'Registered')->first();
         $user->roles()->attach($role->id);
         Auth::login($user);
         return $user;
     }
 
+    public function apiRegister(Request $request)
+    {
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()]);
+        }
+
+        event(new Registered($user = $this->create($request->all())));
+        return response()->json(['redirect' => $this->redirectTo()]);
+    }
+
     public function redirectTo()
     {
-        if (Session::has('cart'))
-        {
-            return route('product.shoppingCart');
+        if (Session::has('cart')) {
+            return route('checkout');
         }
-        return route('product.index');
+        return route('user.profile');
     }
 
 }

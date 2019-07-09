@@ -56,6 +56,9 @@
         @include('partials.footer')
     </div>
 </div>
+
+@include('partials.modal_auth')
+
 <!-- JavaScripts -->
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/fancy.slide.js')}}"></script>

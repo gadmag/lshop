@@ -33,10 +33,11 @@
         @include('partials.footer')
 
     </div>
-{{--    @include('partials.preload')--}}
 </div>
-<!-- JavaScripts -->
 
+@include('partials.modal_auth')
+
+<!-- JavaScripts -->
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('/js/all.js') }}"></script>
 @stack('scripts')

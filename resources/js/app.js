@@ -25,7 +25,8 @@ Vue.component('shopping-cart', require('./components/ShoppingCart.vue'));
 Vue.component('checkout', require('./components/Checkout.vue'));
 Vue.component('wish-list', require('./components/WishList.vue'));
 Vue.component('wish-count', require('./components/WishListCount.vue'));
-Vue.component('filterable', require('./components/Filterable.vue'))
+Vue.component('filterable', require('./components/Filterable.vue'));
+Vue.component('AuthModal', require('./components/auth/AuthModal.vue'));
 
 const app = new Vue({
     el: '#app',

@@ -19,6 +19,12 @@ h1 {
   text-transform: uppercase;
   font-weight: 400;
 }
+.btn-link {
+  color: #052030;
+}
+.btn-link:hover {
+  color: #052030;
+}
 .title-head {
   position: relative;
 }
@@ -260,6 +266,9 @@ ul.nav-main > li > a:hover {
 }
 .nav-user .dropdown-menu {
   border-radius: 3px 3px 0 0;
+}
+.user-menu .btn-link {
+  text-decoration: none;
 }
 /*----------end main menu------------*/
 /*---------cart detail--------------*/
@@ -605,6 +614,70 @@ img.cboxPhoto {
   display: block;
 }
 /*-------end shopping-cart-------*/
+/*----- Auth ---------*/
+.modal-header .close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  padding: 0;
+  margin: 0;
+}
+#modal-auth .modal-dialog {
+  max-width: 450px;
+}
+#modal-auth .modal-header {
+  border: 0;
+}
+#modal-auth .email-body a {
+  text-decoration: underline;
+  color: #6c757d;
+}
+#modal-auth .email-body label {
+  color: #6c757d;
+}
+#modal-auth .auth-tab-link {
+  position: absolute;
+  left: 0;
+  top: 7px;
+  font-size: 24px;
+  color: #6c757d;
+}
+.socials-auth .social-item a {
+  color: #ffffff;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  font-size: 20px;
+  display: inline-block;
+  background: blue;
+}
+.socials-auth .social-item .icon-svg-facebook {
+  background: #4f69a2;
+}
+.socials-auth .social-item .icon-svg-twitter {
+  background: #1da1f2;
+}
+.socials-auth .social-item .icon-svg-vk {
+  background: #6b8caf;
+}
+.socials-auth .social-item .icon-svg-google {
+  background: #4285f4;
+}
+.socials-auth .social-item svg {
+  color: #ffffff;
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+}
+/*-------end auth-------*/
 /*-----------footer-----------*/
 footer {
   padding-top: 20px;
@@ -703,8 +776,8 @@ footer .social-wrapper .ico-social a i {
   .affix .nav-user {
     display: block;
     position: absolute;
-    right: 5px;
-    top: 13px;
+    right: 0;
+    top: 7px;
   }
   .nav-user {
     display: block;
