@@ -31,7 +31,7 @@ class ValidRecaptcha implements Rule
         ]);
         $response = $client->post('siteverify', [
             'query' => [
-                'secret' => env('GOOGLE_RECAPTCHA_SECRET'),
+                'secret' => config('payment.recaptcha_secret'),
                 'response' => $value
             ]
         ]);
@@ -45,6 +45,6 @@ class ValidRecaptcha implements Rule
      */
     public function message()
     {
-        return 'The validation recaptcha invalid.';
+        return 'Валидация недействительна';
     }
 }

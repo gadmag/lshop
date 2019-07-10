@@ -43,6 +43,7 @@ return [
         'min_sum' => 1000,
         'free_shipping' => 10000
     ],
-//    'send_mail' => 'gadjim4@gmail.com'
-    'send_mail' => env('ADMIN_MAIL','')
+    'send_mail' => env('ADMIN_MAIL',''),
+    'recaptcha_key' => env('GOOGLE_RECAPTCHA_KEY',''),
+    'recaptcha_secret' => env('GOOGLE_RECAPTCHA_SECRET','')
 ];

@@ -27,6 +27,7 @@
     "now-ui-kit": "^1.1.0",
     "nprogress": "^0.2.0",
     "shards-ui": "^2.1.2",
+    "vue-recaptcha": "^1.2.0",
     "vue-slider-component": "^2.8.16"
   }
 }

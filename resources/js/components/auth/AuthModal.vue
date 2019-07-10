@@ -12,7 +12,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <keep-alive>
-                        <component v-bind:is="authComponent"></component>
+                        <component :recaptcha-key="recaptchaKey" v-bind:is="authComponent"></component>
                     </keep-alive>
 
                 </div>
@@ -29,6 +29,7 @@
     import RegisterForm from '../auth/RegisterForm';
 
     export default {
+        props: ['recaptchaKey'],
         data: function () {
             return {
                 authComponent: 'login-form',

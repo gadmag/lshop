@@ -13,6 +13,8 @@
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
     <link href="{{asset('/css/fancy.slide.css')}}" rel="stylesheet">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body id="app-layout">
 <div id="app">

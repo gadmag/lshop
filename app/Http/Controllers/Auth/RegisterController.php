@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
+use App\Rules\ValidRecaptcha;
 
 
 class RegisterController extends Controller
@@ -58,6 +59,7 @@ class RegisterController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
             'privacy_policy' => 'accepted',
+            'g-recaptcha-response' => ['required', new ValidRecaptcha]
         ]);
     }
 
@@ -79,6 +81,21 @@ class RegisterController extends Controller
         Auth::login($user);
         return $user;
     }
+
+
+    public function register(Request $request)
+    {
+
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
+
 
     public function apiRegister(Request $request)
     {

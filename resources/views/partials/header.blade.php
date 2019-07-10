@@ -16,7 +16,7 @@
                 <div class="col-4 col-xs-6 col-sm-4">
                     <div class="auth-link text-right">
                         @guest
-                            <auth-modal></auth-modal>
+                            <auth-modal recaptcha-key="{{config('payment.recaptcha_key')}}"></auth-modal>
                         @endguest
                         @auth
                             <div class="dropdown user-menu">

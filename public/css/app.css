@@ -616,6 +616,7 @@ img.cboxPhoto {
 /*-------end shopping-cart-------*/
 /*----- Auth ---------*/
 .modal-header .close {
+  z-index: 40;
   position: absolute;
   top: 0.5rem;
   right: 0.75rem;

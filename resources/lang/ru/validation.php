@@ -147,6 +147,7 @@ return [
         'password' => "Пароль",
         'email' => "Почта",
         'code' => "Код",
+        'g-recaptcha-response' => 'Капча',
         'privacy_policy' => 'политику конфиденциальности',
         'productDiscount.price' => 'Скидки цена',
         'productDiscount.quantity' => 'Скидки: количество',

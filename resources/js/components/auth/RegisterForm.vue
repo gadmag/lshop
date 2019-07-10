@@ -49,7 +49,12 @@
                             </span>
                         </div>
 
-
+                        <div class="form-group" :class="{'is-invalid': errors && errors['g-recaptcha-response']}">
+                            <vue-recaptcha :sitekey="recaptchaKey" @verify="register"></vue-recaptcha>
+                            <span v-if="errors && errors['g-recaptcha-response']" class="invalid-feedback" role="alert">
+                                {{errors['g-recaptcha-response'][0]}}
+                            </span>
+                        </div>
                         <div class="form-group">
                             <div class="text-center text-danger py-2" id="message" role="alert">{{message}}</div>
                             <button type="submit" @click.stop.prevent="fetchRegister" class="w-100 btn btn-dark">
@@ -78,10 +83,12 @@
         </div>
     </div>
 </template>
-
 <script>
+    import VueRecaptcha from 'vue-recaptcha';
+
     export default {
         name: "RegisterForm.vue",
+        props: ['recaptchaKey'],
         data: function () {
             return {
                 actionRegister: '/api/user/register',
@@ -91,8 +98,13 @@
                 email: null,
                 password: null,
                 password_confirmation: null,
+                recaptchaToken: false,
                 privacy_policy: false,
             }
+        },
+
+        components: {
+            'vue-recaptcha': VueRecaptcha
         },
 
         mounted() {
@@ -104,6 +116,9 @@
                 bus.$emit('select-component', 'login-form');
             },
 
+            register(recaptchaToken){
+                this.recaptchaToken = recaptchaToken;
+            },
             fetchRegister() {
                 axios.post(this.actionRegister, {
                     name: this.name,
@@ -111,6 +126,7 @@
                     password: this.password,
                     password_confirmation: this.password_confirmation,
                     privacy_policy: this.privacy_policy,
+                    'g-recaptcha-response': this.recaptchaToken,
                 })
                     .then(function (response) {
                         this.errors = null;

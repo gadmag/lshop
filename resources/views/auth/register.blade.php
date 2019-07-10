@@ -37,11 +37,18 @@
                         @endif
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' is-invalid' : '' }}">
                         <input id="password-confirm" type="password" class="form-control"
                                name="password_confirmation" placeholder="Подтвердите пароль">
                     </div>
 
+
+                    <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' is-invalid' : '' }}">
+                        <div class="g-recaptcha" data-sitekey="{{config('payment.recaptcha_key')}}"></div>
+                        @if ($errors->has('g-recaptcha-response'))
+                            <span class="invalid-feedback">{{ $errors->first('g-recaptcha-response') }}</span>
+                        @endif
+                    </div>
                     <div class="form-group">
                         <button type="submit" class="w-100 btn btn-dark">Регистрация</button>
                     </div>
