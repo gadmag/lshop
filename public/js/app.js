@@ -41258,7 +41258,10 @@ var render = function() {
                 },
                 [
                   _c("vue-recaptcha", {
-                    attrs: { sitekey: _vm.recaptchaKey },
+                    attrs: {
+                      sitekey: _vm.recaptchaKey,
+                      loadRecaptchaScript: true
+                    },
                     on: { verify: _vm.register }
                   }),
                   _vm._v(" "),

@@ -41,7 +41,9 @@
                         <input id="password-confirm" type="password" class="form-control"
                                name="password_confirmation" placeholder="Подтвердите пароль">
                     </div>
-
+                    @push('recaptcha_script')
+                        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                    @endpush
 
                     <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' is-invalid' : '' }}">
                         <div class="g-recaptcha" data-sitekey="{{config('payment.recaptcha_key')}}"></div>
@@ -54,7 +56,9 @@
                     </div>
                     <div class="form-group">
                         <div class="custom-control text-left custom-checkbox">
-                            <input v-model="privacy_policy" class="custom-control-input{{ $errors->has('privacy_policy') ? ' is-invalid' : '' }}" type="checkbox"
+                            <input v-model="privacy_policy"
+                                   class="custom-control-input{{ $errors->has('privacy_policy') ? ' is-invalid' : '' }}"
+                                   type="checkbox"
                                    name="privacy_policy" id="privacy_policy">
                             <label class="custom-control-label text-muted" for="privacy_policy">
                                 Я принимаю пользовательское <a href="#">соглашение</a> и <a href="#">политику</a>

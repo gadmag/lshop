@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="form-group" :class="{'is-invalid': errors && errors['g-recaptcha-response']}">
-                            <vue-recaptcha :sitekey="recaptchaKey" @verify="register"></vue-recaptcha>
+                            <vue-recaptcha :sitekey="recaptchaKey" @verify="register" :loadRecaptchaScript="true"></vue-recaptcha>
                             <span v-if="errors && errors['g-recaptcha-response']" class="invalid-feedback" role="alert">
                                 {{errors['g-recaptcha-response'][0]}}
                             </span>

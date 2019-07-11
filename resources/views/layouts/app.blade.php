@@ -21,7 +21,7 @@
     @stack('style')
 
     <!-- Scripts -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    @stack('recaptcha_script')
 </head>
 <body id="app-layout">
 <div id="app">
