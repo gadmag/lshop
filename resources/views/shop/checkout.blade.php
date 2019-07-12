@@ -23,8 +23,15 @@
                         </ul>
                     </div>
                 @endif
-                <checkout :total="{{$total}}" :countries="{{$countries}}" :coupons="{{$coupons}}"
-                          :payment-config="{{$payment_config}}" route="{{route('checkoutPost')}}"></checkout>
+                <checkout :total="{{$total}}"
+                          :countries="{{$countries}}"
+                          :coupons="{{$coupons}}"
+                          @if($lastOrder)
+                          :last-order="{{$lastOrder}}"
+                          @endif
+                          :payment-config="{{$payment_config}}"
+                          route="{{route('checkoutPost')}}">
+                </checkout>
 
             </div>
         </div>

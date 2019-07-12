@@ -2152,9 +2152,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -2163,11 +2160,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         FormWizard: __WEBPACK_IMPORTED_MODULE_0_vue_form_wizard__["FormWizard"],
         TabContent: __WEBPACK_IMPORTED_MODULE_0_vue_form_wizard__["TabContent"]
     },
-    props: ['total', 'countries', 'coupons', 'route', 'cart', 'paymentConfig'],
+    props: ['total', 'countries', 'coupons', 'lastOrder', 'route', 'cart', 'paymentConfig'],
 
     mounted: function mounted() {
         console.log('Component checkout mounted.');
     },
+
 
     data: function data() {
         return {
@@ -2192,6 +2190,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         };
     },
+
+    created: function created() {
+        console.log(this.lastOrder);
+        if (this.lastOrder) {
+            this.first_name = this.lastOrder.first_name;
+            this.last_name = this.lastOrder.last_name;
+            this.email = this.lastOrder.email;
+            this.telephone = this.lastOrder.telephone;
+            this.company = this.lastOrder.company;
+            this.address = this.lastOrder.address;
+            this.postcode = this.lastOrder.postcode;
+            this.city = this.lastOrder.city;
+        }
+    },
+
+
     methods: {
         text: function text() {
             console.log('text');
@@ -41896,10 +41910,6 @@ var render = function() {
                       _c("legend", [_vm._v("Личные данные")]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group required" }, [
-                        _c("label", { attrs: { for: "first_name" } }, [
-                          _vm._v("Имя")
-                        ]),
-                        _vm._v(" "),
                         _vm.text === "checkbox"
                           ? _c("input", {
                               directives: [
@@ -41916,6 +41926,7 @@ var render = function() {
                               },
                               attrs: {
                                 id: "first_name",
+                                placeholder: "Имя",
                                 name: "first_name",
                                 type: "checkbox"
                               },
@@ -41963,6 +41974,7 @@ var render = function() {
                               },
                               attrs: {
                                 id: "first_name",
+                                placeholder: "Имя",
                                 name: "first_name",
                                 type: "radio"
                               },
@@ -41990,6 +42002,7 @@ var render = function() {
                               },
                               attrs: {
                                 id: "first_name",
+                                placeholder: "Имя",
                                 name: "first_name",
                                 type: _vm.text
                               },
@@ -42010,10 +42023,6 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group required" }, [
-                        _c("label", { attrs: { for: "last_name" } }, [
-                          _vm._v("Фамилия")
-                        ]),
-                        _vm._v(" "),
                         _vm.text === "checkbox"
                           ? _c("input", {
                               directives: [
@@ -42028,6 +42037,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.last_name },
                               attrs: {
                                 id: "last_name",
+                                placeholder: "Фамилия",
                                 name: "last_name",
                                 type: "checkbox"
                               },
@@ -42073,6 +42083,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.last_name },
                               attrs: {
                                 id: "last_name",
+                                placeholder: "Фамилия",
                                 name: "last_name",
                                 type: "radio"
                               },
@@ -42098,6 +42109,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.last_name },
                               attrs: {
                                 id: "last_name",
+                                placeholder: "Фамилия",
                                 name: "last_name",
                                 type: _vm.text
                               },
@@ -42118,10 +42130,6 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group required" }, [
-                        _c("label", { attrs: { for: "email" } }, [
-                          _vm._v("E-mail")
-                        ]),
-                        _vm._v(" "),
                         _vm.text === "checkbox"
                           ? _c("input", {
                               directives: [
@@ -42136,6 +42144,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.email },
                               attrs: {
                                 id: "email",
+                                placeholder: "E-mail",
                                 name: "email",
                                 type: "checkbox"
                               },
@@ -42180,6 +42189,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.email },
                               attrs: {
                                 id: "email",
+                                placeholder: "E-mail",
                                 name: "email",
                                 type: "radio"
                               },
@@ -42203,6 +42213,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.email },
                               attrs: {
                                 id: "email",
+                                placeholder: "E-mail",
                                 name: "email",
                                 type: _vm.text
                               },
@@ -42223,10 +42234,6 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group required" }, [
-                        _c("label", { attrs: { for: "telephone" } }, [
-                          _vm._v("Телефон")
-                        ]),
-                        _vm._v(" "),
                         _vm.text === "checkbox"
                           ? _c("input", {
                               directives: [
@@ -42241,6 +42248,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.telephone },
                               attrs: {
                                 id: "telephone",
+                                placeholder: "Телефон",
                                 name: "telephone",
                                 type: "checkbox"
                               },
@@ -42286,6 +42294,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.telephone },
                               attrs: {
                                 id: "telephone",
+                                placeholder: "Телефон",
                                 name: "telephone",
                                 type: "radio"
                               },
@@ -42311,6 +42320,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.telephone },
                               attrs: {
                                 id: "telephone",
+                                placeholder: "Телефон",
                                 name: "telephone",
                                 type: _vm.text
                               },
@@ -42328,19 +42338,9 @@ var render = function() {
                         _c("div", { staticClass: "invalid-feedback" }, [
                           _vm._v(_vm._s(_vm.error_list.telephone))
                         ])
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-6" }, [
-                    _c("fieldset", [
-                      _c("legend", [_vm._v("Адрес")]),
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "company" } }, [
-                          _vm._v("Компания")
-                        ]),
-                        _vm._v(" "),
                         _vm.text === "checkbox"
                           ? _c("input", {
                               directives: [
@@ -42355,6 +42355,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.company },
                               attrs: {
                                 id: "company",
+                                placeholder: "Компания",
                                 name: "company",
                                 type: "checkbox"
                               },
@@ -42400,6 +42401,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.company },
                               attrs: {
                                 id: "company",
+                                placeholder: "Компания",
                                 name: "company",
                                 type: "radio"
                               },
@@ -42423,6 +42425,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.company },
                               attrs: {
                                 id: "company",
+                                placeholder: "Компания",
                                 name: "company",
                                 type: _vm.text
                               },
@@ -42440,13 +42443,15 @@ var render = function() {
                         _c("div", { staticClass: "invalid-feedback" }, [
                           _vm._v(_vm._s(_vm.error_list.company))
                         ])
-                      ]),
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-6" }, [
+                    _c("fieldset", [
+                      _c("legend", [_vm._v("Адрес")]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group required" }, [
-                        _c("label", { attrs: { for: "address" } }, [
-                          _vm._v("Адрес")
-                        ]),
-                        _vm._v(" "),
                         _vm.text === "checkbox"
                           ? _c("input", {
                               directives: [
@@ -42461,6 +42466,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.address },
                               attrs: {
                                 id: "address",
+                                placeholder: "Адрес",
                                 name: "address",
                                 type: "checkbox"
                               },
@@ -42506,6 +42512,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.address },
                               attrs: {
                                 id: "address",
+                                placeholder: "Адрес",
                                 name: "address",
                                 type: "radio"
                               },
@@ -42529,6 +42536,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.address },
                               attrs: {
                                 id: "address",
+                                placeholder: "Адрес",
                                 name: "address",
                                 type: _vm.text
                               },
@@ -42549,10 +42557,6 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "postcode" } }, [
-                          _vm._v("Индекс")
-                        ]),
-                        _vm._v(" "),
                         _vm.text === "checkbox"
                           ? _c("input", {
                               directives: [
@@ -42567,6 +42571,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.postcode },
                               attrs: {
                                 id: "postcode",
+                                placeholder: "Индекс",
                                 name: "postcode",
                                 type: "checkbox"
                               },
@@ -42612,6 +42617,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.postcode },
                               attrs: {
                                 id: "postcode",
+                                placeholder: "Индекс",
                                 name: "postcode",
                                 type: "radio"
                               },
@@ -42635,6 +42641,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.postcode },
                               attrs: {
                                 id: "postcode",
+                                placeholder: "Индекс",
                                 name: "postcode",
                                 type: _vm.text
                               },
@@ -42655,10 +42662,6 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group required" }, [
-                        _c("label", { attrs: { for: "city" } }, [
-                          _vm._v("Город")
-                        ]),
-                        _vm._v(" "),
                         _vm.text === "checkbox"
                           ? _c("input", {
                               directives: [
@@ -42673,6 +42676,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.city },
                               attrs: {
                                 id: "city",
+                                placeholder: "Город",
                                 name: "city",
                                 type: "checkbox"
                               },
@@ -42717,6 +42721,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.city },
                               attrs: {
                                 id: "city",
+                                placeholder: "Город",
                                 name: "city",
                                 type: "radio"
                               },
@@ -42740,6 +42745,7 @@ var render = function() {
                               class: { "is-invalid": _vm.error_list.city },
                               attrs: {
                                 id: "city",
+                                placeholder: "Город",
                                 name: "city",
                                 type: _vm.text
                               },
@@ -42760,10 +42766,6 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group required" }, [
-                        _c("label", { attrs: { for: "country" } }, [
-                          _vm._v("Страна")
-                        ]),
-                        _vm._v(" "),
                         _c(
                           "select",
                           {
@@ -42798,7 +42800,7 @@ var render = function() {
                             _c(
                               "option",
                               { domProps: { selected: null, value: null } },
-                              [_vm._v("Выбрать")]
+                              [_vm._v("Выбрать страну")]
                             ),
                             _vm._v(" "),
                             _vm._l(_vm.countries, function(item) {
@@ -42819,10 +42821,6 @@ var render = function() {
                       _vm._v(" "),
                       _vm.country
                         ? _c("div", { staticClass: "form-group" }, [
-                            _c("label", { attrs: { for: "region" } }, [
-                              _vm._v("Регион/Область")
-                            ]),
-                            _vm._v(" "),
                             _c(
                               "select",
                               {
@@ -42858,7 +42856,7 @@ var render = function() {
                                 _c(
                                   "option",
                                   { domProps: { selected: null, value: null } },
-                                  [_vm._v("Выбрать")]
+                                  [_vm._v("Выбрать регион")]
                                 ),
                                 _vm._v(" "),
                                 _vm._l(

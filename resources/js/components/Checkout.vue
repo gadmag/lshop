@@ -23,9 +23,8 @@
                                 <legend>Личные данные</legend>
 
                                 <div class="form-group required">
-
-                                    <label for="first_name">Имя</label>
-                                    <input :type="text" id="first_name" name="first_name" v-model="first_name"
+                                    <input :type="text" id="first_name" placeholder="Имя" name="first_name"
+                                           v-model="first_name"
                                            class="form-control" :class="{'is-invalid': error_list.first_name}">
                                     <div class="invalid-feedback">{{ error_list.first_name }}</div>
 
@@ -33,70 +32,67 @@
 
 
                                 <div class="form-group required">
-                                    <label for="last_name">Фамилия</label>
-                                    <input :type="text" id="last_name" name="last_name" v-model="last_name"
+                                    <input :type="text" id="last_name" placeholder="Фамилия" name="last_name"
+                                           v-model="last_name"
                                            class="form-control" :class="{'is-invalid': error_list.last_name }">
                                     <div class="invalid-feedback">{{error_list.last_name}}</div>
                                 </div>
 
                                 <div class="form-group required">
-                                    <label for="email">E-mail</label>
-                                    <input :type="text" id="email" name="email" v-model="email"
+                                    <input :type="text" id="email" placeholder="E-mail" name="email" v-model="email"
                                            class="form-control" :class="{'is-invalid': error_list.email}">
                                     <div class="invalid-feedback">{{ error_list.email }}</div>
                                 </div>
 
                                 <div class="form-group required">
-                                    <label for="telephone">Телефон</label>
-                                    <input :type="text" id="telephone" name="telephone" v-model="telephone"
+                                    <input :type="text" id="telephone" placeholder="Телефон" name="telephone"
+                                           v-model="telephone"
                                            class="form-control" :class="{'is-invalid': error_list.telephone }">
                                     <div class="invalid-feedback">{{ error_list.telephone}}</div>
+                                </div>
+                                <div class="form-group">
+                                    <!--                                    <label for="company">Компания</label>-->
+                                    <input :type="text" id="company" placeholder="Компания" name="company"
+                                           v-model="company"
+                                           class="form-control" :class="{'is-invalid': error_list.company }">
+                                    <div class="invalid-feedback">{{ error_list.company}}</div>
                                 </div>
                             </fieldset>
                         </div>
                         <div class="col-sm-6">
                             <fieldset>
                                 <legend>Адрес</legend>
-                                <div class="form-group" >
-                                    <label for="company">Компания</label>
-                                    <input :type="text" id="company" name="company" v-model="company"
-                                           class="form-control" :class="{'is-invalid': error_list.company }">
-                                    <div class="invalid-feedback">{{ error_list.company}}</div>
-                                </div>
                                 <div class="form-group required">
-                                    <label for="address">Адрес</label>
-                                    <input :type="text" id="address" name="address" class="form-control"
+                                    <input :type="text" id="address" placeholder="Адрес" name="address"
+                                           class="form-control"
                                            v-model="address" :class="{'is-invalid': error_list.address }">
                                     <div class="invalid-feedback">{{ error_list.address }}</div>
                                 </div>
-                                <div class="form-group" >
-                                    <label for="postcode">Индекс</label>
-                                    <input :type="text" id="postcode" name="postcode" v-model="postcode"
+                                <div class="form-group">
+                                    <input :type="text" id="postcode" placeholder="Индекс" name="postcode"
+                                           v-model="postcode"
                                            class="form-control" :class="{'is-invalid': error_list.postcode }">
                                     <div class="invalid-feedback">{{ error_list.postcode }}</div>
                                 </div>
                                 <div class="form-group required">
-                                    <label for="city">Город</label>
-                                    <input :type="text" id="city" name="city" v-model="city"
+                                    <input :type="text" id="city" placeholder="Город" name="city" v-model="city"
                                            class="form-control" :class="{'is-invalid': error_list.city }">
                                     <div class="invalid-feedback">{{ error_list.city }}</div>
                                 </div>
 
-                                <div class="form-group required" >
-                                    <label for="country">Страна</label>
+                                <div class="form-group required">
                                     <select name="country" id="country" v-model="country"
                                             class="form-control" :class="{'is-invalid': error_list.country }">
-                                        <option :selected="null" v-bind:value="null">Выбрать</option>
+                                        <option :selected="null" v-bind:value="null">Выбрать страну</option>
                                         <option v-for="item in countries" v-bind:value="item.id">{{item.name}}</option>
                                     </select>
                                     <div class="invalid-feedback">{{ error_list.country }}</div>
 
                                 </div>
                                 <div v-if="country" class="form-group">
-                                    <label for="region">Регион/Область</label>
                                     <select name="region" v-model="region" id="region"
                                             class="form-control" :class="{'is-invalid': error_list.region }">
-                                        <option :selected="null" v-bind:value="null">Выбрать</option>
+                                        <option :selected="null" v-bind:value="null">Выбрать регион</option>
                                         <option v-for="region in countries[country].regions" :value="region.id">
                                             {{region.name}}
                                         </option>
@@ -183,8 +179,8 @@
                                     </div>
                                     <div class="custom-control custom-radio">
 
-                                            <input id="pickup" v-model="shipment" type="radio" value="pickup"
-                                                   name="shipment" class="custom-control-input">
+                                        <input id="pickup" v-model="shipment" type="radio" value="pickup"
+                                               name="shipment" class="custom-control-input">
                                         <label for="pickup" class="custom-control-label">
                                             <span class="img-shipp"><img src="/img/pickup.png" alt="Самовывоз"></span>
                                             Самовывоз
@@ -205,7 +201,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="comment">Комментарий</label>
-                                <textarea class="form-control" :class="{'is-invalid': error_list.comment }" rows="5" name="comment" id="comment"
+                                <textarea class="form-control" :class="{'is-invalid': error_list.comment }" rows="5"
+                                          name="comment" id="comment"
                                           v-model="comment"></textarea>
                                 <div class="invalid-feedback">{{ error_list.comment}}</div>
                             </div>
@@ -275,12 +272,13 @@
             FormWizard,
             TabContent
         },
-        props: ['total', 'countries', 'coupons', 'route', 'cart', 'paymentConfig'],
+        props: ['total', 'countries', 'coupons', 'lastOrder', 'route', 'cart', 'paymentConfig'],
 
         mounted() {
             console.log('Component checkout mounted.');
 
         },
+
         data: function () {
             return {
                 first_name: null,
@@ -305,6 +303,21 @@
             }
 
         },
+
+        created() {
+            console.log(this.lastOrder);
+            if (this.lastOrder) {
+                this.first_name = this.lastOrder.first_name;
+                this.last_name = this.lastOrder.last_name;
+                this.email = this.lastOrder.email;
+                this.telephone = this.lastOrder.telephone;
+                this.company = this.lastOrder.company;
+                this.address = this.lastOrder.address;
+                this.postcode = this.lastOrder.postcode;
+                this.city = this.lastOrder.city;
+            }
+        },
+
         methods: {
             text: function () {
                 console.log('text');
