@@ -14,22 +14,34 @@ class FieldOptionController extends Controller
         'type' => 'required',
     ];
 
-    public function index()
-    {
+    protected $options = [
+        'coating' => 'Цвет покрытия',
+        'stone' => 'Цвет камня',
+        'material' => 'Материал',
+    ];
 
-        $fieldOptions = FieldOption::orderBy('type')->latest('created_at')->paginate(12);
+    public function index(Request $request)
+    {
+        $type = $request->get('type')?:'coating';
+        $fieldOptions = FieldOption::whereType($type)->latest('created_at')->paginate(12);
 
         return view('AdminLTE.fieldOption.index')->with([
             'fieldOptions' => $fieldOptions,
+            'type' => $type,
+            'options' => $this->options,
         ]);
     }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('AdminLTE.fieldOption.create');
+        $type = $request->get('type')?:'coating';
+        return view('AdminLTE.fieldOption.create',[
+            'type' => $type,
+            'title' => $this->options[$type]
+        ]);
     }
 
     /**
@@ -52,11 +64,12 @@ class FieldOptionController extends Controller
      * @param FieldOption $fieldOption
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(FieldOption $fieldOption)
+    public function edit(Request $request, FieldOption $fieldOption)
     {
-
+        $type = $request->get('type')?:'coating';
         return view('AdminLTE.fieldOption.edit', [
             'fieldOption' => $fieldOption,
+            'type' => $type,
 
         ]);
     }
@@ -72,7 +85,7 @@ class FieldOptionController extends Controller
         $fieldOption->update($request->all());
 
         return redirect("admin/fieldOptions")->with([
-            'flash_message'   =>   "Параметр обновлен",
+            'flash_message'   =>   "Параметр опции обновлен",
         ]);
     }
 
@@ -87,7 +100,7 @@ class FieldOptionController extends Controller
         $title = $fieldOption->name;
         $fieldOption->delete();
         return redirect("admin/fieldOptions")->with([
-            'flash_message'   =>   "Блок {$title} удален",
+            'flash_message'   =>   "Параметр опции {$title} удален",
         ]);
     }
 
