@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Block extends Model
 {
-    protected $fillable = ['title','region','body','weight'];
+    protected $fillable = ['title','region','body','weight', 'css_class','status'];
 
     public function scopePublished($query)
     {
@@ -15,6 +15,6 @@ class Block extends Model
 
     public function scopeWeight($query)
     {
-        $query->orderBy('weight','DESC');
+        $query->orderBy('weight','desc');
     }
 }

@@ -1,19 +1,18 @@
 
 <div class="row">
-    {{--    {!! dd($article->alias) !!}--}}
     <div class="col-md-8 page-default">
-        {{--        {!! dd($article->files) !!}--}}
         <div class="form-group">
             {!! Form::label('title', 'Заголовок:') !!}
             {!! Form::text('title', null, ['class' => 'form-control']) !!}
         </div>
+        <div class="form-group">
+            {!! Form::label('css_class', 'Добавить класс:') !!}
+            {!! Form::text('css_class', null, ['class' => 'form-control']) !!}
+        </div>
 
         <div class="form-group">
             {!! Form::label('region', 'Регион') !!}
-            {!! Form::select('region',[
-            'right_top' => 'Правый верхний блок',
-            'right_bottom' => 'Правый нижний блок'
-            ], null, ['class' => 'form-control', 'placeholder' => 'Выбрать регион']) !!}
+            {!! Form::select('region',$regions, null, ['class' => 'form-control', 'placeholder' => 'Выбрать регион']) !!}
         </div>
 
         <div class="form-group">

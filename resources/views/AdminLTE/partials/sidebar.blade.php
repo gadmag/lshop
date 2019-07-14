@@ -36,6 +36,9 @@
             </li>
             <li class="header"><strong>Контент</strong></li>
             <li><a href="{{url('admin/menus?menu_type=main_menu')}}"><i class="fa fa-list-ul"></i>Главное меню</a></li>
+            <li>
+                <a href="{{url('admin/blocks')}}"><i class="fa fa-th"></i> <span>Блоки</span></a>
+            </li>
             <li class="treeview">
                 <a href="{{url('admin/pages')}}"><i class="fa fa-clone"></i> <span>Страницы</span></a>
             </li>
@@ -69,9 +72,6 @@
                     </li>
                 </ul>
             </li>
-            {{--<li>--}}
-            {{--<a href="{{url('admin/blocks')}}"><i class="fa fa-th"></i> <span>Блоки</span></a>--}}
-            {{--</li>--}}
             <li class="header"><strong>Пользователи</strong></li>
             <li><a href="{{url('admin/users')}}"><i class="fa fa-user"></i> <span>Пользователи</span></a></li>
             {{--<li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>--}}

@@ -1,11 +1,4 @@
 <div class="">
-    <h1>Блоки</h1>
-    <div class="panel-heading">
-        <a href="{{route('blocks.create')}}" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            Добавить блок
-        </a>
-    </div>
     @if (count($blocks) > 0)
         <div class="panel panel-default">
 

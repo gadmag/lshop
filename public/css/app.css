@@ -73,20 +73,23 @@ header .header-top {
   border-bottom: 1px solid #eeeeee;
   padding: 0.3rem 0;
 }
-header .header-top .social-top a i {
+header .header-top .block-social-top {
+  padding: 0;
+  margin: 0;
+}
+header .header-top .block-social-top a i {
   font-size: 18px;
 }
-header .header-top .social-top div {
+header .header-top .block-social-top div.item-link {
   display: inline-block;
   margin: 0.4rem 0.25rem 0.1rem 0.25rem;
   line-height: 1.6;
 }
-header .header-top .social-top div.mail {
+header .header-top .block-social-top div.mail {
+  display: inline-block;
   padding-left: 0.25rem;
   margin-top: 0.3rem;
   border-left: 1px solid #e2e2e2;
-}
-header .header-top .social-top div.mail {
   font-size: 14px;
 }
 header .header-bottom {
@@ -710,7 +713,7 @@ footer .footer-content .nav li a {
   display: inline;
   color: #6a6a6a;
 }
-footer .social-wrapper {
+footer .social {
   margin-top: 50px;
   border-top: 1px solid #6a6a6a;
   padding: 19px 0 30px;
@@ -718,7 +721,7 @@ footer .social-wrapper {
   text-align: center;
   width: 100%;
 }
-footer .social-wrapper h2 {
+footer .social h2 {
   background-color: #ffffff;
   color: #6a6a6a;
   display: inline-block;
@@ -732,7 +735,7 @@ footer .social-wrapper h2 {
   transform: translateX(-50%);
   word-spacing: 3px;
 }
-footer .social-wrapper .ico-social {
+footer .social .ico-social {
   color: #ffffff;
   width: 33px;
   height: 33px;
@@ -743,7 +746,7 @@ footer .social-wrapper .ico-social {
   text-align: center;
   padding: 0;
 }
-footer .social-wrapper .ico-social a i {
+footer .social .ico-social a i {
   color: #ffffff;
   font-size: 18px;
 }

@@ -11,11 +11,17 @@ class BlockController extends Controller
 {
 
 
-   private $rules = [
-                    'title' => 'required|min:3',
-                   'region' => 'required',
-                   'body' => 'required|min:3',
-                    ];
+    private $rules = [
+        'title' => 'required|min:3',
+        'region' => 'required',
+        'body' => 'required|min:3',
+    ];
+    protected $regions = [
+        'top_head' => 'Левый верхний блок',
+        'footer' => 'Футер',
+        'footer_bottom' => 'Нижний футер',
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -42,13 +48,15 @@ class BlockController extends Controller
 
         }
 
-        return view('AdminLTE.block.create');
+        return view('AdminLTE.block.create', [
+            'regions' => $this->regions
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -57,8 +65,8 @@ class BlockController extends Controller
         $block = new Block();
         $block->create($request->all());
 
-        return  redirect("admin/blocks/")->with([
-            'flash_message'               =>   "Блок добавлен",
+        return redirect("admin/blocks/")->with([
+            'flash_message' => "Блок добавлен",
 //          'flash_message_important'     => true
         ]);
     }
@@ -66,7 +74,7 @@ class BlockController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -77,7 +85,7 @@ class BlockController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -88,15 +96,15 @@ class BlockController extends Controller
         }
         return view('AdminLTE.block.edit', [
             'block' => $block,
-
+            'regions' => $this->regions
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -106,7 +114,7 @@ class BlockController extends Controller
         $block = Block::find($id);
         $block->update($request->all());
         return redirect("admin/blocks")->with([
-            'flash_message'               =>   "Блок обновлен",
+            'flash_message' => "Блок {$block->title} обновлен",
 //          'flash_message_important'     => true
         ]);
     }
@@ -114,7 +122,7 @@ class BlockController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -124,7 +132,7 @@ class BlockController extends Controller
         $blockTitle = $block->title;
         $block->delete();
         return redirect("admin/blocks")->with([
-            'flash_message'               =>   "Блок {$blockTitle} удален",
+            'flash_message' => "Блок {$blockTitle} удален",
 //          'flash_message_important'     => true
         ]);
     }

@@ -44,5 +44,8 @@ CKEDITOR.editorConfig = function( config ) {
     config.extraPlugins = 'justify';
     config.allowedContent = true;
     config.extraAllowedContent = '*[id](*)';
+    config.extraAllowedContent = 'span(*)';
     // config.extraPlugins = 'myBtn';
 };
+CKEDITOR.dtd.$removeEmpty.span = false;
+CKEDITOR.dtd.$removeEmpty.i = false;

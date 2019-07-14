@@ -3,15 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-8 col-xs-6 col-sm-8">
-                    <div class="justify-content-first social-top">
-                        <div class=""><a href="#"><i class="fab fa-facebook"></i></a></div>
-                        <div class=""><a href="#"><i class="fab fa-twitter"></i></a></div>
-                        <div class=""><a href="#"><i class="fab fa-youtube"></i></a></div>
-                        <div class=""><a target="_blank" href="http://instagram.com/Lotus_furnitura"><i
-                                        class="fab fa-instagram"></i></a></div>
-                        <div class="mail "><a href="mailto:lotus_furnitura@mail.ru"><i class="fal fa-enveloper"></i>
-                                lotus_furnitura@mail.ru</a></div>
-                    </div>
+                    @include('block.top_head')
                 </div>
                 <div class="col-4 col-xs-6 col-sm-4">
                     <div class="auth-link text-right">
@@ -20,7 +12,9 @@
                         @endguest
                         @auth
                             <div class="dropdown user-menu">
-                                <button class="btn btn-link text-muted  dropdown-toggle" type="button" id="dropdownUserMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-link text-muted  dropdown-toggle" type="button"
+                                        id="dropdownUserMenu" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
                                     <i class="fas fa-user"></i>
                                     {{Auth::user()->name}}
                                 </button>
