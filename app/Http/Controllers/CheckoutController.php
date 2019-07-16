@@ -14,6 +14,7 @@ use App\Product;
 use App\Order;
 use App\Country;
 use App\Region;
+use App\OrderStatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Response;
@@ -62,7 +63,7 @@ class CheckoutController extends Controller
         if (!Session::has('cart')) {
             return view('shop.shopping-cart');
         }
-
+        $orderStatus = OrderStatus::default()->first();
         $oldCart = session('cart');
         $cart = new Cart($oldCart);
         $order = new Order();
@@ -112,6 +113,7 @@ class CheckoutController extends Controller
         }
         $order->cart = json_encode($cart);
         Auth::user()->orders()->save($order);
+        $orderStatus->orders()->save($order);
         event(new OrderCheckoutEvent($order));
         Session::forget('cart');
         return redirect()->route('product.index')

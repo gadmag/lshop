@@ -95,6 +95,19 @@
             </div><!-- /.box-body -->
         </div><!-- /.box -->
 
+        <div class="box box-default ">
+            <div class="box-header with-border">
+                <h3 class="box-title">Статус заказа</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="form-group">
+                    {!! Form::label('order_status_id', 'Статус заказа') !!}
+                    {!! Form::select('order_status_id', $orderStatus, null, ['class' => 'form-control', 'placeholder' => 'Выбрать статус']) !!}
+
+                </div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+
 
     </div>
 

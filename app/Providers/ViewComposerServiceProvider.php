@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use App\Block;
-use App\Article;
+use App\Order;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class ViewComposerServiceProvider extends ServiceProvider
@@ -15,7 +16,8 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->composeNavigation();
+        $this->composeBlocks();
+        $this->composeAdminBlocks();
     }
 
     /**
@@ -28,11 +30,8 @@ class ViewComposerServiceProvider extends ServiceProvider
         //
     }
 
-    public function composeNavigation()
+    public function composeBlocks()
     {
-        view()->composer('partials.nav',function ($view){
-            $view->with('latest', Article::latest()->first());
-        });
         view()->composer(['block.footer'], function($view){
             $view->with('blocks', Block::published()->weight()->whereRegion('footer')->get());
         });
@@ -41,6 +40,23 @@ class ViewComposerServiceProvider extends ServiceProvider
         });
         view()->composer(['block.top_head'], function($view){
             $view->with('blocks', Block::published()->weight()->whereRegion('top_head')->get());
+        });
+    }
+
+    public function composeAdminBlocks()
+    {
+        view()->composer(['AdminLTE.partials.small_box'], function($view){
+            $view->with([
+                'countUser' => User::count(),
+                'countOrder' => Order::count(),
+                'countStatus' => Order::where('order_status_id',5)->count()
+            ]);
+        });
+
+        view()->composer(['AdminLTE.partials.order_box'], function ($view){
+            $view->with([
+                'orders' => Order::with('status')->latest('created_at')->take(6)->get()
+            ]);
         });
     }
 }

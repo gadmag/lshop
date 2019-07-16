@@ -6,7 +6,7 @@
             <br>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin">Главная</a></li>
-                <li class="breadcrumb-item"><a href="{{route('order.index')}}">Заказы</a></li>
+                <li class="breadcrumb-item"><a href="{{route('orders.index')}}">Заказы</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Номер заказа {{$order->id}}</li>
             </ol>
         </nav>

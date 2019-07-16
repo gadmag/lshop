@@ -18,21 +18,20 @@ class DatabaseSeeder extends Seeder
         $this->call(MenuTableSeeder::class);
         $this->call(ArticleTypeSeeder::class);
         $this->call(ArticleTableSeeder::class);
+        $this->call(StatusTableSeeder::class);
+        $this->call(PageTableSeeder::class);
 
 
     }
 }
+
+
+
 class UserTableSeeder extends DatabaseSeeder
 {
     public function run()
     {
-      // DB::table('users')->delete();
-
-       $role_user = App\Role::where('name', 'Registered')->first();
-       $role_author = App\Role::where('name', 'Moderator')->first();
        $role_admin = App\Role::where('name', 'Admin')->first();
-
-
 
         $user = new App\User();
         $user->name = 'admin';
@@ -40,25 +39,29 @@ class UserTableSeeder extends DatabaseSeeder
         $user->password  = bcrypt('159753');
         $user->save();
         $user->roles()->attach($role_admin);
-//
-//        $user = new App\User();
-//        $user->name = 'User';
-//        $user->email = 'user@gmail.com';
-//        $user->password  = bcrypt('159753');
-//        $user->save();
-//        $user->roles()->attach($role_user);
-//
-//        $author = new App\User();
-//        $author->name = 'Author';
-//        $author->email = 'author@gmail.com';
-//        $author->password  = bcrypt('159753');
-//        $author->save();
-//        $author->roles()->attach($role_author);
-
-
     }
 }
 
+class PageTableSeeder extends  DatabaseSeeder
+{
+    public function run()
+    {
+
+        \App\Page::create([
+            'title' => 'Главная страница',
+            'body'  => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque fugit
+                        itaque molestias, odit perspiciatis recusandae soluta tempore? Aut eos exercitationem itaque
+                        laudantium maiores placeat repellat rerum ut velit, voluptas? Adipisci animi, at aut commodi, consequatur culpa
+                         distinctio dolorem eligendi enim error fugit minus nesciunt obcaecati ratione repellendus suscipit totam veritatis?',
+            'alias' => 'front',
+            'user_id' => 1,
+            'status' => 1
+        ]);
+
+
+    }
+
+}
 class ArticleTypeSeeder extends DatabaseSeeder
 {
     public function run()
@@ -215,6 +218,32 @@ class ProductTableSeeder extends DatabaseSeeder
             'price' => 10,
             'status' => 1,
             'user_id' => 1,
+        ]);
+    }
+}
+
+class StatusTableSeeder extends DatabaseSeeder
+{
+    public function run()
+    {
+        \App\OrderStatus::create([
+            'name' => "Ожидание",
+            'is_default' => 1,
+        ]);
+        \App\OrderStatus::create([
+            'name' => "В обработке",
+        ]);
+        \App\OrderStatus::create([
+            'name' => "Доставлено",
+        ]);
+        \App\OrderStatus::create([
+            'name' => "Выслан",
+        ]);
+        \App\OrderStatus::create([
+            'name' => "Отменено",
+        ]);
+        \App\OrderStatus::create([
+            'name' => "	Сделка завершена",
         ]);
     }
 }

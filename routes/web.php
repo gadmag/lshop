@@ -16,7 +16,7 @@ Route::get('env', function() {
 });
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace' => 'Admin', 'roles' => ['Admin', 'Moderator']], function () {
     Route::get('/', function () {
-        return view('AdminLTE.admin');
+        return view('AdminLTE.admin-front');
     });
     Route::get('articles/{type}/all', 'ArticleController@index');
     Route::post('articles/{type}/all', ['as' => 'store', 'uses' => 'ArticleController@store']);
@@ -31,17 +31,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
         'users' => 'UserController',
         'blocks' => 'BlockController',
         'fieldOptions' => 'FieldOptionController',
+        'orderStatus' => 'OrderStatusController',
         'coupons' => 'CouponController'
     ],
         [
             'except' => ['show']
         ]);
     //orders
-    Route::get('orders', ['as' => 'order.index', 'uses' => 'OrderController@index']);
-    Route::get('orders/{order}/edit', ['as' => 'order.edit', 'uses' => 'OrderController@edit']);
-    Route::delete('orders/{order}', ['as' => 'orders.destroy', 'uses' => 'OrderController@destroy']);
-    Route::put('orders/{order}', ['as' => 'order.update', 'uses' => 'OrderController@update']);
-    Route::get('orders/{order}', ['as' => 'order.show', 'uses' => 'OrderController@show']);
+    Route::resources(['orders' => 'OrderController']);
+//    Route::get('orders', ['as' => 'order.index', 'uses' => 'OrderController@index']);
+//    Route::get('orders/{order}/edit', ['as' => 'order.edit', 'uses' => 'OrderController@edit']);
+//    Route::delete('orders/{order}', ['as' => 'orders.destroy', 'uses' => 'OrderController@destroy']);
+//    Route::put('orders/{order}', ['as' => 'order.update', 'uses' => 'OrderController@update']);
+//    Route::get('orders/{order}', ['as' => 'order.show', 'uses' => 'OrderController@show']);
     Route::get('api/orders', ['as' => 'order.api', 'uses' => 'OrderController@search']);
     Route::post('api/orders/add-to-cart/{id}', ['as' => 'order.addToCart', 'uses' => 'OrderController@addToCart']);
     Route::post('api/orders/remove-to-cart/{id}', ['as' => 'order.removeToCart', 'uses' => 'OrderController@getRemoveItem']);

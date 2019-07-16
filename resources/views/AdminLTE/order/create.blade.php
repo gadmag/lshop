@@ -8,16 +8,16 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin">Главная</a></li>
                 <li class="breadcrumb-item"><a href="{{route('orders.index')}}">Заказы</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Заказ №{{$order->id}}</li>
+                <li class="breadcrumb-item active" aria-current="page">Добавить заказ</li>
             </ol>
         </nav>
-        <h1 class="heading">Редактировать заказ: №{{$order->id}}</h1>
+        <h1 class="heading">Добавить заказ</h1>
 
         <div class="order-body">
             @include('errors.list')
-            {!! Form::model($order, ['method' => 'PUT', 'action' => ['Admin\OrderController@update', $order->id], 'class' => 'order']) !!}
+            {!! Form::model($order, ['method' => 'POST', 'action' => route('orders.store'), 'class' => 'order']) !!}
 
-            @include('AdminLTE.order._form',['submitButtonText' => 'Сохранить изменеия'])
+            @include('AdminLTE.order._form',['submitButtonText' => 'Добавить заказ'])
 
             {!! Form::close() !!}
 

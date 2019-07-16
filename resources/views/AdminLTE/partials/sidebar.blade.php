@@ -70,15 +70,15 @@
                             <i class="fa fa-shopping-basket" aria-hidden="true"></i><span>Параметры опций товара</span>
                         </a>
                     </li>
+                    <li class="treeview">
+                        <a href="{{route('orderStatus.index')}}">
+                            <i class="fa fa-circle-o text-red" aria-hidden="true"></i><span>Статусы заказа</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="header"><strong>Пользователи</strong></li>
             <li><a href="{{url('admin/users')}}"><i class="fa fa-user"></i> <span>Пользователи</span></a></li>
-            {{--<li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>--}}
-            {{--<li class="header">LABELS</li>--}}
-            {{--<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>--}}
-            {{--<li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>--}}
-            {{--<li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>--}}
         </ul>
     </section>
     <!-- /.sidebar -->
