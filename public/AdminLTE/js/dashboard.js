@@ -84,7 +84,7 @@ $(function () {
     },
     onRegionLabelShow: function (e, el, code) {
       if (typeof visitorsData[code] != "undefined")
-        el.html(el.html() + ': ' + visitorsData[code] + ' new visitors');
+        el.html(el.html() + ': ' + visitorsData[code] + ' новые посещения');
     }
   });
 
@@ -124,7 +124,7 @@ $(function () {
 
   /* Morris.js Charts */
   // Sales chart
-    /*
+
   var area = new Morris.Area({
     element: 'revenue-chart',
     resize: true,
@@ -146,7 +146,7 @@ $(function () {
     lineColors: ['#a0d0e0', '#3c8dbc'],
     hideHover: 'auto'
   });
-  var line = new Morris.Line({
+  /*var line = new Morris.Line({
     element: 'line-chart',
     resize: true,
     data: [
@@ -175,7 +175,7 @@ $(function () {
     gridTextFamily: "Open Sans",
     gridTextSize: 10
   });
-
+*/
   //Donut Chart
   var donut = new Morris.Donut({
     element: 'sales-chart',
@@ -195,7 +195,7 @@ $(function () {
     donut.redraw();
     line.redraw();
   });
-*/
+
   /* The todo list plugin */
   $(".todo-list").todolist({
     onCheck: function (ele) {

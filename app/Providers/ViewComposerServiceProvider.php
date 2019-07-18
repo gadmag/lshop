@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use App\Block;
+use App\Http\ViewComposers\BlocksComposer;
+use App\Http\ViewComposers\ChartsComposer;
 use App\Order;
 use App\User;
 use Illuminate\Support\ServiceProvider;
@@ -32,15 +33,8 @@ class ViewComposerServiceProvider extends ServiceProvider
 
     public function composeBlocks()
     {
-        view()->composer(['block.footer'], function($view){
-            $view->with('blocks', Block::published()->weight()->whereRegion('footer')->get());
-        });
-        view()->composer(['block.footer_bottom'], function($view){
-            $view->with('blocks', Block::published()->weight()->whereRegion('footer_bottom')->get());
-        });
-        view()->composer(['block.top_head'], function($view){
-            $view->with('blocks', Block::published()->weight()->whereRegion('top_head')->get());
-        });
+        view()->composer(['block.footer', 'block.footer_bottom', 'block.top_head'], BlocksComposer::class);
+
     }
 
     public function composeAdminBlocks()
@@ -58,5 +52,7 @@ class ViewComposerServiceProvider extends ServiceProvider
                 'orders' => Order::with('status')->latest('created_at')->take(6)->get()
             ]);
         });
+
+        view()->composer(['AdminLTE.partials.chart_box'], ChartsComposer::class);
     }
 }

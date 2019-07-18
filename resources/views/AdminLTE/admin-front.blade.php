@@ -43,41 +43,28 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div id="app-admin" class="wrapper">
-    {{--Header--}}
+{{--Header--}}
 @include('AdminLTE.partials.header')
-    {{--sidebar--}}
+{{--sidebar--}}
 @include('AdminLTE.partials.sidebar')
 
-    <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
         <!-- Content Header (Page header) -->
-        @include('AdminLTE.partials.page-header')
-        <!-- Main content -->
+    @include('AdminLTE.partials.page-header')
+    <!-- Main content -->
         <section class="content">
             <!-- Small boxes (Stat box) -->
             @include('AdminLTE.partials.small_box')
             <div class="row">
                 <section class="col-lg-7 connectedSortable">
-                @include('AdminLTE.partials.order_box')
-                    <!-- Custom tabs (Charts with tabs)-->
-                    <div class="nav-tabs-custom">
-                        <!-- Tabs within a box -->
-                        <ul class="nav nav-tabs pull-right">
-                            <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-                            <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-                            <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
-                        </ul>
-                        <div class="tab-content no-padding">
-                            <!-- Morris chart - Sales -->
-                            <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-                            <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
-                        </div>
-                    </div>
-                    <!-- /.nav-tabs-custom -->
+                        @include('AdminLTE.partials.chart_box')
+                    <div class="clearfix"></div>
+                        @include('AdminLTE.partials.order_box')
                 </section>
                 <section class="col-lg-5 connectedSortable">
-
+                   @include('AdminLTE.partials.map_box')
                 </section>
             </div>
             <!-- /.row (main row) -->
@@ -86,9 +73,9 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-@include('AdminLTE.partials.footer')
+    @include('AdminLTE.partials.footer')
 
-{{--@include('AdminLTE.partials.control-sidebar')--}}
+    {{--@include('AdminLTE.partials.control-sidebar')--}}
 </div>
 <!-- ./wrapper -->
 
@@ -105,8 +92,8 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="/AdminLTE/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
-{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>--}}
-{{--<script src="/AdminLTE/js/morris.min.js"></script>--}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="/AdminLTE/js/morris.min.js"></script>
 <!-- Sparkline -->
 <script src="/AdminLTE/js/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
@@ -139,10 +126,10 @@
 <script src="/AdminLTE/js/jquery.nestable.js"></script>
 <script src="/AdminLTE/js/app-admin.js"></script>
 <script src="/AdminLTE/js/my.js"></script>
-
+@stack('script')
 <script type="text/javascript">
 
-    CKEDITOR.replace( my_editor, options);
+    // CKEDITOR.replace(my_editor, options);
 </script>
 
 </body>

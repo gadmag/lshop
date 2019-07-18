@@ -1,4 +1,4 @@
-@foreach($blocks as $block)
+@foreach($blocks->whereRegion('top_head')->get() as $block)
     <div class="block box block-{{$block->region}} block-id-{{$block->id}} block-{{$block->css_class}} @if($loop->last){{'last'}}@endif">
         <div class="block-container">
             <div class="block-body">
