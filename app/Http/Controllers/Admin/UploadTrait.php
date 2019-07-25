@@ -30,7 +30,7 @@ trait UploadTrait
             foreach ($files as $file):
                 $validator = Validator::make(array('file' => $file), $this->rules);
                 if ($validator->passes()) {
-                    $filename = md5(microtime()) . '_' . str_slug($file->getClientOriginalName(),'_');
+                    $filename = md5(microtime()) . '_' . $this->getFileName($file->getClientOriginalName());
                     $path = storage_path('app/public/files');
                     Storage::disk('public')->put('files/' . $filename, file_get_contents($file));
                     $mimetype = Storage::disk('public')->mimeType('files/' . $filename);
@@ -85,4 +85,10 @@ trait UploadTrait
     }
 
 
+    protected function getFileName(string $originalName): string
+    {
+        $filename = pathinfo($originalName, PATHINFO_FILENAME);
+        $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+        return str_slug($filename,'_').'.'.str_slug($extension, '_');
+    }
 }
