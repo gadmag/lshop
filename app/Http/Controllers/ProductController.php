@@ -5,57 +5,43 @@ namespace App\Http\Controllers;
 use App\Catalog;
 use App\Cart;
 use App\FieldOption;
+use App\Services\Product\BaseQueries;
 use App\WishList;
 use App\Product;
-use App\Order;
-use App\Alias;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use phpDocumentor\Reflection\Types\Mixed_;
 use Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Session;
 
 
 class ProductController extends Controller
 {
 
+    public function __construct()
+    {
+
+    }
 
     public function index(Request $request)
     {
         $filters = FieldOption::all(['type', 'name'])->groupBy('type');
-        $filters['categories'] = DB::table(DB::raw('catalogs as c'))
-            ->leftJoin(DB::raw('cataloggables as ct'), 'ct.catalog_id', '=', 'c.id')
-            ->select(DB::raw('c.*, count(ct.cataloggable_id) as productcount'))
-            ->where('c.status', '=', 1)
-            ->groupBy('c.id')
-            ->get();
+        $filters['categories'] = Catalog::published()->get();
         return view('product.index', ['filters' => $filters]);
     }
 
-    public function getJsonProducts(Request $request)
+    public function getJsonProducts(Request $request, BaseQueries $queries)
     {
-        $id = $request->get('cat_id');
-        if ($id) {
-            $catalog = Catalog::published()->findOrFail(intval($id));
-            $products = $catalog->products()->with(['productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->advancedFilter();
-        } else {
-            $products = Product::with(['productOptions', 'productOptions.files', 'files', 'productSpecial'])->active()->advancedFilter();
-        }
+        $products = $queries->getJsonByCatalogFilter($request->get('cat_id'));
         return response()->json(['collection' => $products]);
     }
 
-    public function show(Product $product)
+    public function show(Product $product, BaseQueries $queries)
     {
-        $products = Product::with(['productOptions', 'productOptions.files', 'productSpecial', 'files'])
-            ->whereHas('catalogs', function ($query) use ($product) {
-                $query->where('id', $product->catalogs()->exists() ? $product->catalogs()->first()->id : null);
-            })->whereNotIn('id', [$product->id])->active()->get()->take(4);
+        $products = $queries->getAllByCatalog($product);
         return view('product.show', [
             'product' => $product,
-            'options' => $product->productOptions()->with("files")->get(),
-            'discount' => $product->productDiscount,
-            'special' => $product->productSpecial()->betweenDate()->first(),
             'products' => $products,
 
         ]);
@@ -184,7 +170,7 @@ class ProductController extends Controller
 
     }
 
-    public function getWishList()
+    public function getWishList(): Collection
     {
         if (!Session::has('wishList')) {
             return view('shop.wishList');

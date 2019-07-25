@@ -4,7 +4,7 @@ namespace App;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
-use App\Service\TransliteratedService;
+use App\Services\TransliteratedService;
 
 class Page extends Model
 {

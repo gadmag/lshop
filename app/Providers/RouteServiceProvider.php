@@ -7,6 +7,7 @@ use App\Page;
 use Illuminate\Support\Facades\Route;
 use App\Article;
 use App\Product;
+use Facades\App\Services\Product\CacheQueries;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -84,8 +85,9 @@ class RouteServiceProvider extends ServiceProvider
                 $product = Product::active()->with(['productOptions','productOptions.files',
                     'productSpecial','productDiscount','files'])->findOrFail($id);
             } else {
-                $product = Product::active()->with(['productOptions','productOptions.files',
-                    'productSpecial','productDiscount','files'])->whereAlias($id)->firstOrFail();
+                $product = CacheQueries::getByAlias($id);
+//                $product = Product::active()->with(['productOptions','productOptions.files',
+//                    'productSpecial','productDiscount','files'])->whereAlias($id)->firstOrFail();
             }
             return $product;
         });

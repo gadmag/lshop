@@ -6,6 +6,7 @@ use App\Http\ViewComposers\BlocksComposer;
 use App\Http\ViewComposers\ChartsComposer;
 use App\Order;
 use App\User;
+use App\Menu;
 use Illuminate\Support\ServiceProvider;
 
 class ViewComposerServiceProvider extends ServiceProvider
@@ -17,6 +18,7 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->composeMenu();
         $this->composeBlocks();
         $this->composeAdminBlocks();
     }
@@ -31,13 +33,13 @@ class ViewComposerServiceProvider extends ServiceProvider
         //
     }
 
-    public function composeBlocks()
+    protected function composeBlocks()
     {
         view()->composer(['block.footer', 'block.footer_bottom', 'block.top_head'], BlocksComposer::class);
 
     }
 
-    public function composeAdminBlocks()
+    protected function composeAdminBlocks()
     {
         view()->composer(['AdminLTE.partials.small_box'], function($view){
             $view->with([
@@ -54,5 +56,13 @@ class ViewComposerServiceProvider extends ServiceProvider
         });
 
         view()->composer(['AdminLTE.partials.chart_box'], ChartsComposer::class);
+    }
+
+    protected function composeMenu()
+    {
+        view()->composer(['menu.nav'], function($view){
+            $view->with('mainMenu', Menu::getMenuItem('main_menu'));
+//            $view->with('secondMenu', Menu::ofType('second_menu')->orderBy('order')->get());
+        });
     }
 }
