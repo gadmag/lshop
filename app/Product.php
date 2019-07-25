@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Service\TransliteratedService;
+use App\Services\TransliteratedService;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +11,7 @@ use App\User;
 use App\Alias;
 use App\FieldOption;
 use Illuminate\Database\Eloquent\Builder;
-use App\Service\ProductFilter;
+use App\Services\ProductFilter;
 
 class Product extends Model
 {
@@ -34,12 +34,8 @@ class Product extends Model
     protected static function boot()
     {
         parent::boot();
-
-//        static::addGlobalScope('active', function (Builder $builder) {
-//            $builder->whereStatus(1);
-//        });
         static::addGlobalScope('sort', function (Builder $builder) {
-            $builder->orderBy('sort_order', 'asc')->latest('created_at');
+            $builder->orderBy('sort_order', 'asc')->latest('products.created_at');
         });
 
     }

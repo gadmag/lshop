@@ -20,7 +20,7 @@ class CatalogController extends Controller
     public function index()
     {
 
-        $catalogs = Catalog::latest('published_at')->published()->paginate(10);
+        $catalogs = Catalog::latest('created_at')->published()->paginate(10);
 
         return view('catalog.index')->with('catalogs', $catalogs);
     }

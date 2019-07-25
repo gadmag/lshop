@@ -2,11 +2,11 @@
 
 namespace App;
 
-use App\Service\TreeService;
+use App\Services\TreeService;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use App\Service\TransliteratedService;
+use App\Services\TransliteratedService;
 use Carbon\Carbon;
 
 class Catalog extends Model
@@ -78,8 +78,6 @@ class Catalog extends Model
      */
     public function products()
     {
-
-        // return $this->belongsToMany('App\Product', 'product_catalog','catalog_id','product_id')->withTimestamps();
         return $this->morphedByMany('App\Product', 'cataloggable');
 
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Option;
-use App\Service\TreeService;
+use App\Services\TreeService;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Http\Controllers\Controller;

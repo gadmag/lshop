@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Services;
 
 use Illuminate\Validation\ValidationException;
 
@@ -13,7 +13,7 @@ trait ProductFilter
         return $this->process($query, request()->all())
             ->orderBy(
                 'products.'.request('order_by', 'created_at'),
-                request('order_direction', 'desc')
+                'products'.request('order_direction', 'desc')
             )
             ->paginate(request('limit', 12));
     }

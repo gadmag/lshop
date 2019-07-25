@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Service\TransliteratedService;
+use App\Services\TransliteratedService;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;

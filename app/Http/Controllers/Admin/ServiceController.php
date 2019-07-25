@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Service\TreeService;
+use App\Services\TreeService;
 use Illuminate\Http\Request;
 use App\Http\Requests\ServiceRequest;
 use App\Http\Controllers\Controller;
