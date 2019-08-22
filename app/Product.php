@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\Cacheable;
 use App\Services\TransliteratedService;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class Product extends Model
 {
     use Sluggable;
     use ProductFilter;
+    use Cacheable;
 
     protected $fillable = ['title', 'description',
         'model', 'sku', 'price', 'type', 'quantity', 'total_selling', 'sort_order', 'size', 'status',

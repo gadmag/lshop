@@ -19,14 +19,19 @@
         <!-- small box -->
         <div class="small-box bg-green">
             <div class="inner">
-                <h3>{{number_format($countStatus/$countOrder * 100, 0)}}<sup style="font-size: 20px">%</sup></h3>
+                @if($countOrder)
+                    <h3>{{number_format($countStatus/$countOrder * 100, 0)}}<sup style="font-size: 20px">%</sup></h3>
+                @else
+                    <h3>0</h3>
+                @endif
 
                 <p>Отмененые заказы</p>
             </div>
             <div class="icon">
                 <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="{{route('orders.index',['f[order_status_id]' => 5])}}" class="small-box-footer">Подробнее <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{route('orders.index',['f[order_status_id]' => 5])}}" class="small-box-footer">Подробнее <i
+                        class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->

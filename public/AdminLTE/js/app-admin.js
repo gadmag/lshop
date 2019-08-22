@@ -1765,18 +1765,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         removeOption: function removeOption(key) {
-            var _this = this;
-
             if (this.forms[key].id) {
                 var url = "/admin/option/" + this.forms[key].id;
-
-                axios.get(url).then(function (res) {
-                    _this.forms.splice(key, 1);
-                }).catch(function (error) {
-                    console.log(error);
-                }).finally(function () {
-                    // this.loading = false;
-                });
+                this.forms.splice(key, 1);
+                /* axios.get(url)
+                     .then((res) => {
+                         this.forms.splice(key, 1)
+                     })
+                     .catch((error) => {
+                         console.log(error)
+                     })
+                     .finally(() => {
+                         // this.loading = false;
+                     })
+                 */
             } else {
                 this.forms.splice(key, 1);
             }

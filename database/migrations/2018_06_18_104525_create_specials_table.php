@@ -19,6 +19,7 @@ class CreateSpecialsTable extends Migration
             $table->integer('product_id')->index();
             $table->integer('priority')->length(4);
             $table->decimal('price',13,2)->default(0.00);
+            $table->string('price_prefix',1);
             $table->timestamp('date_start')->default(null);
             $table->timestamp('date_end')->default(null);
         });

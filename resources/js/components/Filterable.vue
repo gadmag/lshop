@@ -78,7 +78,7 @@
                     </div>
                     <div class="product-list-body">
                         <div class="row">
-                            <slot v-if="collection.data && collection.data.length"
+                            <slot v-if="collection.data"
                                   v-for="(item, key, index) in collection.data"
                                   :item='item, key'>
                             </slot>
@@ -315,23 +315,18 @@
             changePage(page) {
                 this.query.page = Number(page);
                 this.applyChange();
-                this.createLink();
             },
             prevPage() {
                 if (this.collection.prev_page_url) {
                     this.query.page = Number(this.query.page) + -1;
                     this.applyChange();
-                    this.createLink();
                 }
             },
             nextPage() {
 
                 if (this.collection.next_page_url) {
-
                     this.query.page = Number(this.query.page) + 1;
                     this.applyChange();
-                    this.createLink()
-
                 }
             },
 
@@ -364,7 +359,7 @@
                 const params = {
                     ...filters,
                     ...this.query,
-                }
+                };
 
                 axios.get(this.url, {params: params})
                     .then((res) => {

@@ -127,8 +127,8 @@
             removeOption(key) {
                 if (this.forms[key].id) {
                     var url = "/admin/option/" + this.forms[key].id;
-
-                    axios.get(url)
+                    this.forms.splice(key, 1);
+                   /* axios.get(url)
                         .then((res) => {
                             this.forms.splice(key, 1)
                         })
@@ -138,7 +138,7 @@
                         .finally(() => {
                             // this.loading = false;
                         })
-
+                    */
                 } else {
                     this.forms.splice(key, 1)
                 }

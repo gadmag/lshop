@@ -2659,22 +2659,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         changePage: function changePage(page) {
             this.query.page = Number(page);
             this.applyChange();
-            this.createLink();
         },
         prevPage: function prevPage() {
             if (this.collection.prev_page_url) {
                 this.query.page = Number(this.query.page) + -1;
                 this.applyChange();
-                this.createLink();
             }
         },
         nextPage: function nextPage() {
 
             if (this.collection.next_page_url) {
-
                 this.query.page = Number(this.query.page) + 1;
                 this.applyChange();
-                this.createLink();
             }
         },
         getFilters: function getFilters() {
@@ -40567,7 +40563,7 @@ var render = function() {
                   { staticClass: "row" },
                   [
                     _vm._l(_vm.collection.data, function(item, key, index) {
-                      return _vm.collection.data && _vm.collection.data.length
+                      return _vm.collection.data
                         ? _vm._t("default", null, { item: item, key: key })
                         : _vm._e()
                     })

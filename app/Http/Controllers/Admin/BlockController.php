@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Block;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use App\Services\Block\BlockService;
 
 class BlockController extends Controller
 {
@@ -55,32 +57,20 @@ class BlockController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param BlockService $blockService
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request, BlockService $blockService)
     {
         $this->validate($request, $this->rules);
-        $block = new Block();
-        $block->create($request->all());
-
+        $blockService->create($request->all());
         return redirect("admin/blocks/")->with([
             'flash_message' => "Блок добавлен",
 //          'flash_message_important'     => true
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -103,16 +93,14 @@ class BlockController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, BlockService $blockService)
     {
         $this->validate($request, $this->rules);
-
-        $block = Block::find($id);
-        $block->update($request->all());
+        $block = $blockService->update($request->all(), $id);
         return redirect("admin/blocks")->with([
             'flash_message' => "Блок {$block->title} обновлен",
 //          'flash_message_important'     => true
@@ -120,17 +108,14 @@ class BlockController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     *  Remove the specified resource from storage.
+     * @param $id
+     * @param BlockService $blockService
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($id, BlockService $blockService)
     {
-
-        $block = Block::findOrFail($id);
-        $blockTitle = $block->title;
-        $block->delete();
+        $blockTitle = $blockService->delete($id);
         return redirect("admin/blocks")->with([
             'flash_message' => "Блок {$blockTitle} удален",
 //          'flash_message_important'     => true

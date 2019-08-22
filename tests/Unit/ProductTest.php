@@ -1,5 +1,7 @@
 <?php
+namespace Tests\Unit;
 
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -15,7 +17,7 @@ class ProductTest extends TestCase
     {
         parent::setUp();
         if (is_null(self::$product)) {
-            self::$product = factory(\App\Product::class)->create();
+            self::$product = factory(Product::class)->create();
         }
     }
 

@@ -11,7 +11,6 @@ use App\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use phpDocumentor\Reflection\Types\Mixed_;
 use Response;
 use Session;
 
@@ -33,7 +32,7 @@ class ProductController extends Controller
 
     public function getJsonProducts(Request $request, BaseQueries $queries)
     {
-        $products = $queries->getJsonByCatalogFilter($request->get('cat_id'));
+        $products = $queries->getByCatalogFilter($request->get('cat_id'));
         return response()->json(['collection' => $products]);
     }
 
