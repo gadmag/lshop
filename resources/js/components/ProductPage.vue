@@ -93,11 +93,14 @@
 
 <script>
     export default {
-        props: ['product', 'action', 'options', 'special', 'discount'],
+        props: ['product'],
         data: function () {
             return {
                 className: '',
                 files: [],
+                options: this.product.product_options,
+                discount: this.product.product_discount,
+                special: this.product.product_special,
                 checkedNames: [],
                 titleOption: null,
                 query_options: {

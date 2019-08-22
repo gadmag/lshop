@@ -30,11 +30,10 @@ class CreateArticlesTable extends Migration
             $table->string('type',32);
             $table->string('alias');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('body');
             $table->integer('user_id')->unsigned();
             $table->boolean('status')->default(0);
-            $table->timestamp('published_at');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

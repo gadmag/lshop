@@ -28,7 +28,10 @@ class CreateOrdersTable extends Migration
             $table->string('country');
             $table->string('region');
             $table->text('comment');
+            $table->text('comment_admin');
             $table->string('coupon');
+            $table->boolean('is_send')->default(0);
+            $table->integer('order_status_id');
             $table->string('payment_method',128);
             $table->string('payment_id',128);
             $table->string('shipment_method',128);

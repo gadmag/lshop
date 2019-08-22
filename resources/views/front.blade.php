@@ -2,6 +2,4 @@
 
 @section('content')
 
-    @include('block.new_product', $newProducts)
-
 @endsection

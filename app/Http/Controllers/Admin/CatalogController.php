@@ -16,7 +16,7 @@ use Carbon\Carbon;
 use App\Seo;
 use App\Catalog;
 use App\Upload;
-use App\Service\TreeService;
+use App\Services\TreeService;
 use Validator;
 use Image;
 use File;

@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Catalog;
 use App\Page;
+use Facades\App\Services\Product\ProductQueries;
 use Illuminate\Support\Facades\Route;
 use App\Article;
 use App\Product;
+use Facades\App\Services\Product\CacheProductQueries;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -19,6 +21,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     protected $namespace = 'App\Http\Controllers';
+
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -81,11 +84,9 @@ class RouteServiceProvider extends ServiceProvider
         });
         Route::bind('product_alias', function ($id) {
             if (is_numeric($id)) {
-                $product = Product::active()->with(['productOptions','productOptions.files',
-                    'productSpecial','productDiscount','files'])->findOrFail($id);
+                $product = CacheProductQueries::getById($id);
             } else {
-                $product = Product::active()->with(['productOptions','productOptions.files',
-                    'productSpecial','productDiscount','files'])->whereAlias($id)->firstOrFail();
+                $product = CacheProductQueries::getByAlias($id);
             }
             return $product;
         });

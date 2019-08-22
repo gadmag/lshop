@@ -20,9 +20,7 @@ class CreateOptionsTable extends Migration
             $table->string('color');
             $table->string('color_stone');
             $table->decimal('price',13,2)->default(0.00);
-            $table->string('price_prefix',1);
             $table->decimal('weight',13,2)->default(0);
-            $table->string('weight_prefix',1);
             $table->integer('quantity');
             $table->timestamps();
         });

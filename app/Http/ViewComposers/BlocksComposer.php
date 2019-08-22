@@ -3,22 +3,21 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Services\Block\BlockService;
 use Illuminate\View\View;
-use App\Block;
-use Illuminate\Support\Facades\DB;
 
 class BlocksComposer
 {
 
     protected $block;
 
-    public function __construct(Block $block)
+    public function __construct(BlockService $blockQueries)
     {
-        $this->block = $block;
+        $this->block = $blockQueries;
     }
 
     public function compose(View $view)
     {
-        return $view->with('blocks', $this->block->published()->weight());
+        return $view->with('blocks', $this->block->getAll());
     }
 }
