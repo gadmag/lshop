@@ -20,8 +20,8 @@ class CreateMenusTable extends Migration
             $table->integer('parent_id')->default(0);
             $table->string('link_path');
             $table->integer('order')->default(0);
-            $table->integer('menu_linktable_id');
-            $table->string('menu_linktable_type');
+            $table->integer('menu_linktable_id')->nullable();
+            $table->string('menu_linktable_type')->nullable();
             $table->boolean('status');
             $table->string('menu_type', 32);
 

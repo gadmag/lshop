@@ -9,51 +9,12 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-/**
- * App\Articles
- *
- * @property int $id
- * @property string $type
- * @property string $title
- * @property string $alias
- * @property string $description
- * @property string $body
- * @property int $user_id
- * @property int $event_id
- * @property int $status
- * @property \Carbon\Carbon $published_at
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \App\Event $eventAttr
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Upload[] $files
- * @property-read mixed $tag_list
- * @property-read \App\Menu $menuLink
- * @property-read \App\Seo $seoAttr
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tag[] $tags
- * @property-read \App\User $user
- * @property-read \App\VideoUrl $videoAttr
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article ofType($type)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article published()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article unpublished()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereAlias($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article wherePublishedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereUserId($value)
- * @mixin \Eloquent
- */
+
 class Article extends Model
 {
     use Sluggable;
 
-    protected $type = ['news', 'photo'];
+    protected $type = ['design', 'photo'];
     protected $fillable = ['title', 'type', 'body', 'user_id', 'status', 'published_at', 'alias'];
 
 
@@ -230,13 +191,6 @@ class Article extends Model
         return $this->morphOne('App\Menu', 'menu_linktable');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
-     */
-//    public function alias()
-//    {
-//        return $this->morphOne('App\Alias', 'aliastable');
-//    }
 
     function delete()
     {

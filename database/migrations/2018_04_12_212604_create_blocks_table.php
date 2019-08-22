@@ -17,6 +17,7 @@ class CreateBlocksTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('title');
+            $table->string('css_class');
             $table->text('body');
             $table->string('region',32);
             $table->integer('weight');

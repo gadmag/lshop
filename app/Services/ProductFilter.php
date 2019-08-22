@@ -14,8 +14,10 @@ trait ProductFilter
             ->orderBy(
                 'products.'.request('order_by', 'created_at'),
                 'products'.request('order_direction', 'desc')
-            )
-            ->paginate(request('limit', 12));
+            );
+//            ->paginate(request('limit', 12));
+//            ->take(request('limit', 12))->get(['id'])->pluck('id')->toArray();
+//            ->take(request('limit', 12))->get();
     }
 
     public function process($query, $data)

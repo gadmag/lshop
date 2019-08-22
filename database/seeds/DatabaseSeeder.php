@@ -20,36 +20,36 @@ class DatabaseSeeder extends Seeder
         $this->call(ArticleTableSeeder::class);
         $this->call(StatusTableSeeder::class);
         $this->call(PageTableSeeder::class);
-
+        $this->call(ProductTableSeeder::class);
 
     }
 }
-
 
 
 class UserTableSeeder extends DatabaseSeeder
 {
     public function run()
     {
-       $role_admin = App\Role::where('name', 'Admin')->first();
+        $role_admin = App\Role::where('name', 'Admin')->first();
 
         $user = new App\User();
         $user->name = 'admin';
         $user->email = 'admin@gmail.com';
-        $user->password  = bcrypt('159753');
+        $user->password = bcrypt('159753');
+        $user->blocked = 0;
         $user->save();
         $user->roles()->attach($role_admin);
     }
 }
 
-class PageTableSeeder extends  DatabaseSeeder
+class PageTableSeeder extends DatabaseSeeder
 {
     public function run()
     {
 
         \App\Page::create([
             'title' => 'Главная страница',
-            'body'  => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque fugit
+            'body' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque fugit
                         itaque molestias, odit perspiciatis recusandae soluta tempore? Aut eos exercitationem itaque
                         laudantium maiores placeat repellat rerum ut velit, voluptas? Adipisci animi, at aut commodi, consequatur culpa
                          distinctio dolorem eligendi enim error fugit minus nesciunt obcaecati ratione repellendus suscipit totam veritatis?',
@@ -62,6 +62,7 @@ class PageTableSeeder extends  DatabaseSeeder
     }
 
 }
+
 class ArticleTypeSeeder extends DatabaseSeeder
 {
     public function run()
@@ -91,6 +92,7 @@ class ArticleTypeSeeder extends DatabaseSeeder
 
     }
 }
+
 class TagTableSeeder extends DatabaseSeeder
 {
     public function run()
@@ -111,7 +113,8 @@ class TagTableSeeder extends DatabaseSeeder
         ]);
     }
 }
-class ArticleTableSeeder extends  DatabaseSeeder
+
+class ArticleTableSeeder extends DatabaseSeeder
 {
     public function run()
     {
@@ -119,18 +122,18 @@ class ArticleTableSeeder extends  DatabaseSeeder
         DB::table('articles')->delete();
         \App\Article::create([
             'title' => 'Новость 1',
-            'body'  => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque fugit
+            'body' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque fugit
                         itaque molestias, odit perspiciatis recusandae soluta tempore? Aut eos exercitationem itaque
                         laudantium maiores placeat repellat rerum ut velit, voluptas? Adipisci animi, at aut commodi, consequatur culpa
                          distinctio dolorem eligendi enim error fugit minus nesciunt obcaecati ratione repellendus suscipit totam veritatis?',
-            'type' => 'news',
+            'type' => 'photo',
             'user_id' => 1,
             'status' => 1
         ]);
 
         \App\Article::create([
             'title' => 'Новость 2',
-            'body'  => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque fugit
+            'body' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque fugit
                         itaque molestias, odit perspiciatis recusandae soluta tempore? Aut eos exercitationem itaque
                         laudantium maiores placeat repellat rerum ut velit, voluptas? Adipisci animi, at aut commodi, consequatur culpa
                          distinctio dolorem eligendi enim error fugit minus nesciunt obcaecati ratione repellendus suscipit totam veritatis?',
@@ -138,7 +141,6 @@ class ArticleTableSeeder extends  DatabaseSeeder
             'user_id' => 1,
             'status' => 1
         ]);
-
 
 
     }
@@ -152,25 +154,53 @@ class MenuTableSeeder extends DatabaseSeeder
         DB::table('menu_link')->delete();
 
         \App\Menu::create([
-            'link_title' => 'Главная',
-            'link_path'  => '/',
+            'link_title' => 'Фурнитура',
+            'link_path' => '#',
             'menu_type' => 'main_menu',
-            'status'    => 1,
+            'status' => 1,
+
+        ]);
+        \App\Menu::create([
+            'link_title' => 'Серебро 925',
+            'link_path' => '#',
+            'menu_type' => 'main_menu',
+            'status' => 1,
+
+        ]);
+        \App\Menu::create([
+            'link_title' => 'Кристаллы',
+            'link_path' => '#',
+            'menu_type' => 'main_menu',
+            'status' => 1,
+
+        ]);
+        \App\Menu::create([
+            'link_title' => 'Камни',
+            'link_path' => '#',
+            'menu_type' => 'main_menu',
+            'status' => 1,
+
+        ]);
+        \App\Menu::create([
+            'link_title' => 'Упаковка',
+            'link_path' => '#',
+            'menu_type' => 'main_menu',
+            'status' => 1,
 
         ]);
         \App\Menu::create([
             'link_title' => 'О нас',
-            'link_path'  => 'about',
+            'link_path' => 'about',
             'menu_type' => 'main_menu',
-            'parent_id'  => 1,
-            'status'    => 1
+            'parent_id' => 0,
+            'status' => 1
         ]);
         \App\Menu::create([
             'link_title' => 'Контакты',
-            'link_path'  => 'contact',
+            'link_path' => 'contact',
             'menu_type' => 'main_menu',
-            'parent_id'  => 2,
-            'status'    => 1
+            'parent_id' => 0,
+            'status' => 1
         ]);
     }
 }
@@ -184,10 +214,7 @@ class RoleTableSeeder extends DatabaseSeeder
         \App\Role::create([
 
             'name' => 'Registered',
-//            'permissions' => [
-//                'update-post' => true,
-//                'create-post' => true,
-//            ]
+            'permissions' => ''
 
         ]);
         \App\Role::create([
@@ -202,7 +229,7 @@ class RoleTableSeeder extends DatabaseSeeder
         \App\Role::create([
 
             'name' => 'Admin',
-
+            'permissions' => ''
         ]);
     }
 }
@@ -211,14 +238,8 @@ class ProductTableSeeder extends DatabaseSeeder
 {
     public function run()
     {
-        \App\Product::create([
-           'title' => "Кольцо",
-           'description' => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque fugit
-                        itaque molestias, odit perspiciatis recusandae soluta tempore? Aut eos exercitationem itaque",
-            'price' => 10,
-            'status' => 1,
-            'user_id' => 1,
-        ]);
+        factory(\App\Product::class, 40)->create();
+
     }
 }
 

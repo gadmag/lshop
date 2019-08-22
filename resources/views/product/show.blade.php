@@ -33,11 +33,7 @@
     </div>
     <div class="product-page">
         <div class="container">
-            <product-page :product="{{$product}}"
-{{--                          @if($options) :options="{{$options}}" @endif--}}
-{{--                          @if($discount)  :discount="{{$discount}}" @endif--}}
-{{--                          @if($special) :special="{{$special}}" @endif--}}
-            ></product-page>
+            <product-page :product="{{$product}}"></product-page>
         </div>
 
     </div>

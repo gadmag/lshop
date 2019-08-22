@@ -6,7 +6,7 @@ namespace Test\Feature;
 use App\User;
 use App\Cart;
 use Faker\Factory;
-use TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

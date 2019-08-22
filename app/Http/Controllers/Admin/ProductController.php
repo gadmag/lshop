@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Option;
+use App\Services\Product\BaseQueries;
 use App\Services\TreeService;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Storage;
 use Gate;
 use Carbon\Carbon;
-
 use App\Product;
 use App\Catalog;
 use Validator;
@@ -24,6 +19,20 @@ class ProductController extends Controller
 {
     use TreeService;
     use UploadTrait;
+
+    /**
+     * @var BaseQueries
+     */
+    private $service;
+
+    /**
+     * ProductController constructor.
+     * @param BaseQueries $service
+     */
+    public function __construct(BaseQueries $service)
+    {
+        $this->service = $service;
+    }
 
     /**
      * Display a listing of the resource.
@@ -84,8 +93,8 @@ class ProductController extends Controller
                 'attributes' => ['class' => 'table-text'],
                 'sortable' => true,
                 'has_filters' => false,
-                'wrapper' => function ($value){
-                    return '<span class="label label-success">'.$value.'</span>';
+                'wrapper' => function ($value) {
+                    return '<span class="label label-success">' . $value . '</span>';
                 }
             ])
             // Setup action column
@@ -118,12 +127,6 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
-        if (Gate::denies('create-post', Product::class)) {
-            abort(403, 'Unauthorized action');
-
-        }
-
         $catalogs = self::getTree(Catalog::all());
         return view('AdminLTE.product.create', [
             'catalogs' => $catalogs,
@@ -134,14 +137,14 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(ProductRequest $request)
     {
-        $product = $this->createProduct($request);
+        $product = $this->service->create($request);
 
-        return redirect("admin/products")->with([
+        return redirect()->route('products.index')->with([
             'flash_message' => "{$product->title} добавлена",
 //          'flash_message_important'     => true
         ]);
@@ -151,7 +154,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -167,15 +170,14 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, Product $product)
+    public function update(ProductRequest $request, int $id)
     {
-        $product = $this->updateProduct($request, $product);
-
-        return redirect("admin/products")->with([
+        $product = $this->service->update($request, $id);
+        return redirect()->route('products.index')->with([
             'flash_message' => "{$product->title} обновлена",
 //          'flash_message_important'     => true
         ]);
@@ -186,203 +188,13 @@ class ProductController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy(Product $product)
+    public function destroy(int $id)
     {
-
-        $product->delete();
-        return redirect("admin/products")->with([
-            'flash_message' => "'{$product->title}' продукт удален",
+        $deletedProduct = $this->service->delete($id);
+        return redirect()->route('products.index')->with([
+            'flash_message' => "Продукт {$deletedProduct->alias} удален",
 //          'flash_message_important'     => true
         ]);
     }
 
-    public function deleteOption($id)
-    {
-        $option = Option::findOrFail($id);
-        $option->delete();
-        return response(['status' => 'Delete option success']);
-    }
-
-    /** Синхронизация категорий продукта
-     * @param Product $product
-     * @param array $catalogs
-     */
-    private function syncCatalogs(Product $product, array $catalogs)
-    {
-        $product->catalogs()->sync($catalogs);
-    }
-
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    private function createProduct(Request $request)
-    {
-
-        $product = Auth::user()->products()->create($request->all());
-
-        if ($request->filled('productSeo')) {
-            $product->productSeo()->create($request->productSeo);
-        }
-
-        if ($request->filled('productDiscount.price') || $request->filled('productDiscount.quantity')) {
-            $product->productDiscount()->create($request->productDiscount);
-        }
-
-        if ($request->filled('productSpecial.price')) {
-            $product->productSpecial()->create($request->productSpecial);
-        }
-
-        if ($request->filled('productOptions')) {
-            $this->createMultipleOptions($request, $product);
-        }
-        if ($product->productOptions()->exists()){
-            $this->updateQuantity($product);
-        }
-        if ($request->file('images')) {
-            $this->multipleUpload($request->file('images'), $product, [
-                '600x450' => array(
-                    'width' => 500,
-                    'height' => 500
-                ),
-
-                '250x250' => array(
-                    'width' => 260,
-                    'height' => 260
-                ),
-
-                '90x110' => array(
-                    'width' => 110,
-                    'height' => 110
-                )
-            ], true);
-        }
-
-
-        $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
-        return $product;
-    }
-
-    private function updateProduct(ProductRequest $request, $product)
-    {
-        $product->update($request->all());
-
-        if ($request->filled('productSeo')) {
-            $product->productSeo()->update($request->productSeo);
-        } else {
-            $product->productSeo()->delete();
-        }
-
-        if ($request->filled('productDiscount.price') || $request->filled('productDiscount.quantity')) {
-            $discount_id = isset($request->productDiscount['id']) ? $request->productDiscount['id'] : null;
-            $product->productDiscount()->updateOrCreate(['id' => $discount_id], $request->productDiscount);
-        } else {
-            $product->productDiscount()->delete();
-        }
-
-        if ($request->filled('productSpecial.price')) {
-            $special_id = isset($request->productSpecial['id']) ? $request->productSpecial['id'] : null;
-            $product->productSpecial()->updateOrCreate(['id' => $special_id], $request->productSpecial);
-        } else {
-            $product->productSpecial()->delete();
-        }
-
-        if ($request->filled('productOptions')) {
-            $this->updateMultipleOptions($request, $product);
-        }
-
-        if ($product->productOptions()->exists()){
-            $this->updateQuantity($product);
-        }
-
-        if ($request->file('images')) {
-            $this->multipleUpload($request->file('images'), $product, [
-                '600x450' => array(
-                    'width' => 500,
-                    'height' => 500
-                ),
-                '250x250' => array(
-                    'width' => 260,
-                    'height' => 260
-                ),
-                '90x110' => array(
-                    'width' => 110,
-                    'height' => 110
-                )
-            ], true);
-        }
-
-
-        $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
-
-        return $product;
-
-    }
-
-    protected function createMultipleOptions(ProductRequest $request, $product)
-    {
-        $options = $request->extractOptions();
-        foreach ($options as $optionAttr) {
-                $option = Option::create($optionAttr);
-                if (!empty($optionAttr['image_option'])) {
-                    $this->multipleUpload([$optionAttr['image_option']], $option, [
-                        '600x450' => array(
-                            'width' => 500,
-                            'height' => 500
-                        ),
-                        '250x250' => array(
-                            'width' => 260,
-                            'height' => 260
-                        ),
-                        '90x110' => array(
-                            'width' => 110,
-                            'height' => 110
-                        )
-                    ], true);
-                }
-                $product->productOptions()->save($option);
-
-
-        }
-
-    }
-
-    protected function updateMultipleOptions(Request $request, Product $product)
-    {
-        $options = $request->extractOptions();
-
-        foreach ($options as $optionAttr) {
-            $id = $product->productOptions()->updateOrCreate(['id' => $optionAttr['id']], $optionAttr)->id;
-            $option = Option::where('id', "=", $id)->first();
-            if (!empty($optionAttr['image_option'])) {
-                $this->multipleUpload([$optionAttr['image_option']], $option, [
-                    '600x450' => array(
-                        'width' => 500,
-                        'height' => 500
-                    ),
-                    '250x250' => array(
-                        'width' => 260,
-                        'height' => 260
-                    ),
-                    '90x110' => array(
-                        'width' => 110,
-                        'height' => 110
-                    )
-                ], true);
-
-            }
-        }
-    }
-
-    protected function updateQuantity(Product $product)
-    {
-        $sum_quantity = 0;
-        foreach ($product->productOptions as $option)
-        {
-            $sum_quantity += $option->quantity;
-        }
-        $product->quantity = $sum_quantity;
-        $product->save();
-    }
 }

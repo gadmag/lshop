@@ -3,8 +3,11 @@
 namespace App\Providers;
 
 use App\Services\Product\BaseQueries;
-use App\Services\Product\CacheQueries;
+use App\Services\Product\CacheProductQueries;
 use App\Services\Product\ProductQueries;
+use App\Services\Block\BlockQueries;
+use App\Services\Block\CacheBlockQueries;
+use App\Services\Block\BlockService;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -17,12 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        $this->app->bind(BaseQueries::class, ProductQueries::class);
-        $this->app->bind(BaseQueries::class, CacheQueries::class);
-
-        $this->app->when(CacheQueries::class)
-            ->needs(BaseQueries::class)
-            ->give(ProductQueries::class);
+        $this->bindProductService();
+        $this->bindBlockService();
 
     }
 
@@ -34,5 +33,22 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
 
+    }
+
+    protected function bindProductService(): void
+    {
+        $this->app->bind(BaseQueries::class, CacheProductQueries::class);
+
+        $this->app->when(CacheProductQueries::class)
+            ->needs(BaseQueries::class)
+            ->give(ProductQueries::class);
+    }
+
+    protected function bindBlockService(): void
+    {
+        $this->app->bind(BlockService::class, CacheBlockQueries::class);
+        $this->app->when(CacheBlockQueries::class)
+            ->needs(BlockService::class)
+            ->give(BlockQueries::class);
     }
 }

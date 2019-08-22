@@ -3,11 +3,11 @@
 
 namespace Test\Feature;
 
+use Tests\TestCase;
 use App\User;
 use App\Cart;
 use Faker\Factory;
 use Illuminate\Support\Facades\Auth;
-use TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
