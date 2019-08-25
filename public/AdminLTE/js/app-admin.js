@@ -1732,8 +1732,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -20084,24 +20082,19 @@ var render = function() {
                   _c("div", { staticClass: "clearfix" }),
                   _vm._v(" "),
                   _c("div", { staticClass: "input-group" }, [
-                    _c("label", { staticClass: "input-group-btn" }, [
-                      _c("span", { staticClass: "btn btn-primary" }, [
-                        _vm._v("Выбрать файл…\n                "),
-                        _c("input", {
-                          staticStyle: { display: "none" },
-                          attrs: {
-                            type: "file",
-                            name: "productOptions[" + key + "][image_option]",
-                            multiple: ""
-                          }
-                        })
-                      ])
-                    ]),
+                    _c("label", [_vm._v("Фото товара")]),
                     _vm._v(" "),
                     _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", readonly: "" }
-                    })
+                      attrs: {
+                        type: "file",
+                        name: "productOptions[" + key + "][image_option]",
+                        multiple: ""
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "help-block" }, [
+                      _vm._v("Выберите файл для добавления")
+                    ])
                   ])
                 ]),
                 _vm._v(" "),
