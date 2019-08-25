@@ -44,13 +44,11 @@
                 <div class="clearfix"></div>
 
                 <div class="input-group">
-                    <label class="input-group-btn">
-                <span class="btn btn-primary">Выбрать файл&hellip;
-                    <input type="file" style="display: none;" :name="'productOptions['+key+'][image_option]'" multiple>
-                </span>
-                    </label>
-                    <input type="text" class="form-control" readonly>
+                    <label>Фото товара</label>
+                    <input type="file"  :name="'productOptions['+key+'][image_option]'" multiple>
+                    <p class="help-block">Выберите файл для добавления</p>
                 </div>
+
             </td>
             <td>
                 <div class="form-group">
