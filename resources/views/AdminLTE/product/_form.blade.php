@@ -71,7 +71,7 @@
                 </div>
                 <div id="tab_2" class="tab-pane">
                     <div class="form-group">
-                        {!! Form::label('sku', 'Артикл:') !!}
+                        {!! Form::label('sku', 'Артикул:') !!}
                         {!! Form::text('sku', null, ['class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
