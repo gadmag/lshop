@@ -2,14 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Events\OrderCheckoutEvent;
+use App\Events\OrderCreateEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Product;
 use App\Option;
 use App\Cart;
 
-class OrderAfterSaveListener
+class DecreaseQtyOrder
 {
     /**
      * Create the event listener.
@@ -24,28 +24,31 @@ class OrderAfterSaveListener
     /**
      * Handle the event.
      *
-     * @param  OrderCheckoutEvent  $event
+     * @param OrderCreateEvent $event
      * @return void
      */
-    public function handle(OrderCheckoutEvent $event)
+    public function handle(OrderCreateEvent $event)
     {
         $cart = json_decode($event->order->cart);
-        $this->reduceQuantity($cart);
+        $this->decreaseQuantity($cart);
     }
 
-    protected function reduceQuantity($cart)
+    private function decreaseQuantity($cart)
     {
-        foreach ($cart->items as $id => $item)
-        {
+        foreach ($cart->items as $id => $item) {
             $product = Product::findOrFail($item->product_id);
             $product->quantity -= $item->qty;
             $product->save();
-            if ($item->option_id)
-            {
-                $option = Option::findOrFail($item->option_id);
-                $option->quantity -= $item->qty;
-                $option->save();
-            }
+            $this->decreaseQtyOption($item);
+        }
+    }
+
+    private function decreaseQtyOption($item): void
+    {
+        if ($item->option_id) {
+            $option = Option::findOrFail($item->option_id);
+            $option->quantity -= $item->qty;
+            $option->save();
         }
     }
 }

@@ -9,7 +9,7 @@ use App\Order;
 use App\Product;
 use App\OrderStatus;
 use App\Http\Controllers\Controller;
-use App\Events\OrderAdminEvent;
+use App\Events\OrderUpdateEvent;
 
 
 class OrderController extends Controller
@@ -52,7 +52,7 @@ class OrderController extends Controller
     {
         $order->update($request->all());
         if ($order->is_send) {
-            event(new OrderAdminEvent($order));
+            event(new OrderUpdateEvent($order));
         }
         return redirect("admin/orders")->with([
             'flash_message' => "Заказ №{$order->id} обновлен",
