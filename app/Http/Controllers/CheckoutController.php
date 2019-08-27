@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Events\OrderCheckoutEvent;
+use App\Events\OrderCreateEvent;
 use Illuminate\Support\Facades\Redirect;
 use App\Catalog;
 use App\Cart;
@@ -25,7 +25,6 @@ use Session;
 
 class CheckoutController extends Controller
 {
-
 
     public function getCheckout()
     {
@@ -66,21 +65,8 @@ class CheckoutController extends Controller
         $orderStatus = OrderStatus::default()->first();
         $oldCart = session('cart');
         $cart = new Cart($oldCart);
-        $order = new Order();
-        $order->first_name = $request->first_name;
-        $order->last_name = $request->last_name;
-        $order->email = $request->email;
-        $order->telephone = $request->telephone;
-        $order->address = $request->address;
+        $order = Order::create($request->except(['country','region', 'shipment','coupon','payment_method','payment_id']));
         $order->totalPrice = $cart->totalPrice;
-        if ($request->company) {
-            $order->company = $request->company;
-        }
-        if ($request->postcode) {
-            $order->postcode = $request->postcode;
-        }
-
-        $order->city = $request->city;
         if ($request->country) {
             $order->country = Country::findOrFail($request->country)->name;
         }
@@ -108,13 +94,11 @@ class CheckoutController extends Controller
 
         $order->payment_method = config("payment.payment_method.$request->payment.method");
         $order->payment_id = config("payment.payment_method.$request->payment.id");
-        if ($request->comment) {
-            $order->comment = $request->comment;
-        }
+
         $order->cart = json_encode($cart);
         Auth::user()->orders()->save($order);
         $orderStatus->orders()->save($order);
-        event(new OrderCheckoutEvent($order));
+        event(new OrderCreateEvent($order));
         Session::forget('cart');
         return redirect()->route('product.index')
             ->with('flash_message', 'Ваш заказ принят. Данные для оплаты будут отправленны на Вашу почту.');

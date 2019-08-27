@@ -13,13 +13,13 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\OrderCheckoutEvent' => [
-            'App\Listeners\SendAdminOrderListener',
-            'App\Listeners\OrderAfterSaveListener',
+        'App\Events\OrderCreateEvent' => [
+            'App\Listeners\DecreaseQtyOrder',
+            'App\Listeners\SendAdminMail',
         ],
 
-        'App\Events\OrderAdminEvent' => [
-            'App\Listeners\SendUserOrderListener',
+        'App\Events\OrderUpdateEvent' => [
+            'App\Listeners\SendUserMail',
         ],
     ];
 

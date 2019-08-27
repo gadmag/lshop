@@ -19,13 +19,15 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        if (!$this->osProcessIsRunning('queue:work')) {
+
+            $schedule->command('queue:work')->everyMinute();
+        }
     }
 
     /**
@@ -36,5 +38,28 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         require base_path('routes/console.php');
+    }
+
+    /**
+     * checks, if a process with $needle in the name is running
+     *
+     * @param string $needle
+     * @return bool
+     */
+    protected function osProcessIsRunning($needle)
+    {
+        exec('ps aux -ww', $process_status);
+
+        $result = array_filter($process_status,
+            function ($var) use ($needle) {
+                return strpos($var, $needle);
+            });
+
+        if (!empty($result)) {
+
+            return true;
+        }
+
+        return false;
     }
 }

@@ -2,15 +2,20 @@
 
 namespace App\Listeners;
 
-use App\Events\OrderCheckoutEvent;
+use App\Events\OrderCreateEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Mail\OrderAdminShipped;
 use Illuminate\Support\Facades\Mail;
 
 
-class SendAdminOrderListener
+class SendAdminMail implements ShouldQueue
 {
+    use InteractsWithQueue;
+
+    public $tries = 3;
+
+
     /**
      * Create the event listener.
      *
@@ -24,10 +29,10 @@ class SendAdminOrderListener
     /**
      * Handle the event.
      *
-     * @param  OrderCheckoutEvent  $event
+     * @param  OrderCreateEvent  $event
      * @return void
      */
-    public function handle(OrderCheckoutEvent $event)
+    public function handle(OrderCreateEvent $event)
     {
         Mail::to(config('payment.send_mail'))->send(new OrderAdminShipped($event->order));
 
