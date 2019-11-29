@@ -43,13 +43,13 @@ const app = new Vue({
 
     created() {
         bus.$on('added-to-cart', (id, options) => {
-            this.addToCart('/add-to-cart', id, options);
+            this.addToCart('/api/add-to-cart', id, options);
         });
         bus.$on('reduce-from-cart', (id) => {
-            this.getCartJson('/reduce', id);
+            this.getCartJson('/api/reduce', id);
         });
         bus.$on('remove-from-cart', (id) => {
-            this.getCartJson('/remove', id);
+            this.getCartJson('/api/remove', id);
         });
         bus.$on('added-to-wishlist', (id) => {
             this.getWishList('/add-to-wishlist', id);
@@ -57,6 +57,10 @@ const app = new Vue({
 
         bus.$on('remove-to-wishlist', (id) => {
             this.getWishList('/remove-to-wishlist', id);
+        });
+
+        bus.$on('add-coupon', (code) => {
+           this.addCoupon('api/add-coupon/'+code)
         });
 
         this.getCartJson('/shopping-cart-detail');
@@ -107,7 +111,7 @@ const app = new Vue({
         },
         handleResponseWishList(data) {
             if (data.wishList) {
-                this.wishList = data.wishList.items;
+                this.wishList = data.wishList.content;
                 this.wishListCount = data.wishList.totalQty;
             }
 
@@ -142,6 +146,22 @@ const app = new Vue({
                 }
             });
         },
+
+        addCoupon(url)
+        {
+            // console.log(url)
+            axios.get(url)
+                .then((res) => {
+                   this.handleResponse(res.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    this.loading = false;
+                    NProgress.done();
+                })
+        }
 
     },
 

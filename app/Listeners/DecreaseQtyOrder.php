@@ -29,14 +29,14 @@ class DecreaseQtyOrder
      */
     public function handle(OrderCreateEvent $event)
     {
-        $cart = json_decode($event->order->cart);
+        $cart = $event->order->cart;
         $this->decreaseQuantity($cart);
     }
 
     private function decreaseQuantity($cart)
     {
-        foreach ($cart->items as $id => $item) {
-            $product = Product::findOrFail($item->product_id);
+        foreach ($cart['content'] as $id => $item) {
+            $product = Product::findOrFail($item->id);
             $product->quantity -= $item->qty;
             $product->save();
             $this->decreaseQtyOption($item);
@@ -45,8 +45,8 @@ class DecreaseQtyOrder
 
     private function decreaseQtyOption($item): void
     {
-        if ($item->option_id) {
-            $option = Option::findOrFail($item->option_id);
+        if ($item) {
+            $option = Option::findOrFail($item->options['id']);
             $option->quantity -= $item->qty;
             $option->save();
         }

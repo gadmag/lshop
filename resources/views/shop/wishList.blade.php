@@ -9,11 +9,11 @@
                 <li class="breadcrumb-item active" aria-current="page">Избранное</li>
             </ol>
         </nav>
-        <h1 class="title text-center">Избранное</h1>
-        @if (Session::has('wishList'))
-            <product-list :products="{{$wishList}}"></product-list>
+        <h1 class="title text-center pb-4">Избранное</h1>
+        @if (count($products) > 0)
+            <product-list :products="{{$products}}"></product-list>
         @else
-            <p>Нет избранных товаров.</p>
+            <h4 class="text-center">Нет избранных товаров.</h4>
         @endif
     </div>
 @endsection

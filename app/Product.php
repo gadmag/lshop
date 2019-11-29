@@ -13,6 +13,7 @@ use App\Alias;
 use App\FieldOption;
 use Illuminate\Database\Eloquent\Builder;
 use App\Services\ProductFilter;
+use function Deployer\get;
 
 class Product extends Model
 {
@@ -26,11 +27,17 @@ class Product extends Model
 
 
     protected $allowedFilters = [
-        'id', 'material', 'color', 'productOptions.price', 'productOptions.color', 'productOptions.color_stone','catalogs.name'
+        'id', 'material', 'color', 'productOptions.price', 'productOptions.color', 'productOptions.color_stone', 'catalogs.name'
     ];
 
     protected $orderable = [
         'id', 'title', 'price', 'created_at', 'weight', 'total_selling'
+    ];
+
+    protected $imageResize = [
+        '600x450' => array('width' => 500, 'height' => 500),
+        '250x250' => array('width' => 260, 'height' => 260),
+        '90x110' => array('width' => 110, 'height' => 110)
     ];
 
     protected static function boot()
@@ -81,7 +88,6 @@ class Product extends Model
     }
 
 
-
     /**
      * @param $query
      * @param string $value
@@ -117,10 +123,6 @@ class Product extends Model
         return $this->catalogs->pluck('id')->all();
     }
 
-    public function productDiscount()
-    {
-        return $this->hasOne('App\Discount');
-    }
 
     public function productSpecial()
     {
@@ -166,21 +168,142 @@ class Product extends Model
         return $this->morphMany('App\Upload', 'uploadstable');
     }
 
-    function delete()
+
+    public function getOptionsNotIds(array $ids)
     {
-        $this->productSeo()->delete();
-        $this->productDiscount()->delete();
-        $this->productSpecial()->delete();
-        foreach ($this->files as $file) {
-            // dd(Storage::disk('public')->exists('files/'.$file->filename));
-            Storage::disk('public')->delete('files/' . $file->filename);
-            Storage::disk('public')->delete('files/thumbnail/' . $file->filename);
-            Storage::disk('public')->delete('files/600x450/' . $file->filename);
-            Storage::disk('public')->delete('files/250x250/' . $file->filename);
-            Storage::disk('public')->delete('files/90x110/' . $file->filename);
-            $file->delete();
+        return $this->productOptions()->whereNotIn('id', $ids)->get();
+    }
+
+
+    public function getOptionToArray($id)
+    {
+        return $this->productOptions()->find($id)->toArray();
+    }
+
+    public function getSeo(): Seo
+    {
+        return $this->productSeo()->first();
+    }
+
+
+    /** Check discount by option id
+     * @param int $id
+     * @return bool
+     */
+    public function isDiscount(int $id = null): bool
+    {
+        return $this->productOptions()->exists() && $this->productOptions()->find($id)->discount()->exists();
+    }
+
+
+    /** Get discount by option id
+     * @param int $id
+     * @return Discount
+     */
+    public function getDiscount(int $id = null): ?Discount
+    {
+        if ($this->isDiscount($id)) {
+            return $this->productOptions()->find($id)->discount;
         }
-        parent::delete();
+        return null;
+    }
+
+    public function sumOptionQty(): void
+    {
+        dd($this->productOptions()->get());
+        if ($this->productOptions()->exists()) {
+            $this->quantity =  $this->productOptions()->get()->sum(function (Option $option) {
+                return $option->quantity;
+            });
+        }
+    }
+
+
+    private function isOptions()
+    {
+        return $this->productOptions()->exists();
+    }
+
+    private function isSpecial()
+    {
+        return $this->productSpecial()->isActive()->exists();
+    }
+
+
+    public function getSpecial(): ?Special
+    {
+        if ($this->isSpecial()) {
+            return $this->productSpecial;
+        }
+        return null;
+    }
+
+
+    public function getSpecialPrice(int $id)
+    {
+        if ($this->productSpecial->price_prefix == '%') {
+            return $this->getPrice($id) * intval($this->productSpecial->price) / 100;
+        } else {
+            return floatval($this->getPrice($id) - $this->productSpecial->price);
+        }
+    }
+
+
+    /**
+     * Get price product or option
+     * @param int|null $id
+     * @return float
+     */
+    public function getPrice(int $id = null): float
+    {
+        return $id ? $this->productOptions()->find($id)->price : $this->price;
+
+    }
+
+
+    /** Get weight option
+     * @param int|null $id
+     * @return mixed
+     */
+    public function getWeight(int $id = null)
+    {
+        return $id ? $this->productOptions()->find($id)->weight : 0;
+    }
+
+
+    /** Get color option
+     * @param int|null $id
+     * @return string
+     */
+    public function getColor(int $id = null)
+    {
+        return $id ? $this->productOptions()->find($id)->color : '';
+    }
+
+
+    /** Get color_stone option
+     * @param int|null $id
+     * @return string
+     */
+    public function getColorStone(int $id = null)
+    {
+        return $id ? $this->productOptions()->find($id)->color_stone : '';
+    }
+
+
+    /** Front product image
+     * @param int $id
+     * @return Model|\Illuminate\Database\Eloquent\Relations\MorphMany|object|string|null
+     */
+    public function frontImg(int $id = null)
+    {
+        if ($this->files()->exists()) {
+            return $this->files()->first()->filename;
+        } elseif ($this->productOptions()->find($id) && $this->productOptions()->find($id)->files()->exists()) {
+            return $this->productOptions()->find($id)->files()->first()->filename;
+        }
+
+        return '';
     }
 
 }

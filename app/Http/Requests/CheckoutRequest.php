@@ -24,8 +24,8 @@ class CheckoutRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|min:3',
+            'last_name' => 'required|min:3',
             'telephone' => 'required',
             'email' => 'required|email',
             //

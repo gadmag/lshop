@@ -4,25 +4,24 @@
                 <table class="table table-detail table-hover">
                     <thead class="thead-light">
                     <tr>
-                        <!--<th class="img-cart">Фото</th>-->
                         <th colspan="4" scope="col"><b>В корзине {{qtyNameSuffix}}</b></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(cartItem, key, index) in cart.items">
+                    <tr v-for="(cartItem, key, index) in cart.content">
                         <td class="title">
                             <figure class="media">
                                 <div class="mr-2 d-none d-sm-block img-wrap">
-                                    <img v-if="cartItem.frontImg"
-                                         :src="'/storage/files/90x110/'+cartItem.frontImg.filename" class="" alt="Фото товара">
+                                    <img v-if="cartItem.image"
+                                         :src="'/storage/files/90x110/'+cartItem.image" class="" alt="Фото товара">
                                 </div>
                                 <div class="media-body">
-                                    <figcaption>{{cartItem.item.title}}</figcaption>
-                                    <div v-if="cartItem.item.color" class="small">
-                                        <span><strong>Цвет:</strong> {{cartItem.item.color}}</span>
+                                    <figcaption>{{cartItem.name}}</figcaption>
+                                    <div v-if="cartItem.options.color" class="small">
+                                        <span><strong>Цвет:</strong> {{cartItem.options.color}}</span>
                                     </div>
-                                    <div v-if="cartItem.item.color_stone" class="small">
-                                        <span><strong>Цвет камня:</strong> {{cartItem.item.color_stone}}</span>
+                                    <div v-if="cartItem.options.color_stone" class="small">
+                                        <span><strong>Цвет камня:</strong> {{cartItem.options.color_stone}}</span>
                                     </div>
                                 </div>
                             </figure>
@@ -96,11 +95,11 @@
             },
 
             addToCart(item) {
-                var query_options = {
-                    option_id: item.option_id,
+                let options = {
+                    id: item.options.id,
                     quantity: 1,
                 };
-                bus.$emit('added-to-cart', item.product_id, query_options)
+                bus.$emit('added-to-cart', item.id, options)
             }
         }
     }

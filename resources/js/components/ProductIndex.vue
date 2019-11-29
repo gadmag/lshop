@@ -112,18 +112,18 @@
                 let filename = '';
                 let options = product.product_options;
                 if (product.files && product.files.length) {
-                    return   filename = product.files[0].filename;
+                    return product.files[0].filename;
                 }
                 if (!options) {
                     return ''
                 }
-                for (let i = 0; i < options.length; i++){
+                for (let i = 0; i < options.length; i++) {
                     if (options[i].files && options[i].files.length) {
-                        return  filename =  options[i].files[0].filename;
+                        return options[i].files[0].filename;
                     }
                 }
 
-                return filename
+                return '';
             }
 
         },

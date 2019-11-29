@@ -155,7 +155,12 @@ class CacheProductTest extends TestCase
                     'color_stone' => $this->faker->word,
                     'price' => $this->faker->numberBetween(10, 200),
                     'weight' => $this->faker->numberBetween(10, 200),
-                    'quantity' => 3
+                    'quantity' => 3,
+                    'discount' => [
+                        'id' => null,
+                        'price' => $this->faker->numberBetween(10, 200),
+                        'quantity' => 5,
+                    ]
                 ]
             ]
         ];

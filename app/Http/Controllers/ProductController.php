@@ -3,24 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Catalog;
-use App\Cart;
+use App\Coupon;
+use App\Order;
+use App\Shipment;
+use App\ShoppingCart\Facades\Cart;
 use App\FieldOption;
 use App\Services\Product\BaseQueries;
 use App\WishList;
 use App\Product;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Response;
 use Session;
 
 
 class ProductController extends Controller
 {
 
-    public function __construct()
-    {
+    private $cart;
 
+    public function __construct(Cart $cart)
+    {
+        $this->cart = $cart;
     }
 
     public function index(Request $request)
@@ -49,104 +52,112 @@ class ProductController extends Controller
 
     public function addToCart(Request $request, $id)
     {
+        $cart = $this->initCart();
+        $options = json_decode($request->get('options'));
         $product = Product::with(['files', 'productOptions.files'])->active()->largerQuantity()->findOrFail($id);
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->add($product, $product->id, json_decode($request->get('options')));
-        $request->session()->put('cart', $cart);
-        $request->session()->save();
-        return Response::json([
-            'cart' => $cart
+        $discount = $product->getDiscount($options->id);
+        $special = $product->getSpecial();
+        $cart->add(
+            $product->id,
+            $product->title,
+            $product->frontImg($options->id),
+            $product->getPrice($options->id),
+            $product->getWeight($options->id),
+            $options->quantity,
+            [
+                'id' => $options->id,
+                'color' => $product->getColor($options->id),
+                'color_stone' => $product->getColorStone($options->id),
+                'price' => $product->getPrice($options->id),
+                'discount_quantity' => $discount ? $discount->quantity : null,
+                'discount_price' => $discount ? (float)$discount->price : null,
+                'special_price' => $special ? (float)$special->price : 0,
+                'special_prefix' => $special ? $special->price_prefix : null
+            ]
+        );
+        return response()->json([
+            'cart' => $cart->toArray()
         ]);
     }
 
-    public function getReduceByOne($id)
+    public function updateCart($uniqueId)
     {
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->reduceByOne($id);
-        if (count($cart->items) > 0) {
-            Session::put('cart', $cart);
-        } else {
-            Session::forget('cart');
-        }
-        return Response::json([
-            'cart' => $cart
+        $cart = $this->initCart();
+        $cart->update($uniqueId, request('quantity'));
+        return response()->json([
+            'cart' => $cart->toArray()
+        ]);
+
+    }
+
+    public function reduceByOne($id)
+    {
+        $cart = Cart::instance('cart')->reduceByOne($id);
+        return response()->json([
+            'cart' => $cart->toArray()
         ]);
     }
 
-    public function getRemoveItem($id)
+    public function removeItem($uniqueId)
     {
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->removeItem($id);
-        if (count($cart->items) > 0) {
-            Session::put('cart', $cart);
-        } else {
-            Session::forget('cart');
-        }
-        return Response::json([
-            'cart' => $cart
+        $cart = $this->initCart();
+        $cart->removeItem($uniqueId);
+        return response()->json([
+            'cart' => $cart->toArray()
         ]);
     }
 
     public function getCartDetail()
     {
-        if (Session::has('cart')) {
-            $oldCart = session('cart');
-            $cart = new Cart($oldCart);
-            return Response::json([
-                'cart' => $cart
-            ]);
-        } else {
-            return Response::json([
-                'cart' => null
-            ]);
-        }
+        return response()->json([
+            'cart' => Cart::instance('cart')->toArray(),
+        ]);
     }
 
     public function getCart()
     {
-        if (!Session::has('cart')) {
-            return view('shop.shopping-cart', [
-            ]);
-        }
-        $oldCart = session('cart');
-        $cart = new Cart($oldCart);
-        $paymentConfig = config('payment.cart_setting');
+        $config = config('payment');
         return view('shop.shopping-cart', [
-            'products' => collect($cart->items),
-            'totalPrice' => $cart->totalPrice,
             'actionCheckout' => route('checkout'),
-            'paymentConf' => $paymentConfig
+            'config' => $config
         ]);
     }
 
+    public function addCoupon(string $code, Coupon $coupon)
+    {
+        $cart = $this->initCart();
+        $coupon = $coupon->getByCode($code);
+        $cart->addCoupon($coupon->name, $coupon->discount);
+        return response()->json([
+            'cart' => $cart->toArray()
+        ]);
+    }
+
+    public function addShipment(int $id, Shipment $shipment)
+    {
+        $cart = $this->initCart();
+        $shipment = $shipment->getById($id);
+        $price = $shipment->getShipmentPrice($cart->totalWeight());
+        $cart = $cart->addShipment(['id' => $shipment->id, 'title' => $shipment->title,
+            'name' => $shipment->name, 'price' => $price]);
+        return response()->json([
+            'cart' => $cart->toArray()
+        ]);
+    }
 
     public function addToWishList(Request $request, $id)
     {
         $product = Product::findOrFail($id);
-        $oldWishList = Session::has('wishList') ? Session::get('wishList') : null;
-        $wishList = new WishList($oldWishList);
-        $wishList->add($product, $product->id);
-        $request->session()->put('wishList', $wishList);
-        $request->session()->save();
-        return Response::json([
-            'wishList' => $wishList
+        $wishList = Cart::instance('wishList')->add($product->id, $product->title);
+        return response()->json([
+            'wishList' => $wishList->toArray()
         ]);
     }
 
     public function removeToWishList($id)
     {
-        $oldWishList = Session::has('wishList') ? Session::get('wishList') : null;
-        $wishList = new WishList($oldWishList);
-        $wishList->remove($id);
-        if (count($wishList->items) > 0) {
-            Session::put('wishList', $wishList);
-        } else {
-            Session::forget('wishList');
-        }
-        return Response::json([
+        $wishList = Cart::instance('wishList')->removeItem($id)->toArray();
+        return response()->json([
             'wishList' => $wishList
         ]);
 
@@ -154,30 +165,18 @@ class ProductController extends Controller
 
     public function getWishListJson()
     {
-        if (Session::has('wishList')) {
-            $oldWishList = session('wishList');
-            $wishList = new WishList($oldWishList);
-            return Response::json([
-                'wishList' => $wishList
-            ]);
-        } else {
-            return Response::json([
-                'wishList' => null
-            ]);
-        }
-
+        return response()->json([
+            'wishList' => Cart::instance('wishList')->toArray()
+        ]);
 
     }
 
-    public function getWishList(): Collection
+    public function getWishList(BaseQueries $queries)
     {
-        if (!Session::has('wishList')) {
-            return view('shop.wishList');
-        }
-        $oldWishList = session('wishList');
-        $wishList = new WishList($oldWishList);
+        $wishList = Cart::instance('wishList')->content();
+        $products = $queries->getWishListProducts($wishList->pluck('id')->toArray());
         return view('shop.wishList', [
-            'wishList' => collect($wishList->items),
+            'products' => $products,
         ]);
     }
 
@@ -192,5 +191,14 @@ class ProductController extends Controller
         return view('product.search', [
             'products' => $products
         ]);
+    }
+
+
+    private function initCart()
+    {
+        $order = Order::whereId(request('order_id'))->first();
+        $oldCart = $order ? $order->cart : null;
+        $name = $oldCart ? 'order' : 'cart';
+        return Cart::instance($name, $oldCart);
     }
 }

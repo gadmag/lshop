@@ -1,23 +1,22 @@
 <div class="row">
-    <div class="col-md-8 page-default">
+    <div class="col-md-9 page-default">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab_1" data-toggle="tab">Общие</a></li>
                 <li class=""><a href="#tab_2" data-toggle="tab">Данные</a></li>
                 <li class=""><a href="#tab_3" data-toggle="tab">Опции</a></li>
-                <li class=""><a href="#tab_4" data-toggle="tab">Скидки</a></li>
                 <li class=""><a href="#tab_5" data-toggle="tab">Акция</a></li>
             </ul>
             <div class="tab-content">
                 <div id="tab_1" class="tab-pane active">
                     <div class="form-group">
                         {!! Form::label('title', 'Заголовок:') !!}
-                        {!! Form::text('title', null, ['class' => 'form-control']) !!}
+                        {!! Form::text('title', old('title'), ['class' => 'form-control']) !!}
                     </div>
 
                     <div class="form-group">
                         {!! Form::label('alias', 'Адрес:') !!}
-                        {!! Form::text('alias', null, ['class'=>'form-control']) !!}
+                        {!! Form::text('alias', old('alias'), ['class'=>'form-control']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('status', 'Опубликовать:') !!}&nbsp;&nbsp;
@@ -39,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('description', 'Описание:') !!}
-                        {!! Form::textarea('description', null, ['class' => 'ckeditor form-control']) !!}
+                        {!! Form::textarea('description', old('description'), ['class' => 'ckeditor form-control']) !!}
 
                         <script>
                             var my_editor = 'description';
@@ -55,10 +54,9 @@
                     <div class="form-group">
                         <ul class="list-inline">
                             @foreach($product->files as $file)
-                                <li id="file-item-{{$file->id}}" class="remove-file" data-id="{{$file->id}}"><span
-                                            href="#"><i class="fa fa-remove fa-lg"></i></span><img class="thumbnail"
-                                                                                                   src="{{asset('storage/files/thumbnail/'.$file->filename)}}"
-                                                                                                   alt="Картинка">
+                                <li id="file-item-{{$file->id}}" class="remove-file" data-id="{{$file->id}}">
+                                    <span><i class="fa fa-remove fa-lg"></i></span>
+                                    <img class="thumbnail" src="{{asset('storage/files/thumbnail/'.$file->filename)}}" alt="Картинка">
                                 </li>
                             @endforeach
                         </ul>
@@ -72,11 +70,11 @@
                 <div id="tab_2" class="tab-pane">
                     <div class="form-group">
                         {!! Form::label('sku', 'Артикул:') !!}
-                        {!! Form::text('sku', null, ['class' => 'form-control']) !!}
+                        {!! Form::text('sku', old('sku'), ['class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('model', 'Модель:') !!}
-                        {!! Form::text('model', null, ['class' => 'form-control']) !!}
+                        {!! Form::text('model', old('model'), ['class' => 'form-control']) !!}
                     </div>
 
                     <div class="form-group">
@@ -85,48 +83,22 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('size', 'Размер:') !!}
-                        {!! Form::text('size',null, ['class' => 'form-control']) !!}
+                        {!! Form::text('size', old('size'), ['class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('sort_order', 'Порядок сортировки:') !!}
-                        {!! Form::text('sort_order',null, ['class' => 'form-control']) !!}
+                        {!! Form::text('sort_order',old('sort_order'), ['class' => 'form-control']) !!}
                     </div>
                 </div>
                 <div id="tab_3" class="tab-option-coating tab-options tab-pane">
 
-
                     <option-item
-                            @if ($product->productOptions()->exists()) :options="{{$product->productOptions()->with('files')->get()}}"
-                            {{--@else--}}
-                            {{--:options="[]"--}}
-                            @endif
+                            :options="{{$product->productOptions()->with('files','discount')->get()}}"
+                            :old_options="{{json_encode(old('productOptions')?:[])}}"
                             :colors="{{collect($product->getFieldOptions('coating'))}}"
                             :colors_stone="{{collect($product->getFieldOptions('stone'))}}">
 
                     </option-item>
-                </div>
-
-                <div id="tab_4" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                {!! Form::hidden('productDiscount[id]', null) !!}
-                                {!! Form::label('productDiscount[quantity]', 'Количество:') !!}
-                                {!! Form::text('productDiscount[quantity]', null, ['class' => 'form-control']) !!}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            {!! Form::label('productDiscount[price]', 'Цена:') !!}
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    {!! Form::text('productDiscount[price]', null, ['class' => 'form-control']) !!}
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::select('productDiscount[price_prefix]', ['-' => '-', '%' => '%'], null, ['class' => 'form-control']) !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div id="tab_5" class="tab-pane">
                     <div class="row">
@@ -136,11 +108,11 @@
                                 <div class="form-group">
                                     {!! Form::hidden('productSpecial[id]', null) !!}
 
-                                    {!! Form::text('productSpecial[price]', null, ['class' => 'form-control']) !!}
+                                    {!! Form::text('productSpecial[price]', old('productSpecial[price]'), ['class' => 'form-control']) !!}
 
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::select('productSpecial[price_prefix]', ['-' => '-', '%' => '%'], null, ['class' => 'form-control']) !!}
+                                    {!! Form::select('productSpecial[price_prefix]', ['-' => '-', '%' => '%'], old('productSpecial[price_prefix]'), ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                         </div>
@@ -148,7 +120,7 @@
                             {!! Form::label('productSpecial[date_start]', 'Дата начала:') !!}
                             <div class="input-group date dateru">
                                 <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                                {!! Form::input('text', 'productSpecial[date_start]', null, ['class' => 'form-control']) !!}
+                                {!! Form::input('text', 'productSpecial[date_start]', old('productSpecial[date_start]'), ['class' => 'form-control']) !!}
 
                             </div>
                         </div>
@@ -156,7 +128,7 @@
                             {!! Form::label('productSpecial[date_end]', 'Дата оканчания:') !!}
                             <div class="input-group date dateru">
                                 <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                                {!! Form::input('text', 'productSpecial[date_end]', null, ['class' => 'form-control']) !!}
+                                {!! Form::input('text', 'productSpecial[date_end]', old('productSpecial[date_end]'), ['class' => 'form-control']) !!}
 
                             </div>
                         </div>
@@ -164,7 +136,9 @@
                 </div>
             </div>
         </div>
-
+        <div class="form-group">
+            {{Form::submit($submitButtonText,['class' => 'btn btn-primary'])}}
+        </div>
     </div>
 
     <div class="col-md-3 pull-right seo-attr">
@@ -180,15 +154,15 @@
                     <legend>Сео аттрибуты</legend>
                     <div class="form-group">
                         {!! Form::label('productSeo[meta_title]', 'Title:') !!}
-                        {!! Form::text( 'productSeo[meta_title]', null, ['class' => 'form-control']) !!}
+                        {!! Form::text( 'productSeo[meta_title]', old('productSeo[meta_title]'), ['class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('productSeo[meta_keywords]', 'Keywords:') !!}
-                        {!! Form::text('productSeo[meta_keywords]',  null, ['class' => 'form-control']) !!}
+                        {!! Form::text('productSeo[meta_keywords]',  old('productSeo[meta_keywords]'), ['class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('productSeo[meta_description]', 'Description:') !!}
-                        {!! Form::textarea('productSeo[meta_description]', null, ['class' => 'form-control']) !!}
+                        {!! Form::textarea('productSeo[meta_description]', old('productSeo[meta_description]'), ['class' => 'form-control']) !!}
                     </div>
                 </fieldset>
             </div><!-- /.box-body -->
@@ -196,7 +170,4 @@
     </div>
 </div>
 <div class="clearfix"></div>
-<div class="form-group">
-    {{Form::submit($submitButtonText,['class' => 'btn btn-primary'])}}
 
-</div>

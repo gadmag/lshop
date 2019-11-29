@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusTableSeeder::class);
         $this->call(PageTableSeeder::class);
         $this->call(ProductTableSeeder::class);
+        $this->call(PaymentTableSeeder::class);
+        $this->call(ShipmentTableSeeder::class);
 
     }
 }
@@ -266,5 +268,63 @@ class StatusTableSeeder extends DatabaseSeeder
         \App\OrderStatus::create([
             'name' => "	Сделка завершена",
         ]);
+    }
+}
+
+class PaymentTableSeeder extends DatabaseSeeder
+{
+    public function run()
+    {
+        \App\Payment::create([
+            'title' => "Банковская карта",
+            'name' => "credit_card",
+            'payment_key' => "5469600025133406 Амина Байсолтановна",
+            'status' => 1,
+            'order' => 0,
+        ]);
+        \App\Payment::create([
+            'title' => "QIWI Кошелек",
+            'name' => "qiwi",
+            'payment_key' => "89285109392",
+            'status' => 1,
+            'order' => 1,
+        ]);
+        \App\Payment::create([
+            'title' => "Яндекс Кошелек",
+            'name' => "yandex",
+            'payment_key' => "c193847",
+            'status' => 1,
+            'order' => 2,
+        ]);
+        \App\Payment::create([
+            'title' => "Paypal Кошелек",
+            'name' => "paypal",
+            'payment_key' => "c193847",
+            'status' => 1,
+            'order' => 3,
+        ]);
+        \App\Payment::create([
+            'title' => "Оплата при получении",
+            'name' => "cash",
+            'payment_key' => "cash",
+            'status' => 1,
+            'order' => 4,
+        ]);
+
+    }
+}
+class ShipmentTableSeeder extends DatabaseSeeder
+{
+    public function run()
+    {
+        \App\Payment::create([
+            'title' => "Доставка почтой по России",
+            'name' => "pochta_ru",
+            'price_setting' => "",
+            'status' => 1,
+            'order' => 0,
+        ]);
+
+
     }
 }

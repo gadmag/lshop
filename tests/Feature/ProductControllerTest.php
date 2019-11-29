@@ -1,31 +1,41 @@
 <?php
-namespace Tests\Unit;
 
+namespace Tests\Feature;
+
+use App\Coupon;
+use Faker\Factory;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Product;
-use App\Cart;
+use App\ShoppingCart\Facades\Cart;
 
-class ProductTest extends TestCase
+class ProductControllerTest extends TestCase
 {
+    use RefreshDatabase;
+    use WithFaker;
+
+    /**
+     * @var Cart
+     */
     protected static $cart;
+
+    /**
+     * @var Product
+     */
     protected static $product;
+
+    /**
+     * @var Coupon
+     */
+    protected static $coupon;
 
     public function setUp()
     {
         parent::setUp();
-        if (is_null(self::$product)) {
-            self::$product = factory(Product::class)->create();
-        }
-    }
-
-    public function tearDown()
-    {
-        if ($this->getName() == 'testRemoveItem')
-            Product::whereId(self::$product->id)->delete();
-        parent::tearDown();
+        self::$coupon = factory(Coupon::class)->create();
+        self::$product = factory(Product::class)->create();
+        self:: $cart = Cart::instance('cart')->add(5,'names','file', $this->faker->randomFloat(2));
     }
 
 
@@ -47,9 +57,9 @@ class ProductTest extends TestCase
     public function testAddToCart()
     {
         $response = $this->post(route('product.addToCart', ["id" => self::$product->id]));
-        $response->assertResponseStatus(200);
+        $response->assertStatus(200);
         $response = $this->post(route('product.addToCart', ['id' => self::$product->id]));
-        $response->assertResponseStatus(200);
+        $response->assertStatus(200);
         $this->assertSessionHas('cart');
         static::$cart = Session::get('cart');
         $product = factory(\App\Product::class)->make([
@@ -92,10 +102,19 @@ class ProductTest extends TestCase
         $this->assertSessionMissing('cart');
     }
 
+    public function testGetCoupons()
+    {
+        $response = $this->withSession(['cart' => json_encode(serialize(self::$cart->toArray()))])->get(route('product.addCoupon', ['code' => self::$coupon->code]));
+        $cart = json_decode($response->content())->cart;
+        $response->assertStatus(200);
+        $this->assertEquals($cart->totalPrice - self::$coupon->discount, $cart->totalWithCoupons);
+
+
+    }
 
     public function testSearch()
     {
-        $url = route('product.search')."?q=lor";
+        $url = route('product.search') . "?q=lor";
         $response = $this->get($url);
         $response->assertResponseStatus(200);
         $response->see('Поиск');

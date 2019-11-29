@@ -16,6 +16,7 @@ window.bus = new Vue;
  */
 
 Vue.component('option-item', require('./components/OptionItem.vue'));
+Vue.component('shipment-field', require('./components/ShipmentField'));
 Vue.component('order', require('./components/Order.vue'));
 
 
@@ -23,27 +24,13 @@ const app = new Vue({
     el: '#app-admin',
     data: function () {
         return {
-
-
         }
     },
 
     created() {
-        // bus.$on('added-to-cart', (id, options) => {
-        //     this.addToCart('/add-to-cart', id, options);
-        // });
+
     },
     methods: {
-
-        // addToCart(url, id,  options) {
-        //     axios.get('/add-to-cart/'+id, {params: {options: options}})
-        //         .then(response => {
-        //             console.log(response.data);
-        //         })
-        //         .catch(error => {
-        //             console.log(error)
-        //         });
-        // },
 
     },
 

@@ -43,7 +43,7 @@
 
             <div v-if="discount" class="discount-block">
                 <hr>
-                <span>{{discount.quantity}} и более {{getDiscountPrice}} р.</span>
+                <span>{{discount.quantity}} и более {{discount.price}} р.</span>
                 <hr>
             </div>
             <div class="add-to-cart">
@@ -99,12 +99,11 @@
                 className: '',
                 files: [],
                 options: this.product.product_options,
-                discount: this.product.product_discount,
                 special: this.product.product_special,
                 checkedNames: [],
                 titleOption: null,
                 query_options: {
-                    option_id: null,
+                    id: null,
                     quantity: 1,
                 },
             }
@@ -113,7 +112,7 @@
             this.allImagesProduct();
             if (this.options) {
                 this.titleOption = this.fullOptionName(this.options[0]);
-                this.query_options.option_id = this.options[0].id;
+                this.query_options.id = this.options[0].id;
             }
 
             console.log('Component mounted.');
@@ -122,7 +121,7 @@
         methods: {
             selectOption(e, option) {
                 const id = option.id;
-                this.query_options.option_id = id;
+                this.query_options.id = id;
                 this.titleOption = this.fullOptionName(option);
                 this.files.forEach(function (file, i, arr) {
                     if (file.uploadstable_id == id) {
@@ -131,7 +130,6 @@
                         arr.splice(0, 0, element);
                     }
                 });
-                // console.log(this.files);
             },
             getOptionByID(id) {
                 let option = false;
@@ -143,7 +141,7 @@
                 return option;
             },
             addOptionPrice(price, discount_price = 0) {
-                let id = this.query_options.option_id;
+                let id = this.query_options.id;
                 if (id !== null) {
                     let option = this.getOptionByID(id);
                     let total_price = parseFloat(option.price) - parseFloat(discount_price);
@@ -199,15 +197,23 @@
 
         computed: {
             weight() {
-                let id = this.query_options.option_id;
-                if (id) {
-                    let option = this.getOptionByID(id);
+                if (this.query_options.id) {
+                    let option = this.getOptionByID(this.query_options.id);
                     return option.weight;
                 }
-                return '';
+                return null;
             },
             getPrice() {
                 return this.addOptionPrice(this.product.price);
+            },
+
+            discount(){
+
+                if (this.query_options.id) {
+                    let option = this.getOptionByID(this.query_options.id);
+                    return option.discount;
+                }
+                return null;
             },
 
             getDiscountPrice() {
