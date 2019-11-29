@@ -573,10 +573,6 @@ ul.nav-main > li > a:hover {
   }
 }
 /*---------checkout-----------*/
-.checkout-button {
-  padding-top: 10px;
-  border-top: 1px solid #ddd;
-}
 #checkout-block .custom-radio {
   margin: 15px 0;
 }

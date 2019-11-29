@@ -30,9 +30,10 @@ class OrderUserShipped extends Mailable
      */
     public function build()
     {
+        $subject =  sprintf('%s: Новый заказ N%s', config('app.name'), $this->order->id);
         return $this->view('emails.order.shipped',[
             'order' => $this->order,
-            'cart' => json_decode($this->order->cart)
-        ])->subject('Новый заказ');
+            'cart' => $this->order->cart
+        ])->subject($subject);
     }
 }

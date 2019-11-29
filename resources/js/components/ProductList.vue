@@ -7,11 +7,12 @@
                          :src="'/storage/files/250x250/'+getImage(item)"
                          alt="Картинка">
                     <span v-if="item.product_special" class="special-badge"> -{{percentSpecial(item)}}%</span>
-                    <a @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
-                            :class="toggleWishList(item.id)? className: className"></span></a>
+                    <a @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)">
+                        <span :class="toggleWishList(item.id)? className: className"></span>
+                    </a>
                     <div class="card-body">
-                        <div class="product-name text-center"><a class=""
-                                                                 :href="'/products/'+item.alias">{{item.title}}</a>
+                        <div class="product-name text-center">
+                            <a class="" :href="'/products/'+item.alias">{{item.title}}</a>
                         </div>
                         <div class="product-price text-center">
                             <span class="special" v-if="item.product_special">{{priceSpecial(item)}} р.</span>
@@ -52,32 +53,26 @@
             },
 
             removeToWishList(id) {
-                bus.$emit('remove-to-wishlist', id);
+                let wishList = this.$parent.wishList;
+                let key = _.findKey(wishList, item => item.id == id );
+                bus.$emit('remove-to-wishlist', key);
             },
 
             percentSpecial(item) {
-                let price = item.product_options[0]?item.product_options[0].price: item.price;
-                // return Math.floor(((price - item.product_special.price) / price) * 100);
-                return Math.floor(item.product_special.price/price *100);
+                let price = item.product_options[0] ? item.product_options[0].price : item.price;
+                return Math.floor(item.product_special.price / price * 100);
             },
 
-            priceSpecial(item){
-                let price = item.product_options[0]?item.product_options[0].price: item.price;
+            priceSpecial(item) {
+                let price = item.product_options[0] ? item.product_options[0].price : item.price;
                 let specialPrice = price - item.product_special.price
-                return specialPrice.toFixed(0) ;
+                return specialPrice.toFixed(0);
             },
 
             toggleWishList(id) {
-
-                // console.log(this.$parent.wishList[this.product.id])
-                if (this.$parent.wishList[id]) {
-                    if (window.location.pathname.replace('/', '') == 'wishlist') {
-                        // console.log(this.wishList[product.id].title);
-                        // Vue.delete(this.$parent.wishList, this.product.id);
-                        // delete this.$parent.wishList[this.product.id];
-                        delete this.product;
-                    }
-
+                let wishList = this.$parent.wishList;
+                // console.log()
+                if (_.find(wishList, item => item.id == id)) {
                     this.className = 'ico ico-wishlist link-wishlist fas fa-heart';
                     return true;
                 } else {
@@ -86,21 +81,20 @@
                 }
             },
             getImage(product) {
-                let filename = '';
                 let options = product.product_options;
                 if (product.files && product.files.length) {
-                  return   filename = product.files[0].filename;
+                    return product.files[0].filename;
                 }
                 if (!options) {
                     return ''
                 }
-                for (let i = 0; i < options.length; i++){
+                for (let i = 0; i < options.length; i++) {
                     if (options[i].files && options[i].files.length) {
-                       return  filename =  options[i].files[0].filename;
+                        return options[i].files[0].filename;
                     }
                 }
 
-                return filename
+                return ''
             }
         },
 

@@ -1,101 +1,693 @@
 <html>
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Заказ с сайта {{config('app.name')}}</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="telephone=no" name="format-detection">
+    <title>Заказ на сайте {{config('app.name')}}</title>
+    <!--[if (mso 16)]>
+    <style type="text/css">
+        a {
+            text-decoration: none;
+        }
+    </style>
+    <![endif]-->
+    <!--[if gte mso 9]>
+    <style>sup {
+        font-size: 100% !important;
+    }</style><![endif]-->
+    <style type="text/css">
+        @media only screen and (max-width: 600px) {
+            p, ul li, ol li, a {
+                font-size: 16px !important;
+                line-height: 150% !important
+            }
+
+            h1 {
+                font-size: 30px !important;
+                text-align: center;
+                line-height: 120% !important
+            }
+
+            h2 {
+                font-size: 26px !important;
+                text-align: center;
+                line-height: 120% !important
+            }
+
+            h3 {
+                font-size: 20px !important;
+                text-align: center;
+                line-height: 120% !important
+            }
+
+            h1 a {
+                font-size: 30px !important
+            }
+
+            h2 a {
+                font-size: 26px !important
+            }
+
+            h3 a {
+                font-size: 20px !important
+            }
+
+            .es-header-body p, .es-header-body ul li, .es-header-body ol li, .es-header-body a {
+                font-size: 16px !important
+            }
+
+            .es-footer-body p, .es-footer-body ul li, .es-footer-body ol li, .es-footer-body a {
+                font-size: 16px !important
+            }
+
+            .es-infoblock p, .es-infoblock ul li, .es-infoblock ol li, .es-infoblock a {
+                font-size: 12px !important
+            }
+
+            *[class="gmail-fix"] {
+                display: none !important
+            }
+
+            .es-m-txt-c, .es-m-txt-c h1, .es-m-txt-c h2, .es-m-txt-c h3 {
+                text-align: center !important
+            }
+
+            .es-m-txt-r, .es-m-txt-r h1, .es-m-txt-r h2, .es-m-txt-r h3 {
+                text-align: right !important
+            }
+
+            .es-m-txt-l, .es-m-txt-l h1, .es-m-txt-l h2, .es-m-txt-l h3 {
+                text-align: left !important
+            }
+
+            .es-m-txt-r img, .es-m-txt-c img, .es-m-txt-l img {
+                display: inline !important
+            }
+
+            .es-button-border {
+                display: block !important
+            }
+
+            a.es-button {
+                font-size: 20px !important;
+                display: block !important;
+                border-left-width: 0px !important;
+                border-right-width: 0px !important
+            }
+
+            .es-btn-fw {
+                border-width: 10px 0px !important;
+                text-align: center !important
+            }
+
+            .es-adaptive table, .es-btn-fw, .es-btn-fw-brdr, .es-left, .es-right {
+                width: 100% !important
+            }
+
+            .es-content table, .es-header table, .es-footer table, .es-content, .es-footer, .es-header {
+                width: 100% !important;
+                max-width: 600px !important
+            }
+
+            .es-adapt-td {
+                display: block !important;
+                width: 100% !important
+            }
+
+            .adapt-img {
+                width: 100% !important;
+                height: auto !important
+            }
+
+            .es-m-p0 {
+                padding: 0px !important
+            }
+
+            .es-m-p0r {
+                padding-right: 0px !important
+            }
+
+            .es-m-p0l {
+                padding-left: 0px !important
+            }
+
+            .es-m-p0t {
+                padding-top: 0px !important
+            }
+
+            .es-m-p0b {
+                padding-bottom: 0 !important
+            }
+
+            .es-m-p20b {
+                padding-bottom: 20px !important
+            }
+
+            .es-mobile-hidden, .es-hidden {
+                display: none !important
+            }
+
+            .es-desk-hidden {
+                display: table-row !important;
+                width: auto !important;
+                overflow: visible !important;
+                float: none !important;
+                max-height: inherit !important;
+                line-height: inherit !important
+            }
+
+            .es-desk-menu-hidden {
+                display: table-cell !important
+            }
+
+            table.es-table-not-adapt, .esd-block-html table {
+                width: auto !important
+            }
+
+            table.es-social {
+                display: inline-block !important
+            }
+
+            table.es-social td {
+                display: inline-block !important
+            }
+
+            .es-menu td a {
+                font-size: 16px !important
+            }
+        }
+
+        #outlook a {
+            padding: 0;
+        }
+
+        .ExternalClass {
+            width: 100%;
+        }
+
+        .ExternalClass,
+        .ExternalClass p,
+        .ExternalClass span,
+        .ExternalClass font,
+        .ExternalClass td,
+        .ExternalClass div {
+            line-height: 100%;
+        }
+
+        .es-button {
+            mso-style-priority: 100 !important;
+            text-decoration: none !important;
+        }
+
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+
+        .es-desk-hidden {
+            display: none;
+            float: left;
+            overflow: hidden;
+            width: 0;
+            max-height: 0;
+            line-height: 0;
+            mso-hide: all;
+        }
+    </style>
 </head>
-<body>
-<div><strong>Пользователь: </strong> {{ $order->last_name}} {{$order->first_name}}</div>
-<p><strong>Номер заказа:</strong> &nbsp;&nbsp;&nbsp;<strong>{{$order->id}}</strong></p>
-<p><strong>Дата заказа:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>{{$order->created_at}}</strong></p>
-<p><strong>Имя покупателя:</strong> <strong>{{ $order->last_name}} {{$order->first_name}}</strong></p>
-<p><strong>E-mail:</strong> <a href="mailto:{{$order->email}}">{{$order->email}}</a></p>
-<p><strong>Телефон:</strong> <a href="tel:{{$order->telephone}}">{{$order->telephone}}</a></p>
-<p><strong>Адрес доставки:</strong> <strong>{{$order->country}}</strong> <strong>{{$order->region}}</strong>
-    <strong>г. {{$order->city}}</strong></p>
-@if($order->postcode)
-    <p><strong>Индекс:</strong> <strong>{{$order->postcode}}</strong></p>
-@endif
-<div style="max-width: 600px">
+<body style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0;">
+<div class="es-wrapper-color" style="background-color:#EFEFEF;">
+    <!--[if gte mso 9]>
+    <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+        <v:fill type="tile" color="#efefef"></v:fill>
+    </v:background>
+    <![endif]-->
+    <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top;">
+        <tr style="border-collapse:collapse;">
+            <td valign="top" style="padding:0;Margin:0;">
+                <table class="es-header" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top;">
+                    <tr style="border-collapse:collapse;">
+                        <td align="center" style="padding:0;Margin:0;">
+                            <table class="es-header-body" width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;">
+                                <tr style="border-collapse:collapse;">
+                                    <td align="left" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:15px;padding-right:15px;">
+                                        <table cellspacing="0" cellpadding="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td class="es-m-p0r" width="570" valign="top" align="center" style="padding:0;Margin:0;">
+                                                    <table width="100%" cellspacing="0" cellpadding="0" bgcolor="transparent" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td class="es-m-p0l es-m-txt-c" align="center" style="padding:0;Margin:0;padding-left:15px;">
+                                                                <a href="https://viewstripo.email/" target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:underline;color:#999999;">
+                                                                    <img src="{{asset('img/logo_new.jpg')}}" alt="{{ config('app.name') }}"
+                                                                         title="{{ config('app.name') }}"
+                                                                         style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;"
+                                                                         width="300">
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;">
+                    <tr style="border-collapse:collapse;">
+                        <td align="center" style="padding:0;Margin:0;">
+                            <table class="es-content-body" width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;">
+                                <tr style="border-collapse:collapse;">
+                                    <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;">
+                                        <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td width="560" valign="top" align="center" style="padding:0;Margin:0;">
+                                                    <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;border-radius:0px;" width="100%" cellspacing="0" cellpadding="0">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:15px;">
+                                                                <h1 style="Margin:0;line-height:36px;mso-line-height-rule:exactly;font-family:'trebuchet ms', helvetica, sans-serif;font-size:30px;font-style:normal;font-weight:normal;color:#333333;">Новый заказ на сайте {{config('app.name')}}</h1>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;">
+                    <tr style="border-collapse:collapse;">
+                        <td align="center" style="padding:0;Margin:0;">
+                            <table class="es-content-body" width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;">
+                                <tr style="border-collapse:collapse;">
+                                    <td align="left" style="Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;padding-bottom:30px;">
+                                        <!--[if mso]>
+                                        <table width="560" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td width="280" valign="top"><![endif]-->
+                                        <table class="es-left" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td class="es-m-p20b" width="276" align="left" style="padding:0;Margin:0;">
+                                                    <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;background-color:#EFEFEF;border-color:#EFEFEF;border-width:1px 0px 1px 1px;border-style:solid;" width="100%" cellspacing="0" cellpadding="0" bgcolor="#efefef">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="left" style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px;">
+                                                                <h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:'trebuchet ms', helvetica, sans-serif;">ИНФОРМАЦИЯ О ЗАКАЗЕ:</h4>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="left" style="padding:0;Margin:0;padding-bottom:20px;padding-left:20px;padding-right:20px;">
+                                                                <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:100%;" class="cke_show_border" cellspacing="1" cellpadding="1" border="0" align="left">
+                                                                    <tr style="border-collapse:collapse;">
+                                                                        <td style="padding:0;Margin:0;"><span style="font-size:14px;line-height:21px; white-space: nowrap">Номер заказа:</span></td>
+                                                                        <td style="padding:0;Margin:0;"><span style="font-size:14px;line-height:21px;">{{$order->id}}</span></td>
+                                                                    </tr>
+                                                                    <tr style="border-collapse:collapse;">
+                                                                        <td style="padding:0;Margin:0;"><span style="font-size:14px;line-height:21px;">Дата заказа:</span></td>
+                                                                        <td style="padding:0;Margin:0;"><span style="font-size:14px;line-height:21px;">{{$order->created_at}}</span></td>
+                                                                    </tr>
+                                                                    <tr style="border-collapse:collapse;">
+                                                                        <td style="padding:0;Margin:0;"><span style="font-size:14px;line-height:21px;">Почта:</span></td>
+                                                                        <td style="padding:0;Margin:0;"><span style="font-size:14px;line-height:21px;">{{ $order->email}}</span></td>
+                                                                    </tr>
+                                                                    <tr style="border-collapse:collapse;">
+                                                                        <td style="padding:0;Margin:0;"><span style="font-size:14px;line-height:21px;">Телефон:</span></td>
+                                                                        <td style="padding:0;Margin:0;"><span style="font-size:14px;line-height:21px;">{{ $order->telephone}}</span></td>
+                                                                    </tr>
+                                                                </table>
+                                                                <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
+                                                                    <br></p></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!--[if mso]></td>
+                                        <td width="0"></td>
+                                        <td width="274" valign="top"><![endif]-->
+                                        <table class="es-right" cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td width="280" align="left" style="padding:0;Margin:0;">
+                                                    <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;background-color:#EFEFEF;border-width:1px;border-style:solid;border-color:#EFEFEF;" width="100%" cellspacing="0" cellpadding="0" bgcolor="#efefef">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="left" style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px;">
+                                                                <h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:'trebuchet ms', helvetica, sans-serif;">АДРЕС&nbsp;ДОСТАВКИ:</h4>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="left" style="padding:0;Margin:0;padding-bottom:20px;padding-left:20px;padding-right:20px;">
+                                                                <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">{{$order->first_name}} {{ $order->last_name}}</p>
+                                                                <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">{{$order->address}}</p>
+                                                                <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">{{$order->country}}, {{$order->region}}@if($order->city), г. {{$order->city}}@endif
+                                                                    @if($order->postcode),{{$order->postcode}}@endif</p>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!--[if mso]></td></tr>
+                                        </table><![endif]-->
+                                    </td>
+                                </tr>
+                                <tr style="border-collapse:collapse;">
+                                    <td align="left" style="Margin:0;padding-top:10px;padding-bottom:20px;padding-left:20px;padding-right:20px;">
+                                        <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td width="560" align="center" valign="top" style="padding:0;Margin:0;">
+                                                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="left" bgcolor="#eeeeee" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:10px;padding-right:10px;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#333333;text-align:center;"><strong>Способ оплаты:&nbsp; {{$order->payment->title}} {{$order->payment->payment_key}}</strong></p></td>
+                                                        </tr>
+                                                    </table></td>
+                                            </tr>
+                                        </table></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;">
+                    <tr style="border-collapse:collapse;">
+                        <td align="center" style="padding:0;Margin:0;">
+                            <table class="es-content-body" width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;">
+                                <tr style="border-collapse:collapse;">
+                                    <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;">
+                                        <!--[if mso]>
+                                        <table width="560" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td width="270" valign="top"><![endif]-->
+                                        <table class="es-left" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td class="es-m-p0r es-m-p20b" width="270" valign="top" align="center" style="padding:0;Margin:0;">
+                                                    <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="left" style="padding:0;Margin:0;padding-left:20px;">
+                                                                <h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:'trebuchet ms', helvetica, sans-serif;">ЗАКАЗАННЫЕ ТОВАРЫ</h4>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!--[if mso]></td>
+                                        <td width="20"></td>
+                                        <td width="270" valign="top"><![endif]-->
+                                        <table cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td width="270" align="left" style="padding:0;Margin:0;">
+                                                    <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="left" style="padding:0;Margin:0;">
+                                                                <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:100%;"
+                                                                       class="cke_show_border" cellspacing="1"
+                                                                       cellpadding="1" border="0">
+                                                                    <tr style="border-collapse:collapse;">
+                                                                        <td style="padding:0;Margin:0;"><span
+                                                                                    style="font-size:13px;">ТОВАР</span>
+                                                                        </td>
+                                                                        <td style="padding:0;Margin:0;text-align:center;"
+                                                                            width="60"><span
+                                                                                    style="font-size:13px;"><span
+                                                                                        style="line-height:100%;">КОЛ-ВО</span></span>
+                                                                        </td>
+                                                                        <td style="padding:0;Margin:0;text-align:center;"
+                                                                            width="100"><span
+                                                                                    style="font-size:13px;"><span
+                                                                                        style="line-height:100%;">ЦЕНА</span></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!--[if mso]></td></tr></table><![endif]--></td>
+                                </tr>
 
-    <table style="width:100%;border-collapse:collapse;border-spacing:0;empty-cells:show;border:1px solid #cbcbcb"
-           cellpadding="0" cellspacing="0" width="100%">
-        <thead style="background-color:#e0e0e0;color:#000;text-align:left;vertical-align:bottom">
-        <tr>
-            <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em">
-                &nbsp;
-                Фото
-            </th>
-            <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em">
-                Наименование товара
-            </th>
-            <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em">
-                Кол-во
-            </th>
-            <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em"
-                align="right">Цена за шт
-            </th>
-            <th style="border-width:0 0 1px 0;border-bottom:1px solid #cbcbcb;border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:0.5em 1em"
-                align="right">Всего
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($cart->items as $cartItem)
-            <tr>
-                <td style="">
-                    @if ($cartItem->frontImg)
-                        <img src="{{asset('/storage/files/90x110/'.$cartItem->frontImg->filename)}}" class=""
-                             alt="Фото товара">
-                    @endif
-                </td>
-                <td style="padding: 5px 0">{{$cartItem->item->title}}</td>
-                <td style="padding: 5px 0">{{$cartItem->qty}}</td>
-                <td style="padding: 5px 0">{{$cartItem->price/$cartItem->qty}} р.</td>
-                <td style="padding: 5px 0" align="right">{{$cartItem->price}} р.</td>
-            </tr>
-        @endforeach
-        <tr style="padding: 10px">
-            <td colspan="4" align="right"><strong>Предварительная стоимость:</strong></td>
-            <td align="right">
-                <strong>{{$cart->totalPrice}} р.</strong>
+                        <tr style="border-collapse:collapse;">
+                        <td align="left" style="padding:0;Margin:0;padding-left:20px;padding-right:20px;">
+                        <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                            <tr style="border-collapse:collapse;">
+                                <td width="560" valign="top" align="center" style="padding:0;Margin:0;">
+                                    <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                        <tr style="border-collapse:collapse;">
+                                            <td align="center" style="padding:0;Margin:0;padding-bottom:10px;">
+                                                <table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                    <tr style="border-collapse:collapse;">
+                                                        <td style="padding:0;Margin:0px;border-bottom:1px solid #EFEFEF;background:rgba(0, 0, 0, 0) none repeat scroll 0% 0%;height:1px;width:100%;margin:0px;"></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        </td>
+                        </tr>
+                                @foreach($cart['content'] as $cartItem)
+                                    <tr style="border-collapse:collapse;">
+                                        <td align="left"
+                                            style="Margin:0;padding-top:5px;padding-bottom:10px;padding-left:20px;padding-right:20px;">
+                                            <!--[if mso]>
+                                            <table width="560" cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td width="178" valign="top"><![endif]-->
+                                            <table class="es-left" cellspacing="0" cellpadding="0" align="left"
+                                                   style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left;">
+                                                <tr style="border-collapse:collapse;">
+                                                    <td class="es-m-p0r es-m-p20b" width="178" valign="top"
+                                                        align="center"
+                                                        style="padding:0;Margin:0;">
+                                                        <table width="100%" cellspacing="0" cellpadding="0"
+                                                               style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                            <tr style="border-collapse:collapse;">
+                                                                <td align="center" style="padding:0;Margin:0;">
+                                                                    <img src="{{asset('/storage/files/90x110/'.$cartItem->image)}}"
+                                                                         alt="{{$cartItem->name}}"
+                                                                         class="adapt-img"
+                                                                         title="{{$cartItem->name}}"
+                                                                         width="125"
+                                                                         style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;">
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <!--[if mso]></td>
+                                            <td width="20"></td>
+                                            <td width="362" valign="top"><![endif]-->
+                                            <table cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                <tr style="border-collapse:collapse;">
+                                                    <td width="362" align="left" style="padding:0;Margin:0;">
+                                                        <table width="100%" cellspacing="0" cellpadding="0"
+                                                               style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                            <tr style="border-collapse:collapse;">
+                                                                <td align="left" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#999999;"><br></p>
+                                                                    <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:100%;"
+                                                                           class="cke_show_border" cellspacing="1" cellpadding="1" border="0">
+                                                                        <tr style="border-collapse:collapse;">
+                                                                            <td style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#333333;">{{$cartItem->name}}</p>
+                                                                                <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#999999;">
+                                                                                    <em>Цвет: {{$cartItem->options['color']}}<br></em>
+                                                                                    <em>Цвет камня: {{$cartItem->options['color_stone']}}</em>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td style="padding:0;Margin:0;text-align:center;" width="60">
+                                                                                {{$cartItem->qty}}
+                                                                            </td>
+                                                                            <td style="padding:0;Margin:0;text-align:center;" width="100">
+                                                                                {{$cartItem->price}} р.
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#999999;">
+                                                                        <br></p></td>
+                                                            </tr>
+                                                            <tr style="border-collapse:collapse;">
+                                                                <td align="left" style="padding:0;Margin:0;"><p
+                                                                            style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#999999;">
+                                                                        <br></p></td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <!--[if mso]></td></tr></table><![endif]--></td>
+                                    </tr>
+                                @endforeach
+                                <tr style="border-collapse:collapse;">
+                                    <td align="left" style="padding:0;Margin:0;padding-left:20px;padding-right:20px;">
+                                        <table width="100%" cellspacing="0" cellpadding="0"
+                                               style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td width="560" valign="top" align="center" style="padding:0;Margin:0;">
+                                                    <table width="100%" cellspacing="0" cellpadding="0"
+                                                           style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="center"
+                                                                style="padding:0;Margin:0;padding-bottom:10px;">
+                                                                <table width="100%" height="100%" cellspacing="0"
+                                                                       cellpadding="0" border="0"
+                                                                       style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                                    <tr style="border-collapse:collapse;">
+                                                                        <td style="padding:0;Margin:0px;border-bottom:1px solid #EFEFEF;background:rgba(0, 0, 0, 0) none repeat scroll 0% 0%;height:1px;width:100%;margin:0px;"></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr style="border-collapse:collapse;">
+                                    <td align="left" style="Margin:0;padding-top:5px;padding-left:20px;padding-bottom:30px;padding-right:40px;">
+                                        <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td width="540" valign="top" align="center" style="padding:0;Margin:0;">
+                                                    <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="right" style="padding:0;Margin:0;">
+                                                                <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:500px;" class="cke_show_border" cellspacing="1" cellpadding="1" border="0" align="right">
+                                                                    <tr style="border-collapse:collapse;">
+                                                                        <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
+                                                                            Общая цена:
+                                                                        </td>
+                                                                        <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
+                                                                            {{$cart['totalPrice']}} р.
+                                                                        </td>
+                                                                    </tr>
+                                                                    @if($order['shipment'])
+                                                                        <tr style="border-collapse:collapse;">
+                                                                            <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
+                                                                                {{$cart['shipment']['title']}}:
+                                                                            </td>
+                                                                            <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
+                                                                                + {{$cart['shipment']['price']}} р.
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endif
+                                                                    @foreach($cart['coupons'] as $coupon)
+                                                                        <tr style="border-collapse:collapse;">
+                                                                            <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
+                                                                                Купон {{$coupon->name}}:
+                                                                            </td>
+                                                                            <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
+                                                                                - {{$coupon->discount}} р.
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                    <tr style="border-collapse:collapse;">
+                                                                        <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
+                                                                            <strong>Итоговая цена:</strong></td>
+                                                                        <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;color:#D48344;">
+                                                                            <strong style="white-space: nowrap">{{$order->totalPrice}} р.</strong>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
+                                                                    <br></p></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                @if($order->comment)
+                                    <tr style="border-collapse:collapse;">
+                                        <td align="left" style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px; padding-bottom: 20px">
+                                            <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                <tr style="border-collapse:collapse;">
+                                                    <td bgcolor="#eeeeee" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:10px;padding-right:10px;">
+                                                        <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#333333;text-align:left;">
+                                                            <strong>Комментарий</strong>
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr style="border-collapse:collapse;">
+                                                    <td  style="Margin:0;padding-top:10px;">
+                                                        <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#333333;text-align:left;">
+                                                            {{$order->comment}}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                @endif
+                                <tr style="border-collapse:collapse;">
+                                    <td align="left" style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;">
+                                        <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td width="560" align="center" valign="top" style="padding:0;Margin:0;">
+                                                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="center" style="padding:0;Margin:0;">
+                                                                <table cellpadding="0" cellspacing="0" class="es-table-not-adapt es-social" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                                    <tr style="border-collapse:collapse;">
+                                                                        <td align="center" valign="top" style="padding:0;Margin:0;padding-right:10px;">
+                                                                            <a target="_blank" href="https://www.instagram.com/Lotus_furnitura/" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:underline;color:#D48344;">
+                                                                                <img title="Instagram" src="{{asset('img/instagram-circle-colored.png')}}" alt="Inst" width="32" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;">
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;">
+                    <tr style="border-collapse:collapse;"></tr>
+                    <tr style="border-collapse:collapse;">
+                        <td align="center" style="padding:0;Margin:0;">
+                            <table class="es-footer-body" width="600" cellspacing="0" cellpadding="0" align="center" bgcolor="#ffffff" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;">
+                                <tr style="border-collapse:collapse;">
+                                    <td align="left" style="Margin:0;padding-bottom:10px;padding-left:10px;padding-right:10px;padding-top:15px;">
+                                        <table cellspacing="0" cellpadding="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                            <tr style="border-collapse:collapse;">
+                                                <td align="center" width="580" valign="top" style="padding:0;Margin:0;">
+                                                    <table cellspacing="0" cellpadding="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
+                                                        <tr style="border-collapse:collapse;">
+                                                            <td align="center" style="padding:0;Margin:0;padding-top:5px;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#999999;">lotus_furnitura@mail.ru</p></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
-        @if($order->shipment_method)
-            <tr style="padding: 10px">
-                <td colspan="4" align="right"><strong>{{$order->shipment_method}}</strong></td>
-                <td align="right">
-                    <strong>{{$order->shipment_price}} р.</strong>
-                </td>
-            </tr>
-        @endif
-        @if($cart->coupon)
-            <tr style="padding: 10px">
-                <td colspan="4" align="right"><strong>Купон:</strong></td>
-                <td align="right">
-                    <strong>{{$cart->coupon->name}}</strong>
-                </td>
-            </tr>
-        @endif
-        <tr style="padding: 10px 0">
-            <td colspan="4" align="right"><strong>Итоговая сумма:</strong></td>
-            <td align="right">
-                <strong>{{$order->totalPrice}} р.</strong>
-            </td>
-        </tr>
-        </tbody>
     </table>
-
 </div>
-<br>
-<div style="background: #e0e0e0; max-width: 300px; padding: 5px"><strong>Способ оплаты:</strong></div>
-<p class="panel-body">{{$order->payment_method}} {{$order->payment_id}}</p>
-</div>
-<br>
-@if($order->comment)
-    <div style="background: #e0e0e0; max-width: 300px; padding: 5px"><strong>Комментарий к заказу:</strong></div>
-    <p class="panel-body">{{$order->comment}}</p>
-@endif
-
 </body>
 </html>

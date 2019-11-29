@@ -4,7 +4,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab_1" data-toggle="tab">Общие</a></li>
                 <li class=""><a href="#tab_2" data-toggle="tab">Данные</a></li>
-                <li class=""><a href="#tab_4" data-toggle="tab">Скидки</a></li>
+{{--                <li class=""><a href="#tab_4" data-toggle="tab">Скидки</a></li>--}}
                 <li class=""><a href="#tab_5" data-toggle="tab">Акция</a></li>
             </ul>
             <div class="tab-content">
@@ -99,28 +99,28 @@
                         {!! Form::text('quantity',1, ['class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div id="tab_4" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                {!! Form::hidden('productDiscount[id]', null) !!}
-                                {!! Form::label('productDiscount[quantity]', 'Количество:') !!}
-                                {!! Form::text('productDiscount[quantity]', null, ['class' => 'form-control']) !!}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            {!! Form::label('productDiscount[price]', 'Цена:') !!}
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    {!! Form::text('productDiscount[price]', null, ['class' => 'form-control']) !!}
-                                </div>
-                                <div class="form-group">
-                                    {!! Form::select('productDiscount[price_prefix]', ['-' => '-', '%' => '%'], null, ['class' => 'form-control']) !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                <div id="tab_4" class="tab-pane">--}}
+{{--                    <div class="row">--}}
+{{--                        <div class="col-md-4">--}}
+{{--                            <div class="form-group">--}}
+{{--                                {!! Form::hidden('productDiscount[id]', null) !!}--}}
+{{--                                {!! Form::label('productDiscount[quantity]', 'Количество:') !!}--}}
+{{--                                {!! Form::text('productDiscount[quantity]', null, ['class' => 'form-control']) !!}--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-4">--}}
+{{--                            {!! Form::label('productDiscount[price]', 'Цена:') !!}--}}
+{{--                            <div class="form-inline">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    {!! Form::text('productDiscount[price]', null, ['class' => 'form-control']) !!}--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    {!! Form::select('productDiscount[price_prefix]', ['-' => '-', '%' => '%'], null, ['class' => 'form-control']) !!}--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <div id="tab_5" class="tab-pane">
                     <div class="row">
                         <div class="col-md-4">

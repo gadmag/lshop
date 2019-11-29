@@ -42,6 +42,15 @@
     display: none;
 }
 
+.tab-options .form-price{
+    width: 100px;
+}
+.tab-options .form-qty{
+    width: 60px;
+}
+.tab-options .form-weight{
+    width: 60px;
+}
 /*catalog*/
 .menu-link .sub-menu {
     list-style: none;

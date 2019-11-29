@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class  ProductRequest extends FormRequest
 {
-    const OPTION_ROWS = 8;
+//    const OPTION_ROWS = 8;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -33,23 +33,21 @@ class ProductRequest extends FormRequest
             'sort_order' => 'integer',
             'quantity' => 'integer',
             'weight' => 'number',
-            'productOptions' => 'required'
+            'productOptions' => 'required',
+            'productOptions.*.discount.price' => 'required_unless:productOptions.*.discount.quantity,',
+            'productOptions.*.discount.quantity' => 'required_unless:productOptions.*.discount.price,',
         ];
 
-        if ($this->filled('productDiscount.price') || $this->filled('productDiscount.quantity')) {
-            $rules += ['productDiscount.price' => 'required|numeric'];
-            $rules += ['productDiscount.quantity' => 'required|integer'];
-        }
 
         if ($this->filled('productSpecial.price')) {
             $rules += ['productSpecial.price' => 'required|numeric'];
         }
+
         if ($this->filled('productOptions.*.color') || $this->filled('productOptions.*.color_stone')) {
             $rules += ["productOptions.*.price" => 'sometimes|required|numeric'];
             $rules += ["productOptions.*.weight" => 'sometimes|required|numeric'];
             $rules += ["productOptions.*.quantity" => 'sometimes|required|integer'];
         }
-
         return $rules;
     }
 

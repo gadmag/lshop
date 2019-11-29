@@ -34,18 +34,6 @@
                 </a>
 
             </li>
-            <li class="header"><strong>Контент</strong></li>
-            <li><a href="{{url('admin/menus?menu_type=main_menu')}}"><i class="fa fa-list-ul"></i>Главное меню</a></li>
-            <li>
-                <a href="{{url('admin/blocks')}}"><i class="fa fa-th"></i> <span>Блоки</span></a>
-            </li>
-            <li class="treeview">
-                <a href="{{url('admin/pages')}}"><i class="fa fa-clone"></i> <span>Страницы</span></a>
-            </li>
-            <li><a href="{{url('admin/articles/photo/all')}}"><i class="fa fa-photo"></i> <span>Фотогалерея</span></a>
-            </li>
-            <li><a href="{{url('admin/articles/design/all')}}"><i class="fa fa-photo"></i>
-                    <span>Дизайнерские идеи</span></a></li>
             <li class="header"><strong>Интернет магазин</strong></li>
             <li class="treeview"><a href="{{url('admin/catalogs')}}"><i class="fa fa-tags" aria-hidden="true"></i>
                     <span>Каталог</span></a></li>
@@ -75,8 +63,30 @@
                             <i class="fa fa-circle-o text-red" aria-hidden="true"></i><span>Статусы заказа</span>
                         </a>
                     </li>
+                    <li class="treeview">
+                        <a href="{{route('shipments.index')}}">
+                            <i class="fa fa-circle-o text-red" aria-hidden="true"></i><span>Способы доставки</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="{{route('payments.index')}}">
+                            <i class="fa fa-circle-o text-red" aria-hidden="true"></i><span>Способы оплаты</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
+            <li class="header"><strong>Контент</strong></li>
+            <li><a href="{{url('admin/menus?menu_type=main_menu')}}"><i class="fa fa-list-ul"></i>Главное меню</a></li>
+            <li>
+                <a href="{{url('admin/blocks')}}"><i class="fa fa-th"></i> <span>Блоки</span></a>
+            </li>
+            <li class="treeview">
+                <a href="{{url('admin/pages')}}"><i class="fa fa-clone"></i> <span>Страницы</span></a>
+            </li>
+            <li><a href="{{url('admin/articles/photo/all')}}"><i class="fa fa-photo"></i> <span>Фотогалерея</span></a>
+            </li>
+            <li><a href="{{url('admin/articles/design/all')}}"><i class="fa fa-photo"></i>
+                    <span>Дизайнерские идеи</span></a></li>
             <li class="header"><strong>Пользователи</strong></li>
             <li><a href="{{url('admin/users')}}"><i class="fa fa-user"></i> <span>Пользователи</span></a></li>
         </ul>

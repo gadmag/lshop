@@ -6,12 +6,10 @@ namespace App\Services\Product;
 
 use App\Catalog;
 use App\Http\Controllers\Admin\UploadTrait;
-use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
 use App\Option;
 use App\Product;
 use App\Services\TreeService;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,9 +21,9 @@ class ProductQueries implements BaseQueries
     private $relations = [
         'productOptions',
         'productOptions.files',
+        'productOptions.discount',
         'productSpecial',
         'catalogs',
-        'productDiscount',
         'files'
     ];
 
@@ -55,18 +53,28 @@ class ProductQueries implements BaseQueries
         return $product->load($this->relations);
     }
 
-    public function create(ProductRequest $request): Product
+    public function create(Request $request): Product
     {
         return $this->createProduct($request);
     }
 
-    public function update(ProductRequest $request, int $id): Product
+    /** Update product by id
+     * @param Request $request
+     * @param int $id
+     * @return Product
+     */
+    public function update(Request $request, int $id): Product
     {
         $product = Product::with($this->relations)->findOrFail($id);
         return $this->updateProduct($request, $product);
     }
 
-    public function delete(int $id)
+
+    /** Delete product by id
+     * @param int $id
+     * @return Product
+     */
+    public function delete(int $id): Product
     {
         $product = Product::findOrFail($id);
         $deletedProduct = $product;
@@ -105,22 +113,22 @@ class ProductQueries implements BaseQueries
         return Product::has('productSpecial')->active()->take($limit)->get();
     }
 
+    public function getWishListProducts(array $ids): Collection
+    {
+        return Product::active()->whereIn('id', $ids)->get();
+    }
+
     public function getProductsByIds(array $ids)
     {
         return Product::active()->with($this->relations)->whereIn('id', $ids)->get();
     }
 
-    protected function createProduct(ProductRequest $request): Product
+    protected function createProduct(Request $request): Product
     {
-
         $product = Auth::user()->products()->create($request->all());
 
         if ($request->filled('productSeo')) {
             $product->productSeo()->create($request->productSeo);
-        }
-
-        if ($request->filled('productDiscount.price') || $request->filled('productDiscount.quantity')) {
-            $product->productDiscount()->create($request->productDiscount);
         }
 
         if ($request->filled('productSpecial.price')) {
@@ -128,11 +136,9 @@ class ProductQueries implements BaseQueries
         }
 
         if ($request->filled('productOptions')) {
-            $this->createMultipleOptions($request, $product);
+            $this->createOptions($request, $product);
         }
-        if ($product->productOptions()->exists()) {
-            $this->updateQuantity($product);
-        }
+
         if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $product, $this->imgResize, true);
         }
@@ -141,7 +147,7 @@ class ProductQueries implements BaseQueries
         return $product;
     }
 
-    protected function updateProduct(ProductRequest $request, Product $product): Product
+    protected function updateProduct(Request $request, Product $product): Product
     {
         $product->update($request->all());
 
@@ -151,12 +157,6 @@ class ProductQueries implements BaseQueries
             $product->productSeo()->delete();
         }
 
-        if ($request->filled('productDiscount.price') || $request->filled('productDiscount.quantity')) {
-            $discount_id = isset($request->productDiscount['id']) ? $request->productDiscount['id'] : null;
-            $product->productDiscount()->updateOrCreate(['id' => $discount_id], $request->productDiscount);
-        } else {
-            $product->productDiscount()->delete();
-        }
 
         if ($request->filled('productSpecial.price')) {
             $special_id = isset($request->productSpecial['id']) ? $request->productSpecial['id'] : null;
@@ -166,12 +166,9 @@ class ProductQueries implements BaseQueries
         }
 
         if ($request->filled('productOptions')) {
-            $this->updateMultipleOptions($request, $product);
+            $this->updateOptions($request, $product);
         }
 
-        if ($product->productOptions()->exists()) {
-            $this->updateQuantity($product);
-        }
 
         if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $product, $this->imgResize, true);
@@ -181,10 +178,11 @@ class ProductQueries implements BaseQueries
         return $product;
     }
 
-    protected function createMultipleOptions(ProductRequest $request, $product): void
+    protected function createOptions(Request $request, $product): void
     {
         foreach ($request->extractOptions() as $optionAttr) {
             $option = Option::create($optionAttr);
+            $option->discount()->create($optionAttr['discount']);
             if (!empty($optionAttr['image_option'])) {
                 $this->multipleUpload([$optionAttr['image_option']], $option, $this->imgResize, true);
             }
@@ -192,15 +190,16 @@ class ProductQueries implements BaseQueries
         }
     }
 
-    protected function updateMultipleOptions(ProductRequest $request, Product $product): void
+    protected function updateOptions(Request $request, Product $product): void
     {
-        $output = array_map(function ($item) {
+        $ids = array_map(function ($item) {
             return $item['id'];
         }, $request->extractOptions());
-        $product->productOptions()->whereNotIn('id', $output)->delete();
+        $this->deleteOptions($product->getOptionsNotIds($ids));
         foreach ($request->extractOptions() as $optionAttr) {
             $id = $product->productOptions()->updateOrCreate(['id' => $optionAttr['id']], $optionAttr)->id;
             $option = Option::whereId($id)->first();
+            $this->updateDiscount($option, $optionAttr['discount']);
             if (!empty($optionAttr['image_option'])) {
                 $this->multipleUpload([$optionAttr['image_option']], $option, $this->imgResize, true);
             }
@@ -212,13 +211,22 @@ class ProductQueries implements BaseQueries
         $product->catalogs()->sync($catalogs);
     }
 
-    protected function updateQuantity(Product $product): void
+    protected function updateDiscount(Option $option, array $attributes): void
     {
-        $sum_quantity = 0;
-        foreach ($product->productOptions as $option) {
-            $sum_quantity += $option->quantity;
+        if ($attributes['price'] || $attributes['quantity']) {
+            $option->discount()->updateOrCreate(['id' => $attributes['id']], $attributes);
+        } else {
+            $option->discount()->delete();
         }
-        $product->quantity = $sum_quantity;
-        $product->save();
+
     }
+
+    protected function deleteOptions($options)
+    {
+        foreach ($options as $option) {
+            $option->delete();
+        }
+    }
+
+
 }

@@ -146,7 +146,6 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')->with([
             'flash_message' => "{$product->title} добавлена",
-//          'flash_message_important'     => true
         ]);
     }
 
@@ -179,7 +178,6 @@ class ProductController extends Controller
         $product = $this->service->update($request, $id);
         return redirect()->route('products.index')->with([
             'flash_message' => "{$product->title} обновлена",
-//          'flash_message_important'     => true
         ]);
     }
 
@@ -193,7 +191,6 @@ class ProductController extends Controller
         $deletedProduct = $this->service->delete($id);
         return redirect()->route('products.index')->with([
             'flash_message' => "Продукт {$deletedProduct->alias} удален",
-//          'flash_message_important'     => true
         ]);
     }
 

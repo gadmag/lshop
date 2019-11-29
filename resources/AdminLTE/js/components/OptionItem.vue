@@ -6,13 +6,14 @@
             <td>Цвет камня: &nbsp;&nbsp;</td>
             <td>Фото:</td>
             <td>Цена:</td>
+            <td>Скидки</td>
             <td>Вес</td>
             <td>Кол-во</td>
             <td></td>
         </tr>
         </thead>
         <tbody>
-        <tr v-if="options && options.length > 0" v-for="(item, key) in forms" class="option-value-row">
+        <tr v-if="forms && forms.length > 0" v-for="(item, key) in forms" class="option-value-row">
             <td>
                 <div class="form-group">
                     <input type="hidden" :name="'productOptions['+key+'][id]'" :value="item.id">
@@ -45,7 +46,7 @@
 
                 <div class="input-group">
                     <label>Фото товара</label>
-                    <input type="file"  :name="'productOptions['+key+'][image_option]'" multiple>
+                    <input type="file" :name="'productOptions['+key+'][image_option]'" multiple>
                     <p class="help-block">Выберите файл для добавления</p>
                 </div>
 
@@ -53,14 +54,33 @@
             <td>
                 <div class="form-group">
 
-                    <input class="form-control" :name="'productOptions['+key+'][price]'" type="text" :value="item.price"
+                    <input class="form-control form-price" :name="'productOptions['+key+'][price]'" type="text"
+                           :value="item.price"
                            placeholder="Цена:">
                 </div>
             </td>
+            <td>
+                <div class="form-inline">
+                    <input type="hidden" :name="'productOptions['+key+'][discount][id]'" :value="item.discount?item.discount.id:null">
+                    <div class="form-group">
+                        <div><label>Цена</label></div>
+                        <input class="form-control form-price" :name="'productOptions['+key+'][discount][price]'"
+                               type="text"
+                               :value="item.discount?item.discount.price:null" placeholder="Цена:">
+                    </div>
+                    <div class="form-group">
 
+                        <div><label>Кол-во:</label></div>
+                        <input class="form-control form-qty" :name="'productOptions['+key+'][discount][quantity]'"
+                               type="text"
+                               :value="item.discount?item.discount.quantity:null" placeholder="Кол-во:">
+                    </div>
+
+                </div>
+            </td>
             <td>
                 <div class="form-group">
-                    <input class="form-control" :name="'productOptions['+key+'][weight]'" type="text"
+                    <input class="form-control form-weight" :name="'productOptions['+key+'][weight]'" type="text"
                            :value="item.weight"
                            placeholder="Вес:">
                 </div>
@@ -68,25 +88,23 @@
             </td>
             <td>
                 <div class="form-group">
-                    <input :name="'productOptions['+key+'][quantity]'" type="text" class="form-control"
+                    <input :name="'productOptions['+key+'][quantity]'" type="text" class="form-control form-qty"
                            :value="item? item.quantity: 1" placeholder="Кол-во:">
 
                 </div>
             </td>
             <td>
                 <button v-if="item" :data-id="item.id" @click="removeOption(key)" type="button" data-toggle="tooltip"
-                        class="remove-options btn btn-danger"><i
-                        class="fa fa-minus-circle"></i></button>
+                        class="remove-options btn btn-danger"><i class="fa fa-minus-circle"></i></button>
             </td>
         </tr>
         </tbody>
 
         <tfoot>
-        <td colspan="6"></td>
-        <td class="text-left">
+        <td colspan="7"></td>
+        <td class="text-center">
             <button id="add-optionss" @click="addOption" data-type="coating" type="button" data-toggle="tooltip"
-                    class="option-button btn btn-primary"><i
-                    class="fa fa-plus-circle"></i></button>
+                    class="option-button btn btn-primary"><i class="fa fa-plus-circle"></i></button>
         </td>
         </tfoot>
     </table>
@@ -97,7 +115,11 @@
         props: {
             options: {
                 type: Array,
-                default: []
+                // default: []
+            },
+            old_options:{
+                type: Array,
+                // default: []
             },
             colors: {},
             colors_stone: {}
@@ -107,17 +129,27 @@
                 forms: this.options
             }
         },
+
+        mounted() {
+            this.forms = this.forms.concat(this.old_options);
+            console.log('Component mounted.')
+        },
+
         methods: {
             addOption() {
+                console.log('push');
                 this.forms.push({
                     id: '',
                     color: '',
                     color_stone: '',
                     image_option: '',
                     price: '',
+                    discount: {
+                        id: '',
+                        quantity: '',
+                        price: ''
+                    },
                     weight: '',
-                    price_prefix: '+',
-                    weight_prefix: '+',
                     quantity: 1
                 })
             },
@@ -126,24 +158,22 @@
                 if (this.forms[key].id) {
                     var url = "/admin/option/" + this.forms[key].id;
                     this.forms.splice(key, 1);
-                   /* axios.get(url)
-                        .then((res) => {
-                            this.forms.splice(key, 1)
-                        })
-                        .catch((error) => {
-                            console.log(error)
-                        })
-                        .finally(() => {
-                            // this.loading = false;
-                        })
-                    */
+                    /* axios.get(url)
+                         .then((res) => {
+                             this.forms.splice(key, 1)
+                         })
+                         .catch((error) => {
+                             console.log(error)
+                         })
+                         .finally(() => {
+                             // this.loading = false;
+                         })
+                     */
                 } else {
                     this.forms.splice(key, 1)
                 }
             }
         },
-        mounted() {
-            console.log('Component mounted.')
-        }
+
     }
 </script>

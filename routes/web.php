@@ -32,22 +32,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
         'blocks' => 'BlockController',
         'fieldOptions' => 'FieldOptionController',
         'orderStatus' => 'OrderStatusController',
-        'coupons' => 'CouponController'
+        'coupons' => 'CouponController',
+        'shipments' => 'ShipmentController',
+        'payments' => 'PaymentController'
     ],
         [
             'except' => ['show']
         ]);
     //orders
     Route::resources(['orders' => 'OrderController']);
-//    Route::get('orders', ['as' => 'order.index', 'uses' => 'OrderController@index']);
-//    Route::get('orders/{order}/edit', ['as' => 'order.edit', 'uses' => 'OrderController@edit']);
-//    Route::delete('orders/{order}', ['as' => 'orders.destroy', 'uses' => 'OrderController@destroy']);
-//    Route::put('orders/{order}', ['as' => 'order.update', 'uses' => 'OrderController@update']);
-//    Route::get('orders/{order}', ['as' => 'order.show', 'uses' => 'OrderController@show']);
     Route::get('api/orders', ['as' => 'order.api', 'uses' => 'OrderController@search']);
     Route::post('api/orders/add-to-cart/{id}', ['as' => 'order.addToCart', 'uses' => 'OrderController@addToCart']);
-    Route::post('api/orders/remove-to-cart/{id}', ['as' => 'order.removeToCart', 'uses' => 'OrderController@getRemoveItem']);
-    Route::post('api/orders/update-cart/{id}', ['as' => 'order.updateCart', 'uses' => 'OrderController@getUpdateCart']);
+    Route::get('api/orders/remove-to-cart/{id}', ['as' => 'order.removeToCart', 'uses' => 'OrderController@removeItem']);
+    Route::post('api/orders/update-cart/{id}', ['as' => 'order.updateCart', 'uses' => 'OrderController@updateCart']);
     //relates
     Route::get('option/{id}', 'ProductController@deleteOption');
     //upload
@@ -68,23 +65,36 @@ Route::group(['middleware' => 'web'], function () {
 
     /*page*/
     Route::get('pages/{page_alias}', ['as' => 'page.show', 'uses' => 'PageController@show']);
+
     /*product*/
     Route::get('products/{product_alias}', ['as' => 'product.show', 'uses' => 'ProductController@show']);
     Route::get('products', ['as' => 'product.index', 'uses' => 'ProductController@index']);
     Route::get('api/products', ['as' => 'product.api', 'uses' => 'ProductController@getJsonProducts']);
-    Route::get('add-to-cart/{id}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
-    Route::get('reduce/{id}', ['as' => 'product.reduceByOne', 'uses' => 'ProductController@getReduceByOne']);
-    Route::get('remove/{id}', ['as' => 'product.removeItem', 'uses' => 'ProductController@getRemoveItem']);
+
+    /*cart*/
+    Route::get('api/add-to-cart/{id}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
+    Route::get('api/reduce/{id}', ['as' => 'product.reduceByOne', 'uses' => 'ProductController@reduceByOne']);
+    Route::get('api/remove/{id}', ['as' => 'product.removeItem', 'uses' => 'ProductController@removeItem']);
+    Route::get('api/add-coupon/{code}', ['as' => 'product.addCoupon', 'uses' => 'ProductController@addCoupon']);
+    Route::get('api/add-shipment/{id}', ['as' => 'addShipment', 'uses' => 'ProductController@addShipment']);
+    Route::get('api/update-cart/{id}', ['as' => 'product.updateCart', 'uses' => 'ProductController@updateCart']);
+
+
+    /* WishList */
     Route::get('add-to-wishlist/{id}', ['as' => 'product.addToWishList', 'uses' => 'ProductController@addToWishList']);
     Route::get('remove-to-wishlist/{id}', ['as' => 'product.removeToWishList', 'uses' => 'ProductController@removeToWishList']);
     Route::get('wishlist', ['as' => 'product.WishList', 'uses' => 'ProductController@getWishList']);
     Route::get('wishlist-json', ['as' => 'product.WishListJson', 'uses' => 'ProductController@getWishListJson']);
+
+    /*shopping cart*/
     Route::get('shopping-cart', ['as' => 'product.shoppingCart', 'uses' => 'ProductController@getCart']);
     Route::get('shopping-cart-detail', ['as' => 'product.shoppingCartDerail', 'uses' => 'ProductController@getCartDetail']);
 
     /*checkout*/
     Route::get('checkout', ['as' => 'checkout', 'uses' => 'CheckoutController@getCheckout', 'middleware' => 'auth']);
     Route::post('checkout', ['as' => 'checkoutPost', 'uses' => 'CheckoutController@postCheckout', 'middleware' => 'auth']);
+    Route::post('/api/checkout/validStepFirst',['as' => 'validStepFirst', 'uses' => 'CheckoutController@validStepFirst']);
+    Route::post('/api/checkout/validStepSecond',['as' => 'validStepSecond', 'uses' => 'CheckoutController@validStepSecond']);
 
     /*catalog*/
     Route::get('catalogs/{catalog_alias}', ['as' => 'catalog.show', 'uses' => 'CatalogController@show']);
@@ -94,7 +104,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('rss.xml', ['as' => 'feed', 'uses' => 'ArticleController@feed']);
 
 
-    //Route::get('tags/{tags}', 'TagsController@show');
     Route::get('/', ['as' => 'front', 'uses' => 'FrontController@index']);
 
     //Auth

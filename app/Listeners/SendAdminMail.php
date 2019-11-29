@@ -35,6 +35,5 @@ class SendAdminMail implements ShouldQueue
     public function handle(OrderCreateEvent $event)
     {
         Mail::to(config('payment.send_mail'))->send(new OrderAdminShipped($event->order));
-
     }
 }

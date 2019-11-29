@@ -1,8 +1,6 @@
 
 <div class="row">
-{{--    {!! dd($order->cart) !!}--}}
     <div class="col-md-8 page-default">
-
         <div class="row">
             <div class="col-md-4">
                 <div class="box box-default ">
@@ -11,12 +9,12 @@
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="form-group">
-                            {!! Form::label('payment_method', 'Метод оплаты:') !!}
-                            {!! Form::text('payment_method', null, ['class' => 'form-control']) !!}
+                            {!! Form::label('payment_title', 'Платежная система:') !!}
+                            {!! Form::text('payment_title', $order->payment->title, ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
-                            {!! Form::label('payment_id', 'id оплаты:') !!}
-                            {!! Form::text('payment_id', null, ['class' => 'form-control']) !!}
+                            {!! Form::label('payment_id', 'Ключ оплаты:') !!}
+                            {!! Form::text('payment_key', $order->payment->payment_key, ['class' => 'form-control']) !!}
                         </div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
@@ -78,7 +76,7 @@
                 <h3 class="box-title">Товары</h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-                <order :products="{{$products}}" :order="{{collect($order)}}" :coupons="{{$coupons}}" :payment_config="{{$payment_config}}"></order>
+                <order :products="{{$products}}" :order="{{collect($order)}}" :shipments = "{{$shipments}}" :coupons="{{$coupons}}" :payment_config="{{$payment_config}}"></order>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
 

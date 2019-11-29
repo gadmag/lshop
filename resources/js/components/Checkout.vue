@@ -1,266 +1,275 @@
 <template>
     <div id="checkout-block">
+        <div class="row">
+            <div class="col-sm-8">
+                <form :action="route" method="post" id="checkoutForm" :class="{'was-validated1': error_toggle}"
+                      name="checkoutForm">
 
-        <form :action="route" method="post" id="checkoutForm" :class="{'was-validated1': error_toggle}"
-              name="checkoutForm">
-
-            <form-wizard @on-complete="onComplete" shape="square"
-                         step-size="xs"
-                         color="#072d45"
-                         title=""
-                         subtitle=""
-                         back-button-text="Назад"
-                         next-button-text="Продолжить"
-                         finish-button-text="Купить">
-
-                <tab-content title="Личные данные" :before-change="stepFirstValid">
-
-                    <div class="row">
-                        <div class="col-sm-6">
-
+                    <form-wizard @on-complete="onComplete" shape="square"
+                                 step-size="xs"
+                                 color="#072d45"
+                                 title=""
+                                 subtitle=""
+                                 back-button-text="Назад"
+                                 next-button-text="Продолжить"
+                                 finish-button-text="Купить">
+                        <tab-content title="Личные данные" :before-change="stepFirstValid">
                             <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group required">
+                                            <input :type="text" id="first_name" placeholder="Имя*" name="first_name"
+                                                   v-model="first_name"
+                                                   class="form-control"
+                                                   :class="{'is-invalid': errors && errors.first_name}">
+                                            <span v-if="errors && errors.first_name" class="invalid-feedback"
+                                                  role="alert">{{ errors.first_name }}</span>
 
-                                <legend>Личные данные</legend>
-
-                                <div class="form-group required">
-                                    <input :type="text" id="first_name" placeholder="Имя" name="first_name"
-                                           v-model="first_name"
-                                           class="form-control" :class="{'is-invalid': error_list.first_name}">
-                                    <div class="invalid-feedback">{{ error_list.first_name }}</div>
-
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group required">
+                                            <input :type="text" id="last_name" placeholder="Фамилия*" name="last_name"
+                                                   v-model="last_name"
+                                                   class="form-control"
+                                                   :class="{'is-invalid': errors && errors.last_name }">
+                                            <span v-if="errors && errors.last_name" class="invalid-feedback"
+                                                  role="alert">{{errors.last_name}}</span>
+                                        </div>
+                                    </div>
                                 </div>
 
 
                                 <div class="form-group required">
-                                    <input :type="text" id="last_name" placeholder="Фамилия" name="last_name"
-                                           v-model="last_name"
-                                           class="form-control" :class="{'is-invalid': error_list.last_name }">
-                                    <div class="invalid-feedback">{{error_list.last_name}}</div>
+                                    <input :type="text" id="email" placeholder="E-mail*" name="email" v-model="email"
+                                           class="form-control" :class="{'is-invalid': errors && errors.email}">
+                                    <span v-if="errors && errors.email" class="invalid-feedback" role="alert">{{ errors.email }}</span>
                                 </div>
 
                                 <div class="form-group required">
-                                    <input :type="text" id="email" placeholder="E-mail" name="email" v-model="email"
-                                           class="form-control" :class="{'is-invalid': error_list.email}">
-                                    <div class="invalid-feedback">{{ error_list.email }}</div>
-                                </div>
-
-                                <div class="form-group required">
-                                    <input :type="text" id="telephone" placeholder="Телефон" name="telephone"
+                                    <input :type="text" id="telephone" placeholder="Телефон*" name="telephone"
                                            v-model="telephone"
-                                           class="form-control" :class="{'is-invalid': error_list.telephone }">
-                                    <div class="invalid-feedback">{{ error_list.telephone}}</div>
+                                           class="form-control" :class="{'is-invalid': errors && errors.telephone }">
+                                    <span v-if="errors && errors.telephone" class="invalid-feedback" role="alert">{{ errors.telephone}}</span>
                                 </div>
                                 <div class="form-group">
-                                    <!--                                    <label for="company">Компания</label>-->
                                     <input :type="text" id="company" placeholder="Компания" name="company"
                                            v-model="company"
-                                           class="form-control" :class="{'is-invalid': error_list.company }">
-                                    <div class="invalid-feedback">{{ error_list.company}}</div>
+                                           class="form-control" :class="{'is-invalid': errors && errors.company }">
+                                    <span v-if="errors && errors.company" class="invalid-feedback" role="alert">{{ errors.company}}</span>
                                 </div>
                             </fieldset>
-                        </div>
-                        <div class="col-sm-6">
                             <fieldset>
-                                <legend>Адрес</legend>
-                                <div class="form-group required">
-                                    <input :type="text" id="address" placeholder="Адрес" name="address"
-                                           class="form-control"
-                                           v-model="address" :class="{'is-invalid': error_list.address }">
-                                    <div class="invalid-feedback">{{ error_list.address }}</div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group required">
+                                            <input :type="text" id="address" placeholder="Адрес*" name="address"
+                                                   class="form-control"
+                                                   v-model="address" :class="{'is-invalid': errors && errors.address }">
+                                            <span v-if="errors && errors.address" class="invalid-feedback" role="alert">{{ errors.address }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input :type="text" id="postcode" placeholder="Индекс" name="postcode"
+                                                   v-model="postcode"
+                                                   class="form-control"
+                                                   :class="{'is-invalid': errors && errors.postcode }">
+                                            <span v-if="errors && errors.postcode" class="invalid-feedback">{{ errors.postcode }}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <input :type="text" id="postcode" placeholder="Индекс" name="postcode"
-                                           v-model="postcode"
-                                           class="form-control" :class="{'is-invalid': error_list.postcode }">
-                                    <div class="invalid-feedback">{{ error_list.postcode }}</div>
-                                </div>
-                                <div class="form-group required">
-                                    <input :type="text" id="city" placeholder="Город" name="city" v-model="city"
-                                           class="form-control" :class="{'is-invalid': error_list.city }">
-                                    <div class="invalid-feedback">{{ error_list.city }}</div>
-                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group required">
+                                            <input :type="text" id="city" placeholder="Город*" name="city" v-model="city"
+                                                   class="form-control" :class="{'is-invalid': errors && errors.city }">
+                                            <span v-if="errors && errors.city" class="invalid-feedback" role="alert">{{ errors.city }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group required">
+                                            <select v-model="country" class="form-control"
+                                                    :class="{'is-invalid': errors && errors.country }">
+                                                <option :selected="null" :value="null">Выбрать страну*</option>
+                                                <option v-for="item in countries" :value="item">{{item.name}}</option>
+                                            </select>
+                                            <input id="country" type="hidden" name="country" :value="country_object">
+                                            <span v-if="errors && errors.country" role="alert" class="invalid-feedback">{{errors.country }}</span>
 
-                                <div class="form-group required">
-                                    <select name="country" id="country" v-model="country"
-                                            class="form-control" :class="{'is-invalid': error_list.country }">
-                                        <option :selected="null" v-bind:value="null">Выбрать страну</option>
-                                        <option v-for="item in countries" v-bind:value="item.id">{{item.name}}</option>
-                                    </select>
-                                    <div class="invalid-feedback">{{ error_list.country }}</div>
-
-                                </div>
-                                <div v-if="country" class="form-group">
-                                    <select name="region" v-model="region" id="region"
-                                            class="form-control" :class="{'is-invalid': error_list.region }">
-                                        <option :selected="null" v-bind:value="null">Выбрать регион</option>
-                                        <option v-for="region in countries[country].regions" :value="region.id">
-                                            {{region.name}}
-                                        </option>
-                                    </select>
-                                    <div class="is-invalid">{{ error_list.region}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <select name="region" v-model="region" id="region"
+                                                    class="form-control"
+                                                    :class="{'is-invalid': errors && errors.region }">
+                                                <option :selected="null" v-bind:value="null">Выбрать регион</option>
+                                                <template v-if="country">
+                                                    <option v-for="region in country.regions" :value="region.name">
+                                                        {{region.name}}
+                                                    </option>
+                                                </template>
+                                            </select>
+                                            <span v-if="errors && errors.region" class="is-invalid" role="alert">{{errors.region}}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </fieldset>
-                        </div>
-                    </div>
-                </tab-content>
-                <tab-content title="Способ оплаты и доставки" :before-change="stepSecondValid">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <fieldset>
-                                <legend>Выберите способ оплаты</legend>
-                                <div class="form-group" :class="{'is-invalid': error_list.payment }">
-                                    <div class="custom-control custom-radio">
-                                        <input id="credit_card" type="radio" name="payment" v-model="payment"
-                                               value="credit_card" class="custom-control-input">
-                                        <label for="credit_card" class="custom-control-label">
-                                            <img src="/img/sber.jpg" alt="Банковская карта"> Банковская карта
-                                        </label>
-
-                                    </div>
-                                    <div class="custom-control custom-radio">
-                                        <input id="qiwi" type="radio" name="payment" v-model="payment"
-                                               value="qiwi" class="custom-control-input">
-                                        <label for="qiwi" class="custom-control-label">
-                                            <img src="/img/qiwi.png" alt="">QIWI Кошелек
-                                        </label>
-                                    </div>
-                                    <div class="custom-control custom-radio">
-                                        <input id="yandex" type="radio" name="payment" v-model="payment"
-                                               value="yandex" class="custom-control-input">
-                                        <label for="yandex" class="custom-control-label">
-                                            <img src="/img/yandex.jpg" alt=""> Яндекс кошелек
-                                        </label>
-                                    </div>
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" name="payment" id="paypal" v-model="payment"
-                                               value="paypal" class="custom-control-input">
-                                        <label for="paypal" class="custom-control-label">
-                                            <img src="/img/paypal.jpg" alt=""> Paypal кошелек
-                                        </label>
-                                    </div>
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" name="payment" id="cash" v-model="payment"
-                                               value="cash" class="custom-control-input">
-                                        <label for="cash" class="custom-control-label">
-                                            <img src="/img/cash.png" alt=""> Оплата при получении
-                                        </label>
-                                    </div>
-                                    <div class="invalid-feedback">{{error_list.payment}}</div>
+                        </tab-content>
+                        <tab-content title="Способ оплаты и доставки" :before-change="stepSecondValid">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6">
+                                    <fieldset>
+                                        <legend>Выберите способ оплаты</legend>
+                                        <div class="form-group" :class="{'is-invalid': errors && errors.payment }">
+                                            <div v-for="item in payments" class="custom-control custom-radio">
+                                                <input :id="item.name" type="radio" name="payment" v-model="payment"
+                                                       :value="JSON.stringify(item)" class="custom-control-input">
+                                                <label :for="item.name" class="custom-control-label">
+                                                    <img :src="'/storage/files/'+ item.files.filename"
+                                                         alt="Банковская карта">{{item.title}}
+                                                </label>
+                                            </div>
+                                            <span v-if="errors && errors.payment" class="invalid-feedback" role="alert">{{errors.payment}}</span>
+                                        </div>
+                                    </fieldset>
                                 </div>
-                            </fieldset>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <fieldset>
-                                <legend>Выбрать способ доставки</legend>
-                                <div class="form-group" :class="{'is-invalid': error_list.shipment }">
-                                    <div class="custom-control custom-radio">
-                                        <input id="pochta_ru" v-model="shipment" type="radio" value="pochta_ru"
-                                               name="shipment" class="custom-control-input">
-                                        <label for="pochta_ru" class="custom-control-label">
-                                            <span class="img-shipp"><img src="/img/ship3.gif" alt="Почта России"></span>
-                                            Доставка почтой по России <span v-if="country">(наценка + {{shipmentCountry('pochta_ru')}})</span>
-                                        </label>
-                                    </div>
-                                    <div class="custom-control custom-radio">
-                                        <input id="pochta_gl" v-model="shipment" type="radio" value="pochta_gl"
-                                               name="shipment" class="custom-control-input">
-                                        <label for="pochta_gl" class="custom-control-label">
-                                            <span class="img-shipp"><img src="/img/ship3.gif" alt="Почта России"></span>
-                                            Доставка почтой за пределы России <span v-if="country">(наценка + {{shipmentCountry('pochta_gl')}})</span>
-                                        </label>
-                                    </div>
-                                    <div class="custom-control custom-radio">
-                                        <input id="cdek" v-model="shipment" type="radio" value="cdek"
-                                               name="shipment" class="custom-control-input">
-                                        <label for="cdek" class="custom-control-label">
-                                            <span class="img-shipp"><img src="/img/cdek.jpg" alt="Почта России"></span>
-                                            СДЭК пункт выдачи
-                                        </label>
-                                    </div>
-                                    <div class="custom-control custom-radio">
-
-                                        <input id="pickup" v-model="shipment" type="radio" value="pickup"
-                                               name="shipment" class="custom-control-input">
-                                        <label for="pickup" class="custom-control-label">
-                                            <span class="img-shipp"><img src="/img/pickup.png" alt="Самовывоз"></span>
-                                            Самовывоз
-                                        </label>
-                                    </div>
-                                    <div class="invalid-feedback">{{error_list.shipment}}</div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <fieldset>
+                                        <legend>Выбрать способ доставки</legend>
+                                        <div class="form-group" :class="{'is-invalid': errors && errors.shipment }">
+                                            <div v-for="item in shipments" class="custom-control custom-radio">
+                                                <input :id="item.name" v-model="shipment" type="radio"
+                                                       :value="JSON.stringify(item)"
+                                                       name="shipment" @input="addShipmentToCart(item.id)"
+                                                       class="custom-control-input">
+                                                <label :for="item.name" class="custom-control-label">
+                                                    <span class="img-shipp">
+                                                        <img :src="'/storage/files/'+ item.files.filename"
+                                                             :alt="item.title">
+                                                    </span>{{item.title}}
+                                                </label>
+                                            </div>
+                                            <span v-if="errors && errors.shipment" class="invalid-feedback" role="alert">{{errors.shipment}}</span>
+                                        </div>
+                                    </fieldset>
                                 </div>
-                            </fieldset>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <hr>
-                            <div style="max-width: 180px" class="form-group">
-                                <label for="coupon">Промокод</label>
-                                <input v-on:change="isCoupon" v-model="coupon" type="text" name="coupon" id="coupon"
-                                       class="form-control">
                             </div>
-                            <div class="form-group">
-                                <label for="comment">Комментарий</label>
-                                <textarea class="form-control" :class="{'is-invalid': error_list.comment }" rows="5"
-                                          name="comment" id="comment"
-                                          v-model="comment"></textarea>
-                                <div class="invalid-feedback">{{ error_list.comment}}</div>
+                            <div class="row pt-4">
+                                <div class="col-md-12">
+                                    <div class="bg-light  px-4 py-3 text-uppercase font-weight-bold">Комментарий к
+                                        заказу
+                                    </div>
+                                    <div class="p-4">
+                                        <p class="font-italic mb-4">Если у вас есть комментарий к заказу, Вы можете
+                                            оставить его
+                                            в поле ниже.</p>
+                                        <textarea name="comment" id="comment" v-model="comment" cols="30" rows="3"
+                                                  :class="{'is-invalid': error_list.comment }"
+                                                  class="form-control"></textarea>
+                                        <div class="invalid-feedback">{{ error_list.comment}}</div>
+                                    </div>
+                                </div>
                             </div>
+                        </tab-content>
+                        <tab-content title="Подтверждение заказа">
+
+                            <div class="">
+                                <table id="cart" class="table table-shopping-cart">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" class="border-0 bg-light">
+                                            <div class="p-1 text-uppercase">Товар</div>
+                                        </th>
+                                        <th scope="col" class="border-0 bg-light">
+                                            <div class="p-1 text-uppercase">Цена</div>
+                                        </th>
+                                        <th scope="col" class="border-0 bg-light">
+                                            <div class="p-1 text-uppercase">Кол-во</div>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(cartItem, key, index) in cart.content">
+                                        <td scope="row" :class="{'border-0': index == 0}">
+                                            <div class="p-2">
+                                                <img v-if="cartItem.image"
+                                                     :src="'/storage/files/90x110/'+cartItem.image"
+                                                     class="img-fluid rounded shadow-sm" width="80" alt="Фото товара">
+                                                <div class="ml-3 d-inline-block align-middle">
+                                                    <h6 class="mb-0"><span href="#"
+                                                                           class="text-dark d-inline-block align-middle">{{cartItem.name}}</span>
+                                                    </h6>
+                                                    <span v-if="cartItem.options.color"
+                                                          class="text-muted font-weight-normal font-italic d-block">
+                                    Цвет: {{cartItem.options.color}}
+                                </span>
+                                                    <span v-if="cartItem.options.color_stone"
+                                                          class="text-muted font-weight-normal font-italic d-block">
+                                    Цвет камня: {{cartItem.options.color_stone}}
+                                </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center" :class="{'border-0': index == 0}"
+                                            data-th="Цена">{{cartItem.price}} р.
+                                        </td>
+                                        <td class="align-middle text-center" :class="{'border-0': index == 0}"
+                                            data-th="Кол-во">{{cartItem.qty}}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </tab-content>
+
+                    </form-wizard>
+
+                    <input type="hidden" name="_token" :value="csrf">
+                </form>
+            </div>
+            <div class="col-sm-4 pt-5">
+                <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Код Купона</div>
+                <div class="p-4">
+                    <p class="font-italic mb-4">Введите промокод в поле ниже.</p>
+                    <div class="input-group mb-4">
+                        <input type="text" placeholder="Промокод" :class="{'is-invalid': error_coupon}"
+                               v-model="coupon_code" aria-describedby="button-addon3" class="py-2 form-control">
+                        <div class="input-group-append border-0">
+                            <button type="button" @click="addCouponToCart(coupon_code)" class="btn btn-dark"><i
+                                    class="fa fa-gift mr-2"></i>Применить
+                            </button>
                         </div>
+                        <div class="invalid-feedback">{{error_coupon}}</div>
                     </div>
-                </tab-content>
-                <tab-content title="Подтверждение заказа">
-
-                    <div class="">
-                        <table id="cart" class="table table-shopping-cart table-hover table-condensed">
-                            <thead>
-                            <tr>
-                                <th style="width: 55%">Наименование</th>
-                                <th style="width: 10%">Кол-во</th>
-                                <th style="width: 15%">Цена за шт</th>
-                                <th style="width: 20%" class="text-right">Всего</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="(cartItem, key, index) in this.$parent.cart.items">
-                                <!--<td>{{cartItem.item.id}}</td>-->
-                                <td class="title">{{cartItem.item.title}}</td>
-                                <td data-th="Кол-во"><strong>{{cartItem.qty}}</strong></td>
-                                <td data-th="Цена">{{cartItem.price/cartItem.qty}} р.</td>
-                                <td data-th="Итого" class="text-right">{{cartItem.price}} р.</td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <td colspan="3" class="text-right"><strong>Предварительная стоимость:</strong></td>
-                                <td class="text-right">
-                                    <strong>{{this.$parent.cart.totalPrice}} р.</strong>
-                                </td>
-                            </tr>
-                            <tr v-if="this.shipment">
-                                <td colspan="3" class="text-right"><strong>{{this.paymentConfig.shipment_method[this.shipment].method}}</strong>
-                                </td>
-                                <td class="text-right"><strong>{{this.shipmentCountry(this.shipment)}} р</strong></td>
-                            </tr>
-                            <tr v-if="this.couponItem">
-                                <td colspan="3" class="text-right"><strong>Промокод:</strong></td>
-                                <td class="text-right"><strong>{{this.couponItem.name}}</strong></td>
-                            </tr>
-                            <tr v-if="activeSum">
-                                <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
-                                <td class="text-right"><strong>{{getTotalPrice()}} р.</strong></td>
-                            </tr>
-                            </tfoot>
-                        </table>
-
-                    </div>
-                </tab-content>
-
-            </form-wizard>
-
-            <input type="hidden" name="_token" :value="csrf">
-        </form>
-
+                </div><!-- /Промокод -->
+                <div class="bg-light  px-4 py-3 text-uppercase font-weight-bold">Итог заказа</div>
+                <div class="p-4">
+                    <p class="font-italic mb-4">Доставка и дополнительные расходы будут рассчитываться на основе
+                        введенных Вами значений.</p>
+                    <ul class="list-unstyled mb-4">
+                        <li v-if="isCoupon || isShipment"
+                            class="d-flex justify-content-between py-3 border-bottom">
+                            <strong class="text-muted">Сумма</strong><strong>{{cart.totalPrice}} р.</strong>
+                        </li>
+                        <li v-if="isShipment" class="d-flex justify-content-between py-3 border-bottom">
+                            <strong class="text-muted">{{cart.shipment.title}}</strong>&nbsp;<strong
+                                class="text-nowrap">+ {{cart.shipment.price}} р.</strong>
+                        </li>
+                        <li v-for="coupon in cart.coupons" class="d-flex justify-content-between py-3 border-bottom">
+                            <strong class="text-muted">Промокод: {{coupon.name}}</strong><strong>- {{coupon.discount}}
+                            р</strong>
+                        </li>
+                        <li v-if="cart.totalWithCoupons" class="d-flex justify-content-between py-3 border-bottom">
+                            <strong class="text-muted">Итоговая сумма</strong>
+                            <h5 class="font-weight-bold">{{cart.totalWithCoupons}} р.</h5>
+                        </li>
+                    </ul>
+                </div> <!-- /Итоговая цена -->
+            </div>
+        </div>
     </div>
 </template>
 
@@ -272,7 +281,7 @@
             FormWizard,
             TabContent
         },
-        props: ['total', 'countries', 'coupons', 'lastOrder', 'route', 'cart', 'paymentConfig'],
+        props: ['cart', 'countries', 'shipments', 'payments', 'lastOrder', 'route', 'config'],
 
         mounted() {
             console.log('Component checkout mounted.');
@@ -290,13 +299,18 @@
                 country: null,
                 region: null,
                 comment: null,
-                payment: null,
-                shipment: null,
                 coupon: null,
                 couponItem: null,
                 postcode: null,
                 company: null,
 
+                payment: null,
+                shipment: null,
+
+                message: null,
+                errors: [],
+                error_coupon: null,
+                coupon_code: null,
                 error_toggle: false,
                 error_list: {},
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -305,7 +319,6 @@
         },
 
         created() {
-            console.log(this.lastOrder);
             if (this.lastOrder) {
                 this.first_name = this.lastOrder.first_name;
                 this.last_name = this.lastOrder.last_name;
@@ -323,42 +336,42 @@
                 console.log('text');
             },
 
-            stepFirstValid: function () {
-                this.error_list = [];
-                this.error_toggle = false;
-                if (!this.first_name) this.error_list["first_name"] = "Укажите имя.";
-                if (!this.last_name) this.error_list["last_name"] = "Укажите фамилию.";
-                if (!this.email) {
-                    this.error_list["email"] = "Укажите электронную почту.";
-                } else if (!this.validEmail(this.email)) {
-                    this.error_list["email"] = "Укажите корректный адрес электронной почты.";
-                }
-                if (!this.telephone) this.error_list["telephone"] = "Укажите  телефон.";
-                if (!this.address) this.error_list["address"] = "Укажите адрес.";
-                if (!this.city) this.error_list["city"] = "Укажите город проживания.";
-                if (!this.country) this.error_list["country"] = "Укажите страну проживания.";
-
-                if (Object.keys(this.error_list).length > 0) {
-                    this.error_toggle = true;
+            async stepFirstValid() {
+                try {
+                    const response = await axios.post('/api/checkout/validStepFirst', {
+                        first_name: this.first_name,
+                        last_name: this.last_name,
+                        email: this.email,
+                        telephone: this.telephone,
+                        company: this.company,
+                        address: this.address,
+                        postcode: this.postcode,
+                        city: this.city,
+                        country: this.country,
+                    });
+                    this.errors = null;
+                    return true
+                } catch (error) {
+                    this.errors = error.response.data.errors;
                     return false
                 }
 
-                return true
             },
 
-            stepSecondValid: function () {
-                this.error_list = [];
-                if (!this.payment) {
-                    this.error_list["payment"] = "Выберите платежную систему."
-                }
-                if (!this.shipment) {
-                    this.error_list["shipment"] = "Выберите способ оплаты."
-                }
-                if (Object.keys(this.error_list).length > 0) {
-                    return false
-                }
-                return true
+           async stepSecondValid() {
+               try {
+                   const response = await axios.post('/api/checkout/validStepSecond', {
+                       shipment: this.shipment,
+                       payment: this.payment,
+                   });
+                   this.errors = null;
+                   return true
+               } catch (error) {
+                   this.errors = error.response.data.errors;
+                   return false
+               }
             },
+
 
             onComplete: function () {
 
@@ -366,64 +379,50 @@
             },
 
 
-            validEmail: function (email) {
-                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(email);
-            },
-
-            isCoupon: function () {
-                if (this.coupon) {
-                    this.coupons.filter((item) => {
-                        if (item.code.includes(this.coupon)) {
-                            this.couponItem = item;
-                            return true
+            addCouponToCart(code) {
+                const url = '/api/add-coupon/' + code;
+                axios.get(url)
+                    .then((res) => {
+                        if (res.data.cart) {
+                            this.$root.cart = res.data.cart;
+                            this.error_coupon = null
                         }
-                        return false;
                     })
-                }
-
+                    .catch((error) => {
+                        console.log(error);
+                        this.error_coupon = 'Неверный промокод';
+                    })
             },
-
-            checkWeight: function (weight, shipments) {
-                if (this.$parent.cart.totalPrice >= this.paymentConfig.cart_setting.free_shipping) {
-                    return 0;
-                } else {
-                    for (var key in shipments) {
-                        if (weight <= key) {
-                            return shipments[key];
+            addShipmentToCart(id) {
+                const url = '/api/add-shipment/' + id;
+                axios.get(url)
+                    .then((res) => {
+                        if (res.data.cart) {
+                            this.$root.cart = res.data.cart;
                         }
-                    }
-                }
-
-            },
-
-            shipmentCountry: function (shipment) {
-                var weight = this.$parent.cart.totalWeight;
-                if (this.country) {
-                    return this.checkWeight(weight, this.paymentConfig.shipment_method[shipment]);
-                }
-            },
-
-            getTotalPrice: function () {
-                var total = parseFloat(this.$parent.cart.totalPrice);
-                if (this.shipment) {
-                    total = total + parseFloat(this.shipmentCountry(this.shipment));
-                }
-                if (this.couponItem) {
-                    total = total - parseFloat(total * this.couponItem.discount / 100);
-                }
-                return total;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             }
 
 
         },
 
         computed: {
-            activeSum: {
-                get: function () {
-                    return this.couponItem || this.shipment;
+            country_object: function () {
+                if (this.country) {
+                    return this.country.name;
                 }
-            }
+            },
+
+            isCoupon: function () {
+                return !_.isEmpty(this.cart.coupons)
+            },
+            isShipment: function () {
+                return !_.isEmpty(this.cart.shipment);
+            },
+
         },
 
 

@@ -3,8 +3,8 @@
 
 namespace App\Services\Product;
 
-use App\Http\Requests\ProductRequest;
 use App\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Cache\Repository;
 use Carbon\Carbon;
@@ -13,6 +13,7 @@ class CacheProductQueries implements BaseQueries
 {
 
     const CACHE_DURATION = 1;
+
     const CACHE_KEY = 'PRODUCT';
 
     /**
@@ -66,10 +67,10 @@ class CacheProductQueries implements BaseQueries
     }
 
     /**
-     * @param ProductRequest $request
+     * @param Request $request
      * @return Product
      */
-    public function create(ProductRequest $request): Product
+    public function create(Request $request): Product
     {
         $product = $this->base->create($request);
         $this->cache->put($product->getCacheKey(), $product, $this->duration);
@@ -77,11 +78,11 @@ class CacheProductQueries implements BaseQueries
     }
 
     /**
-     * @param ProductRequest $request
+     * @param Request $request
      * @param int $id
      * @return Product
      */
-    public function update(ProductRequest $request, int $id): Product
+    public function update(Request $request, int $id): Product
     {
         $product = $this->base->update($request, $id);
         return $product;
@@ -132,9 +133,16 @@ class CacheProductQueries implements BaseQueries
      * @return Collection
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function getSpecialProducts(int $limit = 4)
+    public function getSpecialProducts(int $limit = 4): Collection
     {
         $products = $this->base->getSpecialProducts($limit);
+        return $this->rememberMultiple($products);
+    }
+
+
+    public function getWishListProducts(array $ids): Collection
+    {
+        $products = $this->base->getWishListProducts($ids);
         return $this->rememberMultiple($products);
     }
 

@@ -41,17 +41,15 @@ class Option extends Model
     }
 
 
-    public function delete()
+    public function discount()
     {
-        if ($this->files()->exists()){
-            Storage::disk('public')->delete('files/' . $this->files->filename);
-            Storage::disk('public')->delete('files/thumbnail/' . $this->files->filename);
-            Storage::disk('public')->delete('files/600x450/' . $this->files->filename);
-            Storage::disk('public')->delete('files/250x250/' . $this->files->filename);
-            Storage::disk('public')->delete('files/90x110/' . $this->files->filename);
-            $this->files->delete();
-        }
-
-        return parent::delete();
+        return $this->hasOne('App\Discount');
     }
+
+   public function getDiscountPrice(int $qty)
+   {
+       if ($this->discount()->exists() && ($qty >= $this->discount()->quantity)){
+            return $this->discount()->first();
+       }
+   }
 }

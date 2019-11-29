@@ -53,7 +53,7 @@ class Special extends Model
         $this->attributes['price'] = (float)$value;
     }
 
-    public function scopeBetweenDate($query)
+    public function scopeIsActive($query)
     {
         $dt = Carbon::now();
         $query->where('date_start', '<=', $dt)->where('date_end', '>=', $dt);
@@ -64,4 +64,5 @@ class Special extends Model
     {
         $this->belongsTo('App\Product');
     }
+
 }

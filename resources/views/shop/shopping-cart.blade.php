@@ -2,34 +2,22 @@
 
 @section('content')
     <div class="container">
-        <nav aria-label="breadcrumb" role="navigation">
-            <br>
-            <ol class="breadcrumb">
+        <br>
+        <nav aria-label="breadcrumb" class="d-flex flex-row justify-content-between" role="navigation">
+            <ol class="breadcrumb ">
                 <li class="breadcrumb-item"><a href="/">Главная</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Корзина</li>
             </ol>
+            <div class="continue_by">
+                <a href="/" class="text-muted"><i class="fa fa-angle-left"></i> Продолжить покупки</a>
+            </div>
         </nav>
-
-        @if (Session::has('cart'))
             <div class="row">
                 <div class="col-12">
-                    <h1 class="title text-center">Корзина</h1>
-                    @if($totalPrice < $paymentConf['min_sum'])
-
-                    @endif
-                    <shopping-cart :cart="cart" :carttotal="itemCount" route="{{route('checkout')}}"
-                                   :minsum="{{$paymentConf['min_sum']}}"></shopping-cart>
-                    @if($totalPrice >= $paymentConf['min_sum'])
-
-                    @endif
+                    <h1 class="title pb-4 text-center">Корзина товаров</h1>
+                    <shopping-cart :cart="cart" route="{{route('checkout')}}"
+                                   :minsum="{{$config['min_sum']}}"></shopping-cart>
                 </div>
             </div>
-        @else
-            <div class="row">
-                <div class="col-12">
-                    <span>Нет товаров в корзине</span>
-                </div>
-            </div>
-        @endif
     </div>
 @endsection

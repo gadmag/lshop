@@ -44,7 +44,6 @@
         },
         created() {
             bus.$on('select-component', (component) => {
-                console.log(component);
                 this.authComponent = component;
             })
         },

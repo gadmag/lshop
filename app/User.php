@@ -19,7 +19,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password','blocked'];
+    protected $fillable = ['name', 'email', 'password', 'blocked'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -39,7 +39,9 @@ class User extends Authenticatable
     {
         return false;
     }
-    public function tasks(){
+
+    public function tasks()
+    {
         return $this->hasMany(Task::class);
     }
 
@@ -82,19 +84,19 @@ class User extends Authenticatable
 
     public function roles()
     {
-       return $this->belongsToMany('App\Role','user_role', 'user_id', 'role_id');
+        return $this->belongsToMany('App\Role', 'user_role', 'user_id', 'role_id');
     }
 
     public function hasAnyRole($roles)
     {
-        if (is_array($roles)){
-            foreach ($roles as $role){
-                if ($this->inRole($role)){
+        if (is_array($roles)) {
+            foreach ($roles as $role) {
+                if ($this->inRole($role)) {
                     return true;
                 }
             }
         } else {
-            if ($this->inRole($roles)){
+            if ($this->inRole($roles)) {
                 return true;
             }
 
@@ -104,7 +106,7 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        if ($this->roles()->where('name', $role)->first()){
+        if ($this->roles()->where('name', $role)->first()) {
             return true;
         }
         return false;
@@ -119,7 +121,7 @@ class User extends Authenticatable
         // check if the permission is available in any role
         foreach ($this->roles as $role) {
             var_dump($role->name);
-            if($role->hasAccess($permissions)) {
+            if ($role->hasAccess($permissions)) {
                 return true;
             }
         }
@@ -139,5 +141,17 @@ class User extends Authenticatable
     {
 
         return $this->roles->pluck('id')->all();
+    }
+
+    /**
+     * Get last order from user
+     * @return Order|null
+     */
+    public function lastOrder()
+    {
+        if ($this->orders()->exists()) {
+            return $this->orders()->latest('created_at')->first();
+        }
+        return null;
     }
 }

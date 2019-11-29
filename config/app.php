@@ -1,5 +1,6 @@
 <?php
 
+
 return [
 
     /*
@@ -176,12 +177,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
+        App\Providers\CartServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Aginev\Datagrid\DatagridServiceProvider::class,
-
 
         /**
          * dev

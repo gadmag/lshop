@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Cart;
+use App\Shipment;
+use App\ShoppingCart\Facades\Cart;
 use App\Coupon;
 use Illuminate\Http\Request;
 use App\Order;
@@ -33,17 +34,18 @@ class OrderController extends Controller
 
     public function edit($id)
     {
+        Cart::instance('order')->destroy();
         $order = Order::findOrFail($id);
-        $order->cart = json_decode($order->cart);
         $products = Product::with(['productOptions'])->active()->latest('created_at')->take(5)->get();
         $orderStatus = OrderStatus::all()->pluck('name', 'id');
-        $coupons = Coupon::active()->isQty()->betweenDate()->get();
+        $coupons = Coupon::active()->isUses()->betweenDate()->get();
         $payment_config = config('payment');
         return view('AdminLTE.order.edit', [
             'order' => $order,
             'products' => $products,
             'coupons' => $coupons,
             'payment_config' => collect($payment_config),
+            'shipments' => Shipment::getShipments(),
             'orderStatus' => $orderStatus
         ]);
     }
@@ -51,9 +53,6 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $order->update($request->all());
-        if ($order->is_send) {
-            event(new OrderUpdateEvent($order));
-        }
         return redirect("admin/orders")->with([
             'flash_message' => "Заказ №{$order->id} обновлен",
         ]);
@@ -83,40 +82,6 @@ class OrderController extends Controller
         return response()->json($products);
     }
 
-    public function addToCart(Request $request, $id)
-    {
-        $product = Product::with(['files', 'productOptions.files'])->active()->findOrFail($id);
-        $oldCart = json_decode($request->get('cart'));
-        $cart = new Cart($oldCart);
-        $cart->add($product, $product->id, json_decode($request->get('options')));
-        return response()->json([
-            'cart' => json_encode($cart)
-        ]);
-    }
-
-    public function getRemoveItem(Request $request, $id)
-    {
-        $oldCart = json_decode($request->get('cart'));
-        $cart = new Cart($oldCart);
-        $cart->removeItem($id);
-        return response()->json([
-            'cart' => json_encode($cart)
-        ]);
-    }
-
-    public function getUpdateCart(Request $request, $id)
-    {
-        $option = json_decode($request->get('option'));
-        $oldCart = json_decode($request->get('cart'));
-        $product = Product::with(['files', 'productOptions.files'])->active()->findOrFail($id);
-        $cart = new Cart($oldCart);
-        $cart->update($product, json_decode($id), $option);
-
-        return response()->json([
-            'cart' => json_encode($cart)
-        ]);
-    }
-
 
     public function destroy(Order $order)
     {
@@ -137,22 +102,19 @@ class OrderController extends Controller
         $group_by = !empty($f['order_by']) ? $f['order_by'] : "created_at";
         $group_dir = isset($f['order_dir']) ? $f['order_dir'] : "DESC";
         $orders = Order::with('status')->orderBy($group_by, $group_dir);
-        if ($id){
-            $orders->where('id','=', $id);
+        if ($id) {
+            $orders->where('id', '=', $id);
         }
 
         if ($id || $first_name || $last_name) {
-                $orders->where('first_name', 'like', '%' . $first_name . '%')
+            $orders->where('first_name', 'like', '%' . $first_name . '%')
                 ->where('last_name', 'like', '%' . $last_name . '%');
         }
-        if ($order_status){
-            $orders->where('order_status_id','=', $order_status);
+        if ($order_status) {
+            $orders->where('order_status_id', '=', $order_status);
         }
+//        dd(OrderStatus::all()->pluck('name','id'));
         $orders = $orders->paginate(10);
-        $orders->transform(function ($order, $key) {
-            $order->cart = json_decode($order->cart);
-            return $order;
-        });
         $grid = new \Datagrid($orders, $f);
 
         $grid
@@ -189,13 +151,16 @@ class OrderController extends Controller
                 }
             ])
             ->setColumn('order_status_id', 'Статус заказа', [
-                'refers_to'   => 'status',
+                'refers_to' => 'status',
                 'attributes' => ['class' => 'table-text'],
                 'sortable' => true,
                 'has_filters' => true,
-                'filters' => OrderStatus::all()->pluck('name','id'),
+                'filters' => OrderStatus::all()->pluck('name', 'id'),
                 'wrapper' => function ($value, $row) {
-                    return '<span class="label label-'.$value->css_class.'">'.$value->name.'</span>';
+                    if ($value) {
+                        return '<span class="label label-' . $value->css_class . '">' . $value->name . '</span>';
+                    }
+                    return '';
                 }
             ])
             ->setColumn('address', 'Адрес', [
