@@ -69,10 +69,6 @@
                 </div>
                 <div id="tab_2" class="tab-pane">
                     <div class="form-group">
-                        {!! Form::label('sku', 'Артикул:') !!}
-                        {!! Form::text('sku', old('sku'), ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
                         {!! Form::label('model', 'Модель:') !!}
                         {!! Form::text('model', old('model'), ['class' => 'form-control']) !!}
                     </div>

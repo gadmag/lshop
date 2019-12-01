@@ -21,8 +21,7 @@ class Product extends Model
     use ProductFilter;
     use Cacheable;
 
-    protected $fillable = ['title', 'description',
-        'model', 'sku', 'price', 'type', 'quantity', 'total_selling', 'sort_order', 'size', 'status',
+    protected $fillable = ['title', 'description', 'model', 'price', 'type', 'quantity', 'total_selling', 'sort_order', 'size', 'status',
         'material', 'alias', 'user_id'];
 
 
@@ -210,7 +209,6 @@ class Product extends Model
 
     public function sumOptionQty(): void
     {
-        dd($this->productOptions()->get());
         if ($this->productOptions()->exists()) {
             $this->quantity =  $this->productOptions()->get()->sum(function (Option $option) {
                 return $option->quantity;
