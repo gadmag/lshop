@@ -15,7 +15,7 @@
                             <label for="price">Цена:</label>
                             <input id="price" class="form-control form-weight" :name="'price_setting['+key+'][price]'"
                                    type="text"
-                                   :value="item.price">
+                                   v-model="item.price">
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -23,7 +23,7 @@
                             <label for="weight">Вес:</label>
                             <input id="weight" :name="'price_setting['+key+'][weight]'" type="text"
                                    class="form-control form-qty"
-                                   :value="item.weight">
+                                   v-model="item.weight">
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -63,10 +63,6 @@
             }
         },
 
-        created: function () {
-            // this.forms = this.shipments;
-        },
-
         methods: {
             addOption() {
                 this.forms.push({
@@ -80,10 +76,6 @@
                     this.forms.splice(key, 1);
                     console.log(this.forms);
                 }
-                // if (this.forms.length == 0) {
-                //     this.forms = [];
-                //     console.log(this.forms);
-                // }
             }
         },
         mounted() {

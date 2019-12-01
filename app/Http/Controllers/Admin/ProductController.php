@@ -42,14 +42,18 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $f = $request->get('f', []);
-        $title = isset($f['title']) ? $f['title'] : null;
+//        dd($f['title']);
+        $title = !empty($f['title']) ? $f['title'] : null;
+        $model = !empty($f['model']) ? $f['model'] : null;
         $group_by = !empty($f['order_by']) ? $f['order_by'] : "created_at";
         $group_dir = isset($f['order_dir']) ? $f['order_dir'] : "DESC";
         $products = Product::with('catalogs')->type('product')->orderBy($group_by, $group_dir);
         if ($title) {
             $products->where('title', 'like', '%' . $title . '%');
         }
-
+        if ($model) {
+            $products->where('model', 'like', '%' . $model . '%');
+        }
         $grid = new \Datagrid($products->paginate(10), $f);
 
         $grid
@@ -62,14 +66,8 @@ class ProductController extends Controller
             ])
             ->setColumn('model', 'Модель', [
                 'attributes' => ['class' => 'table-text'],
-//                'sortable' => true,
+                'sortable' => true,
                 'has_filters' => true,
-                // Wrapper closure will accept two params
-                // $value is the actual cell value
-                // $row are the all values for this row
-//                'wrapper'     => function ($value, $row) {
-//                    return '<a href="mailto:' . $value . '">' . $value . '</a>';
-//                }
             ])
             ->setColumn('created_at', 'Дата добавления', [
                 'attributes' => ['class' => 'table-text'],
@@ -85,7 +83,6 @@ class ProductController extends Controller
                 'sortable' => true,
                 'has_filters' => false,
                 'wrapper' => function ($value, $row) {
-                    // The value here is still Carbon instance, so you can format it using the Carbon methods
                     return $value;
                 }
             ])

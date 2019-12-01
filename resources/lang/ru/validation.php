@@ -112,6 +112,11 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+
+        'productOptions.*.sku' => [
+            'required' => 'Поле Опции: артикл обязательно для заполнения.',
+            'unique' => 'Такое значение поля Опции: артикл уже существует.'
+        ],
     ],
 
     /*
@@ -156,6 +161,7 @@ return [
         'productOptions.*.price' => 'Опции: цена',
         'productOptions.*.weight' => 'Опции: вес',
         'productOptions.*.quantity' => 'Опции: кол-во',
+        'productOptions.*.sku' => 'Опции: артикул',
         'productSpecial.price' => 'Акция: цена',
         'first_name' => 'Имя',
         'last_name' => 'Фамилия',

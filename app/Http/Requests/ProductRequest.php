@@ -3,10 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class  ProductRequest extends FormRequest
 {
-//    const OPTION_ROWS = 8;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -18,6 +18,7 @@ class  ProductRequest extends FormRequest
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,17 +29,19 @@ class  ProductRequest extends FormRequest
         $rules = [
             'title' => 'required|min:3',
             'status' => 'boolean',
-            'sku' => 'required',
-            'model' => 'required',
+            'model' => 'required|unique:products,model,'.$this->product,
             'sort_order' => 'integer',
             'quantity' => 'integer',
             'weight' => 'number',
             'productOptions' => 'required',
             'productOptions.*.discount.price' => 'required_unless:productOptions.*.discount.quantity,',
             'productOptions.*.discount.quantity' => 'required_unless:productOptions.*.discount.price,',
+
         ];
 
-
+        foreach ($this->productOptions as $key => $option) {
+            $rules +=['productOptions.'.$key.'.sku' => 'required|unique:product_options,sku,'.$option['id']];
+        }
         if ($this->filled('productSpecial.price')) {
             $rules += ['productSpecial.price' => 'required|numeric'];
         }
@@ -55,9 +58,8 @@ class  ProductRequest extends FormRequest
     public function extractOptions()
     {
         $productOptions = $this->productOptions;
-        foreach ( $productOptions as $key => $option)
-        {
-            if (!empty($this->file('productOptions')) && in_array( $key, $this->file('productOptions'))){
+        foreach ($productOptions as $key => $option) {
+            if (!empty($this->file('productOptions')) && in_array($key, $this->file('productOptions'))) {
                 $productOptions[$key] = $this->file('productOptions')[$key];
             }
         }
