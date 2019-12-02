@@ -39,9 +39,12 @@ class  ProductRequest extends FormRequest
 
         ];
 
-        foreach ($this->productOptions as $key => $option) {
-            $rules +=['productOptions.'.$key.'.sku' => 'required|unique:product_options,sku,'.$option['id']];
+        if($this->productOptions){
+            foreach ($this->productOptions as $key => $option) {
+                $rules +=['productOptions.'.$key.'.sku' => 'required|unique:product_options,sku,'.$option['id']];
+            }
         }
+
         if ($this->filled('productSpecial.price')) {
             $rules += ['productSpecial.price' => 'required|numeric'];
         }

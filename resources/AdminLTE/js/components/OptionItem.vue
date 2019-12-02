@@ -16,10 +16,15 @@
         <tbody>
         <tr v-if="forms && forms.length > 0" v-for="(form, key) in forms" class="option-value-row">
             <td>
+                <input type="hidden" :name="'productOptions['+key+'][id]'" v-model="form.id">
                 <div class="form-group">
-                    <input type="hidden" :name="'productOptions['+key+'][id]'" v-model="form.id">
+                    <input type="text" class="form-control" :name="'productOptions['+key+'][sku]'" v-model="form.sku" placeholder="Артикул:">
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
                     <select class="form-control" :name="'productOptions['+key+'][color]'">
-                        <option :value="null">Выбрать</option>
+                        <option :value="null">Выбрать цвет</option>
                         <option :selected="color == form.color" v-for="color in colors" :value="color">{{color}}
                         </option>
                     </select>
@@ -27,13 +32,8 @@
             </td>
             <td>
                 <div class="form-group">
-                    <input type="text" class="form-control" :name="'productOptions['+key+'][sku]'" v-model="form.sku" placeholder="Артикул:">
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
                     <select class="form-control" :name="'productOptions['+key+'][color_stone]'">
-                        <option :value="null">Выбрать</option>
+                        <option :value="null">Выбрать камень</option>
                         <option :selected="stone == form.color_stone" v-for="stone in colors_stone" :value="stone">
                             {{stone}}
                         </option>
@@ -151,7 +151,7 @@
                     price: '',
                     discount: {
                         id: '',
-                        quantity: 1,
+                        quantity: '',
                         price: ''
                     },
                     weight: '',
