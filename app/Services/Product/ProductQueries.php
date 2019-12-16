@@ -133,10 +133,12 @@ class ProductQueries implements BaseQueries
 
         if ($request->filled('productSpecial.price')) {
             $product->productSpecial()->create($request->productSpecial);
+
         }
 
         if ($request->filled('productOptions')) {
             $this->createOptions($request, $product);
+
         }
 
         if ($request->file('images')) {
@@ -144,6 +146,7 @@ class ProductQueries implements BaseQueries
         }
 
         $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
+        $product->save();
         return $product;
     }
 
@@ -187,6 +190,7 @@ class ProductQueries implements BaseQueries
                 $this->multipleUpload([$optionAttr['image_option']], $option, $this->imgResize, true);
             }
             $product->productOptions()->save($option);
+            $product->sumOptionQty();
         }
     }
 

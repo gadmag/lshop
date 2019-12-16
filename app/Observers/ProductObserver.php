@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductObserver
 {
+
+
     /**
      * Handle the product "created" event.
      *
@@ -15,7 +17,6 @@ class ProductObserver
      */
     public function creating(Product $product)
     {
-        $product->sumOptionQty();
     }
 
     /**
