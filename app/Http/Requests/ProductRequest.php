@@ -29,21 +29,26 @@ class  ProductRequest extends FormRequest
         $rules = [
             'title' => 'required|min:3',
             'status' => 'boolean',
-            'model' => 'required|unique:products,model,'.$this->product,
+            'model' => 'required|unique:products,model,' . $this->product,
             'sort_order' => 'integer',
             'quantity' => 'integer',
             'weight' => 'number',
-            'productOptions' => 'required',
+            'productOptions' => 'required|array',
+            'productOptions.*.sku' => 'required|distinct',
             'productOptions.*.discount.price' => 'required_unless:productOptions.*.discount.quantity,',
             'productOptions.*.discount.quantity' => 'required_unless:productOptions.*.discount.price,',
 
         ];
-
-        if($this->productOptions){
+        /*if ($this->productOptions) {
             foreach ($this->productOptions as $key => $option) {
-                $rules +=['productOptions.'.$key.'.sku' => 'required|unique:product_options,sku,'.$option['id']];
+                $rules += ['productOptions.' . $key . '.sku' => [
+                    'required',
+                    'distinct',
+                    'unique:product_options,sku,' . $option['id'],
+                ]
+                ];
             }
-        }
+        }*/
 
         if ($this->filled('productSpecial.price')) {
             $rules += ['productSpecial.price' => 'required|numeric'];
