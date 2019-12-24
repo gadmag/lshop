@@ -38,6 +38,7 @@
             return {
                 className: '',
                 filterable: {
+                    category: this.category,
                     url: '/api/products?cat_id=' + this.category.id,
                     orderables: [
                         {title: 'Дата (новые)', options: {name: 'created_at', direction: 'desc'}},

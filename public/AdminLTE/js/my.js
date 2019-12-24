@@ -39,6 +39,7 @@ $('div.alert').not('alert-important').delay(3000).slideUp(300);
         $(this).attr('value', value).val();
     });
 
+    $('.select2').select2();
     $('#tag_lists').select2({
         placeholder: 'Выберите теги',
         tags: true
@@ -137,6 +138,7 @@ $(document).ready(function () {
     });
 
 });
+
 
 //options product
 (function ($) {

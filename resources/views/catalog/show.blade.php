@@ -15,7 +15,6 @@
     </nav>
     <catalog-index :category="{{$category}}" :filters="{{$filters}}"></catalog-index>
     <div class="body">
-        {!! $category->description !!}
     </div>
 </div>
 @endsection

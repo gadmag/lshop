@@ -51,6 +51,9 @@
 .tab-options .form-weight{
     width: 60px;
 }
+.color-select{
+width: 140px;
+}
 /*catalog*/
 .menu-link .sub-menu {
     list-style: none;

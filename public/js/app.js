@@ -1808,6 +1808,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             className: '',
             filterable: {
+                category: this.category,
                 url: '/api/products?cat_id=' + this.category.id,
                 orderables: [{ title: 'Дата (новые)', options: { name: 'created_at', direction: 'desc' } }, { title: 'Дата (старые)', options: { name: 'created_at', direction: 'asc' } }, { title: 'Цена (убывание)', options: { name: 'price', direction: 'desc' } }, { title: 'Цена (возрастание)', options: { name: 'price', direction: 'asc' } }, { title: 'Имя (Я - А)', options: { name: 'title', direction: 'desc' } }, { title: 'Имя (А - Я)', options: { name: 'title', direction: 'asc' } }],
                 filterGroups: [{ title: 'Стоимость', name: 'price', field: 'productOptions.price', collapsed: true }, {
@@ -2533,13 +2534,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
     props: {
+        category: null,
         url: String,
         filterGroups: Array,
         orderables: Array,
@@ -41223,7 +41224,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "row head-title" }, [
+      _c("div", { staticClass: "col-md-3" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-9" }, [
+        _c(
+          "h1",
+          {
+            staticClass: "title py-2 text-center",
+            attrs: { id: "spinner-loader" }
+          },
+          [_vm._v(_vm._s(_vm.category ? _vm.category.name : "Каталог товаров"))]
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("aside", { staticClass: "col-md-3" }, [
@@ -41398,7 +41412,7 @@ var render = function() {
                             })
                           ]),
                           _vm._v(" "),
-                          _vm._m(1, true)
+                          _vm._m(0, true)
                         ]
                       )
                     ],
@@ -41612,7 +41626,7 @@ var render = function() {
                 ])
               ])
             ])
-          : _c("div", [
+          : _c("div", { staticClass: "text-center" }, [
               _c("span", [
                 _vm._v(
                   "Товаров не найдено, попробуйте расширить диапазон фильтра."
@@ -41624,25 +41638,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row head-title" }, [
-      _c("div", { staticClass: "col-md-3" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-9" }, [
-        _c(
-          "h1",
-          {
-            staticClass: "title py-2 text-center",
-            attrs: { id: "spinner-loader" }
-          },
-          [_vm._v("Каталог товаров")]
-        )
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

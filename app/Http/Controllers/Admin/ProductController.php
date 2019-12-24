@@ -117,10 +117,8 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+    /**Show the form for creating a new resource.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
@@ -131,11 +129,9 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+    /**Store a newly created resource in storage.
+     * @param ProductRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(ProductRequest $request)
     {
@@ -147,11 +143,9 @@ class ProductController extends Controller
     }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+    /**Show the form for editing the specified resource.
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
@@ -163,12 +157,10 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
+    /**Update the specified resource in storage.
+     * @param ProductRequest $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(ProductRequest $request, int $id)
     {
@@ -179,9 +171,8 @@ class ProductController extends Controller
     }
 
     /**
-     * @param Product $product
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
      */
     public function destroy(int $id)
     {

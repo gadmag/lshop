@@ -20325,7 +20325,7 @@ var render = function() {
                     _c(
                       "select",
                       {
-                        staticClass: "form-control",
+                        staticClass: "form-control select2 color-select",
                         attrs: { name: "productOptions[" + key + "][color]" }
                       },
                       [
@@ -20356,7 +20356,7 @@ var render = function() {
                     _c(
                       "select",
                       {
-                        staticClass: "form-control",
+                        staticClass: "form-control select2 color-select",
                         attrs: {
                           name: "productOptions[" + key + "][color_stone]"
                         }

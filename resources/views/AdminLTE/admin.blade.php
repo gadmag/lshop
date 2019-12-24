@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/AdminLTE/css/blue.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="/AdminLTE/css/select2.min.css">
+    <link rel="stylesheet" href="/AdminLTE/css/select2-bootstrap.css">
     <!-- Morris chart -->
     <link rel="stylesheet" href="/AdminLTE/css/morris.css">
     <!-- jvectormap -->

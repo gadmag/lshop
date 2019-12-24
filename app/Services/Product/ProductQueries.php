@@ -97,7 +97,7 @@ class ProductQueries implements BaseQueries
         if ($id) {
             $catalog = Catalog::published()->findOrFail($id);
             return $catalog->products()->active()->advancedFilter()
-                ->paginate(request('limit', 12), ['id', 'updated_at']);
+                ->paginate(request('limit', 12), ['products.id', 'products.updated_at']);
         }
         return Product::active()
             ->advancedFilter()->paginate(request('limit', 12), ['id', 'updated_at']);
