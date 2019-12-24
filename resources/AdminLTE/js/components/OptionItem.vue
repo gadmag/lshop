@@ -23,7 +23,7 @@
             </td>
             <td>
                 <div class="form-group">
-                    <select class="form-control" :name="'productOptions['+key+'][color]'">
+                    <select class="form-control select2 color-select" :name="'productOptions['+key+'][color]'">
                         <option :value="null">Выбрать цвет</option>
                         <option :selected="color == form.color" v-for="color in colors" :value="color">{{color}}
                         </option>
@@ -32,7 +32,7 @@
             </td>
             <td>
                 <div class="form-group">
-                    <select class="form-control" :name="'productOptions['+key+'][color_stone]'">
+                    <select class="form-control select2 color-select" :name="'productOptions['+key+'][color_stone]'">
                         <option :value="null">Выбрать камень</option>
                         <option :selected="stone == form.color_stone" v-for="stone in colors_stone" :value="stone">
                             {{stone}}

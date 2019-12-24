@@ -3,7 +3,7 @@
         <div class="row head-title">
                         <div class="col-md-3"></div>
                         <div class="col-md-9">
-                            <h1 id="spinner-loader" class="title py-2 text-center">Каталог товаров</h1>
+                            <h1 id="spinner-loader" class="title py-2 text-center">{{category?category.name:'Каталог товаров'}}</h1>
                         </div>
         </div>
         <div class="row">
@@ -38,7 +38,6 @@
 
                             </vue-slider>
                             <div class="my-2 d-flex justify-content-between">
-                                <!--                                @input="clearErrorMsg"-->
                                 <div class="price-input">
                                     <input id="minPrice" type="text" @input="selectPrice" class="form-control form-control-sm"
                                            v-model="filterPrice.valuePrice[0]">
@@ -111,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-else>
+                <div class="text-center" v-else>
                     <span>Товаров не найдено, попробуйте расширить диапазон фильтра.</span>
                 </div>
             </div>
@@ -126,6 +125,7 @@
     export default {
 
         props: {
+            category: null,
             url: String,
             filterGroups: Array,
             orderables: Array,

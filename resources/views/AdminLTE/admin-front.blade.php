@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="/AdminLTE/css/_all-skins.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="/AdminLTE/css/blue.css">
-    <!-- Select2 -->
-    <link rel="stylesheet" href="/AdminLTE/css/select2.min.css">
     <!-- Morris chart -->
     <link rel="stylesheet" href="/AdminLTE/css/morris.css">
     <!-- jvectormap -->
@@ -87,8 +85,6 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
-<!-- Select2 -->
-<script src="/AdminLTE/js/select2.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="/AdminLTE/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
