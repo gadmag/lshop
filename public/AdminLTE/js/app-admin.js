@@ -1753,6 +1753,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1767,7 +1768,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            forms: this.options
+            forms: this.options.map(function (form) {
+                if (!form.discount) {
+                    form.discount = {
+                        id: '',
+                        quantity: '',
+                        price: ''
+                    };
+                }
+                return form;
+            })
         };
     },
     mounted: function mounted() {
@@ -1776,13 +1786,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
 
         this.forms = this.forms.concat(old_options);
+        /* this.forms = this.forms.map(function (form) {
+             if (!form.discount) {
+                 form.discount = {
+                     id: '',
+                     quantity: '',
+                     price: ''
+                 }
+             }
+             return form
+         });*/
         console.log('Component mounted.');
     },
 
 
     methods: {
         addOption: function addOption() {
-            console.log('push');
             this.forms.push({
                 id: '',
                 color: '',

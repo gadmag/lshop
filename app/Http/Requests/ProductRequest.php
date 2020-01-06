@@ -39,16 +39,7 @@ class  ProductRequest extends FormRequest
             'productOptions.*.discount.quantity' => 'required_unless:productOptions.*.discount.price,',
 
         ];
-        /*if ($this->productOptions) {
-            foreach ($this->productOptions as $key => $option) {
-                $rules += ['productOptions.' . $key . '.sku' => [
-                    'required',
-                    'distinct',
-                    'unique:product_options,sku,' . $option['id'],
-                ]
-                ];
-            }
-        }*/
+
 
         if ($this->filled('productSpecial.price')) {
             $rules += ['productSpecial.price' => 'required|numeric'];

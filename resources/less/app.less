@@ -98,10 +98,11 @@ header {
     border-bottom: 1px solid #eeeeee;
     padding: 0.3rem 0;
 
-    .block-social-top{
+    .block-social-top {
       padding: 0;
       margin: 0;
     }
+
     .block-social-top a i {
       font-size: 18px;
 
@@ -127,9 +128,6 @@ header {
     padding-top: 10px;
   }
 
-  .search-block {
-    //padding: 12px 0;
-  }
 
   .list-info li {
     color: #072d45;
@@ -146,13 +144,36 @@ header {
   }
 
   .block-right {
-    padding-top: 25px;
+    padding-top: 14px;
   }
 
   .logo-block {
     margin: 6px 0;
   }
+
+  .search-block {
+    padding-top: 12px;
+
+    input[type='text'] {
+      font-size: 1.2rem;
+      line-height: 2rem;
+    }
+
+    .form-group {
+      position: relative;
+
+      i {
+        font-size: 1.2rem;
+        position: absolute;
+        z-index: 10;
+        top: 11px;
+        right: 11px;
+        color: #a5abb1;
+      }
+    }
+  }
 }
+
 
 .search-block.dropdown-menu {
 
@@ -216,58 +237,85 @@ header {
 /*------end header-----*/
 
 /*---------nav-user-------------*/
-.nav-user > li {
-  position: relative;
-  padding: 0 5px;
-  float: left;
-}
+.nav-user, .hidden-menu {
+  li {
+    position: relative;
+    padding: 0 1rem;
+    float: left;
 
-.nav-user > li > a {
-  padding: 0;
-}
+    & > a {
+      padding: 0;
+      position: relative;
 
-.nav-user > li > a:hover {
-  background: none;
-}
+      i {
+        font-size: 24px;
+        color: #072d45;
+      }
 
-.nav-user > li > a > i {
-  font-size: 24px;
-  color: #072d45;
-}
+      &:hover {
+        background: none;
+        text-decoration: none;
+      }
+    }
+  }
 
-
-.nav-user {
-
-  .badge-wishlist, .badge-cart {
+  .badge, .badge {
     background: #072d45;
     color: #ffffff;
-    font-size: 11px;
-    font-weight: bold;
-    line-height: 18px;
+    padding: 0.3em 0.6em;
     position: absolute;
-    text-align: center;
-    text-indent: 0;
-    top: -12px;
-    right: 0px;
+    top: -10px;
+
     border-radius: 10px;
-    width: 18px;
-    height: 18px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.09);
+  }
+
+  .badge-cart {
+    right: 4px;
+  }
+
+  .badge-wishlist {
+    right: 8px;
   }
 }
 
-.affix .nav-user {
-  //position: absolute;
-  //right: -20px;
+.nav-user {
+  a.icon {
+    display: block;
+    text-align: center;
+
+    i {
+      display: block;
+    }
+  }
+
+
 }
 
+.hidden-menu li {
+  padding: 0 0.5rem;
+
+  span.title {
+    display: none;
+  }
+
+  .badge-cart {
+    top: -13px;
+    right: -8px;
+  }
+
+  .badge-wishlist {
+    top: -13px;
+    right: -8px;
+  }
+}
+.nav-item-menu {
+  display: none;
+}
 /*-------end nav-user-------------*/
 
 
 /*--------main menu-----------*/
-nav .container-fluid {
-  //max-width: 1400px;
-}
+
 
 .navbar-menu {
   //padding: 20px 0;
@@ -300,8 +348,76 @@ nav .container-fluid {
   box-shadow: 0 4px 6px -6px #222;
 }
 
+.affix {
+  .container {
+    max-width: none;
+  }
+  .logo {
+    display: none;
+  }
+  .navbar-brand {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    display: block;
+    transition: visibility 0s, opacity 0.5s linear;
+  }
+  .nav-item-menu {
+    display: block;
+  }
+  .nav-user li span.title {
+   display: none;
+  }
+  .search-block{
+    display: none;
+  }
+
+  .block-right{
+    padding-top: 10px;
+    //padding-right: 0;
+  }
+}
+
+.navbar-collapse {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: -90%;
+  right: auto;
+  z-index: 999 !important;
+  height: auto;
+  min-width: 255px;
+  width: 75%;
+  box-shadow: rgba(0, 0, 0, .5) 0 0 7px;
+  background-color: #ffffff;
+  overflow-y: auto;
+  padding: 50px 7% 20px 5%;
+  transition: all 0.3s ease-in-out;
+
+  .nav-item .nav-link {
+    text-transform: uppercase;
+    padding: 5px;
+  }
+}
+
+.navbar-collapse.collapsing {
+  height: auto !important;
+  //margin-left: 50%;
+  //transition: all 0.5s ease;
+  display: block;
+}
+
+.navbar-collapse.show {
+  left: 0;
+}
+//collapse
+
 .hidden-menu {
   display: none;
+
+  a span.title {
+    visibility: hidden;
+  }
 }
 
 .navbar-brand {
@@ -311,21 +427,7 @@ nav .container-fluid {
 
 }
 
-.affix .navbar-brand {
-  position: absolute;
-  top: 5px;
-  left: 20px;
-  display: block;
-  transition: visibility 0s, opacity 0.5s linear;
-}
 
-.affix .hidden-menu {
-  position: absolute;
-  top: 13px;
-  right: 20px;
-  display: block;
-  transition: visibility 0s, opacity 0.5s linear;
-}
 
 
 .navbar-menu .nav-main > li {
@@ -337,7 +439,7 @@ nav .container-fluid {
 }
 
 .navbar-menu .navbar-nav > li.first {
-  padding-left: 0;
+  //padding-left: 0;
 }
 
 .navbar-menu .navbar-nav > li > a.nav-link {
@@ -389,9 +491,11 @@ ul.nav-main > li > a:hover {
 .nav-user .dropdown-menu {
   border-radius: 3px 3px 0 0;
 }
+
 .user-menu .btn-link {
   text-decoration: none;
 }
+
 /*----------end main menu------------*/
 
 
@@ -444,30 +548,24 @@ ul.nav-main > li > a:hover {
 /*---------end cart detail----------*/
 
 /*--------slider--------*/
-.slider-content {
-  position: relative;
-  width: 100%;
 
-  .fnc-nav__control {
-    padding: 0;
-  }
-}
-
-.slide-block .description {
-  border: none;
-  max-height: 220px;
-  height: 130px;
-  //width: 540px;
-  color: #ffffff;
-  text-transform: uppercase;
-  text-align: left;
-  overflow: hidden;
-  margin: auto;
+#carouselLotus .img-overlay {
   position: absolute;
   top: 0;
-  left: 30px;
+  left: 0;
+  right: 0;
   bottom: 0;
-  right: auto;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.2)), to(rgba(0, 0, 0, 0.2)));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+#carouselLotus .carousel-caption {
+  color: #ffffff;
+
+ h1,h2,h3,p{
+   text-transform: capitalize;
+   color: #ffffff;
+ }
+
 }
 
 /*--------end slider--------*/
@@ -496,6 +594,7 @@ ul.nav-main > li > a:hover {
 }
 
 /*-------product------*/
+
 .product-page {
 
   #thumbnails li:first-child {
@@ -581,6 +680,7 @@ ul.nav-main > li > a:hover {
 }
 
 /*----------product list-----------*/
+
 .list-product {
   .pagination > .active > a, .pagination > .active > a:focus,
   .pagination > .active > a:hover, .pagination > .active > span,
@@ -729,6 +829,7 @@ ul.nav-main > li > a:hover {
 /*---------end product-----*/
 
 /* CSS Document */
+
 .photo-list {
   padding-bottom: 60px;
   padding-top: 60px;
@@ -811,6 +912,7 @@ ul.nav-main > li > a:hover {
 /*---------end checkout-----------*/
 
 /*-------shopping-cart-------*/
+
 .content {
   .table-shopping-cart {
     margin-bottom: 0;
@@ -867,6 +969,7 @@ img.cboxPhoto {
   .modal-header {
     border: 0;
   }
+
   .email-body {
     a {
       text-decoration: underline;
@@ -877,6 +980,7 @@ img.cboxPhoto {
       color: #6c757d;
     }
   }
+
   .auth-tab-link {
     position: absolute;
     left: 0;
@@ -901,27 +1005,32 @@ img.cboxPhoto {
       display: inline-block;
       background: blue;
     }
+
     .icon-svg-facebook {
       background: #4f69a2
     }
-    .icon-svg-twitter{
+
+    .icon-svg-twitter {
       background: #1da1f2;
     }
-    .icon-svg-vk{
+
+    .icon-svg-vk {
       background: #6b8caf;
     }
-    .icon-svg-google{
+
+    .icon-svg-google {
       background: #4285f4;
     }
+
     svg {
       color: #ffffff;
       position: absolute;
       display: block;
       top: 50%;
       left: 50%;
-      -webkit-transform: translate(-50%,-50%);
-      -ms-transform: translate(-50%,-50%);
-      transform: translate(-50%,-50%);
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
       width: 20px;
       height: 20px;
     }
@@ -931,6 +1040,7 @@ img.cboxPhoto {
 /*-------end auth-------*/
 
 /*-----------footer-----------*/
+
 footer {
   padding-top: 20px;
 
@@ -1016,6 +1126,12 @@ footer {
 
 /*----media query----*/
 @media (max-width: 992px) {
+  .nav-user li{
+    padding: 0 0.5rem;
+  }
+  .nav-item-menu{
+    display: block;
+  }
   header .list-info {
     margin-top: 0;
   }
@@ -1027,6 +1143,7 @@ footer {
 }
 
 @media (max-width: 768px) {
+
   .navbar-nav {
     margin: 0;
   }
@@ -1038,33 +1155,25 @@ footer {
   }
 
   .navbar-brand, .affix .navbar-brand {
-    display: none;
-    //display: block;
-    //position: absolute;
-    //top: 5px;
-    //left: 50%;
-    //transform: translate(-50%, 0)
+    //display: none;
   }
 
-  .navbar-menu .container {
-    position: relative;
-  }
 
-  .affix .nav-user {
+  .affix .hidden-menu {
     display: block;
     position: absolute;
     right: 0;
     top: 7px
   }
 
-  .nav-user {
+  .hidden-menu {
     display: block;
     position: absolute;
     right: 5px;
     top: 8px;
   }
 
-  .nav-user.navbar-nav .dropdown-menu {
+  .hidden-menu.navbar-nav .dropdown-menu {
 
     td {
       vertical-align: middle;
@@ -1167,20 +1276,6 @@ footer {
 }
 
 @media screen and (max-width: 576px) {
-  header {
-
-  }
-
-
-  table#cart tbody td .form-control {
-    //width: 20%;
-    //display: inline !important;
-  }
-
-  .actions .btn {
-    //width: 36%;
-    //margin: 1.5em 0;
-  }
 
   .actions a {
     float: left;
@@ -1262,4 +1357,80 @@ footer {
       }
     }
   }
+}
+
+//-----
+/* Icon 1 */
+
+.animated-icon1, .animated-icon2, .animated-icon3 {
+  top: 2px;
+  width: 24px;
+  height: 20px;
+  position: relative;
+  margin: 0px;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: .5s ease-in-out;
+  -moz-transition: .5s ease-in-out;
+  -o-transition: .5s ease-in-out;
+  transition: .5s ease-in-out;
+  cursor: pointer;
+}
+
+.animated-icon1 span, .animated-icon2 span, .animated-icon3 span {
+  display: block;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: .25s ease-in-out;
+  -moz-transition: .25s ease-in-out;
+  -o-transition: .25s ease-in-out;
+  transition: .25s ease-in-out;
+}
+
+.animated-icon1 span {
+  background: #072d45;
+}
+
+
+.animated-icon1 span:nth-child(1) {
+  top: 0px;
+}
+
+.animated-icon1 span:nth-child(2) {
+  top: 9px;
+}
+
+.animated-icon1 span:nth-child(3) {
+  top: 18px;
+}
+
+.animated-icon1.open span:nth-child(1) {
+  top: 11px;
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -o-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.animated-icon1.open span:nth-child(2) {
+  opacity: 0;
+  left: -60px;
+}
+
+.animated-icon1.open span:nth-child(3) {
+  top: 11px;
+  -webkit-transform: rotate(-135deg);
+  -moz-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  transform: rotate(-135deg);
 }

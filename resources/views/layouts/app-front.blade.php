@@ -24,37 +24,34 @@
         <section class="content">
             <div class="block hidden-xs first slide-block">
                 <div class="container">
-                    <div class="row">
-                        <div class="slider-content">
-                            @include('partials.slider')
-                        </div>
-                    </div>
+                    @include('partials.slider')
                 </div>
             </div>
-            <div class="block block-new-product">
-                <h2 class="title-head mb-5 py-2 title text-center">Новое на сайте</h2>
-                <div class="container">
-                        @include('block.new_product')
-                </div>
-            </div>
-            <div class="last block block-special">
-                <h2 class="title-head mb-5 py-2 title text-center">Акции</h2>
-                <div class="container">
-                        @include('block.special_product')
-                </div>
-            </div>
+    </div>
+    <div class="block block-new-product">
+        <h2 class="title-head mb-5 py-2 title text-center">Новое на сайте</h2>
+        <div class="container">
+            @include('block.new_product')
+        </div>
+    </div>
+    <div class="last block block-special">
+        <h2 class="title-head mb-5 py-2 title text-center">Акции</h2>
+        <div class="container">
+            @include('block.special_product')
+        </div>
+    </div>
 
-            @if($designItem->first())
-                <h2 class="title-head mb-5 py-2 title text-center">Дизайнерские идеи</h2>
-                <div class="block photo-list">
-                    <div class="container">
-                            @include('block.design', ['designs' => $designItem])
-                    </div>
-                </div>
-            @endif
+    @if($designItem->first())
+        <h2 class="title-head mb-5 py-2 title text-center">Дизайнерские идеи</h2>
+        <div class="block photo-list">
+            <div class="container">
+                @include('block.design', ['designs' => $designItem])
+            </div>
+        </div>
+        @endif
         </section>
         @include('partials.footer')
-    </div>
+</div>
 </div>
 
 @include('partials.modal_auth')

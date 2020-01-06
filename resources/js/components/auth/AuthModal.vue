@@ -1,9 +1,6 @@
 <template>
     <div>
         <!-- Modal -->
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#modal-auth">
-            Войти
-        </button>
         <div class="modal fade" id="modal-auth" tabindex="-1" role="dialog" aria-labelledby="authModalLabel"
              aria-hidden="true">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

@@ -3533,9 +3533,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -40411,19 +40408,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c(
-      "button",
-      {
-        staticClass: "btn btn-sm btn-outline-secondary",
-        attrs: {
-          type: "button",
-          "data-toggle": "modal",
-          "data-target": "#modal-auth"
-        }
-      },
-      [_vm._v("\n        Войти\n    ")]
-    ),
-    _vm._v(" "),
-    _c(
       "div",
       {
         staticClass: "modal fade",
@@ -40584,7 +40568,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.cartcount > 0
-    ? _c("span", { staticClass: "badge-cart" }, [_vm._v(_vm._s(_vm.cartcount))])
+    ? _c("span", { staticClass: "badge badge-cart" }, [
+        _vm._v(_vm._s(_vm.cartcount))
+      ])
     : _vm._e()
 }
 var staticRenderFns = []
@@ -42606,7 +42592,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.wishcount != 0
-    ? _c("span", { staticClass: "badge-wishlist" }, [
+    ? _c("span", { staticClass: "badge badge-wishlist" }, [
         _vm._v(_vm._s(_vm.wishcount))
       ])
     : _vm._e()

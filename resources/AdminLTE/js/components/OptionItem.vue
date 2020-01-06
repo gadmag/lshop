@@ -18,7 +18,8 @@
             <td>
                 <input type="hidden" :name="'productOptions['+key+'][id]'" v-model="form.id">
                 <div class="form-group">
-                    <input type="text" class="form-control" :name="'productOptions['+key+'][sku]'" v-model="form.sku" placeholder="Артикул:">
+                    <input type="text" class="form-control" :name="'productOptions['+key+'][sku]'" v-model="form.sku"
+                           placeholder="Артикул:">
                 </div>
             </td>
             <td>
@@ -119,7 +120,7 @@
             options: {
                 type: Array,
             },
-            old_options:{
+            old_options: {
                 type: Array,
             },
             colors: {},
@@ -127,22 +128,40 @@
         },
         data() {
             return {
-                forms: this.options
+                forms: this.options.map(function (form) {
+                    if (!form.discount) {
+                        form.discount = {
+                            id: '',
+                            quantity: '',
+                            price: ''
+                        }
+                    }
+                    return form
+                })
             }
         },
 
         mounted() {
-           let old_options = this.old_options.filter(function (element) {
+            let old_options = this.old_options.filter(function (element) {
                 return !element.id
             });
 
             this.forms = this.forms.concat(old_options);
+           /* this.forms = this.forms.map(function (form) {
+                if (!form.discount) {
+                    form.discount = {
+                        id: '',
+                        quantity: '',
+                        price: ''
+                    }
+                }
+                return form
+            });*/
             console.log('Component mounted.')
         },
 
         methods: {
             addOption() {
-                console.log('push');
                 this.forms.push({
                     id: '',
                     color: '',

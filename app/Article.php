@@ -15,7 +15,7 @@ class Article extends Model
     use Sluggable;
 
     protected $type = ['design', 'photo'];
-    protected $fillable = ['title', 'type', 'body', 'user_id', 'status', 'published_at', 'alias'];
+    protected $fillable = ['title', 'type', 'body', 'user_id', 'status', 'alias'];
 
 
     protected $dates = ['published_at'];
