@@ -1,5 +1,5 @@
 <template>
-    <span v-if="wishcount != 0" class="badge-wishlist">{{wishcount}}</span>
+    <span v-if="wishcount != 0" class="badge badge-wishlist">{{wishcount}}</span>
 
 </template>
 

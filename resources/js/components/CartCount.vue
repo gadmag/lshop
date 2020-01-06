@@ -1,5 +1,5 @@
 <template>
-    <span v-if="cartcount > 0" class="badge-cart">{{cartcount}}</span>
+    <span v-if="cartcount > 0" class="badge badge-cart">{{cartcount}}</span>
 
 </template>
 

@@ -1,6 +1,9 @@
 
 $(document).ready(function () {
+    $('.first-button').on('click', function () {
 
+        $('.animated-icon1').toggleClass('open');
+    });
     $('ul.navbar-nav li.dropdown').hover(function () {
         $(this).addClass('show');
         $(this).find('.dropdown-menu').addClass('show');
@@ -33,7 +36,7 @@ $(document).ready(function () {
         var height = affixElement.outerHeight(),
             top = wrapper.offset().top;
 
-        if (scrollElement.scrollTop() >= top + 40){
+        if (scrollElement.scrollTop() >= top + 100){
               wrapper.height(height);
             affixElement.addClass("affix");
         }

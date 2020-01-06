@@ -1,33 +1,22 @@
-<!-- slider start -->
-<div class="fnc-slider example-slider">
-    <div class="fnc-slider__slides">
+
+<div id="carouselLotus" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
         @foreach($slides as $slide)
-            <div class="fnc-slide  @if ($loop->index == 0)m--active-slide @endif ">
-                <div class="fnc-slide__inner">
-                    @if($slide->files()->exists())
-                        <img class="img-responsive"
-                             src="{{asset('storage/files/'.$slide->files()->first()->filename)}}"
-                             alt="">
-                    @endif
-                    <div class="description">{!! $slide->body !!}</div>
-                </div>
+            <div class="carousel-item @if ($loop->index == 0)active @endif">
+                @if($slide->files()->exists())
+                    <img src="{{asset('storage/files/'.$slide->files()->first()->filename)}}" class="d-block img-fluid w-100" alt="{{$slide->title}}">
+                @endif
+                <div class="img-overlay"></div>
+                <div class="carousel-caption">{!! $slide->body !!}</div>
             </div>
         @endforeach
     </div>
-    <nav class="fnc-nav">
-        <div class="fnc-nav__bgs">
-            @foreach($slides as $slide)
-                <div class="fnc-nav__bg @if($loop->index == 0) m--active-nav-bg @endif "></div>
-            @endforeach
-        </div>
-        <div class="fnc-nav__controls">
-            @foreach($slides as $slide)
-                <button class="fnc-nav__control">
-                    <span class="fnc-nav__control-progress"></span>
-                    {{$slide->title}}
-                </button>
-            @endforeach
-
-        </div>
-    </nav>
+    <a class="carousel-control-prev" href="#carouselLotus" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Назад</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselLotus" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Вперед</span>
+    </a>
 </div>
