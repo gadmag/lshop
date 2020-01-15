@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="/AdminLTE/css/bootstrap3-wysihtml5.min.css">
     <link rel="stylesheet" href="/AdminLTE/css/nestable.css">
     <link rel="stylesheet" href="/AdminLTE/css/my.css">
+    @stack('style')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -85,7 +86,7 @@
 <script src="/AdminLTE/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>--}}
-{{--<script src="/AdminLTE/js/morris.min.js"></script>--}}
+<script src="/AdminLTE/js/morris.min.js"></script>
 <!-- Sparkline -->
 <script src="/AdminLTE/js/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
@@ -120,10 +121,10 @@
 <script src="/AdminLTE/js/jquery.nestable.js"></script>
 <script src="/AdminLTE/js/app-admin.js"></script>
 <script src="/AdminLTE/js/my.js"></script>
-
+@stack('scripts')
 <script type="text/javascript">
 
-    CKEDITOR.replace( my_editor, options);
+     CKEDITOR.replace( my_editor, options);
 </script>
 
 </body>

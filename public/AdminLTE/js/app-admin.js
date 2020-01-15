@@ -1972,6 +1972,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -20780,6 +20787,26 @@ var render = function() {
         "tbody",
         _vm._l(_vm.forms, function(item, key) {
           return _c("tr", { staticClass: "option-value-row" }, [
+            _c("td", [
+              _c(
+                "a",
+                {
+                  staticClass: "group1",
+                  attrs: { href: "/storage/files/600x450/" + item.image }
+                },
+                [
+                  item.image
+                    ? _c("img", {
+                        attrs: {
+                          src: "/storage/files/90x110/" + item.image,
+                          alt: "Фото товара"
+                        }
+                      })
+                    : _vm._e()
+                ]
+              )
+            ]),
+            _vm._v(" "),
             _c("td", [_vm._v(_vm._s(item.name))]),
             _vm._v(" "),
             _c("td", { staticStyle: { "max-width": "60px" } }, [
@@ -21231,6 +21258,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
+        _c("td"),
+        _vm._v(" "),
         _c("td", [_vm._v("Наименование товара   ")]),
         _vm._v(" "),
         _c("td", [_vm._v("Кол-во:   ")]),
