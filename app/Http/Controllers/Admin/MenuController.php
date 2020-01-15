@@ -80,9 +80,9 @@ class MenuController extends Controller
 
     public function updateMenuSort(Request $request)
     {
+//        dd('adasd');
         $data = $request->input('jsonString');
         $itemMenu = json_decode($data, true);
-        //dd($itemMenu);
         $item = self::saveTree($itemMenu);
         $i = 0;
         foreach ($item as $key => $value) {

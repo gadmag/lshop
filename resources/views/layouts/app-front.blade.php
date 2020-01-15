@@ -11,7 +11,6 @@
     <title>{{ config('app.name') }}</title>
     <!-- Styles -->
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet">
-    <link href="{{asset('/css/fancy.slide.css')}}" rel="stylesheet">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 </head>
 <body id="app-layout">
