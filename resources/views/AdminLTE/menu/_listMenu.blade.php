@@ -1,9 +1,5 @@
-{{--<menu id="nestable-menu">--}}
-    {{--<button type="button" data-action="expand-all">Expand All</button>--}}
-    {{--<button type="button" data-action="collapse-all">Collapse All</button>--}}
-{{--</menu>--}}
-{{--{!! dd($menuItems) !!}--}}
-<meta name="csrf-token" content="{{ csrf_token() }}">
+
+{{--<meta name="csrf-token" content="{{ csrf_token() }}">--}}
 <div class="panel-heading">
     <a href="{{route('menus.create',['menu_type' => $type])}}" class="btn btn-primary">
         <i class="fa fa-plus"></i>
@@ -13,9 +9,6 @@
 <div class="cf nestable-lists">
     <div class="dd" id="nestable">
         <ol class="dd-list">
-            {{--@foreach($menuItems as $menuItem)--}}
-               {{--@include('AdminLTE.menu._listMenuItem', $menuItem)--}}
-            {{--@endforeach--}}
             @each('AdminLTE.menu._listMenuItem', $menuItems , 'menuItem')
         </ol>
     </div>

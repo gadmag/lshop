@@ -85,6 +85,8 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
+<!-- Select2 -->
+<script src="/AdminLTE/js/select2.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="/AdminLTE/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->

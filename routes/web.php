@@ -50,7 +50,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
     //upload
     Route::get('upload/{id}', 'UploadController@deleteFile');
     Route::get('uploadFile', 'UploadController@uploadFile');
-    Route::post('menu/updatesort/', ['as' => 'uploadsort', 'uses' => 'MenuController@updateMenuSort']);
+    Route::post('menu/updatesort', ['as' => 'uploadsort', 'uses' => 'MenuController@updateMenuSort']);
 
     /**
      * filemanager

@@ -44,8 +44,7 @@
     <li class="nav-item nav-item-menu">
         <a href="#" class="icon first-button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
                 aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
-{{--            <div class="animated-icon1"><span></span><span></span><span></span></div>--}}
-            <i class="fal fa-bars"></i>
+            <i class="fal animated-icon"></i>
             <span class="title">Меню</span>
         </a>
     </li>

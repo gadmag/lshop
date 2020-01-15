@@ -1,8 +1,7 @@
 
 $(document).ready(function () {
     $('.first-button').on('click', function () {
-
-        $('.animated-icon1').toggleClass('open');
+        $('.animated-icon').toggleClass('open');
     });
     $('ul.navbar-nav li.dropdown').hover(function () {
         $(this).addClass('show');
@@ -34,9 +33,11 @@ $(document).ready(function () {
 
     var toggleAffix = function(affixElement, scrollElement, wrapper) {
         var height = affixElement.outerHeight(),
-            top = wrapper.offset().top;
+            top = $('header').outerHeight();
+        // console.log(top);
+            // top = wrapper.offset().top;
 
-        if (scrollElement.scrollTop() >= top + 100){
+        if (scrollElement.scrollTop() >= top){
               wrapper.height(height);
             affixElement.addClass("affix");
         }

@@ -39,22 +39,24 @@ $('div.alert').not('alert-important').delay(3000).slideUp(300);
         $(this).attr('value', value).val();
     });
 
-    $('.select2').select2();
-    $('#tag_lists').select2({
+    $('.select2').select2({
         placeholder: 'Выберите теги',
-        tags: true
-//        data: [
-//            {id: 'one', text: 'One'},
-//            {id: 'two', text: 'Two'}
-//
-//        ]
-
     });
+    // $('#tag_lists').select2({
+    //     placeholder: 'Выберите теги',
+    //     tags: true
+    //    data: [
+    //        {id: 'one', text: 'One'},
+    //        {id: 'two', text: 'Two'}
+    //
+    //    ]
+    //
+    // });
 
-    $('#catalog_lists').select2({
-        placeholder: 'Выберите категории',
-        catalogs: true
-    });
+    // $('#catalog_lists').select2({
+    //     placeholder: 'Выберите категории',
+    //     catalogs: true
+    // });
 
 
 }(jQuery));
@@ -63,7 +65,6 @@ $('div.alert').not('alert-important').delay(3000).slideUp(300);
 $(document).ready(function () {
 
     function updateMenu(jsonString) {
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -92,10 +93,9 @@ $(document).ready(function () {
     }
 
     var updateOutput = function (e) {
-
         var list = e.length ? e : $(e.target),
             output = list.data('output');
-        // console.log(list.data('output'));
+         console.log(list.data('output'));
         if (window.JSON) {
             output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
             updateMenu(window.JSON.stringify(list.nestable('serialize')));

@@ -81,8 +81,6 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
-<!-- Select2 -->
-<script src="/AdminLTE/js/select2.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="/AdminLTE/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
@@ -112,6 +110,8 @@
 <script src="/AdminLTE/js/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/AdminLTE/js/app.js"></script>
+<!-- Select2 -->
+<script src="/AdminLTE/js/select2.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/AdminLTE/js/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
