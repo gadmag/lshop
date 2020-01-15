@@ -5,6 +5,10 @@
             {!! Form::text('name', null, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
+            {!! Form::label('order', 'Сортировать:') !!}
+            {!! Form::text('order', null, ['class' => 'form-control']) !!}
+        </div>
+        <div class="form-group">
             {!! Form::hidden('type', $type, ['class' => 'form-control']) !!}
         </div>
 

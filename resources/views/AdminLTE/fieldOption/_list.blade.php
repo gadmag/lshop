@@ -6,6 +6,7 @@
             <thead>
             <th>Название</th>
             <th>Тип</th>
+            <th>Порядок сортировки</th>
             </thead>
 
             <!-- Table Body -->
@@ -19,6 +20,9 @@
 
                     <td class="table-text">
                         <span>{{$fieldOption->type}}</span>
+                    </td>
+                    <td class="table-text">
+                        <span>{{$fieldOption->order}}</span>
                     </td>
 
 
