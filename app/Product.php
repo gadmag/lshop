@@ -75,7 +75,7 @@ class Product extends Model
 
     public function getFieldOptions(string $type)
     {
-        return FieldOption::whereType($type)->pluck('name', 'name')->all();
+        return FieldOption::whereType($type)->order()->pluck('name', 'name')->all();
     }
 
     /**

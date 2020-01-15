@@ -3,6 +3,7 @@
         <table class="table table-bordered table-hover">
             <thead>
             <tr>
+                <td></td>
                 <td>Наименование товара &nbsp;&nbsp;</td>
                 <td>Кол-во: &nbsp;&nbsp;</td>
                 <th class="text-right">Цена за шт</th>
@@ -12,6 +13,12 @@
             </thead>
             <tbody>
             <tr v-for="(item, key) in forms" class="option-value-row">
+                <td>
+                    <a :href="'/storage/files/600x450/'+item.image" class="group1">
+                        <img v-if="item.image"
+                             :src="'/storage/files/90x110/'+item.image" class="" alt="Фото товара">
+                    </a>
+                </td>
                 <td>{{item.name}}</td>
                 <td style="max-width: 60px">
                     <div class="input-group">
@@ -198,7 +205,7 @@
             },
 
             shipment_price() {
-                let coupon_price = _.sumBy(this.cart.coupons,(item) => item.discount);
+                let coupon_price = _.sumBy(this.cart.coupons, (item) => item.discount);
                 this.totalPrice = parseFloat(this.cart.totalPrice) + parseFloat(this.shipment_price) - parseFloat(coupon_price);
             },
 
@@ -208,7 +215,7 @@
 
             addCouponToCart() {
                 const url = '/api/add-coupon/' + this.coupon_code;
-                this.fetchCart(url,{order_id: this.order.id})
+                this.fetchCart(url, {order_id: this.order.id})
             },
 
             addShipmentToCart() {
@@ -218,8 +225,8 @@
 
 
             addToCart(id) {
-                let url = '/api/add-to-cart/'+id;
-                this.fetchCart(url,  {options: JSON.stringify(this.query_options), order_id: this.order.id});
+                let url = '/api/add-to-cart/' + id;
+                this.fetchCart(url, {options: JSON.stringify(this.query_options), order_id: this.order.id});
             },
 
             removeFromCart(uniqueId) {

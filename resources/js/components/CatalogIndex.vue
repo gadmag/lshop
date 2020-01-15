@@ -4,8 +4,7 @@
             <template slot-scope="{item, key}">
                 <div class="col-sm-6 col-md-6 col-lg-4">
                     <div class="product-item mb-3  card">
-                        <img class="card-img-top img-fluid"
-                             :src="'/storage/files/250x250/'+getImage(item)"
+                        <img class="card-img-top img-fluid" :src="'/storage/files/250x250/'+getImage(item)"
                              alt="Картинка">
 
                         <span v-if="item.product_special && item.product_options[0]"

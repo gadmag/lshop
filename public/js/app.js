@@ -1800,7 +1800,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['filters', 'category'],
@@ -2560,7 +2559,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             orderTitle: '',
             filterPrice: {
                 valuePrice: [10, 2000],
-                min: 10,
+                min: 0,
                 max: 2000
             },
 

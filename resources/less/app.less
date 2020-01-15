@@ -1,4 +1,7 @@
-@import (css) url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=cyrillic');
+@import (css) url('https://fonts.googleapis.com/css?family=Open+Sans:400,500,700&subset=cyrillic');
+
+@link-color: #2d2d2d;
+@link-color2: #072d45;
 
 html, body {
   background: #fff;
@@ -10,12 +13,14 @@ html, body {
 }
 
 a {
-  color: #072D45;
+  //color: #072D45;
+  color: @link-color;
   text-decoration: none;
 }
 
 a:hover {
-  color: #072D45;
+  //color: #072D45;
+  color: rgba(0,0,0,.5);
 }
 
 h3, h2, h1 {
@@ -130,10 +135,9 @@ header {
 
 
   .list-info li {
-    color: #072d45;
+    color: @link-color;
     padding-bottom: 3px;
     font-size: 16px;
-    //font-weight: bold;
   }
 
   .list-info li.phone i {
@@ -209,18 +213,6 @@ header {
 
 }
 
-#search-mobile {
-  padding-right: 15px;
-
-  button {
-    //padding: 2px 6px;
-  }
-
-  input[type="text"] {
-    //max-width: 110px;
-  }
-}
-
 /*------end header-----*/
 
 /*---------nav-user-------------*/
@@ -236,7 +228,7 @@ header {
 
       i {
         font-size: 22px;
-        color: #072d45;
+        color: @link-color;
         padding-bottom: 1px;
       }
 
@@ -248,7 +240,7 @@ header {
   }
 
   .badge, .badge {
-    background: #072d45;
+    background: @link-color;
     color: #ffffff;
     padding: 0.3em 0.6em;
     position: absolute;
@@ -379,29 +371,26 @@ header {
 }
 
 .navbar-menu .navbar-nav > li > a.nav-link {
-  //display: inline;
-  //padding: 0 0 5px 0;
   padding:  0 0.8rem;
   white-space: nowrap;
-  color: #072d45;
+  color: @link-color;
   font-size: 14px;
+  font-weight: 500;
   text-transform: uppercase;
+}
+.navbar-menu .navbar-nav > li.dropdown > a.nav-link{
+  background: url(https://cdn.globaldialog.ru/images/btn_10_.png) 100% 60% no-repeat;
+
 }
 .nav-link:hover, .nav-link:focus {
   text-decoration: underline;
 }
 .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
-  background-color: #f8f9fa;
+  //background-color: #f8f9fa;
 }
 
-.navbar-menu .navbar-nav > .open > a, .navbar-menu .navbar-nav > .open > a:focus, .navbar-menu .navbar-nav > .open > a:hover {
-  //text-decoration: none;
-  //border-bottom: 2px solid #031e2f;
-  //background-color: #FFFFFF;
-}
-
-ul.nav-main > li > a:hover {
-  //border-bottom: 2px solid #031e2f;
+.dropdown-item:hover, .dropdown-item:focus{
+  background: transparent;
 }
 
 .dropdown-menu {
@@ -614,7 +603,7 @@ ul.nav-main > li > a:hover {
   }
 
   .pagination > li > a {
-    color: #072d45;
+    color: @link-color;
   }
 
   .product-list-header {
@@ -1400,7 +1389,7 @@ footer {
 }
 
 .animated-icon1 span {
-  background: #072d45;
+  background: @link-color;
 }
 
 

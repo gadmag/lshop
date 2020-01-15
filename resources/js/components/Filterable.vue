@@ -145,7 +145,7 @@
                 orderTitle: '',
                 filterPrice: {
                     valuePrice: [10, 2000],
-                    min: 10,
+                    min: 0,
                     max: 2000,
                 },
 

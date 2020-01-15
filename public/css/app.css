@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=cyrillic);html,
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,500,700&subset=cyrillic);html,
 body {
   background: #fff;
   color: #333;
@@ -6,11 +6,11 @@ body {
   font-size: 0.95rem;
 }
 a {
-  color: #072D45;
+  color: #2d2d2d;
   text-decoration: none;
 }
 a:hover {
-  color: #072D45;
+  color: rgba(0, 0, 0, 0.5);
 }
 h3,
 h2,
@@ -96,7 +96,7 @@ header .header-bottom {
   padding-top: 10px;
 }
 header .list-info li {
-  color: #072d45;
+  color: #2d2d2d;
   padding-bottom: 3px;
   font-size: 16px;
 }
@@ -155,9 +155,6 @@ header .search-block .form-group i {
   color: #FFFFFF;
   font-size: 15px;
 }
-#search-mobile {
-  padding-right: 15px;
-}
 /*------end header-----*/
 /*---------nav-user-------------*/
 .nav-user li {
@@ -171,7 +168,7 @@ header .search-block .form-group i {
 }
 .nav-user li > a i {
   font-size: 22px;
-  color: #072d45;
+  color: #2d2d2d;
   padding-bottom: 1px;
 }
 .nav-user li > a:hover {
@@ -180,7 +177,7 @@ header .search-block .form-group i {
 }
 .nav-user .badge,
 .nav-user .badge {
-  background: #072d45;
+  background: #2d2d2d;
   color: #ffffff;
   padding: 0.3em 0.6em;
   position: absolute;
@@ -273,18 +270,21 @@ header .search-block .form-group i {
 .navbar-menu .navbar-nav > li > a.nav-link {
   padding: 0 0.8rem;
   white-space: nowrap;
-  color: #072d45;
+  color: #2d2d2d;
   font-size: 14px;
+  font-weight: 500;
   text-transform: uppercase;
+}
+.navbar-menu .navbar-nav > li.dropdown > a.nav-link {
+  background: url(https://cdn.globaldialog.ru/images/btn_10_.png) 100% 60% no-repeat;
 }
 .nav-link:hover,
 .nav-link:focus {
   text-decoration: underline;
 }
-.nav .open > a,
-.nav .open > a:focus,
-.nav .open > a:hover {
-  background-color: #f8f9fa;
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background: transparent;
 }
 .dropdown-menu {
   border: 0;
@@ -442,7 +442,7 @@ header .search-block .form-group i {
   border-color: #ddd;
 }
 .list-product .pagination > li > a {
-  color: #072d45;
+  color: #2d2d2d;
 }
 .list-product .product-list-header {
   border-bottom: 2px dotted #e2dbd3;
@@ -1032,7 +1032,7 @@ footer .social .ico-social a i {
   transition: 0.25s ease-in-out;
 }
 .animated-icon1 span {
-  background: #072d45;
+  background: #2d2d2d;
 }
 .animated-icon1 span:nth-child(1) {
   top: 0px;

@@ -2,6 +2,23 @@
 
 @section('AdminLTE.content')
 
+    @push('scripts')
+        <script src="{{elixir('/js/jquery.colorbox.js')}}"></script>
+        <script>
+            $(document).ready(function () {
+                $(".group1").colorbox({
+                    rel: 'group1',
+                    current: 'Фото {current} из {total}',
+                    maxWidth: '95%',
+                    maxHeight: '95%'
+                });
+            });
+        </script>
+
+    @endpush
+    @push('style')
+        <link href="{{elixir('/css/colorbox.css')}}" rel="stylesheet">
+    @endpush
     <div class="order">
         <nav aria-label="breadcrumb" role="navigation">
             <br>

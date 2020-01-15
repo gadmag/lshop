@@ -12,6 +12,7 @@ class FieldOptionController extends Controller
     private $rules = [
         'name' => 'required|min:3',
         'type' => 'required',
+        'order' => 'integer',
     ];
 
     protected $options = [
@@ -23,7 +24,7 @@ class FieldOptionController extends Controller
     public function index(Request $request)
     {
         $type = $request->get('type')?:'coating';
-        $fieldOptions = FieldOption::whereType($type)->latest('created_at')->paginate(12);
+        $fieldOptions = FieldOption::whereType($type)->order()->latest('created_at')->paginate(12);
 
         return view('AdminLTE.fieldOption.index')->with([
             'fieldOptions' => $fieldOptions,
