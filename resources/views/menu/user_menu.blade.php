@@ -3,7 +3,7 @@
         @guest
             <a href="#" class="icon icon-user" data-toggle="modal" data-target="#modal-auth">
                 <i class="fal fa-user"></i>
-                <span>Войти</span>
+                <span class="title">Войти</span>
             </a>
             <auth-modal recaptcha-key="{{config('payment.recaptcha_key')}}"></auth-modal>
         @endguest
@@ -18,7 +18,8 @@
                 <a class="dropdown-item" href="{{route('user.profile')}}">Профиль</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{route('user.logout')}}">
-                    <i class="far fa-sign-out-alt"></i> Выход
+                    <i class="far fa-sign-out-alt"></i>
+                    <span class="title">Выход</span>
                 </a>
             </div>
         @endauth

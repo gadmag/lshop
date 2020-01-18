@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,500,700&subset=cyrillic);html,
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700&display=swap&subset=cyrillic,cyrillic-ext);html,
 body {
   background: #fff;
   color: #333;
@@ -70,12 +70,16 @@ h1.title {
 }
 /*-------header------*/
 header .header-top {
-  border-bottom: 1px solid #eeeeee;
-  padding: 0.3rem 0;
+  padding: 0.8rem 0;
 }
 header .header-top .block-social-top {
   padding: 0;
   margin: 0;
+}
+header .header-top .block-social-top ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 header .header-top .block-social-top a i {
   font-size: 18px;
@@ -124,6 +128,9 @@ header .search-block .form-group i {
   right: 11px;
   color: #a5abb1;
 }
+header .block-right {
+  padding-top: 6px;
+}
 .search-block.dropdown-menu {
   padding: 0;
   margin-top: 5px;
@@ -159,7 +166,7 @@ header .search-block .form-group i {
 /*---------nav-user-------------*/
 .nav-user li {
   position: relative;
-  padding: 0 1.5rem;
+  padding: 0 0 0 2.5rem;
   float: left;
 }
 .nav-user li > a {
@@ -244,6 +251,9 @@ header .search-block .form-group i {
   display: block;
   -webkit-transition: visibility 0s, opacity 0.5s linear;
   transition: visibility 0s, opacity 0.5s linear;
+}
+.affix .block-right {
+  padding-top: 0;
 }
 .affix .nav-user .badge-cart,
 .affix .nav-user .badge-wishlist {

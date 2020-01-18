@@ -1,14 +1,13 @@
 <header>
-    <div class="header-top bg-light">
+    <div class="header-top">
         <div class="container">
-            <div class="row">
-                <div class="col-8 col-xs-6 col-sm-8">
+
+            <div class="d-flex flex-row-reverse">
+                <div>
                     @include('block.top_head')
                 </div>
-                <div class="col-4 col-xs-6 col-sm-4">
-
-                </div>
             </div>
+
         </div>
     </div>
     <div class="py-4 header-bottom" data-toggle="affix">

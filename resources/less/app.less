@@ -1,4 +1,4 @@
-@import (css) url('https://fonts.googleapis.com/css?family=Open+Sans:400,500,700&subset=cyrillic');
+@import (css) url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700&display=swap&subset=cyrillic,cyrillic-ext');
 
 @link-color: #2d2d2d;
 @link-color2: #072d45;
@@ -100,31 +100,33 @@ h1.title {
 /*-------header------*/
 header {
   .header-top {
-    border-bottom: 1px solid #eeeeee;
-    padding: 0.3rem 0;
+    //border-bottom: 1px solid #eeeeee;
+    padding: 0.8rem 0;
 
     .block-social-top {
       padding: 0;
       margin: 0;
-    }
+      ul{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      a i {
+        font-size: 18px;
+      }
+      div.item-link {
+        display: inline-block;
+        margin: 0.4rem 0.25rem 0.1rem 0.25rem;
+        line-height: 1.6;
+      }
 
-    .block-social-top a i {
-      font-size: 18px;
-
-    }
-
-    .block-social-top div.item-link {
-      display: inline-block;
-      margin: 0.4rem 0.25rem 0.1rem 0.25rem;
-      line-height: 1.6;
-    }
-
-    .block-social-top div.mail {
-      display: inline-block;
-      padding-left: 0.25rem;
-      margin-top: 0.3rem;
-      border-left: 1px solid #e2e2e2;
-      font-size: 14px
+      div.mail {
+        display: inline-block;
+        padding-left: 0.25rem;
+        margin-top: 0.3rem;
+        border-left: 1px solid #e2e2e2;
+        font-size: 14px
+      }
     }
 
   }
@@ -168,6 +170,10 @@ header {
         color: #a5abb1;
       }
     }
+  }
+
+  .block-right{
+    padding-top: 6px;
   }
 }
 
@@ -219,7 +225,7 @@ header {
 .nav-user {
   li {
     position: relative;
-    padding: 0 1.5rem;
+    padding: 0 0 0 2.5rem;
     float: left;
 
     & > a {
@@ -338,6 +344,9 @@ header {
     opacity: 1;
     display: block;
     transition: visibility 0s, opacity 0.5s linear;
+  }
+  .block-right{
+    padding-top: 0;
   }
   .nav-user {
     .badge-cart, .badge-wishlist {
