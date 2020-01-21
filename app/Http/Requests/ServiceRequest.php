@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ServiceRequest extends FormRequest
 {
-    const OPTION_ROWS = 8;
+
 
     /**
      * Determine if the user is authorized to make this request.
@@ -28,20 +28,10 @@ class ServiceRequest extends FormRequest
         $rules = [
             'title' => 'required|min:3',
             'status' => 'boolean',
-            'sku' => 'required',
-            'sort_order' => 'integer',
-            'quantity' => 'integer',
-            'model' => 'required',
+            'type' => 'required|min:3',
+            'order' => 'integer',
         ];
 
-        if ($this->filled('productDiscount.price') || $this->filled('productDiscount.quantity')) {
-            $rules += ['productDiscount.price' => 'required|numeric'];
-            $rules += ['productDiscount.quantity' => 'required|integer'];
-        }
-
-        if ($this->filled('productSpecial.price')) {
-            $rules += ['productSpecial.price' => 'required|numeric'];
-        }
 
         return $rules;
     }

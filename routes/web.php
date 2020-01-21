@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
         'users' => 'UserController',
         'blocks' => 'BlockController',
         'fieldOptions' => 'FieldOptionController',
+        'service' => 'ServiceController',
         'orderStatus' => 'OrderStatusController',
         'coupons' => 'CouponController',
         'shipments' => 'ShipmentController',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Service;
 use App\Services\Product\BaseQueries;
 use App\Services\TreeService;
 use Illuminate\Http\Request;
@@ -122,9 +123,11 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $services = Service::getByType('engraving')->get();
         $catalogs = self::getTree(Catalog::all());
         return view('AdminLTE.product.create', [
             'catalogs' => $catalogs,
+            'services' => $services,
             'catalog' => ''
         ]);
     }
@@ -151,9 +154,11 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $catalogs = self::getTree(Catalog::all());
+        $services = Service::getByType('engraving')->get();
         return view('AdminLTE.product.edit', [
             'product' => $product,
-            'catalogs' => $catalogs
+            'catalogs' => $catalogs,
+            'services' => $services,
         ]);
     }
 

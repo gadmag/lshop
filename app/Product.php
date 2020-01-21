@@ -158,6 +158,11 @@ class Product extends Model
     }
 
 
+    public function services()
+    {
+        return $this->belongsToMany('App\Service');
+    }
+
     /**
      * Получить файлы продуктов
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
