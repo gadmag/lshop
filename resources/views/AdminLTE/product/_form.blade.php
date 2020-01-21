@@ -5,7 +5,8 @@
                 <li class="active"><a href="#tab_1" data-toggle="tab">Общие</a></li>
                 <li class=""><a href="#tab_2" data-toggle="tab">Данные</a></li>
                 <li class=""><a href="#tab_3" data-toggle="tab">Опции</a></li>
-                <li class=""><a href="#tab_5" data-toggle="tab">Акция</a></li>
+                <li class=""><a href="#tab_4" data-toggle="tab">Акция</a></li>
+                <li class=""><a href="#tab_5" data-toggle="tab">Услуги</a></li>
             </ul>
             <div class="tab-content">
                 <div id="tab_1" class="tab-pane active">
@@ -96,7 +97,7 @@
 
                     </option-item>
                 </div>
-                <div id="tab_5" class="tab-pane">
+                <div id="tab_4" class="tab-pane">
                     <div class="row">
                         <div class="col-md-4">
                             {!! Form::label('productSpecial[price]', 'Цена:') !!}
@@ -128,6 +129,20 @@
 
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div id="tab_5" class="tab-pane">
+                    <div class="form-group">
+                        {!! Form::label('service_list', 'Гравировка') !!}
+                        <select class="form-control" name="service_list[]" id="service_list" multiple="multiple">
+
+                            @if($services)
+                                @foreach($services as $service)
+                                    <option @if($product->services) {{in_array($service->id, $product->services->pluck('id')->toArray())? 'selected' : ''}} @endif value="{{$service->id}}">{{$service->title}}</option>
+                                @endforeach
+                            @endif
+
+                        </select>
                     </div>
                 </div>
             </div>

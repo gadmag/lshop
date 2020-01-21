@@ -35,16 +35,13 @@
 
             </li>
             <li class="header"><strong>Интернет магазин</strong></li>
-            <li class="treeview"><a href="{{url('admin/catalogs')}}"><i class="fa fa-tags" aria-hidden="true"></i>
-                    <span>Каталог</span></a></li>
-            {{--<li class="treeview"><a href="{{url('admin/articles/news/all')}}"><i class="fa fa-newspaper-o"></i> Новости</a></li>--}}
+            <li class="treeview">
+                <a href="{{url('admin/catalogs')}}"><i class="fa fa-tags" aria-hidden="true"></i>
+                    <span>Каталог</span></a>
+            </li>
 
-            <li class="treeview"><a href="{{route('products.index')}}"><i class="fa fa-shopping-basket"
-                                                                          aria-hidden="true"></i>
-                    <span>Продукты</span></a></li>
-            <li class="treeview"><a href="{{route('services.index')}}"><i class="fa fa-shopping-basket"
-                                                                          aria-hidden="true"></i>
-                    <span>Услуги</span></a></li>
+            <li class="treeview"><a href="{{route('products.index')}}">
+                    <i class="fa fa-shopping-basket" aria-hidden="true"></i><span>Продукты</span></a></li>
             <li>
             <li><a href="{{url('admin/orders')}}"><i class="fa fa-shopping-cart"></i> <span>Заказы</span></a></li>
             <li class="treeview">
@@ -56,6 +53,11 @@
                     <li class="treeview">
                         <a href="{{route('fieldOptions.index')}}">
                             <i class="fa fa-shopping-basket" aria-hidden="true"></i><span>Параметры опций товара</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="{{route('services.index')}}">
+                            <i class="fa fa-shopping-basket" aria-hidden="true"></i><span>Услуга товара</span>
                         </a>
                     </li>
                     <li class="treeview">

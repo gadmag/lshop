@@ -146,6 +146,7 @@ class ProductQueries implements BaseQueries
         }
 
         $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
+        $product->services()->sync($request->input('service_list') ?: []);
         $product->save();
         return $product;
     }
@@ -176,7 +177,9 @@ class ProductQueries implements BaseQueries
         if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $product, $this->imgResize, true);
         }
+
         $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
+        $product->services()->sync($request->input('service_list') ?: []);
         $product->touch();
         return $product;
     }
