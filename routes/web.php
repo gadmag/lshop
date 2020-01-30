@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 Route::get('env', function() {
     dd(env('APP_ENV'));
 });
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace' => 'Admin', 'roles' => ['Admin', 'Moderator']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace' => 'Admin', 'roles' => ['admin', 'moderator']], function () {
     Route::get('/', function () {
         return view('AdminLTE.admin-front');
     });

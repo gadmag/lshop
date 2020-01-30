@@ -15,15 +15,18 @@ class CheckRole
      */
     public function handle($request, Closure $next)
     {
-        if($request->user() === null){
-            return response('Insufficient permission', 401);
-        }
+//        dd($roles);
         $action = $request->route()->getAction();
         $roles = isset($action['roles'])? $action['roles'] : null;
-        if ($request->user()->hasAnyRole($roles) || !$roles){
-            return $next($request);
+//        dd($action['roles']);
+        if($request->user() === null){
+            return abort(404);
+        }
+        if (!$request->user()->hasRole($roles)){
+//            dd($roles);
+            return abort(404);
         }
 
-        return response('Insufficient permission', 401);
+        return $next($request);
     }
 }

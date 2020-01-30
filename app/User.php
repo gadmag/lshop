@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\HasRolesAndPermissions;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\MailResetPasswordToken;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasRolesAndPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -82,66 +83,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Catalog');
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany('App\Role', 'user_role', 'user_id', 'role_id');
-    }
 
-    public function hasAnyRole($roles)
-    {
-        if (is_array($roles)) {
-            foreach ($roles as $role) {
-                if ($this->inRole($role)) {
-                    return true;
-                }
-            }
-        } else {
-            if ($this->inRole($roles)) {
-                return true;
-            }
-
-        }
-        return false;
-    }
-
-    public function hasRole($role)
-    {
-        if ($this->roles()->where('name', $role)->first()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Checks if User has access to $permissions.
-     */
-    public function hasAccess(array $permissions)
-    {
-        var_dump($permissions);
-        // check if the permission is available in any role
-        foreach ($this->roles as $role) {
-            var_dump($role->name);
-            if ($role->hasAccess($permissions)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Checks if the user belongs to role.
-     */
-    public function inRole($roleSlug)
-    {
-        return $this->roles()->where('name', $roleSlug)->count() == 1;
-    }
-
-
-    public function getRoleListAttribute()
-    {
-
-        return $this->roles->pluck('id')->all();
-    }
 
     /**
      * Get last order from user

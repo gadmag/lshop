@@ -89,8 +89,11 @@
             </li>
             <li><a href="{{url('admin/articles/design/all')}}"><i class="fa fa-photo"></i>
                     <span>Дизайнерские идеи</span></a></li>
+            @role('admin')
             <li class="header"><strong>Пользователи</strong></li>
             <li><a href="{{url('admin/users')}}"><i class="fa fa-user"></i> <span>Пользователи</span></a></li>
+            @endrole
+
         </ul>
     </section>
     <!-- /.sidebar -->
