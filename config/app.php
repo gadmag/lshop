@@ -183,6 +183,8 @@ return [
         UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Aginev\Datagrid\DatagridServiceProvider::class,
+        App\Providers\RolesServiceProvider::class,
+        App\Providers\PermissionServiceProvider::class,
 
         /**
          * dev
@@ -242,6 +244,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'DateFormat' => App\Helpers\DateFormat::class,
         'Datagrid' => Aginev\Datagrid\Datagrid::class,
+
         /**
          * dev
          */

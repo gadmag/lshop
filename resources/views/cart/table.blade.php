@@ -10,10 +10,11 @@
         </thead>
         <tbody>
 
-        @foreach($order->cart->items as $item)
+        @foreach($order->cart['content'] as $item)
+{{--            {{dd($item)}}--}}
             <tr>
 {{--                {{dd($item)}}--}}
-                <td>{{$item->item->title}}</td>
+                <td>{{$item->item['title']}}</td>
                 <td><strong>{{$item->qty}}</strong></td>
                 <td>{{$item->price/$item->qty}} р.</td>
                 <td class="text-right">{{$item->price}} р.</td>
@@ -23,7 +24,7 @@
         <tr>
             <td colspan="3" class="text-right"><strong>Предварительная стоимость:</strong></td>
             <td class="text-right">
-                <strong>{{$order->cart->totalPrice}} р.</strong>
+                <strong>{{$order->cart['totalPrice']}} р.</strong>
             </td>
         </tr>
         @if($order->shipment_method)
@@ -34,14 +35,14 @@
                 </td>
             </tr>
         @endif
-        @if($order->cart->coupon)
-            <tr>
-                <td colspan="3" class="text-right"><strong>Купон:</strong></td>
-                <td class="text-right">
-                    <strong>{{$order->cart->coupon->name}}</strong>
-                </td>
-            </tr>
-        @endif
+{{--        @if($order->cart['coupon'])--}}
+{{--            <tr>--}}
+{{--                <td colspan="3" class="text-right"><strong>Купон:</strong></td>--}}
+{{--                <td class="text-right">--}}
+{{--                    <strong>{{$order->cart['coupon']->name}}</strong>--}}
+{{--                </td>--}}
+{{--            </tr>--}}
+{{--        @endif--}}
         <tr>
             <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
             <td class="text-right">

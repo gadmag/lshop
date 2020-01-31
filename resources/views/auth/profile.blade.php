@@ -8,6 +8,7 @@
                 <hr>
                 <h2>Мои покупки</h2>
                 @foreach($orders as $order)
+{{--                    {{dd($order->cart)}}--}}
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p>Дата покупки {{$order->created_at}}</p>

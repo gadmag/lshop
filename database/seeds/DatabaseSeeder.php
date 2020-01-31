@@ -32,7 +32,7 @@ class UserTableSeeder extends DatabaseSeeder
 {
     public function run()
     {
-        $role_admin = App\Role::where('name', 'Admin')->first();
+        $role_admin = App\Role::where('slug', 'admin')->first();
 
         $user = new App\User();
         $user->name = 'admin';
@@ -215,23 +215,20 @@ class RoleTableSeeder extends DatabaseSeeder
 
         \App\Role::create([
 
-            'name' => 'Registered',
-            'permissions' => ''
+            'name' => 'Зарегистрирован',
+            'slug' => 'registered'
 
         ]);
         \App\Role::create([
 
-            'name' => 'Moderator',
-            'permissions' => [
-                'update-post' => true,
-                'create-post' => true,
-            ]
+            'name' => 'Модератор',
+            'slug' => 'moderator'
+
 
         ]);
         \App\Role::create([
-
-            'name' => 'Admin',
-            'permissions' => ''
+            'name' => 'Администратор',
+            'slug' => 'admin'
         ]);
     }
 }

@@ -14,6 +14,7 @@ class UserController extends Controller
 {
 
 
+
     public function index()
     {
         $users = User::all();
@@ -22,6 +23,8 @@ class UserController extends Controller
 
     public function create()
     {
+        $this->authorize('create', User::class);
+
         $roles = Role::pluck('name', 'id');
         return view('AdminLTE.user.create', [
             'roles' => $roles
@@ -30,6 +33,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('edit', User::class);
         $user = User::findOrFail($id);
         $roles = Role::pluck('name', 'id');
         return view('AdminLTE.user.edit', [
@@ -46,7 +50,9 @@ class UserController extends Controller
             'blocked' => $request->blocked,
             'password' => bcrypt($request->password),
         ]);
-        $this->syncRoles($user, $request->input('role_list') ?: []);
+        $this->authorize('store', $user);
+        $role = Role::findOrFail($request->roles);
+        $user->roles()->attach($role->id);
         return redirect("admin/users")->with([
             'flash_message' => "Пользователь {$user->username} добавлена",
         ]);
@@ -62,7 +68,8 @@ class UserController extends Controller
             'blocked' => $request->blocked,
             'password' => bcrypt($request->password),
         ]);
-        $this->syncRoles($user, $request->input('role_list') ?: []);
+        $user->roles()->detach();
+        $user->roles()->attach($request->roles);
         return redirect("admin/users")->with([
             'flash_message' => "Пользователь {$user->name} обновлен",
         ]);
