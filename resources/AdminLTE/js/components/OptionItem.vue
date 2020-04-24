@@ -52,7 +52,7 @@
 
                 <div class="input-group">
                     <label>Фото товара</label>
-                    <input type="file" :name="'productOptions['+key+'][image_option]'" multiple>
+                    <input type="file" :name="'productOptions['+key+'][image_option][]'" multiple="multiple">
                     <p class="help-block">Выберите файл для добавления</p>
                 </div>
 

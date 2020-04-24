@@ -190,7 +190,7 @@ class ProductQueries implements BaseQueries
             $option = Option::create($optionAttr);
             $option->discount()->create($optionAttr['discount']);
             if (!empty($optionAttr['image_option'])) {
-                $this->multipleUpload([$optionAttr['image_option']], $option, $this->imgResize, true);
+                $this->multipleUpload($optionAttr['image_option'], $option, $this->imgResize, true);
             }
             $product->productOptions()->save($option);
             $product->sumOptionQty();
@@ -199,6 +199,7 @@ class ProductQueries implements BaseQueries
 
     protected function updateOptions(Request $request, Product $product): void
     {
+
         $ids = array_map(function ($item) {
             return $item['id'];
         }, $request->extractOptions());
@@ -208,7 +209,7 @@ class ProductQueries implements BaseQueries
             $option = Option::whereId($id)->first();
             $this->updateDiscount($option, $optionAttr['discount']);
             if (!empty($optionAttr['image_option'])) {
-                $this->multipleUpload([$optionAttr['image_option']], $option, $this->imgResize, true);
+                $this->multipleUpload($optionAttr['image_option'], $option, $this->imgResize, true);
             }
         }
     }

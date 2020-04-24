@@ -37,7 +37,10 @@ class OptionObserver
      */
     public function deleted(Option $option)
     {
-        $option->discount()->first()->delete();
+        if ($option->discount()->exists()){
+            $option->discount()->first()->delete();
+        }
+
         foreach ($option->files as $file) {
             Storage::disk('public')->delete('files/' . $file->filename);
             Storage::disk('public')->delete('files/thumbnail/' . $file->filename);

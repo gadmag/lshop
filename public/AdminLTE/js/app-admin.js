@@ -20457,8 +20457,8 @@ var render = function() {
                     _c("input", {
                       attrs: {
                         type: "file",
-                        name: "productOptions[" + key + "][image_option]",
-                        multiple: ""
+                        name: "productOptions[" + key + "][image_option][]",
+                        multiple: "multiple"
                       }
                     }),
                     _vm._v(" "),
