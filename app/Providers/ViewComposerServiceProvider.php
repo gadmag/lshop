@@ -23,9 +23,9 @@ class ViewComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->composeMenu();
-        $this->composeBlocks();
-        $this->composeNewProductBlock();
+        $this->composeNewProduct();
         $this->composeSpecialProduct();
+        $this->composeBlocks();
         $this->composeAdminBlocks();
     }
 
@@ -71,7 +71,7 @@ class ViewComposerServiceProvider extends ServiceProvider
         });
     }
 
-    protected function composeNewProductBlock()
+    protected function composeNewProduct()
     {
         view()->composer('block.new_product', NewProductComposer::class);
     }

@@ -73,7 +73,7 @@ class CacheProductQueries implements BaseQueries
     public function create(Request $request): Product
     {
         $product = $this->base->create($request);
-        $this->cache->put($product->getCacheKey(), $product, $this->duration);
+//        $this->cache->put($product->getCacheKey(), $product, $this->duration);
         return $product;
     }
 

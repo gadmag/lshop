@@ -92,6 +92,11 @@ class ProductQueries implements BaseQueries
         return $catalog->products()->active()->get()->except($product->id)->take($limit);
     }
 
+    /**
+     * Get products by catalog id
+     * @param int|null $id
+     * @return mixed
+     */
     public function getByCatalogFilter(int $id = null)
     {
         if ($id) {
@@ -103,26 +108,52 @@ class ProductQueries implements BaseQueries
             ->advancedFilter()->paginate(request('limit', 12), ['id', 'updated_at']);
     }
 
+    /**
+     * Get new product ids
+     * @return mixed
+     */
     public function getNewProducts()
     {
         return Product::active()->take(8)->get(['id', 'updated_at']);
     }
 
+
+    /**
+     * Get special products
+     * @param int $limit
+     * @return mixed
+     */
     public function getSpecialProducts(int $limit = 4)
     {
         return Product::has('productSpecial')->active()->take($limit)->get();
     }
 
+
+    /**
+     * @param array $ids
+     * @return Collection
+     */
     public function getWishListProducts(array $ids): Collection
     {
         return Product::active()->whereIn('id', $ids)->get();
     }
 
+
+    /**
+     * @param array $ids
+     * @return mixed
+     */
     public function getProductsByIds(array $ids)
     {
         return Product::active()->with($this->relations)->whereIn('id', $ids)->get();
     }
 
+
+
+    /**
+     * @param Request $request
+     * @return Product
+     */
     protected function createProduct(Request $request): Product
     {
         $product = Auth::user()->products()->create($request->all());
@@ -151,6 +182,11 @@ class ProductQueries implements BaseQueries
         return $product;
     }
 
+    /**
+     * @param Request $request
+     * @param Product $product
+     * @return Product
+     */
     protected function updateProduct(Request $request, Product $product): Product
     {
         $product->update($request->all());
@@ -184,6 +220,11 @@ class ProductQueries implements BaseQueries
         return $product;
     }
 
+
+    /**
+     * @param Request $request
+     * @param $product
+     */
     protected function createOptions(Request $request, $product): void
     {
         foreach ($request->extractOptions() as $optionAttr) {
@@ -197,6 +238,10 @@ class ProductQueries implements BaseQueries
         }
     }
 
+    /**
+     * @param Request $request
+     * @param Product $product
+     */
     protected function updateOptions(Request $request, Product $product): void
     {
 
