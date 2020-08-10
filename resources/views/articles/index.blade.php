@@ -31,7 +31,7 @@
                                         @endif
                                         @if($article->files->first())
                                         <div class="image-article">
-                                            <img class="thumbnail img-responsive" src="{{asset('storage/files/400x300/'.$article->files()->first()->filename)}}" alt="Картинка">
+                                            <img class="thumbnail img-responsive" src="{{asset('storage/files/400x300/'.$article->files()->first()->name)}}" alt="Картинка">
                                         </div>
                                     @endif
                                         @if(!empty($article->description))

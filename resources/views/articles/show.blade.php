@@ -56,8 +56,8 @@
         @if($article->files->first())
             <div class="text-center">
 
-                <a class="group1" href="{{asset('storage/files/'.$article->files->first()->filename)}}" title="{{$article->title}}">
-                <img class="thumbnail img-responsive" src="{{asset('storage/files/400x300/'.$article->files->first()->filename)}}" alt="{{$article->title}}">
+                <a class="group1" href="{{asset('storage/files/'.$article->files->first()->name)}}" title="{{$article->title}}">
+                <img class="thumbnail img-responsive" src="{{asset('storage/files/400x300/'.$article->files->first()->name)}}" alt="{{$article->title}}">
                 </a>
             </div>
         @endif

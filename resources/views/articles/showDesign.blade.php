@@ -44,9 +44,9 @@
                         @foreach($files as $file)
                             <div class="col-md-3">
 
-                                    <a class="group1" href="{{asset('storage/files/600x450/'.$file->filename)}}"
+                                    <a class="group1" href="{{asset('storage/files/600x450/'.$file->name)}}"
                                        title="{{$design->title}}"> <img class="img-thumbnail"
-                                                                        src="{{asset('storage/files/400x300/'.$file->filename)}}"
+                                                                        src="{{asset('storage/files/400x300/'.$file->name)}}"
                                                                         alt="{{$design->title}}"></a>
 
                             </div>

@@ -26,7 +26,7 @@
 
                                 <div class="thumbnail">
                                     <a href="{{action('ArticleController', [$photo->id])}}">
-                                        <img src="{{asset('storage/files/600x450/'.$photo->files()->first()->filename)}}" alt="{{$photo->title}}" style="width:100%">
+                                        <img src="{{asset('storage/files/600x450/'.$photo->files()->first()->name)}}" alt="{{$photo->title}}" style="width:100%">
                                         <div class="caption">
                                             <p>{{$photo->title}}</p>
                                         </div>
