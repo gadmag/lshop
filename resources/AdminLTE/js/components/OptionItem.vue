@@ -42,20 +42,21 @@
                 </div>
             </td>
             <td>
-                <ul class="list-inline" v-if="form.files && form.files.length">
-                    <li v-for="file in form.files" :id="'file-item-' + file.id" class="remove-file"
-                        :data-id="file.id"><span href="#"><i class="fa fa-remove fa-lg"></i></span>
-                        <img class="thumbnail" :src="'/storage/files/thumbnail/' + file.filename" alt="Картинка">
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
+<!--                <ul class="list-inline" v-if="form.files && form.files.length">-->
+<!--                    <li v-for="file in form.files" :id="'file-item-' + file.id" class="remove-file"-->
+<!--                        :data-id="file.id"><span href="#"><i class="fa fa-remove fa-lg"></i></span>-->
+<!--                        <img class="thumbnail" :src="'/storage/files/thumbnail/' + file.filename" alt="Картинка">-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <div class="clearfix"></div>-->
 
-                <div class="input-group">
-                    <label>Фото товара</label>
-                    <input type="file" :name="'productOptions['+key+'][image_option][]'" multiple="multiple">
-                    <p class="help-block">Выберите файл для добавления</p>
-                </div>
-
+<!--                <div class="input-group">-->
+<!--                    <label>Фото товара</label>-->
+<!--                    <input type="file" :name="'productOptions['+key+'][image_option][]'" multiple="multiple">-->
+<!--                    <p class="help-block">Выберите файл для добавления</p>-->
+<!--                </div>-->
+                <image-upload :name="'productOptions['+key+'][optionUpload]'" :action="action"
+                              :files="form.files"></image-upload>
             </td>
             <td>
                 <div class="form-group">
@@ -124,7 +125,8 @@
                 type: Array,
             },
             colors: {},
-            colors_stone: {}
+            colors_stone: {},
+            action: ''
         },
         data() {
             return {

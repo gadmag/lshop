@@ -1,3 +1,7 @@
+.panel-heading{
+    padding-bottom: 10px;
+}
+
 .remove-file {
     position: relative;
     /*float: left;*/
@@ -53,6 +57,20 @@
 }
 .color-select{
 width: 140px;
+}
+.option-value-row .preview-file{
+    width: 60px;
+    margin: 3px;
+}
+.option-value-row .box {
+    padding: 10px;
+}
+.option-value-row .box_input{
+    font-size: 13px;
+}
+.option-value-row .box.has-advanced-upload .box__icon {
+    height: 20px;
+    margin: 10px 0;
 }
 /*catalog*/
 .menu-link .sub-menu {
@@ -126,3 +144,4 @@ width: 140px;
 .order .form-field{
     padding: 5px 0;
 }
+

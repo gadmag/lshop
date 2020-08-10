@@ -16,15 +16,6 @@
         <div class="form-group">
             {!! Form::label('body', 'Содержимое:') !!}
             {!! Form::textarea('body', null, ['class' => 'ckeditor form-control']) !!}
-            <script>
-                var my_editor = 'body';
-                var options = {
-                    filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-                    filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
-                    filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-                    filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
-                };
-            </script>
         </div>
         <div class="form-group">
             <ul class="list-inline">

@@ -3,10 +3,10 @@
         <div class="col-sm-6">
             <ul class="list-unstyled" v-if="files" id="thumbnails">
                 <li class="image-product-item" v-for="(image, key, index) in files">
-                    <a class="group2" v-if="key == 0" :href="'/storage/files/'+ image.filename"><img
-                            class="img-fluid" :src="'/storage/files/600x450/'+ image.filename" alt="Фото продукта"></a>
-                    <a class="group2" v-else :href="'/storage/files/'+ image.filename"><img class="img-thumbnail"
-                                                                                            :src="'/storage/files/90x110/'+ image.filename"
+                    <a class="group2" v-if="key == 0" :href="'/storage/files/'+ image.name"><img
+                            class="img-fluid" :src="'/storage/files/600x450/'+ image.name" alt="Фото продукта"></a>
+                    <a class="group2" v-else :href="'/storage/files/'+ image.name"><img class="img-thumbnail"
+                                                                                            :src="'/storage/files/90x110/'+ image.name"
                                                                                             alt="Фото продукта"></a>
                 </li>
             </ul>

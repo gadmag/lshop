@@ -1860,7 +1860,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getImage: function getImage(product) {
             var filename = '';
             if (product.files && product.files.length) {
-                filename = product.files[0].filename;
+                filename = product.files[0].name;
             }
             if (!product.product_options) {
                 return '';
@@ -1868,7 +1868,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             product.product_options.forEach(function (item, i) {
                 if (item.files && item.files.length) {
-                    filename = item.files[0].filename;
+                    filename = item.files[0].name;
                 }
             });
             return filename;
@@ -2876,14 +2876,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var filename = '';
             var options = product.product_options;
             if (product.files && product.files.length) {
-                return product.files[0].filename;
+                return product.files[0].name;
             }
             if (!options) {
                 return '';
             }
             for (var i = 0; i < options.length; i++) {
                 if (options[i].files && options[i].files.length) {
-                    return options[i].files[0].filename;
+                    return options[i].files[0].name;
                 }
             }
 
@@ -2985,14 +2985,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getImage: function getImage(product) {
             var options = product.product_options;
             if (product.files && product.files.length) {
-                return product.files[0].filename;
+                return product.files[0].name;
             }
             if (!options) {
                 return '';
             }
             for (var i = 0; i < options.length; i++) {
                 if (options[i].files && options[i].files.length) {
-                    return options[i].files[0].filename;
+                    return options[i].files[0].name;
                 }
             }
 
@@ -40604,13 +40604,13 @@ var render = function() {
                       "a",
                       {
                         staticClass: "group2",
-                        attrs: { href: "/storage/files/" + image.filename }
+                        attrs: { href: "/storage/files/" + image.name }
                       },
                       [
                         _c("img", {
                           staticClass: "img-fluid",
                           attrs: {
-                            src: "/storage/files/600x450/" + image.filename,
+                            src: "/storage/files/600x450/" + image.name,
                             alt: "Фото продукта"
                           }
                         })
@@ -40620,13 +40620,13 @@ var render = function() {
                       "a",
                       {
                         staticClass: "group2",
-                        attrs: { href: "/storage/files/" + image.filename }
+                        attrs: { href: "/storage/files/" + image.name }
                       },
                       [
                         _c("img", {
                           staticClass: "img-thumbnail",
                           attrs: {
-                            src: "/storage/files/90x110/" + image.filename,
+                            src: "/storage/files/90x110/" + image.name,
                             alt: "Фото продукта"
                           }
                         })
@@ -44016,7 +44016,7 @@ var render = function() {
                                           attrs: {
                                             src:
                                               "/storage/files/" +
-                                              item.files.filename,
+                                              item.files.name,
                                             alt: "Банковская карта"
                                           }
                                         }),
@@ -44113,7 +44113,7 @@ var render = function() {
                                               attrs: {
                                                 src:
                                                   "/storage/files/" +
-                                                  item.files.filename,
+                                                  item.files.name,
                                                 alt: item.title
                                               }
                                             })

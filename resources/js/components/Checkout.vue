@@ -127,7 +127,7 @@
                                                 <input :id="item.name" type="radio" name="payment" v-model="payment"
                                                        :value="JSON.stringify(item)" class="custom-control-input">
                                                 <label :for="item.name" class="custom-control-label">
-                                                    <img :src="'/storage/files/'+ item.files.filename"
+                                                    <img :src="'/storage/files/'+ item.files.name"
                                                          alt="Банковская карта">{{item.title}}
                                                 </label>
                                             </div>
@@ -146,7 +146,7 @@
                                                        class="custom-control-input">
                                                 <label :for="item.name" class="custom-control-label">
                                                     <span class="img-shipp">
-                                                        <img :src="'/storage/files/'+ item.files.filename"
+                                                        <img :src="'/storage/files/'+ item.files.name"
                                                              :alt="item.title">
                                                     </span>{{item.title}}
                                                 </label>

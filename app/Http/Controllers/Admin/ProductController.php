@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Service;
 use App\Services\Product\BaseQueries;
 use App\Services\TreeService;
+use App\Upload;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
@@ -12,6 +13,8 @@ use Gate;
 use Carbon\Carbon;
 use App\Product;
 use App\Catalog;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Validator;
 use Image;
 use File;
@@ -92,7 +95,7 @@ class ProductController extends Controller
                 'sortable' => true,
                 'has_filters' => false,
                 'wrapper' => function ($value) {
-                    return '<span class="label label-success">' . $value . '</span>';
+                    return '<span class="badge badge-success">' . $value . '</span>';
                 }
             ])
             // Setup action column
@@ -169,10 +172,17 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, int $id)
     {
+//        dd($request->all());
         $product = $this->service->update($request, $id);
         return redirect()->route('products.index')->with([
             'flash_message' => "{$product->title} обновлена",
         ]);
+    }
+
+    public function uploadFiles(Request $request)
+    {
+        $uploads = $this->service->createUploads($request->file('files'));
+        return ['uploads' => $uploads];
     }
 
     /**

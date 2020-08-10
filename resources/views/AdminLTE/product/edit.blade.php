@@ -16,7 +16,7 @@
 
         <div class="product-body">
             @include('errors.list')
-            {!! Form::model($product, ['method' => 'PATCH', 'action' => ['Admin\ProductController@update', $product->id],'files' => true, 'class' => 'article', 'autocomplete' => 'off']) !!}
+            {!! Form::model($product, ['method' => 'PATCH', 'action' => ['Admin\ProductController@update', $product->id],'files' => true, 'id' => 'productForm', 'autocomplete' => 'off']) !!}
 
             @include('AdminLTE.product._form', ['submitButtonText' => 'Сохранить продукт'])
 

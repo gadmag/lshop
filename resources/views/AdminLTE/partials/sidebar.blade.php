@@ -1,100 +1,95 @@
 <!-- Left side column. contains the logo and sidebar -->
-<aside class="main-sidebar">
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="/" class="brand-link">
+        <img src="{{asset('AdminLTE/img/AdminLTELogo.png')}}" alt="AdminLTE Logo"
+             class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+        <span class="brand-text font-weight-light">AdminLTE 3</span>
+    </a>
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+    <div class="sidebar">
         <!-- Sidebar user panel -->
-        <div class="user-panel">
-            <div class="pull-left image">
-                <i style="font-size: 18px; color: #fff" class="fa fa-user"></i>
+
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image"><img src="{{asset('AdminLTE/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
-            <div class="pull-left info">
-                <p>{{ Auth::user()->name }}</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div>
+            <div class="info"><a href="#" class="d-block">{{ Auth::user()->name }}</a></div>
         </div>
-        <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-        </form>
+
+
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">Навигация</li>
-            <li class="active">
-                <a href="/admin">
-                    <i class="fa fa-dashboard"></i>
-                    <span>Консоль</span>
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Навигация</p>
+                    </a>
+                <li class="nav-header">Интернет магазин</li>
+                <li class="nav-item has-treeview">
+                    <a class="nav-link" href="{{url('admin/catalogs')}}"><i class="nav-icon fa fa-tags" aria-hidden="true"></i>
+                        <p>Каталог</p></a>
+                </li>
 
-                </a>
+                <li class="nav-item has-treeview"><a class="nav-link" href="{{route('products.index')}}">
+                        <i class="nav-icon fa fa-shopping-basket" aria-hidden="true"></i><p>Продукты</p></a></li>
+                <li>
+                <li class="nav-item"><a class="nav-link" href="{{url('admin/orders')}}"><i class="nav-icon fa fa-shopping-cart"></i> <p>Заказы</p></a></li>
+                <li class="nav-item has-treeview">
+                    <a class="nav-link" href="#"><i class="nav-icon fa fa-list-ul" aria-hidden="true"></i><p>Справочники</p>
+                        <i class="nav-icon fa fa-angle-left right"></i>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item"><a class="nav-link" href="{{url('admin/coupons')}}"><i class="nav-icon fa fa-tags"></i>
+                                <p>Купоны</p></a></li>
+                        <li class="nav-item has-treeview">
+                            <a class="nav-link" href="{{route('fieldOptions.index')}}">
+                                <i class="nav-icon fa fa-shopping-basket" aria-hidden="true"></i><p>Параметры опций товара</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a class="nav-link" href="{{route('services.index')}}">
+                                <i class="nav-icon fa fa-shopping-basket" aria-hidden="true"></i><p>Услуга товара</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a class="nav-item" href="{{route('orderStatus.index')}}">
+                                <i class="nav-icon fa fa-circle-o text-red" aria-hidden="true"></i><p>Статусы заказа</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a class="nav-link" href="{{route('shipments.index')}}">
+                                <i class="nav-icon fa fa-circle-o text-red" aria-hidden="true"></i><p>Способы доставки</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a class="nav-link" href="{{route('payments.index')}}">
+                                <i class="nav-icon fa fa-circle-o text-red" aria-hidden="true"></i><p>Способы оплаты</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-header">Контент</li>
+                <li class="nav-item"><a class="nav-link" href="{{url('admin/menus?menu_type=main_menu')}}"><i class="nav-icon fa fa-list-ul"></i>Главное меню</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url('admin/blocks')}}"><i class="nav-icon fa fa-th"></i> <p>Блоки</p></a>
+                </li>
+                <li class="nav-item  has-treeview">
+                    <a class="nav-link" href="{{url('admin/pages')}}"><i class="nav-icon fa fa-clone"></i> <p>Страницы</p></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{{url('admin/articles/photo/all')}}"><i class="nav-icon fa fa-images"></i> <p>Фотогалерея</p></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{{url('admin/articles/design/all')}}"><i class="nav-icon fa fa-image"></i>
+                        <p>Дизайнерские идеи</p></a></li>
+                @role('admin')
+                <li class="nav-header">Пользователи</li>
+                <li class="nav-item"><a class="nav-link" href="{{url('admin/users')}}"><i class="nav-icon fa fa-user"></i> <p>Пользователи</p></a></li>
+                @endrole
 
-            </li>
-            <li class="header"><strong>Интернет магазин</strong></li>
-            <li class="treeview">
-                <a href="{{url('admin/catalogs')}}"><i class="fa fa-tags" aria-hidden="true"></i>
-                    <span>Каталог</span></a>
-            </li>
-
-            <li class="treeview"><a href="{{route('products.index')}}">
-                    <i class="fa fa-shopping-basket" aria-hidden="true"></i><span>Продукты</span></a></li>
-            <li>
-            <li><a href="{{url('admin/orders')}}"><i class="fa fa-shopping-cart"></i> <span>Заказы</span></a></li>
-            <li class="treeview">
-                <a href="#"><i class="fa fa-list-ul" aria-hidden="true"></i><span>Справочники</span>
-                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{url('admin/coupons')}}"><i class="fa fa-tags"></i> <span>Купоны</span></a></li>
-                    <li class="treeview">
-                        <a href="{{route('fieldOptions.index')}}">
-                            <i class="fa fa-shopping-basket" aria-hidden="true"></i><span>Параметры опций товара</span>
-                        </a>
-                    </li>
-                    <li class="treeview">
-                        <a href="{{route('services.index')}}">
-                            <i class="fa fa-shopping-basket" aria-hidden="true"></i><span>Услуга товара</span>
-                        </a>
-                    </li>
-                    <li class="treeview">
-                        <a href="{{route('orderStatus.index')}}">
-                            <i class="fa fa-circle-o text-red" aria-hidden="true"></i><span>Статусы заказа</span>
-                        </a>
-                    </li>
-                    <li class="treeview">
-                        <a href="{{route('shipments.index')}}">
-                            <i class="fa fa-circle-o text-red" aria-hidden="true"></i><span>Способы доставки</span>
-                        </a>
-                    </li>
-                    <li class="treeview">
-                        <a href="{{route('payments.index')}}">
-                            <i class="fa fa-circle-o text-red" aria-hidden="true"></i><span>Способы оплаты</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="header"><strong>Контент</strong></li>
-            <li><a href="{{url('admin/menus?menu_type=main_menu')}}"><i class="fa fa-list-ul"></i>Главное меню</a></li>
-            <li>
-                <a href="{{url('admin/blocks')}}"><i class="fa fa-th"></i> <span>Блоки</span></a>
-            </li>
-            <li class="treeview">
-                <a href="{{url('admin/pages')}}"><i class="fa fa-clone"></i> <span>Страницы</span></a>
-            </li>
-            <li><a href="{{url('admin/articles/photo/all')}}"><i class="fa fa-photo"></i> <span>Фотогалерея</span></a>
-            </li>
-            <li><a href="{{url('admin/articles/design/all')}}"><i class="fa fa-photo"></i>
-                    <span>Дизайнерские идеи</span></a></li>
-            @role('admin')
-            <li class="header"><strong>Пользователи</strong></li>
-            <li><a href="{{url('admin/users')}}"><i class="fa fa-user"></i> <span>Пользователи</span></a></li>
-            @endrole
-
-        </ul>
-    </section>
+            </ul>
+        </nav>
+    </div>
     <!-- /.sidebar -->
 </aside>

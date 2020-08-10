@@ -52,4 +52,21 @@ class Option extends Model
             return $this->discount()->first();
        }
    }
+
+    /**
+     * Sync ids of created uploads
+     * @param array $ids
+     */
+    public function syncUploads(array $ids): void
+    {
+        $old_uploads = $this->files->pluck('id')->toArray();
+        if ($old_uploads){
+            $delete_id = array_diff($old_uploads, $ids);
+            Upload::whereIn('id',$delete_id)->each(function ($upload, $key){
+                $upload->delete();
+            });
+        }
+        $uploads = Upload::whereIn('id',$ids)->get();
+        $this->files()->saveMany($uploads);
+    }
 }

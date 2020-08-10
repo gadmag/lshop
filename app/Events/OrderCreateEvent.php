@@ -15,10 +15,11 @@ class OrderCreateEvent
     use InteractsWithSockets, SerializesModels;
 
     public $order;
+
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Order $order
      */
     public function __construct(Order $order)
     {

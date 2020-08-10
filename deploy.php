@@ -23,7 +23,7 @@ add('shared_dirs', ['storage']);
 
 
 // Hosts
-
+// pass 4guUMjW5VNXz
 host('vh130.timeweb.ru')
     ->user('lotus44476')
     ->set('deploy_path', '~/lshop');

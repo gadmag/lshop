@@ -21,28 +21,24 @@
         <div class="form-group">
             {!! Form::label('body', 'Содержимое:') !!}
             {!! Form::textarea('body', null, ['class' => 'ckeditor form-control']) !!}
-            <script>
-                var my_editor = 'body';
-                var options = {
-                    filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-                    filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
-                    filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-                    filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
-                };
-            </script>
         </div>
-
+        <div class="form-group">
+            {{Form::submit($submitButtonText,['class' => 'btn btn-primary'])}}
+        </div>
     </div>
 
-    <div class="col-md-3 pull-right seo-attr">
-        <div class="box box-default collapsed-box">
-            <div class="box-header with-border">
-                <h3 class="box-title">Добавить сео аттрибуты</h3>
-                <div class="box-tools pull-right">
-                    <a class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></a>
-                </div><!-- /.box-tools -->
-            </div><!-- /.box-header -->
-            <div class="box-body">
+    <div class="col-md-3  seo-attr">
+        <div class="card card-outline collapsed-card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Добавить сео аттрибуты</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
                 <fieldset>
                     <legend>Сео аттрибуты</legend>
                     <div class="form-group">
@@ -58,16 +54,20 @@
                         {!! Form::textarea('pageSeo[meta_description]', null, ['class' => 'form-control']) !!}
                     </div>
                 </fieldset>
-            </div><!-- /.box-body -->
-        </div><!-- /.box -->
-        <div class="box box-success collapsed-box">
-            <div class="box-header with-border">
-                <h3 class="box-title">Добавить пункт меню</h3>
-                <div class="box-tools pull-right">
-                    <a class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></a>
-                </div><!-- /.box-tools -->
-            </div><!-- /.box-header -->
-            <div class="box-body">
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <div class="card card-outline collapsed-card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Добавить пункт меню</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
                 <fieldset>
                     <legend>Меню</legend>
                     <div style="">
@@ -85,16 +85,14 @@
                             ],null, ['class' => 'form-control', 'placeholder' => "-Выберите меню-"]) !!}
                         </div>
                         {{--<div class="form-group">--}}
-                            {{--{{ Form::hidden('menuLink[menu_type]', 'mainmenu', array('id' => 'invisible_id')) }}--}}
+                        {{--{{ Form::hidden('menuLink[menu_type]', 'mainmenu', array('id' => 'invisible_id')) }}--}}
                         {{--</div>--}}
                     </div>
                 </fieldset>
-            </div><!-- /.box-body -->
-        </div><!-- /.box -->
+            </div>
+            <!-- /.card-body -->
+        </div>
     </div>
 </div>
 <div class="clearfix"></div>
-<div class="form-group">
-    {{Form::submit($submitButtonText,['class' => 'btn btn-primary'])}}
 
-</div>

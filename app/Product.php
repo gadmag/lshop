@@ -184,6 +184,9 @@ class Product extends Model
         return $this->productOptions()->find($id)->toArray();
     }
 
+    /**
+     * @return Seo
+     */
     public function getSeo(): Seo
     {
         return $this->productSeo()->first();
@@ -212,7 +215,10 @@ class Product extends Model
         return null;
     }
 
-    public function sumOptionQty(): void
+    /**
+     *
+     */
+    public function sumOptionQty()
     {
         if ($this->productOptions()->exists()) {
             $this->quantity =  $this->productOptions()->get()->sum(function (Option $option) {
@@ -251,6 +257,23 @@ class Product extends Model
         }
     }
 
+
+    /**
+     * Sync ids of created uploads
+     * @param array $ids
+     */
+    public function syncUploads(array $ids): void
+    {
+        $old_uploads = $this->files->pluck('id')->toArray();
+        if ($old_uploads){
+            $delete_id = array_diff($old_uploads, $ids);
+            Upload::whereIn('id',$delete_id)->each(function ($upload, $key){
+                $upload->delete();
+            });
+        }
+        $uploads = Upload::whereIn('id',$ids)->get();
+        $this->files()->saveMany($uploads);
+    }
 
     /**
      * Get price product or option
@@ -301,9 +324,9 @@ class Product extends Model
     public function frontImg(int $id = null)
     {
         if ($this->files()->exists()) {
-            return $this->files()->first()->filename;
+            return $this->files()->first()->name;
         } elseif ($this->productOptions()->find($id) && $this->productOptions()->find($id)->files()->exists()) {
-            return $this->productOptions()->find($id)->files()->first()->filename;
+            return $this->productOptions()->find($id)->files()->first()->name;
         }
 
         return '';

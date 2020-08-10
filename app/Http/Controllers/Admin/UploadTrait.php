@@ -16,56 +16,42 @@ trait UploadTrait
 
     protected $rules = ['file' => 'mimes:png,gif,jpeg,jpg'];
 
+    protected $isWatermark;
+
+    protected $path;
+
     /** Мультизвгрузка изображений
-     * @param array $files
-     * @param $page
-     * @param array $imageStyle
-     * @param bool $watermark
-     * @return bool
+     * @param array $file
+     * @param array $styles
+     * @param bool $isWatermark
+     * @return mixed
      */
 
-    public function multipleUpload(array $files, $page, $imageStyle = array(), $isWatermark = false)
+    public function multipleUpload($file, $styles = array(), $isWatermark = false)
     {
-        if ($files) {
-            foreach ($files as $file):
-                $validator = Validator::make(array('file' => $file), $this->rules);
-                if ($validator->passes()) {
-                    $filename = md5(microtime()) . '_' . $this->getFileName($file->getClientOriginalName());
-                    $path = storage_path('app/public/files');
-                    Storage::disk('public')->put('files/' . $filename, file_get_contents($file));
-                    $mimetype = Storage::disk('public')->mimeType('files/' . $filename);
-                    $imageStyle = array_merge($imageStyle, ['thumbnail' => ['width' => 100, 'height' => 100]]);
-
-                    foreach ($imageStyle as $key => $value) {
-                        if (!Storage::disk('public')->has("files/$key")) {
-                            Storage::disk('public')->makeDirectory("files/$key", 777, true);
-                        }
-
-                        $img = Image::make($path . '/' . $filename)->fit($value['width'], $value['height'], function ($constraint) {
-//                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        });
-
-                        $img->save($path . "/$key/" . $filename);
-                    }
-                    if ($isWatermark) {
-                        $this->watermark($filename, ['', '600x450']);
-                    }
-                    $image = Upload::create([
-                        //'uploadstable_id' => $article->id,
-                        'filename' => $filename,
-                        'mime' => $mimetype,
-                    ]);
-                    $page->files()->save($image);
-
-                } else {
-
-                }
-
-            endforeach;
-        } else {
-            return true;
+//        $validator = Validator::make(array('file' => $file), $this->rules);
+//        if (!$validator->passes()) {
+//            return 'Invalid validation adding files';
+//        }
+//        dd($file);
+        $this->isWatermark = $isWatermark;
+        $this->path = storage_path('app/public/files');
+        $filename = $this->getFileName($file->getClientOriginalName());
+        Storage::disk('public')->put('files/' . $filename, file_get_contents($file));
+        $mimetype = Storage::disk('public')->mimeType('files/' . $filename);
+        $size = Storage::disk('public')->size('files/' . $filename);
+        if (in_array($mimetype,['image/jpg','image/jpeg','image/gif','image/png'])){
+            $this->createImgStyle($filename,$styles);
         }
+
+
+        return array(
+            'name' => $filename,
+            'mime' => $mimetype,
+            'size' => $size,
+        );
+
+
     }
 
     protected function watermark($filename, $imgStyles)
@@ -85,10 +71,31 @@ trait UploadTrait
     }
 
 
+    protected function createImgStyle(string $filename, array $styles): void
+    {
+        $imageStyle = array_merge($styles, ['thumbnail' => ['width' => 100, 'height' => 100]]);
+
+        foreach ($imageStyle as $key => $value) {
+            if (!Storage::disk('public')->has("files/$key")) {
+                Storage::disk('public')->makeDirectory("files/$key", 777, true);
+            }
+
+            $img = Image::make($this->path . '/' . $filename)->fit($value['width'], $value['height'], function ($constraint) {
+//                            $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            $img->save($this->path . "/$key/" . $filename);
+        }
+        if ($this->isWatermark) {
+            $this->watermark($filename, ['', '600x450']);
+        }
+    }
+
     protected function getFileName(string $originalName): string
     {
         $filename = pathinfo($originalName, PATHINFO_FILENAME);
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
-        return str_slug($filename,'_').'.'.str_slug($extension, '_');
+        return md5(microtime()) . '_' . str_slug($filename, '_') . '.' . str_slug($extension, '_');
     }
 }

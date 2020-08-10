@@ -38,10 +38,14 @@ $('div.alert').not('alert-important').delay(3000).slideUp(300);
         console.log(value)
         $(this).attr('value', value).val();
     });
+    $('#reservationdate_start, #reservationdate_end').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: 'ru',
 
-    $('.select2').select2({
-        placeholder: 'Выберите теги',
     });
+    // $('.select2').select2({
+    //     placeholder: 'Выберите теги',
+    // });
     // $('#tag_lists').select2({
     //     placeholder: 'Выберите теги',
     //     tags: true
@@ -95,7 +99,7 @@ $(document).ready(function () {
     var updateOutput = function (e) {
         var list = e.length ? e : $(e.target),
             output = list.data('output');
-         console.log(list.data('output'));
+        console.log(list.data('output'));
         if (window.JSON) {
             output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
             updateMenu(window.JSON.stringify(list.nestable('serialize')));
@@ -179,10 +183,23 @@ $(document).ready(function () {
     })
 
 
-    $('input').iCheck({
-        checkboxClass: 'icheckbox_flat-blue',
-        radioClass: 'iradio_flat-blue'
-    });
+    // $('input').iCheck({
+    //     checkboxClass: 'icheckbox_flat-blue',
+    //     radioClass: 'iradio_flat-blue'
+    // });
 
 
 }(jQuery))
+
+//    ckeditor init
+var options = {
+    filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+    filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+    filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+    filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+};
+(function ($) {
+
+    $('textarea.editor').ckeditor(options);
+}(jQuery))
+

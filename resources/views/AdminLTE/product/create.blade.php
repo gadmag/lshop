@@ -15,7 +15,7 @@
 
         <div class="product-body">
             @include('errors.list')
-            {!! Form::model($product = new \App\Product, ['url' => route('products.store'),'files' => true, 'class' => 'product', 'autocomplete' => 'off']) !!}
+            {!! Form::model($product = new \App\Product, ['url' => route('products.store'),'files' => true, 'id' => 'productForm', 'autocomplete' => 'off']) !!}
 
 
             @include('AdminLTE.product._form', ['submitButtonText' => 'Добавить продукт'])

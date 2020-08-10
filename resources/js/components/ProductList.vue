@@ -83,14 +83,14 @@
             getImage(product) {
                 let options = product.product_options;
                 if (product.files && product.files.length) {
-                    return product.files[0].filename;
+                    return product.files[0].name;
                 }
                 if (!options) {
                     return ''
                 }
                 for (let i = 0; i < options.length; i++) {
                     if (options[i].files && options[i].files.length) {
-                        return options[i].files[0].filename;
+                        return options[i].files[0].name;
                     }
                 }
 

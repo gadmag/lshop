@@ -37,15 +37,6 @@
         <div class="form-group">
             {!! Form::label('description', 'Содержимое:') !!}
             {!! Form::textarea('description', null, ['class' => 'ckeditor form-control']) !!}
-            <script>
-                var my_editor = 'description';
-                var options = {
-                    filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-                    filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
-                    filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-                    filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
-                };
-            </script>
         </div>
 
         <div class="form-group">

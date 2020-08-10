@@ -106,7 +106,7 @@
             getImage(product) {
                 let filename = '';
                 if (product.files && product.files.length) {
-                    filename = product.files[0].filename;
+                    filename = product.files[0].name;
                 }
                 if (!product.product_options) {
                     return ''
@@ -114,7 +114,7 @@
 
                 product.product_options.forEach(function (item, i) {
                     if (item.files && item.files.length) {
-                        filename = item.files[0].filename;
+                        filename = item.files[0].name;
                     }
                 });
                 return filename;

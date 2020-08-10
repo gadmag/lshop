@@ -9,11 +9,10 @@
             <li class="breadcrumb-item active" aria-current="page">Пользователи</li>
         </ol>
     </nav>
-    <a href="{{route('users.create')}}" class="btn btn-primary">
-        <i class="fa fa-plus"></i>
-        Добавить пользователя
-    </a>
-    <br>
+    <div class="panel-heading">
+        <a href="{{route('users.create')}}" class="btn btn-primary">
+            <i class="fa fa-plus"></i> Добавить пользователя</a>
+    </div>
     <table class="table table-striped">
         <thead>
         <th>Имя</th>

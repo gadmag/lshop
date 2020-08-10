@@ -146,6 +146,11 @@ class CacheProductQueries implements BaseQueries
         return $this->rememberMultiple($products);
     }
 
+    public function createUploads(array $files)
+    {
+         return $this->base->createUploads($files);
+    }
+
     private function getCacheKey(string $key): string
     {
         $key = strtoupper($key);

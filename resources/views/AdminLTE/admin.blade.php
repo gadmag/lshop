@@ -8,40 +8,32 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="/AdminLTE/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/AdminLTE/css/bootstrap4.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/AdminLTE/css/fontawsome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="/AdminLTE/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="/AdminLTE/css/_all-skins.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="/AdminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- iCheck -->
-    <link rel="stylesheet" href="/AdminLTE/css/blue.css">
-    <!-- Select2 -->
-    <link rel="stylesheet" href="/AdminLTE/css/select2.min.css">
-    <link rel="stylesheet" href="/AdminLTE/css/select2-bootstrap.css">
-    <!-- Morris chart -->
-    <link rel="stylesheet" href="/AdminLTE/css/morris.css">
-    <!-- jvectormap -->
-    <link rel="stylesheet" href="/AdminLTE/css/jquery-jvectormap-1.2.2.css">
-    <!-- Date Picker -->
-    <link rel="stylesheet" href="/AdminLTE/css/datepicker3.css">
+    <link rel="stylesheet" href="/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="/AdminLTE/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/AdminLTE/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="/AdminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Daterange picker -->
-    <link rel="stylesheet" href="/AdminLTE/css/daterangepicker.css">
+    <link rel="stylesheet" href="/AdminLTE/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+{{--    <link rel="stylesheet" href="AdminLTE/plugins/summernote/summernote-bs4.css">--}}
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="/AdminLTE/css/bootstrap3-wysihtml5.min.css">
     <link rel="stylesheet" href="/AdminLTE/css/nestable.css">
     <link rel="stylesheet" href="/AdminLTE/css/my.css">
     @stack('style')
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+<!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div id="app-admin" class="wrapper">
@@ -74,58 +66,46 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 2.2.3 -->
-<script src="/js/jquery-2.2.3.min.js"></script>
+<!-- jQuery -->
+<script src="/AdminLTE/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-    $.widget.bridge('uibutton', $.ui.button);
+    $.widget.bridge('uibutton', $.ui.button)
 </script>
-<!-- Bootstrap 3.3.6 -->
-<script src="/AdminLTE/js/bootstrap.min.js"></script>
-<!-- Morris.js charts -->
-{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>--}}
-<script src="/AdminLTE/js/morris.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/AdminLTE/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
-<script src="/AdminLTE/js/jquery.sparkline.min.js"></script>
-<!-- jvectormap -->
-<script src="/AdminLTE/js/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="/AdminLTE/js/jquery-jvectormap-world-mill-en.js"></script>
+<script src="/AdminLTE/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="/AdminLTE/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="/AdminLTE/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
 <!-- jQuery Knob Chart -->
-<script src="/AdminLTE/js/jquery.knob.js"></script>
+<script src="/AdminLTE/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
-{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>--}}
-<script src="/AdminLTE/js/moment-with-locales.min.js"></script>
-<script src="/AdminLTE/js/daterangepicker.js"></script>
-<!-- datepicker -->
-<script src="/AdminLTE/js/bootstrap-datepicker.js"></script>
-<script src="/AdminLTE/js/bootstrap-datepicker.ru.js"></script>
-{{--iChek--}}
-<script src="/AdminLTE/js/icheck.min.js"></script>
-{{--<!-- Bootstrap WYSIHTML5 -->--}}
-<script src="/AdminLTE/js/bootstrap3-wysihtml5.all.min.js"></script>
-<!-- Slimscroll -->
-<script src="/AdminLTE/js/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="/AdminLTE/js/fastclick.js"></script>
+<script src="/AdminLTE/plugins/moment/moment-with-locales.min.js"></script>
+<script src="/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+{{--<script src="/AdminLTE/plugins/summernote/summernote-bs4.min.js"></script>--}}
+<!-- CKeditor -->
+<script src="/AdminLTE/plugins/ckeditor/ckeditor.js"></script>
+<script src="/AdminLTE/plugins/ckeditor/adapters/jquery.js"></script>
+<!-- overlayScrollbars -->
+<script src="/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
-<script src="/AdminLTE/js/app.js"></script>
-<!-- Select2 -->
-<script src="/AdminLTE/js/select2.min.js"></script>
+<script src="/AdminLTE/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/AdminLTE/js/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/AdminLTE/js/demo.js"></script>
-<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 <script src="/AdminLTE/js/jquery.nestable.js"></script>
 <script src="/AdminLTE/js/app-admin.js"></script>
 <script src="/AdminLTE/js/my.js"></script>
 @stack('scripts')
-<script type="text/javascript">
-
-     CKEDITOR.replace( my_editor, options);
-</script>
-
 </body>
 </html>

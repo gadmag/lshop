@@ -26,6 +26,7 @@ class  ProductRequest extends FormRequest
      */
     public function rules()
     {
+//        dd($this->all());
         $rules = [
             'title' => 'required|min:3',
             'status' => 'boolean',

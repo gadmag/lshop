@@ -6,6 +6,7 @@ namespace App\Services\Product;
 
 use App\Catalog;
 use App\Http\Controllers\Admin\UploadTrait;
+use App\Upload;
 use Illuminate\Http\Request;
 use App\Option;
 use App\Product;
@@ -148,7 +149,21 @@ class ProductQueries implements BaseQueries
         return Product::active()->with($this->relations)->whereIn('id', $ids)->get();
     }
 
-
+    /**
+     * @param array $files
+     * @return array
+     */
+    public function createUploads(array $files)
+    {
+        $uploads = array();
+        foreach ($files as $file) {
+            $uploaded_file = $this->multipleUpload($file, $this->imgResize, true);
+            if (is_array($uploaded_file)) {
+                $uploads[] = Upload::create($uploaded_file);
+            }
+        }
+        return $uploads;
+    }
 
     /**
      * @param Request $request
@@ -172,8 +187,9 @@ class ProductQueries implements BaseQueries
 
         }
 
-        if ($request->file('images')) {
-            $this->multipleUpload($request->file('images'), $product, $this->imgResize, true);
+        if ($request->exists('productUpload')) {
+            $product->syncUploads(explode(',', $request->productUpload));
+
         }
 
         $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
@@ -209,9 +225,8 @@ class ProductQueries implements BaseQueries
             $this->updateOptions($request, $product);
         }
 
-
-        if ($request->file('images')) {
-            $this->multipleUpload($request->file('images'), $product, $this->imgResize, true);
+        if ($request->exists('productUpload')) {
+            $product->syncUploads(explode(',', $request->productUpload));
         }
 
         $this->syncCatalogs($product, $request->input('catalog_list') ?: []);
@@ -230,8 +245,8 @@ class ProductQueries implements BaseQueries
         foreach ($request->extractOptions() as $optionAttr) {
             $option = Option::create($optionAttr);
             $option->discount()->create($optionAttr['discount']);
-            if (!empty($optionAttr['image_option'])) {
-                $this->multipleUpload($optionAttr['image_option'], $option, $this->imgResize, true);
+            if (!empty($optionAttr['optionUpload'])) {
+                $option->syncUploads(explode(',',$optionAttr['optionUpload']));
             }
             $product->productOptions()->save($option);
             $product->sumOptionQty();
@@ -253,11 +268,14 @@ class ProductQueries implements BaseQueries
             $id = $product->productOptions()->updateOrCreate(['id' => $optionAttr['id']], $optionAttr)->id;
             $option = Option::whereId($id)->first();
             $this->updateDiscount($option, $optionAttr['discount']);
-            if (!empty($optionAttr['image_option'])) {
-                $this->multipleUpload($optionAttr['image_option'], $option, $this->imgResize, true);
-            }
+//            if (!empty($optionAttr['optionUpload'])) {
+//                dd($optionAttr['optionUpload']);
+                $option->syncUploads(explode(',',$optionAttr['optionUpload']));
+//            }
         }
     }
+
+
 
     protected function syncCatalogs(Product $product, array $catalogs): void
     {

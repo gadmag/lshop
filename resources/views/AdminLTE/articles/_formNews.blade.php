@@ -46,18 +46,6 @@
             {!! Form::label('body', 'Содержимое:') !!}
             {!! Form::textarea('body',  $article->description? $article->description.'<hr>'.$article->body: null, ['class' => 'ckeditor  form-control']) !!}
 
-
-
-            {{--<script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>--}}
-            <script>
-                var my_editor = 'body';
-                var options = {
-                    filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-                    filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
-                    filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-                    filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
-                };
-            </script>
         </div>
 
         <div class="form-group">
