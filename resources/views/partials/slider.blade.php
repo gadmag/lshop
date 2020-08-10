@@ -4,7 +4,7 @@
         @foreach($slides as $slide)
             <div class="carousel-item @if ($loop->index == 0)active @endif">
                 @if($slide->files()->exists())
-                    <img src="{{asset('storage/files/'.$slide->files()->first()->filename)}}" class="d-block img-fluid w-100" alt="{{$slide->title}}">
+                    <img src="{{asset('storage/files/'.$slide->files()->first()->name)}}" class="d-block img-fluid w-100" alt="{{$slide->title}}">
                 @endif
                 <div class="img-overlay"></div>
                 <div class="carousel-caption">{!! $slide->body !!}</div>
