@@ -2001,20 +2001,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -20895,11 +20881,7 @@ var render = function() {
                                 value: color
                               }
                             },
-                            [
-                              _vm._v(
-                                _vm._s(color) + "\n                        "
-                              )
-                            ]
+                            [_vm._v(_vm._s(color) + "\n                    ")]
                           )
                         })
                       ],
@@ -20934,9 +20916,9 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                            " +
+                                "\n                        " +
                                   _vm._s(stone) +
-                                  "\n                        "
+                                  "\n                    "
                               )
                             ]
                           )
@@ -20994,99 +20976,96 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("td", [
-                  _c("div", { staticClass: "form-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: form.discount.id,
+                        expression: "form.discount.id"
+                      }
+                    ],
+                    attrs: {
+                      type: "hidden",
+                      name: "productOptions[" + key + "][discount][id]"
+                    },
+                    domProps: { value: form.discount.id },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(form.discount, "id", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group form-inline" }, [
+                    _c("label", { staticClass: "my-1 mr-2" }, [
+                      _vm._v("Скидка:")
+                    ]),
+                    _vm._v(" "),
                     _c("input", {
                       directives: [
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: form.discount.id,
-                          expression: "form.discount.id"
+                          value: form.discount.price,
+                          expression: "form.discount.price"
                         }
                       ],
+                      staticClass: "form-control form-price",
                       attrs: {
-                        type: "hidden",
-                        name: "productOptions[" + key + "][discount][id]"
+                        name: "productOptions[" + key + "][discount][price]",
+                        type: "text",
+                        placeholder: "Цена:"
                       },
-                      domProps: { value: form.discount.id },
+                      domProps: { value: form.discount.price },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(form.discount, "id", $event.target.value)
+                          _vm.$set(form.discount, "price", $event.target.value)
                         }
                       }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _vm._m(2, true),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: form.discount.price,
-                            expression: "form.discount.price"
-                          }
-                        ],
-                        staticClass: "form-control form-price",
-                        attrs: {
-                          name: "productOptions[" + key + "][discount][price]",
-                          type: "text",
-                          placeholder: "Цена:"
-                        },
-                        domProps: { value: form.discount.price },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              form.discount,
-                              "price",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group form-inline" }, [
+                    _c("label", { staticClass: "my-1 mr-2" }, [
+                      _vm._v("Кол-во:")
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _vm._m(3, true),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: form.discount.quantity,
-                            expression: "form.discount.quantity"
-                          }
-                        ],
-                        staticClass: "form-control form-qty",
-                        attrs: {
-                          name:
-                            "productOptions[" + key + "][discount][quantity]",
-                          type: "text",
-                          placeholder: "Кол-во:"
-                        },
-                        domProps: { value: form.discount.quantity },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              form.discount,
-                              "quantity",
-                              $event.target.value
-                            )
-                          }
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: form.discount.quantity,
+                          expression: "form.discount.quantity"
                         }
-                      })
-                    ])
+                      ],
+                      staticClass: "form-control form-qty",
+                      attrs: {
+                        name: "productOptions[" + key + "][discount][quantity]",
+                        type: "text",
+                        placeholder: "Кол-во:"
+                      },
+                      domProps: { value: form.discount.quantity },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            form.discount,
+                            "quantity",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
                   ])
                 ]),
                 _vm._v(" "),
@@ -21232,18 +21211,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", [_c("label", [_vm._v("Цена")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("label", [_vm._v("Скидка")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("label", [_vm._v("Кол-во:")])])
   }
 ]
 render._withStripped = true

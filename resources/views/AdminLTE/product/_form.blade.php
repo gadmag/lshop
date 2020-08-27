@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-9 page-default">
+    <div class="col-lg-12 col-xl-10 page-default">
 
         <div class="card card-primary card-outline card-tabs">
             <div class="card-header p-0 pt-1 border-bottom-0">
@@ -156,7 +156,7 @@
 
     </div>
 
-    <div class="col-md-3 pull-right seo-attr">
+    <div class="col-xl-2 pull-right seo-attr">
         <div class="card card-outline collapsed-card card-primary">
             <div class="card-header">
                 <h3 class="card-title">Добавить сео аттрибуты</h3>
