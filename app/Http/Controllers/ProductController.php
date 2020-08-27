@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Catalog;
 use App\Coupon;
+use App\Http\Requests\CartRequest;
 use App\Order;
+use App\Service;
 use App\Shipment;
 use App\ShoppingCart\Facades\Cart;
 use App\FieldOption;
@@ -50,10 +52,10 @@ class ProductController extends Controller
     }
 
 
-    public function addToCart(Request $request, $id)
+    public function addToCart(CartRequest $request, $id)
     {
         $cart = $this->initCart();
-        $options = json_decode($request->get('options'));
+        $options = $request->get('options');
         $product = Product::with(['files', 'productOptions.files'])->active()->largerQuantity()->findOrFail($id);
         $discount = $product->getDiscount($options->id);
         $special = $product->getSpecial();
@@ -72,7 +74,13 @@ class ProductController extends Controller
                 'discount_quantity' => $discount ? $discount->quantity : null,
                 'discount_price' => $discount ? (float)$discount->price : null,
                 'special_price' => $special ? (float)$special->price : 0,
-                'special_prefix' => $special ? $special->price_prefix : null
+                'special_prefix' => $special ? $special->price_prefix : null,
+                'engraving' => [
+                    'id' => $options->engraving? $options->engraving->id: null,
+                    'text' => $options->engraving? $options->engraving->text: null,
+                    'qty' =>  1,
+                    'filename' => $options->engraving? $options->engraving->img_path: null,
+                ]
             ]
         );
         return response()->json([

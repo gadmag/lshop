@@ -25,7 +25,8 @@ class ProductQueries implements BaseQueries
         'productOptions.discount',
         'productSpecial',
         'catalogs',
-        'files'
+        'files',
+        'services'
     ];
 
     private $imgResize = [
@@ -246,7 +247,7 @@ class ProductQueries implements BaseQueries
             $option = Option::create($optionAttr);
             $option->discount()->create($optionAttr['discount']);
             if (!empty($optionAttr['optionUpload'])) {
-                $option->syncUploads(explode(',',$optionAttr['optionUpload']));
+                $option->syncUploads(explode(',', $optionAttr['optionUpload']));
             }
             $product->productOptions()->save($option);
             $product->sumOptionQty();
@@ -268,13 +269,9 @@ class ProductQueries implements BaseQueries
             $id = $product->productOptions()->updateOrCreate(['id' => $optionAttr['id']], $optionAttr)->id;
             $option = Option::whereId($id)->first();
             $this->updateDiscount($option, $optionAttr['discount']);
-//            if (!empty($optionAttr['optionUpload'])) {
-//                dd($optionAttr['optionUpload']);
-                $option->syncUploads(explode(',',$optionAttr['optionUpload']));
-//            }
+            $option->syncUploads(explode(',', $optionAttr['optionUpload']));
         }
     }
-
 
 
     protected function syncCatalogs(Product $product, array $catalogs): void

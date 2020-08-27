@@ -440,6 +440,29 @@ header .block-right {
 .bottom-page .title {
   padding-bottom: 10px;
 }
+.engraving-block {
+  margin: 1.5rem 0;
+}
+.engraving-block .custom-checkbox {
+  padding-left: 1.6rem;
+}
+.engraving-block #engravingBox {
+  padding-top: 1rem;
+}
+.engraving-block #engravingUpload_component {
+  max-width: 160px;
+  padding: 5px 0;
+}
+.engraving-block .box {
+  padding: 10px;
+}
+.engraving-block .box.has-advanced-upload .box__icon {
+  height: 30px;
+  margin: 10px 0;
+}
+.engraving-block .box_input {
+  font-size: 13px;
+}
 /*----------product list-----------*/
 .list-product .pagination > .active > a,
 .list-product .pagination > .active > a:focus,

@@ -75,7 +75,7 @@
         },
         created() {
 
-            if (this.files.length > 0) {
+            if (this.files && this.files.length > 0) {
                 this.previews = this.files;
             }
         },
@@ -246,6 +246,7 @@
         height: 100%;
     }
     .preview-file-info {
+        text-align: left;
         padding: 0.7rem 0.3em;
         position: static;
         display: flex;

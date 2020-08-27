@@ -61,6 +61,12 @@ $(document).ready(function () {
         // init
         toggleAffix(ele, $(window), wrapper);
     });
+
+
+    $('.dropdown-menu').on('click', function(event) {
+        // $('.dropdown-menu').slideToggle();
+        event.stopPropagation();
+    });
 });
 
 

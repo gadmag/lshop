@@ -5,6 +5,7 @@ namespace App\ShoppingCart;
 
 
 use App\Product;
+use Illuminate\Support\Collection;
 
 class CartItem
 {
@@ -60,10 +61,23 @@ class CartItem
      */
     public $item;
 
+    /**
+     * @var Collection
+     */
+    public $engravings;
 
-    public function __construct($id, $name, $image, $price, $weight, $qty,  $options = [])
+    /**
+     * CartItem constructor.
+     * @param $id
+     * @param $name
+     * @param $image
+     * @param $price
+     * @param $weight
+     * @param $qty
+     * @param array $options
+     */
+    public function __construct($id, $name, $image, $price, $weight, $qty, $options = [])
     {
-
         $this->id = $id;
         $this->name = $name;
         $this->image = $image;
@@ -71,8 +85,9 @@ class CartItem
         $this->weight = (float)$weight;
         $this->qty = (int)$qty;
         $this->options = $options;
-
         $this->uniqueId = $this->generateUniqueId();
+        $this->engravings = $this->engravings?? new Collection();
+
     }
 
 
@@ -81,7 +96,7 @@ class CartItem
      */
     protected function generateUniqueId()
     {
-        if(!$this->options){
+        if (!$this->options) {
             return md5($this->id);
         }
         ksort($this->options);
@@ -113,7 +128,10 @@ class CartItem
         return $this->weight * $this->qty;
     }
 
-    public function toArray()
+    /**
+     * @return array
+     */
+    public function toArray(): array
     {
         return [
             'uniqueId' => $this->uniqueId,

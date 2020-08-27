@@ -48,9 +48,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
     Route::post('api/orders/update-cart/{id}', ['as' => 'order.updateCart', 'uses' => 'OrderController@updateCart']);
     //relates
     Route::get('option/{id}', 'ProductController@deleteOption');
+
     //upload
-    Route::get('upload/{id}', 'UploadController@deleteFile');
-    Route::get('uploadFile', 'UploadController@uploadFile');
     Route::post('menu/updatesort', ['as' => 'uploadsort', 'uses' => 'MenuController@updateMenuSort']);
     Route::post('uploadFiles',['as' => 'upload.files','uses' => 'ProductController@uploadFiles']);
 
@@ -62,9 +61,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
 });
 
 Route::group(['middleware' => 'web'], function () {
+
     Route::get('designs/{design_alias}', ['as' => 'design.show', 'uses' => 'ArticleController@showDesign']);
     Route::get('designs', ['as' => 'design.index', 'uses' => 'ArticleController@indexDesign']);
 
+    //uploads
+    Route::get('upload/{id}', 'UploadController@deleteFile');
+    Route::get('uploadFile', 'UploadController@uploadFile');
     /*page*/
     Route::get('pages/{page_alias}', ['as' => 'page.show', 'uses' => 'PageController@show']);
 

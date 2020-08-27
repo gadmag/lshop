@@ -5,7 +5,6 @@ namespace App\ShoppingCart;
 use App\ShoppingCart\Coupon\DiscountCoupon;
 use App\ShoppingCart\Coupon\FixedDiscountCoupon;
 use Exception;
-use App\Product;
 use App\ShoppingCart\Repositories\Contracts\RepositoryInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 class Cart
 {
 
-    use DiscountPrice;
+    use EngravingExecution, DiscountPrice;
 
     const DEFAULT_INSTANCE_NAME = 'cart';
 
@@ -26,6 +25,11 @@ class Cart
      * @var RepositoryInterface
      */
     private $repo;
+
+    /**
+     * @var Collection
+     */
+    private $engravings;
 
     /**
      * @var Collection
@@ -56,15 +60,17 @@ class Cart
      * @param null|array $oldCart
      * @return $this
      */
-    public function instance(string $name = '',$oldCart = null)
+    public function instance(string $name = '', $oldCart = null)
     {
-        $this->instanceName = $name?: self::DEFAULT_INSTANCE_NAME;
+        $this->instanceName = $name ?: self::DEFAULT_INSTANCE_NAME;
         $this->fetch($oldCart);
         return $this;
     }
 
     public function add($id, $title = null, $image = '', $price = 0, $weight = 0, $qty = 1, $options = null)
     {
+        $engraving = $options['engraving'];
+        unset($options['engraving']);
         $cartItem = new CartItem(
             $id,
             $title,
@@ -74,18 +80,31 @@ class Cart
             $qty,
             $options
         );
+
         $uniqueId = $cartItem->getUniqueId();
+
         if ($this->content->has($uniqueId)) {
             $cartItem->qty += $this->content->get($uniqueId)->qty;
             $cartItem->weight += $this->content->get($uniqueId)->weight;
+            $cartItem->engravings = $this->content->get($uniqueId)->engravings;
         }
+
+        $this->addEngraving($cartItem,$engraving);
         $this->applyDiscount($cartItem);
         $this->content->put($uniqueId, $cartItem);
+
         $this->save();
         return $this;
     }
 
 
+
+    /**
+     * @param string $uniqueId
+     * @param int $qty
+     * @return $this
+     * @throws Exception
+     */
     public function update(string $uniqueId, int $qty)
     {
         if (!$this->has($uniqueId)) {
@@ -95,7 +114,6 @@ class Cart
         $cartItem->qty = $qty;
         $cartItem->weight = $cartItem->weight * $cartItem->qty;
         $this->applyDiscount($cartItem);
-
         $this->content->put($uniqueId, $cartItem);
         $this->save();
         return $this;
@@ -153,6 +171,7 @@ class Cart
         return $this;
     }
 
+
     /**
      * @param string $uniqueId
      * @return CartItem|null
@@ -191,7 +210,6 @@ class Cart
     }
 
 
-
     protected function normalizeKey($key = null): string
     {
         if (!$key) {
@@ -217,6 +235,7 @@ class Cart
     public function clear(): void
     {
         $this->content = new Collection();
+        $this->engravings = new Collection();
         $this->shipment = new Collection();
         $this->coupons = new Collection();
         $this->save();
@@ -242,11 +261,14 @@ class Cart
         $cart = $this->getRepo($oldCart);
         if (!$cart) {
             $this->content = new Collection();
+            $this->engravings = new Collection();
             $this->coupons = new Collection();
             $this->shipment = new Collection();
             return;
         }
+
         $this->content = collect($cart['content']);
+        $this->engravings = collect($cart['engravings']);
         $this->coupons = collect($cart['coupons']);
         $this->shipment = collect($cart['shipment']);
         $this->instanceName = $cart['instance'];
@@ -281,6 +303,12 @@ class Cart
     }
 
 
+
+
+
+    /**
+     * @return float|mixed
+     */
     public function totalWithCoupons()
     {
         $total = $this->totalPrice();
@@ -336,6 +364,7 @@ class Cart
     {
         return [
             'content' => $this->content,
+            'engravings' => $this->engravings,
             'coupons' => $this->coupons,
             'shipment' => $this->shipment,
             'instance' => $this->instanceName,

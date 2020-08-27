@@ -27,6 +27,7 @@ Vue.component('wish-list', require('./components/WishList.vue'));
 Vue.component('wish-count', require('./components/WishListCount.vue'));
 Vue.component('filterable', require('./components/Filterable.vue'));
 Vue.component('AuthModal', require('./components/auth/AuthModal.vue'));
+Vue.component('ImageUpload', require('./components/upload/ImageUpload.vue'));
 
 const app = new Vue({
     el: '#app',

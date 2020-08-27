@@ -172,7 +172,6 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, int $id)
     {
-//        dd($request->all());
         $product = $this->service->update($request, $id);
         return redirect()->route('products.index')->with([
             'flash_message' => "{$product->title} обновлена",

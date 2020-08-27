@@ -6,8 +6,8 @@
                     <a class="group2" v-if="key == 0" :href="'/storage/files/'+ image.name"><img
                             class="img-fluid" :src="'/storage/files/600x450/'+ image.name" alt="Фото продукта"></a>
                     <a class="group2" v-else :href="'/storage/files/'+ image.name"><img class="img-thumbnail"
-                                                                                            :src="'/storage/files/90x110/'+ image.name"
-                                                                                            alt="Фото продукта"></a>
+                                                                                        :src="'/storage/files/90x110/'+ image.name"
+                                                                                        alt="Фото продукта"></a>
                 </li>
             </ul>
             <div class="clearfix"></div>
@@ -22,6 +22,7 @@
                 <ul class="nav nav-tabs">
                     <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Описание</a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu1">Характеристики</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#service">Услуги</a></li>
 
                 </ul>
 
@@ -33,7 +34,10 @@
                         <p v-if="product.size"><strong>Размер:</strong> <span>{{product.size}}</span></p>
                         <p v-if="weight"><strong>Вес:</strong> <span>{{weight}} гр.</span></p>
                     </div>
-
+                    <div id="service" class="tab fade">
+                        <!--                        {{product.services}}-->
+                        <!--                        <input type="checkbox" class="">-->
+                    </div>
                 </div>
             </div>
             <div class="price-block">
@@ -46,6 +50,7 @@
                 <span>{{discount.quantity}} и более {{discount.price}} р.</span>
                 <hr>
             </div>
+
             <div class="add-to-cart">
                 <div v-if="options && options.length > 0" class="options-block">
                     <div class="form-group">
@@ -64,6 +69,28 @@
                         </div>
                     </div>
                 </div>
+                <div v-if="services && services.length > 0" class="engraving-block">
+                    <div class="form-check custom-checkbox">
+                        <input @change="check($event)" type="checkbox" id="checkEngraving" class="custom-control-input">
+                        <label data-toggle="collapse" data-target="#engravingBox"
+                               class="custom-control-label" for="checkEngraving"
+                               aria-expanded="false" aria-controls="engravingBox">Добавить гравировку</label>
+                    </div>
+                    <div id="engravingBox" :aria-expanded="false" class="collapse">
+                        <div class="form-group">
+                            <select class="form-control" v-model="engraving.id">
+                                <option disabled value="">Выбрать тип гравировки</option>
+                                <option v-for="service in services" :value="service.id">{{service.title}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input v-model="engraving.text" placeholder="Текст гравировки" id="engravingText"
+                                   type="text" class="form-control">
+                        </div>
+                        <image-upload name="engravingUpload" action="/uploadFiles"></image-upload>
+                    </div>
+                </div>
+
                 <div class="quantity form-group">
                     <label for="quantity">Кол-во</label>
                     <input type="number" v-model="query_options.quantity" name="quantity" id="quantity"
@@ -100,7 +127,16 @@
                 files: [],
                 options: this.product.product_options,
                 special: this.product.product_special,
-                checkedNames: [],
+                services: this.product.services,
+                checkedEngraving: {
+                    default: false,
+                    type: Boolean,
+                },
+                engraving: {
+                    id: '',
+                    text: '',
+                    img_path: ''
+                },
                 titleOption: null,
                 query_options: {
                     id: null,
@@ -180,7 +216,19 @@
                 return this.files;
             },
 
+            check(e) {
+                if (e.target.checked) {
+                    return this.checkedEngraving = true
+                }
+                this.checkedEngraving = false;
+                this.engraving.id = '';
+                this.engraving.text = '';
+                this.engraving.img_path = '';
+
+            },
+
             addToCart(id) {
+                this.query_options.engraving = this.engraving;
                 bus.$emit('added-to-cart', id, this.query_options);
             },
 
@@ -207,7 +255,7 @@
                 return this.addOptionPrice(this.product.price);
             },
 
-            discount(){
+            discount() {
 
                 if (this.query_options.id) {
                     let option = this.getOptionByID(this.query_options.id);

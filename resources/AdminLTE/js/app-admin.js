@@ -18,7 +18,7 @@ window.bus = new Vue;
 Vue.component('option-item', require('./components/OptionItem.vue'));
 Vue.component('shipment-field', require('./components/ShipmentField'));
 Vue.component('order', require('./components/Order.vue'));
-Vue.component('image-upload', require('./components/ImageUpload.vue'));
+Vue.component('image-upload', require('../../js/components/upload/ImageUpload.vue'));
 
 
 const app = new Vue({
