@@ -8,11 +8,11 @@
                 <div class="py-2">
                     <a href="#" v-on:click.prevent="$refs.fileInput.click()"><strong>Выберите файл</strong></a> <span>или перетащите сюда</span>
                 </div>
-                <image-preview  :files="attachments" @close="deleteAttachment($event)"></image-preview>
+                <image-preview v-if="!fast_login"  :files="attachments" @close="deleteAttachment($event)"></image-preview>
                 <input style="display: none" type="file" ref="fileInput" :multiple="allowMultiple" accept=""
                        @change="onFileSelected">
                 <input type="hidden" v-bind:name="name" ref="fileUploaded" :id="name" value="">
-               <div class="mt-2">
+               <div v-if="!fast_login" class="mt-2">
                    <button :disabled="loading" class="btn btn-sm btn-primary" v-if="this.attachments.length > 0" v-on:click.prevent="onSubmitUpload()">
                        <span v-if="loading" role="status" aria-hidden="true" class="spinner-border spinner-border-sm"></span>
                        Загрузить на сервер
@@ -48,6 +48,7 @@
 
         data() {
             return {
+                fast_login: true,
                 isAdvanced: false,
                 uploadPercentage: 0,
                 loading: false,
@@ -69,6 +70,9 @@
                 this.$refs.drop.addEventListener('drop', function (e) {
                     for (let i = 0; i < e.dataTransfer.files.length; i++) {
                         this.attachments.push(e.dataTransfer.files[i]);
+                    }
+                    if (this.fast_login){
+                        this.onSubmitUpload();
                     }
                 }.bind(this));
             }
@@ -124,7 +128,8 @@
                     for (let i = 0; i < files.length; i++) {
                         this.attachments.push(files[i]);
                     }
-                    this.$emit('input', this.attachments)
+                    this.$emit('input', this.attachments);
+                    this.onSubmitUpload();
                 }
             },
             assignUploaded(){

@@ -1663,8 +1663,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1801,6 +1799,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
+            fast_login: true,
             isAdvanced: false,
             uploadPercentage: 0,
             loading: false,
@@ -1821,6 +1820,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$refs.drop.addEventListener('drop', function (e) {
                 for (var i = 0; i < e.dataTransfer.files.length; i++) {
                     this.attachments.push(e.dataTransfer.files[i]);
+                }
+                if (this.fast_login) {
+                    this.onSubmitUpload();
                 }
             }.bind(this));
         }
@@ -1873,6 +1875,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     this.attachments.push(files[i]);
                 }
                 this.$emit('input', this.attachments);
+                this.onSubmitUpload();
             }
         },
         assignUploaded: function assignUploaded() {
@@ -2593,7 +2596,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -20619,14 +20622,16 @@ var render = function() {
                 _c("span", [_vm._v("или перетащите сюда")])
               ]),
               _vm._v(" "),
-              _c("image-preview", {
-                attrs: { files: _vm.attachments },
-                on: {
-                  close: function($event) {
-                    return _vm.deleteAttachment($event)
-                  }
-                }
-              }),
+              !_vm.fast_login
+                ? _c("image-preview", {
+                    attrs: { files: _vm.attachments },
+                    on: {
+                      close: function($event) {
+                        return _vm.deleteAttachment($event)
+                      }
+                    }
+                  })
+                : _vm._e(),
               _vm._v(" "),
               _c("input", {
                 ref: "fileInput",
@@ -20649,34 +20654,40 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _c("div", { staticClass: "mt-2" }, [
-                this.attachments.length > 0
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        attrs: { disabled: _vm.loading },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.onSubmitUpload()
-                          }
-                        }
-                      },
-                      [
-                        _vm.loading
-                          ? _c("span", {
-                              staticClass: "spinner-border spinner-border-sm",
-                              attrs: { role: "status", "aria-hidden": "true" }
-                            })
-                          : _vm._e(),
-                        _vm._v(
-                          "\n                   Загрузить на сервер\n               "
+              !_vm.fast_login
+                ? _c("div", { staticClass: "mt-2" }, [
+                    this.attachments.length > 0
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-primary",
+                            attrs: { disabled: _vm.loading },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.onSubmitUpload()
+                              }
+                            }
+                          },
+                          [
+                            _vm.loading
+                              ? _c("span", {
+                                  staticClass:
+                                    "spinner-border spinner-border-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              : _vm._e(),
+                            _vm._v(
+                              "\n                   Загрузить на сервер\n               "
+                            )
+                          ]
                         )
-                      ]
-                    )
-                  : _vm._e()
-              ])
+                      : _vm._e()
+                  ])
+                : _vm._e()
             ],
             1
           )

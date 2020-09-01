@@ -10,8 +10,6 @@
                 </button>
             </div>
             <div class="img-box">
-<!--                <span :style="{displaySpinner: 'display: none'}" role="status" aria-hidden="true"-->
-<!--                      :ref="`spinner-preview` + parseInt( key )" class=" spinner-border spinner-border-sm"></span>-->
                 <img class="img-preview" v-bind:ref="'preview'+parseInt( key )"/>
             </div>
             <div class="preview-file-info">
