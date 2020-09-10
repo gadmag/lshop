@@ -23,16 +23,15 @@
                                 <div v-if="cartItem.options.color_stone" class="small">
                                     <span><strong>Цвет камня:</strong> {{cartItem.options.color_stone}}</span>
                                 </div>
-                                <div v-if="cartItem.engravings" class=" small">
-                                    <a class="btn-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div id="engravingDetail" v-if=" Object.keys(cartItem.engravings).length > 0" class="dropdown small">
+                                    <a class="btn-link" href="#" role="button" id="engravingLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Гравировка
                                     </a>
-                                    <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownMenuLink">
-                                        <li  v-for="engraving in cartItem.engravings">
-                                           <span>{{engraving.title}}</span> <span>{{engraving.price}} р.</span>
+                                    <ul class="text-left dropdown-menu list-unstyled" aria-labelledby="dropdownMenuLink">
+                                        <li class="engraving-item"  v-for="engraving in cartItem.engravings">
+                                            <span><span>{{engraving.qty}}x</span> {{engraving.title}}</span> <span>{{engraving.price}} р.</span>
                                         </li>
                                     </ul>
-
                                 </div>
                             </div>
                         </figure>
@@ -108,11 +107,26 @@
             },
 
             addToCart(item) {
+                // console.log(item);
                 let options = {
                     id: item.options.id,
                     quantity: 1,
                 };
-                bus.$emit('added-to-cart', item.id, options)
+                if (options.id) {
+                    // console.log(options);
+                    let url = '/api/add-to-cart/' + item.id + '?options=' + JSON.stringify(options);
+                    axios.get(url)
+                        .then(function (response) {
+                            console.log(response);
+                            if (response.data.cart) {
+                                bus.$emit('added-to-cart', response.data);
+                            }
+
+                        }.bind(this))
+                        .catch(function (error) {
+                            console.log(error.response.data.errors);
+                        }.bind(this));
+                }
             }
         }
     }

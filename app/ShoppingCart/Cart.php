@@ -67,10 +67,8 @@ class Cart
         return $this;
     }
 
-    public function add($id, $title = null, $image = '', $price = 0, $weight = 0, $qty = 1, $options = null)
+    public function add($id, $title = null, $image = '', $price = 0, $weight = 0, $qty = 1, $options = null, $engraving = null)
     {
-        $engraving = $options['engraving'];
-        unset($options['engraving']);
         $cartItem = new CartItem(
             $id,
             $title,
@@ -89,14 +87,15 @@ class Cart
             $cartItem->engravings = $this->content->get($uniqueId)->engravings;
         }
 
-        $this->addEngraving($cartItem,$engraving);
+        if ($engraving['id']) {
+            $this->addEngraving($cartItem, $engraving);
+        }
         $this->applyDiscount($cartItem);
         $this->content->put($uniqueId, $cartItem);
 
         $this->save();
         return $this;
     }
-
 
 
     /**
@@ -301,9 +300,6 @@ class Cart
             return $cartItem->getTotal();
         });
     }
-
-
-
 
 
     /**

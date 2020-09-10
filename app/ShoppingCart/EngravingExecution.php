@@ -7,6 +7,12 @@ namespace App\ShoppingCart;
 trait EngravingExecution
 {
 
+    /**
+     * Create EngravingItem object
+     * @param $cartId
+     * @param $engraving
+     * @return EngravingItem
+     */
     public function initEngraving($cartId, $engraving)
     {
         return new EngravingItem(
@@ -18,6 +24,11 @@ trait EngravingExecution
         );
     }
 
+    /**
+     * Add engraving for CartItem
+     * @param CartItem $cartItem
+     * @param $engraving
+     */
     public function addEngraving(CartItem & $cartItem, $engraving)
     {
         $engravingItem = $this->initEngraving($cartItem->getUniqueId(), $engraving);
@@ -32,9 +43,8 @@ trait EngravingExecution
 
     public function removeEngraving($cartItemId, $engravingId)
     {
-
-        if ($this->has($cartItemId)){
-            $this->engravings->forget($engravingId);
+        if ($this->has($cartItemId) && $this->get($cartItemId)->engravings->has($engravingId)){
+            $this->get($cartItemId)->engravings->forget($engravingId);
         }
     }
 

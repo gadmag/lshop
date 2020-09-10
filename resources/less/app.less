@@ -226,7 +226,7 @@ header {
 
 /*---------nav-user-------------*/
 .nav-user {
-  li {
+  &>li {
     position: relative;
     padding: 0 0 0 2.5rem;
     float: left;
@@ -434,10 +434,15 @@ header {
 
 .cart-block {
   .img-wrap img {
-    max-width: 80px;
+    max-width: 64px;
+  }
+  .engraving-item{
+  padding: 0.3rem;
   }
 }
-
+#engravingDetail {
+  padding-top: 0.2rem;
+}
 .nav-user .cart-block {
   padding-top: 0;
 }

@@ -63,9 +63,18 @@ $(document).ready(function () {
     });
 
 
-    $('.dropdown-menu').on('click', function(event) {
-        // $('.dropdown-menu').slideToggle();
+
+    $('.cart-item-detail .dropdown-menu.cart-block').on('click', function(event) {
         event.stopPropagation();
+    });
+
+    $('#engravingDetail.dropdown').hover(function () {
+        $(this).addClass('show');
+        $(this).find('.dropdown-menu').addClass('show');
+
+    }, function () {
+        $(this).removeClass('show');
+        $(this).find('.dropdown-menu').removeClass('show');
     });
 });
 

@@ -38,13 +38,15 @@ const app = new Vue({
             wishList: [],
             wishListCount: 0,
             bool: false,
+            errors: null,
+            message: null,
 
         }
     },
 
     created() {
-        bus.$on('added-to-cart', (id, options) => {
-            this.addToCart('/api/add-to-cart', id, options);
+        bus.$on('added-to-cart', (data) => {
+            this.addToCart( data);
         });
         bus.$on('reduce-from-cart', (id) => {
             this.getCartJson('/api/reduce', id);
@@ -125,11 +127,8 @@ const app = new Vue({
             this.ajaxGet(url);
         },
 
-        addToCart(url, id,  options) {
-            if (id) {
-                url = url + '/' + id + '?options='+ JSON.stringify(options);
-            }
-            this.ajaxGet(url);
+        addToCart(data) {
+            this.handleResponse(data)
         },
 
         getWishList(url, id) {
@@ -148,8 +147,7 @@ const app = new Vue({
             });
         },
 
-        addCoupon(url)
-        {
+        addCoupon(url) {
             // console.log(url)
             axios.get(url)
                 .then((res) => {
@@ -162,6 +160,16 @@ const app = new Vue({
                     this.loading = false;
                     NProgress.done();
                 })
+        },
+
+        getErrorMessage(status) {
+            let message = '';
+            switch (status) {
+                case 419:
+                    message = 'Срок действия страницы истек из-за неактивности. Пожалуйста, обновите и попробуйте снова.';
+                    break;
+            }
+            return message;
         }
 
     },

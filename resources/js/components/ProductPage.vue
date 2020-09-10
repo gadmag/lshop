@@ -82,12 +82,17 @@
                                 <option disabled value="">Выбрать тип гравировки</option>
                                 <option v-for="service in services" :value="service.id">{{service.title}}</option>
                             </select>
+
                         </div>
                         <div class="form-group">
-                            <input v-model="engraving.text" placeholder="Текст гравировки" id="engravingText"
+                            <input :class="{'is-invalid': errors && errors['options.engraving.text']}"
+                                   v-model="engraving.text" placeholder="Текст гравировки" id="engravingText"
                                    type="text" class="form-control">
+                            <span v-if="errors && errors['options.engraving.text']" class="invalid-feedback"
+                                  role="alert">Поле Текст гравировки обязательно для заполнения, если не выбран файл.</span>
                         </div>
                         <image-upload name="engravingUpload" action="/uploadFiles"></image-upload>
+
                     </div>
                 </div>
 
@@ -128,10 +133,7 @@
                 options: this.product.product_options,
                 special: this.product.product_special,
                 services: this.product.services,
-                checkedEngraving: {
-                    default: false,
-                    type: Boolean,
-                },
+                checkedEngraving: false,
                 engraving: {
                     id: '',
                     text: '',
@@ -142,6 +144,8 @@
                     id: null,
                     quantity: 1,
                 },
+                errors: '',
+                message: ''
             }
         },
         mounted() {
@@ -229,7 +233,32 @@
 
             addToCart(id) {
                 this.query_options.engraving = this.engraving;
-                bus.$emit('added-to-cart', id, this.query_options);
+                if (this.query_options.id) {
+                    let url = '/api/add-to-cart/' + id + '?options=' + JSON.stringify(this.query_options);
+                    axios.get(url)
+                        .then(function (response) {
+                            this.errors = '';
+                            this.message = '';
+                            if (response.data.errors) {
+                                return this.errors = response.data.errors;
+                            }
+                            if (response.data.message) {
+                                return this.message = response.data.message;
+                            }
+
+                            if (response.data.cart) {
+                                bus.$emit('added-to-cart', response.data);
+                            }
+
+                        }.bind(this))
+                        .catch(function (error) {
+                            this.message = null;
+                            let status = error.response.status;
+                            this.errors = error.response.data.errors;
+                            this.message = this.getErrorMessage(status);
+                        }.bind(this));
+                }
+
             },
 
             addToWishList(id) {

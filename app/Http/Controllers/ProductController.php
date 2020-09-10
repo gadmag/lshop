@@ -55,34 +55,30 @@ class ProductController extends Controller
     public function addToCart(CartRequest $request, $id)
     {
         $cart = $this->initCart();
-        $options = $request->get('options');
+        $options = $request->options;
         $product = Product::with(['files', 'productOptions.files'])->active()->largerQuantity()->findOrFail($id);
-        $discount = $product->getDiscount($options->id);
+        $discount = $product->getDiscount($options['id']);
         $special = $product->getSpecial();
         $cart->add(
             $product->id,
             $product->title,
-            $product->frontImg($options->id),
-            $product->getPrice($options->id),
-            $product->getWeight($options->id),
-            $options->quantity,
+            $product->frontImg($options['id']),
+            $product->getPrice($options['id']),
+            $product->getWeight($options['id']),
+            $options['quantity'],
             [
-                'id' => $options->id,
-                'color' => $product->getColor($options->id),
-                'color_stone' => $product->getColorStone($options->id),
-                'price' => $product->getPrice($options->id),
+                'id' => $options['id'],
+                'color' => $product->getColor($options['id']),
+                'color_stone' => $product->getColorStone($options['id']),
+                'price' => $product->getPrice($options['id']),
                 'discount_quantity' => $discount ? $discount->quantity : null,
                 'discount_price' => $discount ? (float)$discount->price : null,
                 'special_price' => $special ? (float)$special->price : 0,
                 'special_prefix' => $special ? $special->price_prefix : null,
-                'engraving' => [
-                    'id' => $options->engraving? $options->engraving->id: null,
-                    'text' => $options->engraving? $options->engraving->text: null,
-                    'qty' =>  1,
-                    'filename' => $options->engraving? $options->engraving->img_path: null,
-                ]
-            ]
+            ],
+            $request->getEngraving()
         );
+
         return response()->json([
             'cart' => $cart->toArray()
         ]);
