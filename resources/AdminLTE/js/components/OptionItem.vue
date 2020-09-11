@@ -42,19 +42,7 @@
                 </div>
             </td>
             <td>
-<!--                <ul class="list-inline" v-if="form.files && form.files.length">-->
-<!--                    <li v-for="file in form.files" :id="'file-item-' + file.id" class="remove-file"-->
-<!--                        :data-id="file.id"><span href="#"><i class="fa fa-remove fa-lg"></i></span>-->
-<!--                        <img class="thumbnail" :src="'/storage/files/thumbnail/' + file.filename" alt="Картинка">-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--                <div class="clearfix"></div>-->
 
-<!--                <div class="input-group">-->
-<!--                    <label>Фото товара</label>-->
-<!--                    <input type="file" :name="'productOptions['+key+'][image_option][]'" multiple="multiple">-->
-<!--                    <p class="help-block">Выберите файл для добавления</p>-->
-<!--                </div>-->
                 <image-upload :name="'productOptions['+key+'][optionUpload]'" :action="action"
                               :files="form.files"></image-upload>
             </td>
@@ -67,22 +55,20 @@
                 </div>
             </td>
             <td>
-                <div class="form-inline">
+
                     <input type="hidden" :name="'productOptions['+key+'][discount][id]'" v-model="form.discount.id">
-                    <div class="form-group">
-                        <div><label>Скидка</label></div>
+                    <div class="form-group form-inline">
+                        <label class="my-1 mr-2">Скидка:</label>
                         <input class="form-control form-price" :name="'productOptions['+key+'][discount][price]'"
                                type="text"
                                v-model="form.discount.price" placeholder="Цена:">
                     </div>
-                    <div class="form-group">
-
-                        <div><label>Кол-во:</label></div>
+                    <div class="form-group form-inline">
+                       <label class="my-1 mr-2">Кол-во:</label>
                         <input class="form-control form-qty" :name="'productOptions['+key+'][discount][quantity]'"
                                type="text" v-model="form.discount.quantity" placeholder="Кол-во:">
                     </div>
 
-                </div>
             </td>
             <td>
                 <div class="form-group">
