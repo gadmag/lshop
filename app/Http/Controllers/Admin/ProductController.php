@@ -178,11 +178,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function uploadFiles(Request $request)
-    {
-        $uploads = $this->service->createUploads($request->file('files'));
-        return ['uploads' => $uploads];
-    }
+
 
     /**
      * @param int $id

@@ -33,7 +33,8 @@ class Product extends Model
         'id', 'title', 'price', 'created_at', 'weight', 'total_selling'
     ];
 
-    protected $imageResize = [
+
+    public $imgResize = [
         '600x450' => array('width' => 500, 'height' => 500),
         '250x250' => array('width' => 260, 'height' => 260),
         '90x110' => array('width' => 110, 'height' => 110)

@@ -56,7 +56,7 @@ class ProductController extends Controller
     {
         $cart = $this->initCart();
         $options = $request->options;
-        $product = Product::with(['files', 'productOptions.files'])->active()->largerQuantity()->findOrFail($id);
+        $product = Product::with(['files','services', 'productOptions.files'])->active()->largerQuantity()->findOrFail($id);
         $discount = $product->getDiscount($options['id']);
         $special = $product->getSpecial();
         $cart->add(
@@ -66,6 +66,7 @@ class ProductController extends Controller
             $product->getPrice($options['id']),
             $product->getWeight($options['id']),
             $options['quantity'],
+            $product,
             [
                 'id' => $options['id'],
                 'color' => $product->getColor($options['id']),
@@ -106,6 +107,31 @@ class ProductController extends Controller
     {
         $cart = $this->initCart();
         $cart->removeItem($uniqueId);
+        return response()->json([
+            'cart' => $cart->toArray()
+        ]);
+    }
+
+    /**
+     * Add engraving from cart item
+     * @param Request $request
+     * @param string $uniqueId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addEngraving(CartRequest $request, string $uniqueId)
+    {
+        $cart = $this->initCart();
+        $cart->addEngraving($uniqueId,$request->options['engraving']);
+        return response()->json([
+            'cart' => $cart->toArray()
+        ]);
+    }
+
+    public function removeEngravingItem(Request $request)
+    {
+        $options = json_decode($request->options);
+        $cart = $this->initCart();
+        $cart->removeEngraving($options->keyCartItem, $options->keyEngraving);
         return response()->json([
             'cart' => $cart->toArray()
         ]);

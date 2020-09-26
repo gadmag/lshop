@@ -455,18 +455,18 @@ header .block-right {
 .engraving-block #engravingBox {
   padding-top: 1rem;
 }
-.engraving-block #engravingUpload_component {
+.engraving-block .files_component {
   max-width: 160px;
   padding: 5px 0;
 }
-.engraving-block .box {
+.engraving-block .files_component .box {
   padding: 10px;
 }
-.engraving-block .box.has-advanced-upload .box__icon {
+.engraving-block .files_component .box.has-advanced-upload .box__icon {
   height: 30px;
   margin: 10px 0;
 }
-.engraving-block .box_input {
+.engraving-block .files_component .box_input {
   font-size: 13px;
 }
 /*----------product list-----------*/
@@ -673,6 +673,29 @@ img.cboxPhoto {
   height: auto;
   display: block;
 }
+#engravingModal .quantity input {
+  width: 90px;
+}
+.callout.engraving-list {
+  color: #6c757d;
+  margin-top: 0.5rem;
+  border-radius: 0.25rem;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  background-color: #fff;
+  border-left: 3px solid #00263b;
+  padding: 0.3rem 0.5rem;
+}
+.callout.engraving-list .qty {
+  color: #17a2b8;
+}
+.callout.engraving-list .remove-engraving {
+  cursor: pointer;
+}
+.callout.engraving-list .engraving-text {
+  cursor: pointer;
+  color: #007bff;
+}
 /*-------end shopping-cart-------*/
 /*----- Auth ---------*/
 .modal-header .close {
@@ -702,6 +725,9 @@ img.cboxPhoto {
   top: 7px;
   font-size: 24px;
   color: #6c757d;
+}
+.modal-site .modal-header {
+  border: 0;
 }
 .socials-auth .social-item a {
   color: #ffffff;

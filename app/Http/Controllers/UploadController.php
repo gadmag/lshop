@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
+use App\Http\Controllers\Admin\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
@@ -9,6 +10,14 @@ use App\Upload;
 
 class UploadController extends Controller
 {
+    use UploadTrait;
+
+    private $imgResize = [
+        '600x450' => array('width' => 500, 'height' => 500),
+        '250x250' => array('width' => 260, 'height' => 260),
+        '90x110' => array('width' => 110, 'height' => 110)
+    ];
+
     public function deleteFile($id)
     {
 
@@ -22,9 +31,17 @@ class UploadController extends Controller
         return response(['status' => 'Delete success']);
     }
 
-    public function uploadFile()
+    public function uploadFiles(Request $request)
     {
-        return 'success';
+        $files = $request->file('files');
+        $uploads = array();
+        foreach ($files as $file) {
+            $uploaded_file = $this->multipleUpload($file, $this->imgResize, true);
+            if (is_array($uploaded_file)) {
+                $uploads[] = Upload::create($uploaded_file);
+            }
+        }
+        return ['uploads' => $uploads];
     }
 
 }

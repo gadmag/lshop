@@ -91,7 +91,7 @@
                             <span v-if="errors && errors['options.engraving.text']" class="invalid-feedback"
                                   role="alert">Поле Текст гравировки обязательно для заполнения, если не выбран файл.</span>
                         </div>
-                        <image-upload name="engravingUpload" action="/uploadFiles"></image-upload>
+                        <image-upload @getFiles="getFileName($event)" name="engravingUpload" :allow-multiple="false" action="/uploadFiles"></image-upload>
 
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                 engraving: {
                     id: '',
                     text: '',
-                    img_path: ''
+                    filename: ''
                 },
                 titleOption: null,
                 query_options: {
@@ -259,6 +259,10 @@
                         }.bind(this));
                 }
 
+            },
+
+            getFileName(filename) {
+                this.engraving.img_path = filename[0];
             },
 
             addToWishList(id) {

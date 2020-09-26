@@ -146,10 +146,7 @@ class CacheProductQueries implements BaseQueries
         return $this->rememberMultiple($products);
     }
 
-    public function createUploads(array $files)
-    {
-         return $this->base->createUploads($files);
-    }
+
 
     private function getCacheKey(string $key): string
     {
@@ -157,7 +154,8 @@ class CacheProductQueries implements BaseQueries
         return self::CACHE_KEY . "_{$key}";
     }
 
-    /**if cache exist return
+    /**
+     * if cache exist return
      * @param Collection $items
      * @return Collection
      * @throws \Psr\SimpleCache\InvalidArgumentException

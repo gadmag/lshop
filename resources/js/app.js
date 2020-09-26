@@ -48,6 +48,9 @@ const app = new Vue({
         bus.$on('added-to-cart', (data) => {
             this.addToCart( data);
         });
+        bus.$on('engraving-from-cart', (data) => {
+            this.handleResponse(data)
+        });
         bus.$on('reduce-from-cart', (id) => {
             this.getCartJson('/api/reduce', id);
         });

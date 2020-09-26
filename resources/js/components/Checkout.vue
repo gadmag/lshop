@@ -211,6 +211,21 @@
                                 </span>
                                                 </div>
                                             </div>
+                                            <div id="engravingCart" v-if=" Object.keys(cartItem.engravings).length > 0" class="callout callout-default engraving-list">
+                                                <b>Гравировка:</b>
+                                                <div v-for="(engraving, keyEngraving) in cartItem.engravings" class="w-100 text-left d-flex" >
+                                                    <div class="flex-fill text-left">
+                                                        <span class="title">{{engraving.title}}</span>
+                                                        <span class="engraving-text" v-if="engraving.text" data-toggle="tooltip" :title="engraving.text" >текст</span>
+                                                        <a class="link-file" v-if="engraving.filename" data-toggle="tooltip" title="Файл" target="_blank" :href="'/storage/files/'+engraving.filename"><img  width="16" src="/img/document.png" alt=""></a>
+                                                    </div>
+                                                    <div class="flex-fill pl-2 text-right">
+                                                        <span class="qty">{{engraving.qty}}x</span>
+                                                        <span class="price">{{engraving.price}} р.</span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="align-middle text-center" :class="{'border-0': index == 0}"
                                             data-th="Цена">{{cartItem.price}} р.
@@ -269,6 +284,7 @@
                     </ul>
                 </div> <!-- /Итоговая цена -->
             </div>
+
         </div>
     </div>
 </template>

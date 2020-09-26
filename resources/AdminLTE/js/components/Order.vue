@@ -1,9 +1,8 @@
 <template>
     <div class="orders-form">
-        <table class="table table-bordered table-hover">
+        <table class="table table-shopping-cart">
             <thead>
             <tr>
-                <td></td>
                 <td>Наименование товара &nbsp;&nbsp;</td>
                 <td>Кол-во: &nbsp;&nbsp;</td>
                 <th class="text-right">Цена за шт</th>
@@ -14,19 +13,54 @@
             <tbody>
             <tr v-for="(item, key) in forms" class="option-value-row">
                 <td>
-                    <a :href="'/storage/files/600x450/'+item.image" class="group1">
+                    <div class="p-2">
+                        <a :href="'/storage/files/600x450/'+item.image" class="group1">
                         <img v-if="item.image"
-                             :src="'/storage/files/90x110/'+item.image" class="" alt="Фото товара">
-                    </a>
+                             :src="'/storage/files/90x110/'+item.image"
+                             class="img-fluid rounded shadow-sm" width="80" alt="Фото товара">
+                        </a>
+                        <div class="ml-3 d-inline-block align-middle">
+                            <h6 class="mb-0"><span href="#"
+                                                   class="text-dark d-inline-block align-middle">{{item.name}}</span>
+                            </h6>
+                            <span v-if="item.options.color"
+                                  class="text-muted font-weight-normal font-italic d-block">
+                                    Цвет: {{item.options.color}}
+                                </span>
+                            <span v-if="item.options.color_stone"
+                                  class="text-muted font-weight-normal font-italic d-block">
+                                    Цвет камня: {{item.options.color_stone}}</span>
+                            <div id="engravingCart" v-if=" Object.keys(item.engravings).length > 0" class="callout callout-default engraving-list">
+                                <b>Гравировка:</b>
+                                <div v-for="(engraving, keyEngraving) in item.engravings" class="text-left d-flex" >
+                                    <div class="flex-fill text-left">
+                                        <span class="title">{{engraving.title}}</span>
+                                        <span class="engraving-text" v-if="engraving.text" data-toggle="tooltip" :title="engraving.text" >текст</span>
+                                        <a class="link-file" v-if="engraving.filename" data-toggle="tooltip" title="Файл" target="_blank" :href="'/storage/files/'+engraving.filename"><img  width="16" src="/img/document.png" alt=""></a>
+                                    </div>
+                                    <div class="flex-fill pl-2 text-right">
+                                        <span class="qty">{{engraving.qty}}x</span>
+                                        <span class="price">{{engraving.price}} р.</span>
+                                        <span @click="removeEngraving(key,keyEngraving)" title="Удалить" class="text-danger remove-engraving"><i class="fa fa-times"></i></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="item.item.services && item.item.services.length >0" class="text-right add-engraving-cart">
+                        <button  @click="openModal(key,item.item.services)" type="button" class="btn btn-link" data-toggle="modal" data-target="#engravingModal">
+                            <i class="fa fa-plus"></i> Добавить гравировку
+                        </button>
+                    </div>
                 </td>
-                <td>{{item.name}}</td>
                 <td style="max-width: 60px">
                     <div class="input-group">
                         <input type="text" class="form-control" v-model="item.quantity = item.qty" name="quantity">
                         <span class="input-group-btn">
                         <button data-qty="" @click="updateFromCart(key,item.quantity)" type="button"
                                 class="btn btn-primary" data-toggle="tooltip"
-                                data-original-title="Обновить"><i class="fa fa-refresh"></i></button>
+                                data-original-title="Обновить"><i class="fa fa-sync"></i></button>
                     </span>
                     </div>
                 </td>
@@ -136,12 +170,14 @@
                     class="option-button btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить продукт
             </button>
         </div>
+        <engraving @getCart="updateCart($event)" :order_id="order.id" :cart-key="cartKey" :services="services"></engraving>
+
     </div>
 </template>
 
 <script>
     import SelectOption from '../../../js/components/SelectOption'
-
+    import Engraving from "../../../js/components/Engraving";
     export default {
         props: {
             order: {
@@ -156,6 +192,7 @@
         },
         components: {
             'select-option': SelectOption,
+            'engraving': Engraving,
         },
         data() {
             return {
@@ -176,6 +213,8 @@
                     id: null,
                     quantity: 1,
                 },
+                services: '',
+                cartKey: '',
             }
         },
 
@@ -241,6 +280,19 @@
 
             },
 
+            removeEngraving(keyCartItem, keyEngraving){
+               let params = {options: JSON.stringify({keyCartItem, keyEngraving}), order_id: this.order.id};
+                axios.get('/api/remove-engraving', {params: params})
+                    .then((res) => {
+                        if (res.data.cart) {
+                            this.cart = res.data.cart;
+                            this.forms = this.cart.content;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            },
             fetchCart(url, params) {
                 axios.get(url, {params: params})
                     .then((res) => {
@@ -276,9 +328,20 @@
                 }
                 this.dropdownToggle = false;
             },
+
+            openModal(key, services){
+                this.cartKey = key;
+                this.services = services;
+            },
+
             selectOption(option) {
                 let id = option.id;
                 this.query_options.id = id;
+            },
+
+            updateCart(cart) {
+                this.cart = cart;
+                this.forms = cart.content;
             },
 
             onFocus() {

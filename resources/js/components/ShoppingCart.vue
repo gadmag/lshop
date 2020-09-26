@@ -42,20 +42,42 @@
                                       class="text-muted font-weight-normal font-italic d-block">
                                     Цвет камня: {{cartItem.options.color_stone}}
                                 </span>
+
+                                <div id="engravingCart" v-if=" Object.keys(cartItem.engravings).length > 0" class="callout callout-default engraving-list">
+                                    <b>Гравировка:</b>
+                                    <div v-for="(engraving, keyEngraving) in cartItem.engravings" class="w-100 text-left d-flex" >
+                                       <div class="flex-fill text-left">
+                                           <span class="title">{{engraving.title}}</span>
+                                           <span class="engraving-text" v-if="engraving.text" data-toggle="tooltip" :title="engraving.text" >текст</span>
+                                           <a class="link-file" v-if="engraving.filename" data-toggle="tooltip" title="Файл" target="_blank" :href="'/storage/files/'+engraving.filename"><img  width="16" src="/img/document.png" alt=""></a>
+                                       </div>
+                                        <div class="flex-fill pl-2 text-right">
+                                            <span class="qty">{{engraving.qty}}x</span>
+                                            <span class="price">{{engraving.price}} р.</span>
+                                            <span @click="removeEngraving(key,keyEngraving)" title="Удалить" class="text-danger remove-engraving"><i class="fal fa-times"></i></span>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                        <div v-if="cartItem.item.services && cartItem.item.services.length >0" class="text-right add-engraving-cart">
+                            <button  @click="openModal(key,cartItem.item.services)" type="button" class="btn btn-link" data-toggle="modal" data-target="#engravingModal">
+                                <i class="fa fa-plus"></i> Добавить гравировку
+                            </button>
                         </div>
                     </td>
                     <td class="align-middle text-center" :class="{'border-0': index == 0}" data-th="Цена"><strong>{{cartItem.price}}
                         р.</strong>
                     </td>
                     <td class="align-middle text-center" :class="{'border-0': index == 0}" data-th="Кол-во">
-                        <a href="#" @click="reduceFromCart(key)"><i class="fa fa-minus"></i></a>
+                        <a href="#" v-on:click.stop.prevent="reduceFromCart(key)"><i class="far fa-minus"></i></a>
                         <strong>{{cartItem.qty}}</strong>
-                        <a href="#" @click="addToCart(cartItem)"><i class="fa fa-plus"></i></a>
+                        <a  href="#" v-on:click.stop.prevent="addToCart(cartItem)"><i class="far fa-plus"></i></a>
                     </td>
-                    <td data-th="Итого" class="align-middle text-center" :class="{'border-0': index == 0}"><strong>{{cartItem.price
-                        *
-                        cartItem.qty}} р.</strong></td>
+                    <td data-th="Итого" class="align-middle text-center" :class="{'border-0': index == 0}">
+                        <strong>{{cartItem.totalPrice}} р.</strong>
+                    </td>
                     <td class="align-middle text-center actions" :class="{'border-0': index == 0}"><a
                             @click="removeFromCart(key)" href="#"><i
                             class="fa fa-times"></i></a></td>
@@ -107,6 +129,7 @@
                         </a>
                     </div>
                 </div>
+                <engraving :cart-key="cartKey" :services="services"></engraving>
             </div>
         </div>
     </div>
@@ -120,10 +143,17 @@
 </template>
 
 <script>
+    import Engraving from './Engraving.vue';
+
     export default {
+        components: {
+            Engraving
+        },
         props: ['cart', 'route', 'minsum'],
         data: function () {
             return {
+                services: '',
+                cartKey: '',
                 coupon_code: null,
                 error_coupon: null
             }
@@ -155,9 +185,35 @@
                     id: item.options.id,
                     quantity: 1,
                 };
-                bus.$emit('added-to-cart', item.id, options)
+                let url = '/api/add-to-cart/' + item.id + '?options=' + JSON.stringify(options);
+                axios.get(url)
+                    .then(function (response) {
+                        if (response.data.cart) {
+                            bus.$emit('added-to-cart', response.data);
+                        }
+                    }.bind(this))
+                    .catch(function (error) {
+                        console.log(error)
+                    }.bind(this));
             },
-
+            openModal(key, services){
+                this.cartKey = key;
+                this.services = services;
+            },
+            removeEngraving(keyCartItem, keyEngraving){
+              let options = {keyCartItem, keyEngraving}
+                console.log(options);
+                const url = 'api/remove-engraving?options=' + JSON.stringify(options);
+                axios.get(url)
+                    .then((res) => {
+                        if (res.data.cart) {
+                            this.$root.cart = res.data.cart;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            },
             addCouponToCart(code) {
                 const url = 'api/add-coupon/' + code;
                 axios.get(url)
