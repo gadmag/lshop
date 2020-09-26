@@ -51,7 +51,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
 
     //upload
     Route::post('menu/updatesort', ['as' => 'uploadsort', 'uses' => 'MenuController@updateMenuSort']);
-    Route::post('uploadFiles',['as' => 'upload.files','uses' => 'ProductController@uploadFiles']);
+//    Route::post('uploadFiles',['as' => 'upload.files','uses' => 'ProductController@uploadFiles']);
 
     /**
      * filemanager
@@ -67,7 +67,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //uploads
     Route::get('upload/{id}', 'UploadController@deleteFile');
-    Route::get('uploadFile', 'UploadController@uploadFile');
+    Route::post('uploadFiles',['as' => 'upload.files', 'uses' => 'UploadController@uploadFiles']);
     /*page*/
     Route::get('pages/{page_alias}', ['as' => 'page.show', 'uses' => 'PageController@show']);
 
@@ -80,9 +80,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('api/add-to-cart/{id}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
     Route::get('api/reduce/{id}', ['as' => 'product.reduceByOne', 'uses' => 'ProductController@reduceByOne']);
     Route::get('api/remove/{id}', ['as' => 'product.removeItem', 'uses' => 'ProductController@removeItem']);
+    Route::get('api/update-cart/{id}', ['as' => 'product.updateCart', 'uses' => 'ProductController@updateCart']);
     Route::get('api/add-coupon/{code}', ['as' => 'product.addCoupon', 'uses' => 'ProductController@addCoupon']);
     Route::get('api/add-shipment/{id}', ['as' => 'addShipment', 'uses' => 'ProductController@addShipment']);
-    Route::get('api/update-cart/{id}', ['as' => 'product.updateCart', 'uses' => 'ProductController@updateCart']);
+    Route::get('api/add-engraving/{id}', ['as' => 'addEngraving', 'uses' => 'ProductController@addEngraving']);
+    Route::get('api/remove-engraving', ['as' => 'removeEngraving', 'uses' => 'ProductController@removeEngravingItem']);
 
 
     /* WishList */

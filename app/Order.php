@@ -44,4 +44,9 @@ class Order extends Model
     {
         return $this->belongsTo('App\OrderStatus', 'order_status_id');
     }
+
+    public function files()
+    {
+        return $this->morphMany('App\Upload', 'uploadstable');
+    }
 }

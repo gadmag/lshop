@@ -62,19 +62,20 @@ width: 140px;
     width: 60px;
     margin: 3px;
 }
-.option-value-row .box {
+.option-value-row .files_component .box {
     padding: 10px;
 }
-.option-value-row .box_input{
+.option-value-row  .files_component .box_input{
     font-size: 13px;
 }
-.option-value-row .box.has-advanced-upload .box__icon {
+.option-value-row .files_component .box.has-advanced-upload .box__icon {
     height: 20px;
     margin: 10px 0;
 }
 .option-value-row .files_component {
     max-width: 160px;
 }
+
 /*------------catalog----------------------*/
 .menu-link .sub-menu {
     list-style: none;

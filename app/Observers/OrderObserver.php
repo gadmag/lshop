@@ -7,6 +7,7 @@ use App\Events\OrderUpdateEvent;
 use App\Order;
 use App\OrderStatus;
 use App\ShoppingCart\Facades\Cart;
+use App\Upload;
 use Illuminate\Support\Facades\Auth;
 
 class OrderObserver
@@ -24,7 +25,10 @@ class OrderObserver
         if ($cart->isContent()) {
             $order->cart = $cart->toArray();
             $order->totalPrice = $cart->totalPrice();
+            $uploads = Upload::whereIn('name',$cart->getEngravingsFiles())->get();
+            $order->files()->saveMany($uploads);
         }
+
         $order->user_id = Auth::user()->id;
         $order->order_status_id = $orderStatus->id;
         $cart->clear();
@@ -52,6 +56,8 @@ class OrderObserver
     {
         if (Cart::instance('order')->isContent()) {
             $order->cart = Cart::instance('order')->toArray();
+            $uploads = Upload::whereIn('name',Cart::instance('order')->getEngravingsFiles())->get();
+            $order->files()->saveMany($uploads);
         }
         $cart = $order->cart;
         $payment = $order->payment;

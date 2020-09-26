@@ -226,7 +226,7 @@ header {
 
 /*---------nav-user-------------*/
 .nav-user {
-  &>li {
+  & > li {
     position: relative;
     padding: 0 0 0 2.5rem;
     float: left;
@@ -436,13 +436,16 @@ header {
   .img-wrap img {
     max-width: 64px;
   }
-  .engraving-item{
-  padding: 0.3rem;
+
+  .engraving-item {
+    padding: 0.3rem;
   }
 }
+
 #engravingDetail {
   padding-top: 0.2rem;
 }
+
 .nav-user .cart-block {
   padding-top: 0;
 }
@@ -627,21 +630,24 @@ header {
     padding-top: 1rem;
   }
 
-  #engravingUpload_component{
+  .files_component {
     max-width: 160px;
     padding: 5px 0;
-  }
 
-  .box {
-    padding: 10px;
-    &.has-advanced-upload .box__icon{
-      height: 30px;
-      margin: 10px 0;
+    .box {
+      padding: 10px;
+
+      &.has-advanced-upload .box__icon {
+        height: 30px;
+        margin: 10px 0;
+      }
+    }
+
+    .box_input {
+      font-size: 13px;
     }
   }
-  .box_input{
-    font-size: 13px;
-  }
+
 
 }
 
@@ -914,6 +920,33 @@ img.cboxPhoto {
   display: block;
 }
 
+#engravingModal .quantity input {
+  width: 90px;
+}
+
+.callout.engraving-list {
+  color: #6c757d;
+  margin-top: 0.5rem;
+  border-radius: .25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+  background-color: #fff;
+  border-left: 3px solid #00263b;
+  padding: 0.3rem 0.5rem;
+
+  .qty {
+    color: #17a2b8;
+  }
+
+  .remove-engraving {
+    cursor: pointer;
+  }
+
+  .engraving-text {
+    cursor: pointer;
+    color: #007bff;
+  }
+}
+
 /*-------end shopping-cart-------*/
 
 /*----- Auth ---------*/
@@ -953,6 +986,12 @@ img.cboxPhoto {
     top: 7px;
     font-size: 24px;
     color: #6c757d;
+  }
+}
+
+.modal-site {
+  .modal-header {
+    border: 0;
   }
 }
 

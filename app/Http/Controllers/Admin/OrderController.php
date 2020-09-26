@@ -27,7 +27,6 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::findOrFail($id);
-        $order->cart = json_decode($order->cart);
         return view('AdminLTE.order.show', ['order' => $order]);
     }
 

@@ -4,6 +4,7 @@
 namespace App\ShoppingCart;
 
 
+
 trait EngravingExecution
 {
 
@@ -24,39 +25,50 @@ trait EngravingExecution
         );
     }
 
+
+
     /**
      * Add engraving for CartItem
-     * @param CartItem $cartItem
-     * @param $engraving
+     * @param string $uniqueId
+     * @param array $engraving
+     * @return $this
+     * @throws \Exception
      */
-    public function addEngraving(CartItem & $cartItem, $engraving)
+    public function addEngraving(string $uniqueId, array $engraving)
     {
-        $engravingItem = $this->initEngraving($cartItem->getUniqueId(), $engraving);
-        $engravingItemId = $engravingItem->getUniqueId();
-        $cartItemId = $cartItem->getUniqueId();
-        if ($this->has($cartItemId) && $this->get($cartItemId)->engravings->has($engravingItemId)) {
-            $engravingItem->qty += $this->get($cartItemId)->engravings->get($engravingItemId)->qty;
+        if (!$this->has($uniqueId)) {
+            throw new \Exception('Id not found in content');
         }
-        $cartItem->engravings->put($engravingItemId, $engravingItem);
-    }
-
-
-    public function removeEngraving($cartItemId, $engravingId)
-    {
-        if ($this->has($cartItemId) && $this->get($cartItemId)->engravings->has($engravingId)){
-            $this->get($cartItemId)->engravings->forget($engravingId);
+        $cartItem = $this->get($uniqueId);
+        $engravingItem = $this->initEngraving($uniqueId, $engraving);
+        if ($cartItem->engravings->has($engravingItem->getUniqueId())) {
+            $engravingItem->qty += $cartItem->engravings->get($engravingItem->getUniqueId())->qty;
         }
+        $cartItem->engravings->put($engravingItem->getUniqueId(), $engravingItem);
+        $cartItem->calculate();
+        $this->content->put($cartItem->getUniqueId(), $cartItem);
+        $this->save();
+        return $this;
     }
 
     /**
-     * @param CartItem $cartItem
-     * @return mixed
+     * @param $cartItemId
+     * @param $engravingId
+     * @return $this
+     * @throws \Exception
      */
-    public function getEngravingsByCartId(CartItem $cartItem)
+    public function removeEngraving($cartItemId, $engravingId)
     {
-        return $this->engravings->filter(function (EngravingItem $engravingItem) use ($cartItemId) {
-            return $engravingItem->cartItemId == $cartItemId;
-        })->all();
+
+        if(!$this->has($cartItemId)){
+            throw new \Exception('Id not found in content');
+        }
+        $cartItem = $this->get($cartItemId);
+        if ($cartItem->engravings->has($engravingId)) {
+            $cartItem->engravings->forget($engravingId);
+        }
+        $this->save();
+        return $this;
     }
 
 
@@ -70,4 +82,16 @@ trait EngravingExecution
             return $engravingItem->getTotal();
         });
     }
+
+    /**
+     * Get all files from cart
+     * @return mixed
+     */
+    public function getEngravingsFiles()
+    {
+        return $this->content->map(function (CartItem $cartItem){
+          return  $cartItem->getTotalEngravingFiles()->filter();
+        })->flatten();
+    }
+
 }

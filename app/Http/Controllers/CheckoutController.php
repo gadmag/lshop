@@ -71,7 +71,9 @@ class CheckoutController extends Controller
 
     public function postCheckout(CheckoutRequest $request)
     {
+
         $cart = Cart::instance('cart');
+
         if (!$cart->isContent()) {
             return redirect()->route('product.shoppingCart');
         }

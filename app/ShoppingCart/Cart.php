@@ -67,7 +67,7 @@ class Cart
         return $this;
     }
 
-    public function add($id, $title = null, $image = '', $price = 0, $weight = 0, $qty = 1, $options = null, $engraving = null)
+    public function add($id, $title = null, $image = '', $price = 0, $weight = 0, $qty = 1, $product, $options = null, $engraving = null)
     {
         $cartItem = new CartItem(
             $id,
@@ -76,6 +76,7 @@ class Cart
             $price,
             $weight,
             $qty,
+            $product,
             $options
         );
 
@@ -87,12 +88,12 @@ class Cart
             $cartItem->engravings = $this->content->get($uniqueId)->engravings;
         }
 
-        if ($engraving['id']) {
-            $this->addEngraving($cartItem, $engraving);
-        }
+        $cartItem->calculate();
         $this->applyDiscount($cartItem);
         $this->content->put($uniqueId, $cartItem);
-
+        if ($engraving['id']) {
+            $this->addEngraving($uniqueId, $engraving);
+        }
         $this->save();
         return $this;
     }
@@ -112,6 +113,7 @@ class Cart
         $cartItem = $this->get($uniqueId);
         $cartItem->qty = $qty;
         $cartItem->weight = $cartItem->weight * $cartItem->qty;
+        $cartItem->calculate();
         $this->applyDiscount($cartItem);
         $this->content->put($uniqueId, $cartItem);
         $this->save();
@@ -130,8 +132,8 @@ class Cart
             return $this->removeItem($uniqueId);
         }
         $cartItem->weight = $cartItem->weight * $cartItem->qty;
+        $cartItem->calculate();
         $this->applyDiscount($cartItem);
-
         $this->content->put($uniqueId, $cartItem);
         $this->save();
         return $this;
@@ -162,6 +164,8 @@ class Cart
         $this->save();
         return $this;
     }
+
+
 
     public function addShipment($shipment)
     {
@@ -299,7 +303,9 @@ class Cart
         return $this->content->sum(function (CartItem $cartItem) {
             return $cartItem->getTotal();
         });
+
     }
+
 
 
     /**

@@ -6,6 +6,7 @@ namespace App\ShoppingCart;
 
 use App\Product;
 use Illuminate\Support\Collection;
+use stdClass;
 
 class CartItem
 {
@@ -25,6 +26,11 @@ class CartItem
      * @var float
      */
     public $price;
+
+    /**
+     * @var float
+     */
+    public $totalPrice;
 
 
     /**
@@ -75,8 +81,9 @@ class CartItem
      * @param $weight
      * @param $qty
      * @param array $options
+     * @param Product $product
      */
-    public function __construct($id, $name, $image, $price, $weight, $qty, $options = [])
+    public function __construct($id, $name, $image, $price, $weight, $qty, $product, $options = [])
     {
         $this->id = $id;
         $this->name = $name;
@@ -84,9 +91,10 @@ class CartItem
         $this->price = (float)$price;
         $this->weight = (float)$weight;
         $this->qty = (int)$qty;
+        $this->item = $product;
         $this->options = $options;
         $this->uniqueId = $this->generateUniqueId();
-        $this->engravings = $this->engravings?? new Collection();
+        $this->engravings = $this->engravings ?? new Collection();
 
     }
 
@@ -117,7 +125,26 @@ class CartItem
      */
     public function getTotal()
     {
-        return $this->price * $this->qty;
+        return ($this->price * $this->qty) + $this->getTotalWithEngraving();
+    }
+
+
+    public function getTotalWithEngraving()
+    {
+        return $this->engravings->sum(function (EngravingItem $engravingItem) {
+            return $engravingItem->getTotal();
+        });
+    }
+
+    /**
+     * Get filename from CartItem
+     * @return Collection
+     */
+    public function getTotalEngravingFiles()
+    {
+         return $this->engravings->map(function (EngravingItem $engravingItem){
+                return $engravingItem->filename;
+        });
     }
 
     /** Get total weight cartItem
@@ -127,6 +154,7 @@ class CartItem
     {
         return $this->weight * $this->qty;
     }
+
 
     /**
      * @return array
@@ -139,10 +167,19 @@ class CartItem
             'name' => $this->name,
             'image' => $this->image,
             'price' => $this->price,
+            'totalPrice' => $this->getTotal(),
             'weight' => $this->weight,
             'qty' => $this->qty,
             'options' => $this->options,
             'item' => $this->item,
         ];
+    }
+
+    /**
+     * Calculate price
+     */
+    public function calculate():void
+    {
+        $this->totalPrice = $this->getTotal();
     }
 }

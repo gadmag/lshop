@@ -54,8 +54,7 @@
 
                         <div class="form-group">
                             <image-upload name="productUpload" action="{{route('upload.files')}}"
-                                          :files="{{$product->files}}"></image-upload>
-
+                                           :files="{{$product->files}}"></image-upload>
                         </div>
                     </div>
                     <div id="tab_2" class="tab-pane fade">

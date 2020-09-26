@@ -2190,6 +2190,22 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2393,6 +2409,116 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
     }
 
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/js/components/Engraving.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "Engraving",
+    props: {
+        services: '',
+        cartKey: '',
+        order_id: ''
+    },
+    data: function data() {
+        return {
+            // services: this.servicesList,
+            engraving: {
+                id: '',
+                text: '',
+                filename: '',
+                qty: 1
+            },
+            errors: '',
+            message: ''
+        };
+    },
+    methods: {
+        getFileName: function getFileName(filename) {
+            this.engraving.filename = filename[0];
+        },
+        addEngraving: function addEngraving() {
+            var url = '/api/add-engraving/' + this.cartKey;
+            var params = { options: JSON.stringify({ engraving: this.engraving }), order_id: this.order_id };
+            console.log(params);
+            axios.get(url, { params: params }).then(function (response) {
+                this.errors = '';
+                this.message = '';
+                if (response.data.errors) {
+                    return this.errors = response.data.errors;
+                }
+                if (response.data.message) {
+                    return this.message = response.data.message;
+                }
+
+                if (response.data.cart) {
+                    this.$emit('getCart', response.data.cart);
+                    bus.$emit('engraving-from-cart', response.data);
+                }
+            }.bind(this)).catch(function (error) {
+                this.message = null;
+                var status = error.response.status;
+                this.errors = error.response.data.errors;
+                this.message = this.getErrorMessage(status);
+            }.bind(this));
+        },
+        close: function close() {
+            // this.services = '';
+            this.engraving.id = '';
+            this.engraving.text = '';
+        }
+    }
 });
 
 /***/ }),
@@ -3173,7 +3299,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             engraving: {
                 id: '',
                 text: '',
-                img_path: ''
+                filename: ''
             },
             titleOption: null,
             query_options: {
@@ -3289,6 +3415,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }.bind(this));
             }
         },
+        getFileName: function getFileName(filename) {
+            this.engraving.img_path = filename[0];
+        },
         addToWishList: function addToWishList(id) {
             bus.$emit('added-to-wishlist', id);
         },
@@ -3351,6 +3480,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Engraving_vue__ = __webpack_require__("./resources/js/components/Engraving.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Engraving_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Engraving_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3473,10 +3627,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Engraving: __WEBPACK_IMPORTED_MODULE_0__Engraving_vue___default.a
+    },
     props: ['cart', 'route', 'minsum'],
     data: function data() {
         return {
+            services: '',
+            cartKey: '',
             coupon_code: null,
             error_coupon: null
         };
@@ -3507,20 +3668,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: item.options.id,
                 quantity: 1
             };
-            bus.$emit('added-to-cart', item.id, options);
+            var url = '/api/add-to-cart/' + item.id + '?options=' + JSON.stringify(options);
+            axios.get(url).then(function (response) {
+                if (response.data.cart) {
+                    bus.$emit('added-to-cart', response.data);
+                }
+            }.bind(this)).catch(function (error) {
+                console.log(error);
+            }.bind(this));
+        },
+        openModal: function openModal(key, services) {
+            this.cartKey = key;
+            this.services = services;
+        },
+        removeEngraving: function removeEngraving(keyCartItem, keyEngraving) {
+            var _this = this;
+
+            var options = { keyCartItem: keyCartItem, keyEngraving: keyEngraving };
+            console.log(options);
+            var url = 'api/remove-engraving?options=' + JSON.stringify(options);
+            axios.get(url).then(function (res) {
+                if (res.data.cart) {
+                    _this.$root.cart = res.data.cart;
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
         },
         addCouponToCart: function addCouponToCart(code) {
-            var _this = this;
+            var _this2 = this;
 
             var url = 'api/add-coupon/' + code;
             axios.get(url).then(function (res) {
                 if (res.data.cart) {
-                    _this.$root.cart = res.data.cart;
-                    _this.error_coupon = null;
+                    _this2.$root.cart = res.data.cart;
+                    _this2.error_coupon = null;
                 }
             }).catch(function (error) {
                 console.log(error);
-                _this.error_coupon = 'Неверный промокод';
+                _this2.error_coupon = 'Неверный промокод';
             });
         }
     }
@@ -4114,6 +4300,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -4129,16 +4319,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         files: '',
         action: '',
         label: '',
-        allowMultiple: {
-            default: true,
-            type: Boolean
+
+        'allowMultiple': {
+            type: Boolean,
+            default: true
         },
         acceptedFileTypes: "image/*"
     },
 
     data: function data() {
         return {
-            fast_login: true,
+            fast_upload: true,
             isAdvanced: false,
             uploadPercentage: 0,
             loading: false,
@@ -4158,9 +4349,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }.bind(this));
             this.$refs.drop.addEventListener('drop', function (e) {
                 for (var i = 0; i < e.dataTransfer.files.length; i++) {
+                    if (!this.allowMultiple && i > 0) break;
                     this.attachments.push(e.dataTransfer.files[i]);
                 }
-                if (this.fast_login) {
+                if (this.fast_upload) {
                     this.onSubmitUpload();
                 }
             }.bind(this));
@@ -4203,7 +4395,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log('FAILURE!!', error);
             }).finally(function () {
                 _this.attachments = [];
-                _this.$refs.fileInput.value = '';
+                // this.$refs.fileInput.value = '';
                 _this.loading = false;
             });
         },
@@ -4211,15 +4403,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var files = e.target.files;
             if (files && files.length > 0) {
                 for (var i = 0; i < files.length; i++) {
+                    if (!this.allowMultiple && i > 0) break;
                     this.attachments.push(files[i]);
                 }
                 this.$emit('input', this.attachments);
                 this.onSubmitUpload();
             }
         },
+        isHideUpload: function isHideUpload() {
+            return !this.allowMultiple && this.previews.length > 0;
+        },
         assignUploaded: function assignUploaded() {
             if (this.previews.length > 0) {
                 this.$refs.fileUploaded.value = _.map(this.previews, 'id').join(",");
+                this.$emit('getFiles', _.map(this.previews, 'name'));
             } else {
                 this.$refs.fileUploaded.value = '';
             }
@@ -8708,7 +8905,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.files_component {\n    /*margin: 0 auto;*/\n    max-width: 500px;\n}\n.file_upload.has-advanced-upload {\n    clear: both;\n    outline: 2px dashed #92b0b3;\n    outline-offset: -10px;\n    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;\n    transition: outline-offset .15s ease-in-out, background-color .15s linear;\n}\n.box {\n    background-color: #c8dadf;\n    position: relative;\n    padding: 100px 20px;\n}\n.box_input {\n    position: relative;\n    text-align: center;\n    font-size: 18px;\n}\n.box.has-advanced-upload .box__icon {\n    width: 100%;\n    height: 80px;\n    fill: #92b0b3;\n    display: block;\n    margin-bottom: 20px;\n}\n.file_upload.has-advanced-upload .box__dragndrop {\n    display: inline;\n}\n/**/\n.list_preview{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n}\n.preview-file{\n    width: 100px;\n    -webkit-transition:  opacity 0.15s ease-out;\n    transition:  opacity 0.15s ease-out;\n    background: #E6E6E6;\n    position: relative;\n    margin: 10px;\n    -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);\n            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);\n}\n.box_input .preview-file {\n    background: #F2F7ED;\n    -webkit-box-shadow: 0px 4px 4px rgba(188, 191, 184, 0.35);\n            box-shadow: 0px 4px 4px rgba(188, 191, 184, 0.35);\n}\n.preview-file .img-box{\n    padding: 0.5rem;\n    text-align: center;\n}\n.preview-file .img-preview{\n    width: 100%;\n    max-height: 80px;\n}\n.preview-file .preview-delete{\n    position: absolute;\n    right: 5px;\n    top: 5px;\n    z-index: 102;\n}\ndiv.preview-delete button.remove{\n\n    color: #ffffff;\n    font-size: 1em;\n    font-family: inherit;\n    line-height: inherit;\n    margin: 0;\n    padding: 0;\n    border: none;\n    outline: none;\n    will-change: transform,opacity;\n    width: 1.625em;\n    height: 1.625em;\n    cursor: pointer;\n    border-radius: 50%;\n    background-color: rgba(0,0,0,.5);\n    background-image: none;\n    -webkit-box-shadow: 0 0 0 0 hsla(0,0%,100%,0);\n            box-shadow: 0 0 0 0 hsla(0,0%,100%,0);\n    -webkit-transition: -webkit-box-shadow .25s ease-in;\n    transition: -webkit-box-shadow .25s ease-in;\n    transition: box-shadow .25s ease-in;\n    transition: box-shadow .25s ease-in, -webkit-box-shadow .25s ease-in;\n}\ndiv.preview-delete button.remove:hover{\n    -webkit-box-shadow: 0 0 0 0.125em hsla(0,0%,100%,.9);\n            box-shadow: 0 0 0 0.125em hsla(0,0%,100%,.9);\n}\nbutton.remove svg{\n    width: 100%;\n    height: 100%;\n}\n.preview-file-info {\n    text-align: left;\n    padding: 0.7rem 0.3em;\n    position: static;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: start;\n        -ms-flex-align: start;\n            align-items: flex-start;\n    /*margin: 0 .5em 0 .5em;*/\n    min-width: 0;\n    will-change: transform,opacity;\n    pointer-events: none;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n}\n.preview-file-info .file-info-name {\n    /*color: #ffffff;*/\n    font-size: .85em;\n    line-height: 1.2;\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    width: 100%;\n}\n.preview-file-info .file-info-sub{\n    /*color: #ffffff;*/\n    font-size: .725em;\n    opacity: .5;\n    -webkit-transition: opacity .25s ease-in-out;\n    transition: opacity .25s ease-in-out;\n    white-space: nowrap;\n}\nimg.loading-img{\n    position: absolute;\n    top: 30%;\n    left: 0;\n    right: 0;\n    margin: 0 auto;\n    display: block;\n}\n", ""]);
+exports.push([module.i, "\n.files_component {\n    /*margin: 0 auto;*/\n    max-width: 500px;\n}\n.file_upload.has-advanced-upload {\n    clear: both;\n    outline: 2px dashed #92b0b3;\n    outline-offset: -10px;\n    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;\n    transition: outline-offset .15s ease-in-out, background-color .15s linear;\n}\n.files_component .box {\n    background-color: #c8dadf;\n    position: relative;\n    padding: 100px 20px;\n}\n.files_component .box_input {\n    position: relative;\n    text-align: center;\n    font-size: 18px;\n}\n.files_component .box.has-advanced-upload .box__icon {\n    width: 100%;\n    height: 80px;\n    fill: #92b0b3;\n    display: block;\n    margin-bottom: 20px;\n}\n.file_upload.has-advanced-upload .box__dragndrop {\n    display: inline;\n}\n\n/**/\n.list_preview {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n}\n.preview-file {\n    width: 100px;\n    -webkit-transition: opacity 0.15s ease-out;\n    transition: opacity 0.15s ease-out;\n    background: #E6E6E6;\n    position: relative;\n    margin: 10px;\n    -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);\n            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);\n}\n.box_input .preview-file {\n    background: #F2F7ED;\n    -webkit-box-shadow: 0px 4px 4px rgba(188, 191, 184, 0.35);\n            box-shadow: 0px 4px 4px rgba(188, 191, 184, 0.35);\n}\n.preview-file .img-box {\n    padding: 0.5rem;\n    text-align: center;\n}\n.preview-file .img-preview {\n    width: 100%;\n    max-height: 80px;\n}\n.preview-file .preview-delete {\n    position: absolute;\n    right: 5px;\n    top: 5px;\n    z-index: 102;\n}\ndiv.preview-delete button.remove {\n\n    color: #ffffff;\n    font-size: 1em;\n    font-family: inherit;\n    line-height: inherit;\n    margin: 0;\n    padding: 0;\n    border: none;\n    outline: none;\n    will-change: transform, opacity;\n    width: 1.625em;\n    height: 1.625em;\n    cursor: pointer;\n    border-radius: 50%;\n    background-color: rgba(0, 0, 0, .5);\n    background-image: none;\n    -webkit-box-shadow: 0 0 0 0 hsla(0, 0%, 100%, 0);\n            box-shadow: 0 0 0 0 hsla(0, 0%, 100%, 0);\n    -webkit-transition: -webkit-box-shadow .25s ease-in;\n    transition: -webkit-box-shadow .25s ease-in;\n    transition: box-shadow .25s ease-in;\n    transition: box-shadow .25s ease-in, -webkit-box-shadow .25s ease-in;\n}\ndiv.preview-delete button.remove:hover {\n    -webkit-box-shadow: 0 0 0 0.125em hsla(0, 0%, 100%, .9);\n            box-shadow: 0 0 0 0.125em hsla(0, 0%, 100%, .9);\n}\nbutton.remove svg {\n    width: 100%;\n    height: 100%;\n}\n.preview-file-info {\n    text-align: left;\n    padding: 0.7rem 0.3em;\n    position: static;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: start;\n        -ms-flex-align: start;\n            align-items: flex-start;\n    /*margin: 0 .5em 0 .5em;*/\n    min-width: 0;\n    will-change: transform, opacity;\n    pointer-events: none;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n}\n.preview-file-info .file-info-name {\n    /*color: #ffffff;*/\n    font-size: .85em;\n    line-height: 1.2;\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    width: 100%;\n}\n.preview-file-info .file-info-sub {\n    /*color: #ffffff;*/\n    font-size: .725em;\n    opacity: .5;\n    -webkit-transition: opacity .25s ease-in-out;\n    transition: opacity .25s ease-in-out;\n    white-space: nowrap;\n}\nimg.loading-img {\n    position: absolute;\n    top: 30%;\n    left: 0;\n    right: 0;\n    margin: 0 auto;\n    display: block;\n}\n", ""]);
 
 // exports
 
@@ -8739,6 +8936,21 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6badab44\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/js/components/Engraving.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -40958,130 +41170,132 @@ var render = function() {
     "div",
     { staticClass: "files_component", attrs: { id: _vm.name + "_component" } },
     [
-      _c(
-        "div",
-        {
-          ref: "drop",
-          staticClass: "box file_upload",
-          class: { "has-advanced-upload": _vm.isAdvanced }
-        },
-        [
-          _c(
+      !_vm.isHideUpload()
+        ? _c(
             "div",
-            { staticClass: "box_input" },
+            {
+              ref: "drop",
+              staticClass: "box file_upload",
+              class: { "has-advanced-upload": _vm.isAdvanced }
+            },
             [
-              _vm.attachments.length == 0
-                ? _c(
-                    "svg",
-                    {
-                      staticClass: "box__icon",
-                      attrs: {
-                        xmlns: "http://www.w3.org/2000/svg",
-                        width: "50",
-                        height: "43",
-                        viewBox: "0 0 50 43"
-                      }
-                    },
-                    [
-                      _c("path", {
-                        attrs: {
-                          d:
-                            "M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"
+              _c(
+                "div",
+                { staticClass: "box_input" },
+                [
+                  _vm.attachments.length == 0
+                    ? _c(
+                        "svg",
+                        {
+                          staticClass: "box__icon",
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            width: "50",
+                            height: "43",
+                            viewBox: "0 0 50 43"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"
+                            }
+                          })
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "py-2" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.$refs.fileInput.click()
+                          }
+                        }
+                      },
+                      [_c("strong", [_vm._v("Выберите файл")])]
+                    ),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("или перетащите сюда")])
+                  ]),
+                  _vm._v(" "),
+                  !_vm.fast_upload
+                    ? _c("image-preview", {
+                        attrs: { files: _vm.attachments },
+                        on: {
+                          close: function($event) {
+                            return _vm.deleteAttachment($event)
+                          }
                         }
                       })
-                    ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "py-2" }, [
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "#" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.$refs.fileInput.click()
-                      }
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    ref: "fileInput",
+                    staticStyle: { display: "none" },
+                    attrs: {
+                      type: "file",
+                      multiple: _vm.allowMultiple,
+                      accept: ""
+                    },
+                    on: { change: _vm.onFileSelected }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    ref: "fileUploaded",
+                    attrs: {
+                      type: "hidden",
+                      name: _vm.name,
+                      id: _vm.name,
+                      value: ""
                     }
-                  },
-                  [_c("strong", [_vm._v("Выберите файл")])]
-                ),
-                _vm._v(" "),
-                _c("span", [_vm._v("или перетащите сюда")])
-              ]),
-              _vm._v(" "),
-              !_vm.fast_login
-                ? _c("image-preview", {
-                    attrs: { files: _vm.attachments },
-                    on: {
-                      close: function($event) {
-                        return _vm.deleteAttachment($event)
-                      }
-                    }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _c("input", {
-                ref: "fileInput",
-                staticStyle: { display: "none" },
-                attrs: {
-                  type: "file",
-                  multiple: _vm.allowMultiple,
-                  accept: ""
-                },
-                on: { change: _vm.onFileSelected }
-              }),
-              _vm._v(" "),
-              _c("input", {
-                ref: "fileUploaded",
-                attrs: {
-                  type: "hidden",
-                  name: _vm.name,
-                  id: _vm.name,
-                  value: ""
-                }
-              }),
-              _vm._v(" "),
-              !_vm.fast_login
-                ? _c("div", { staticClass: "mt-2" }, [
-                    this.attachments.length > 0
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-sm btn-primary",
-                            attrs: { disabled: _vm.loading },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.onSubmitUpload()
-                              }
-                            }
-                          },
-                          [
-                            _vm.loading
-                              ? _c("span", {
-                                  staticClass:
-                                    "spinner-border spinner-border-sm",
-                                  attrs: {
-                                    role: "status",
-                                    "aria-hidden": "true"
+                  }),
+                  _vm._v(" "),
+                  !_vm.fast_upload
+                    ? _c("div", { staticClass: "mt-2" }, [
+                        this.attachments.length > 0
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-sm btn-primary",
+                                attrs: { disabled: _vm.loading },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.onSubmitUpload()
                                   }
-                                })
-                              : _vm._e(),
-                            _vm._v(
-                              "\n                   Загрузить на сервер\n               "
+                                }
+                              },
+                              [
+                                _vm.loading
+                                  ? _c("span", {
+                                      staticClass:
+                                        "spinner-border spinner-border-sm",
+                                      attrs: {
+                                        role: "status",
+                                        "aria-hidden": "true"
+                                      }
+                                    })
+                                  : _vm._e(),
+                                _vm._v(
+                                  "\n                    Загрузить на сервер\n                "
+                                )
+                              ]
                             )
-                          ]
-                        )
-                      : _vm._e()
-                  ])
-                : _vm._e()
-            ],
-            1
+                          : _vm._e()
+                      ])
+                    : _vm._e()
+                ],
+                1
+              )
+            ]
           )
-        ]
-      ),
+        : _vm._e(),
       _vm._v(" "),
       _c("image-preview", {
         attrs: { files: _vm.previews },
@@ -41482,7 +41696,16 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("image-upload", {
-                    attrs: { name: "engravingUpload", action: "/uploadFiles" }
+                    attrs: {
+                      name: "engravingUpload",
+                      "allow-multiple": false,
+                      action: "/uploadFiles"
+                    },
+                    on: {
+                      getFiles: function($event) {
+                        return _vm.getFileName($event)
+                      }
+                    }
                   })
                 ],
                 1
@@ -43464,6 +43687,243 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6badab44\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/js/components/Engraving.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "modal modal-site fade",
+      attrs: {
+        id: "engravingModal",
+        tabindex: "-1",
+        "aria-labelledby": "engravingModalLable",
+        "aria-hidden": "true"
+      }
+    },
+    [
+      _c("div", { staticClass: "modal-dialog modal-sm" }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _c("div", { staticClass: "modal-header" }, [
+            _c(
+              "h5",
+              {
+                staticClass: "modal-title",
+                attrs: { id: "engravingModalLable" }
+              },
+              [_vm._v("Добавить гравировку")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "close",
+                attrs: {
+                  type: "button",
+                  "data-dismiss": "modal",
+                  "aria-label": "Close"
+                },
+                on: { click: _vm.close }
+              },
+              [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-body" }, [
+            _vm.services && _vm.services.length > 0
+              ? _c(
+                  "div",
+                  { staticClass: "engraving-block" },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.engraving.id,
+                              expression: "engraving.id"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.engraving,
+                                "id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { disabled: "", value: "" } }, [
+                            _vm._v("Выбрать тип гравировки")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.services, function(service) {
+                            return _c(
+                              "option",
+                              { domProps: { value: service.id } },
+                              [_vm._v(_vm._s(service.title))]
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.engraving.text,
+                            expression: "engraving.text"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid":
+                            _vm.errors && _vm.errors["options.engraving.text"]
+                        },
+                        attrs: {
+                          placeholder: "Текст гравировки",
+                          id: "engravingText",
+                          type: "text"
+                        },
+                        domProps: { value: _vm.engraving.text },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.engraving, "text", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors && _vm.errors["options.engraving.text"]
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "invalid-feedback",
+                              attrs: { role: "alert" }
+                            },
+                            [
+                              _vm._v(
+                                "Поле Текст гравировки обязательно для заполнения, если не выбран файл."
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "quantity form-group" }, [
+                      _c("label", { attrs: { for: "qty" } }, [
+                        _vm._v("Кол-во")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.engraving.qty,
+                            expression: "engraving.qty"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number", name: "qty", id: "qty" },
+                        domProps: { value: _vm.engraving.qty },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.engraving, "qty", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("image-upload", {
+                      attrs: {
+                        name: "engravingUpload",
+                        "allow-multiple": false,
+                        action: "/uploadFiles"
+                      },
+                      on: {
+                        getFiles: function($event) {
+                          return _vm.getFileName($event)
+                        }
+                      }
+                    })
+                  ],
+                  1
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-footer" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-dark",
+                attrs: { type: "button", "data-dismiss": "modal" },
+                on: { click: _vm.close }
+              },
+              [_vm._v("Закрыть")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-dark",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.addEngraving()
+                  }
+                }
+              },
+              [_vm._v("Добавить")]
+            )
+          ])
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6badab44", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6d16a0b8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/js/components/CatalogIndex.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -45211,7 +45671,146 @@ var render = function() {
                                             : _vm._e()
                                         ]
                                       )
-                                    ])
+                                    ]),
+                                    _vm._v(" "),
+                                    Object.keys(cartItem.engravings).length > 0
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "callout callout-default engraving-list",
+                                            attrs: { id: "engravingCart" }
+                                          },
+                                          [
+                                            _c("b", [_vm._v("Гравировка:")]),
+                                            _vm._v(" "),
+                                            _vm._l(
+                                              cartItem.engravings,
+                                              function(
+                                                engraving,
+                                                keyEngraving
+                                              ) {
+                                                return _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "w-100 text-left d-flex"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "flex-fill text-left"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass: "title"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                engraving.title
+                                                              )
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        engraving.text
+                                                          ? _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "engraving-text",
+                                                                attrs: {
+                                                                  "data-toggle":
+                                                                    "tooltip",
+                                                                  title:
+                                                                    engraving.text
+                                                                }
+                                                              },
+                                                              [_vm._v("текст")]
+                                                            )
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        engraving.filename
+                                                          ? _c(
+                                                              "a",
+                                                              {
+                                                                staticClass:
+                                                                  "link-file",
+                                                                attrs: {
+                                                                  "data-toggle":
+                                                                    "tooltip",
+                                                                  title: "Файл",
+                                                                  target:
+                                                                    "_blank",
+                                                                  href:
+                                                                    "/storage/files/" +
+                                                                    engraving.filename
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("img", {
+                                                                  attrs: {
+                                                                    width: "16",
+                                                                    src:
+                                                                      "/img/document.png",
+                                                                    alt: ""
+                                                                  }
+                                                                })
+                                                              ]
+                                                            )
+                                                          : _vm._e()
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "flex-fill pl-2 text-right"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass: "qty"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                engraving.qty
+                                                              ) + "x"
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass: "price"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                engraving.price
+                                                              ) + " р."
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              }
+                                            )
+                                          ],
+                                          2
+                                        )
+                                      : _vm._e()
                                   ]
                                 ),
                                 _vm._v(" "),
@@ -45552,10 +46151,203 @@ var render = function() {
                                           )
                                         ]
                                       )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  Object.keys(cartItem.engravings).length > 0
+                                    ? _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "callout callout-default engraving-list",
+                                          attrs: { id: "engravingCart" }
+                                        },
+                                        [
+                                          _c("b", [_vm._v("Гравировка:")]),
+                                          _vm._v(" "),
+                                          _vm._l(cartItem.engravings, function(
+                                            engraving,
+                                            keyEngraving
+                                          ) {
+                                            return _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "w-100 text-left d-flex"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "flex-fill text-left"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "span",
+                                                      { staticClass: "title" },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            engraving.title
+                                                          )
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    engraving.text
+                                                      ? _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "engraving-text",
+                                                            attrs: {
+                                                              "data-toggle":
+                                                                "tooltip",
+                                                              title:
+                                                                engraving.text
+                                                            }
+                                                          },
+                                                          [_vm._v("текст")]
+                                                        )
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    engraving.filename
+                                                      ? _c(
+                                                          "a",
+                                                          {
+                                                            staticClass:
+                                                              "link-file",
+                                                            attrs: {
+                                                              "data-toggle":
+                                                                "tooltip",
+                                                              title: "Файл",
+                                                              target: "_blank",
+                                                              href:
+                                                                "/storage/files/" +
+                                                                engraving.filename
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("img", {
+                                                              attrs: {
+                                                                width: "16",
+                                                                src:
+                                                                  "/img/document.png",
+                                                                alt: ""
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      : _vm._e()
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "flex-fill pl-2 text-right"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "span",
+                                                      { staticClass: "qty" },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            engraving.qty
+                                                          ) + "x"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      { staticClass: "price" },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            engraving.price
+                                                          ) + " р."
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "text-danger remove-engraving",
+                                                        attrs: {
+                                                          title: "Удалить"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.removeEngraving(
+                                                              key,
+                                                              keyEngraving
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fal fa-times"
+                                                        })
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          })
+                                        ],
+                                        2
+                                      )
                                     : _vm._e()
                                 ]
                               )
-                            ])
+                            ]),
+                            _vm._v(" "),
+                            cartItem.item.services &&
+                            cartItem.item.services.length > 0
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass: "text-right add-engraving-cart"
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-link",
+                                        attrs: {
+                                          type: "button",
+                                          "data-toggle": "modal",
+                                          "data-target": "#engravingModal"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.openModal(
+                                              key,
+                                              cartItem.item.services
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", { staticClass: "fa fa-plus" }),
+                                        _vm._v(
+                                          " Добавить гравировку\n                        "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
                           ]
                         ),
                         _vm._v(" "),
@@ -45590,11 +46382,13 @@ var render = function() {
                                 attrs: { href: "#" },
                                 on: {
                                   click: function($event) {
+                                    $event.stopPropagation()
+                                    $event.preventDefault()
                                     return _vm.reduceFromCart(key)
                                   }
                                 }
                               },
-                              [_c("i", { staticClass: "fa fa-minus" })]
+                              [_c("i", { staticClass: "far fa-minus" })]
                             ),
                             _vm._v(" "),
                             _c("strong", [_vm._v(_vm._s(cartItem.qty))]),
@@ -45605,11 +46399,13 @@ var render = function() {
                                 attrs: { href: "#" },
                                 on: {
                                   click: function($event) {
+                                    $event.stopPropagation()
+                                    $event.preventDefault()
                                     return _vm.addToCart(cartItem)
                                   }
                                 }
                               },
-                              [_c("i", { staticClass: "fa fa-plus" })]
+                              [_c("i", { staticClass: "far fa-plus" })]
                             )
                           ]
                         ),
@@ -45623,9 +46419,7 @@ var render = function() {
                           },
                           [
                             _c("strong", [
-                              _vm._v(
-                                _vm._s(cartItem.price * cartItem.qty) + " р."
-                              )
+                              _vm._v(_vm._s(cartItem.totalPrice) + " р.")
                             ])
                           ]
                         ),
@@ -45732,106 +46526,117 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-lg-6" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "bg-light  px-4 py-3 text-uppercase font-weight-bold"
-              },
-              [_vm._v("Итог заказа")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "p-4" }, [
-              _c("p", { staticClass: "font-italic mb-4" }, [
-                _vm._v(
-                  "Доставка и дополнительные расходы будут рассчитываться на основе\n                    введенных Вами значений."
-                )
-              ]),
-              _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-lg-6" },
+            [
               _c(
-                "ul",
-                { staticClass: "list-unstyled mb-4" },
-                [
-                  _vm.cart.coupons.length > 0
-                    ? _c(
-                        "li",
-                        {
-                          staticClass:
-                            "d-flex justify-content-between py-3 border-bottom"
-                        },
-                        [
-                          _c("strong", { staticClass: "text-muted" }, [
-                            _vm._v("Сумма")
-                          ]),
-                          _c("strong", [
-                            _vm._v(_vm._s(_vm.cart.totalPrice) + " р.")
-                          ])
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm._l(_vm.cart.coupons, function(coupon) {
-                    return _c(
-                      "li",
-                      {
-                        staticClass:
-                          "d-flex justify-content-between py-3 border-bottom"
-                      },
-                      [
-                        _c("strong", { staticClass: "text-muted" }, [
-                          _vm._v("Промокод: " + _vm._s(coupon.name))
-                        ]),
-                        _c("strong", [
-                          _vm._v(
-                            "- " +
-                              _vm._s(coupon.discount) +
-                              "\n                        р"
-                          )
-                        ])
-                      ]
-                    )
-                  }),
-                  _vm._v(" "),
-                  _vm.cart.totalWithCoupons
-                    ? _c(
-                        "li",
-                        {
-                          staticClass:
-                            "d-flex justify-content-between py-3 border-bottom"
-                        },
-                        [
-                          _c("strong", { staticClass: "text-muted" }, [
-                            _vm._v("Итоговая сумма")
-                          ]),
-                          _vm._v(" "),
-                          _c("h5", { staticClass: "font-weight-bold" }, [
-                            _vm._v(_vm._s(_vm.cart.totalWithCoupons) + " р.")
-                          ])
-                        ]
-                      )
-                    : _vm._e()
-                ],
-                2
+                "div",
+                {
+                  staticClass:
+                    "bg-light  px-4 py-3 text-uppercase font-weight-bold"
+                },
+                [_vm._v("Итог заказа")]
               ),
               _vm._v(" "),
-              _c("div", { staticClass: "checkout-button" }, [
-                _c("a", { attrs: { href: _vm.route } }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-dark py-2 btn-block",
-                      attrs: { disabled: !(_vm.cart.totalPrice >= _vm.minsum) }
-                    },
-                    [
-                      _vm._v("\n                            Оформить заказ "),
-                      _c("i", { staticClass: "fa fa-angle-right" })
-                    ]
+              _c("div", { staticClass: "p-4" }, [
+                _c("p", { staticClass: "font-italic mb-4" }, [
+                  _vm._v(
+                    "Доставка и дополнительные расходы будут рассчитываться на основе\n                    введенных Вами значений."
                   )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticClass: "list-unstyled mb-4" },
+                  [
+                    _vm.cart.coupons.length > 0
+                      ? _c(
+                          "li",
+                          {
+                            staticClass:
+                              "d-flex justify-content-between py-3 border-bottom"
+                          },
+                          [
+                            _c("strong", { staticClass: "text-muted" }, [
+                              _vm._v("Сумма")
+                            ]),
+                            _c("strong", [
+                              _vm._v(_vm._s(_vm.cart.totalPrice) + " р.")
+                            ])
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.cart.coupons, function(coupon) {
+                      return _c(
+                        "li",
+                        {
+                          staticClass:
+                            "d-flex justify-content-between py-3 border-bottom"
+                        },
+                        [
+                          _c("strong", { staticClass: "text-muted" }, [
+                            _vm._v("Промокод: " + _vm._s(coupon.name))
+                          ]),
+                          _c("strong", [
+                            _vm._v(
+                              "- " +
+                                _vm._s(coupon.discount) +
+                                "\n                        р"
+                            )
+                          ])
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    _vm.cart.totalWithCoupons
+                      ? _c(
+                          "li",
+                          {
+                            staticClass:
+                              "d-flex justify-content-between py-3 border-bottom"
+                          },
+                          [
+                            _c("strong", { staticClass: "text-muted" }, [
+                              _vm._v("Итоговая сумма")
+                            ]),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "font-weight-bold" }, [
+                              _vm._v(_vm._s(_vm.cart.totalWithCoupons) + " р.")
+                            ])
+                          ]
+                        )
+                      : _vm._e()
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "checkout-button" }, [
+                  _c("a", { attrs: { href: _vm.route } }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-dark py-2 btn-block",
+                        attrs: {
+                          disabled: !(_vm.cart.totalPrice >= _vm.minsum)
+                        }
+                      },
+                      [
+                        _vm._v("\n                            Оформить заказ "),
+                        _c("i", { staticClass: "fa fa-angle-right" })
+                      ]
+                    )
+                  ])
                 ])
-              ])
-            ])
-          ])
+              ]),
+              _vm._v(" "),
+              _c("engraving", {
+                attrs: { "cart-key": _vm.cartKey, services: _vm.services }
+              })
+            ],
+            1
+          )
         ])
       ])
     : _c("div", [_vm._m(1)])
@@ -46193,6 +46998,33 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5d1a151a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./RegisterForm.vue", function() {
      var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5d1a151a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./RegisterForm.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6badab44\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/js/components/Engraving.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6badab44\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/js/components/Engraving.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("376a6a62", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6badab44\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Engraving.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6badab44\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Engraving.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -58564,6 +59396,9 @@ var app = new Vue({
         bus.$on('added-to-cart', function (data) {
             _this.addToCart(data);
         });
+        bus.$on('engraving-from-cart', function (data) {
+            _this.handleResponse(data);
+        });
         bus.$on('reduce-from-cart', function (id) {
             _this.getCartJson('/api/reduce', id);
         });
@@ -58936,6 +59771,58 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-715e4fb1", Component.options)
   } else {
     hotAPI.reload("data-v-715e4fb1", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Engraving.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6badab44\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/js/components/Engraving.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/js/components/Engraving.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6badab44\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/js/components/Engraving.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-6badab44"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Engraving.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6badab44", Component.options)
+  } else {
+    hotAPI.reload("data-v-6badab44", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

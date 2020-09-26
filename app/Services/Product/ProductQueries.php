@@ -150,21 +150,7 @@ class ProductQueries implements BaseQueries
         return Product::active()->with($this->relations)->whereIn('id', $ids)->get();
     }
 
-    /**
-     * @param array $files
-     * @return array
-     */
-    public function createUploads(array $files)
-    {
-        $uploads = array();
-        foreach ($files as $file) {
-            $uploaded_file = $this->multipleUpload($file, $this->imgResize, true);
-            if (is_array($uploaded_file)) {
-                $uploads[] = Upload::create($uploaded_file);
-            }
-        }
-        return $uploads;
-    }
+
 
     /**
      * @param Request $request
