@@ -53,7 +53,7 @@ class CartRequest extends FormRequest
             'id' => $engraving['id'] ?? null,
             'text' => $engraving['text'] ?? null,
             'qty' => $engraving['qty']?? 1,
-            'filename' => $engraving['img_path'] ?? null,
+            'filename' => $engraving['filename'] ?? '',
         ];
     }
 }
