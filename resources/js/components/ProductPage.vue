@@ -137,7 +137,9 @@
                 engraving: {
                     id: '',
                     text: '',
-                    filename: ''
+                    filename: '',
+
+
                 },
                 titleOption: null,
                 query_options: {
@@ -227,11 +229,12 @@
                 this.checkedEngraving = false;
                 this.engraving.id = '';
                 this.engraving.text = '';
-                this.engraving.img_path = '';
+                this.engraving.filename = '';
 
             },
 
             addToCart(id) {
+                this.engraving.qty = this.query_options.quantity;
                 this.query_options.engraving = this.engraving;
                 if (this.query_options.id) {
                     let url = '/api/add-to-cart/' + id + '?options=' + JSON.stringify(this.query_options);

@@ -3300,6 +3300,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: '',
                 text: '',
                 filename: ''
+
             },
             titleOption: null,
             query_options: {
@@ -3388,9 +3389,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.checkedEngraving = false;
             this.engraving.id = '';
             this.engraving.text = '';
-            this.engraving.img_path = '';
+            this.engraving.filename = '';
         },
         addToCart: function addToCart(id) {
+            this.engraving.qty = this.query_options.quantity;
             this.query_options.engraving = this.engraving;
             if (this.query_options.id) {
                 var url = '/api/add-to-cart/' + id + '?options=' + JSON.stringify(this.query_options);
