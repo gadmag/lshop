@@ -170,7 +170,7 @@
                     class="option-button btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить продукт
             </button>
         </div>
-        <engraving @getCart="updateCart($event)" :order_id="order.id" :cart-key="cartKey" :services="services"></engraving>
+        <engraving name="order" @getCart="updateCart($event)" :order_id="order.id" :cart-key="cartKey" :services="services"></engraving>
 
     </div>
 </template>

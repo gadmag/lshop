@@ -2323,10 +2323,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Engraving",
     props: {
+        name: '',
         services: '',
         cartKey: '',
         order_id: ''
@@ -2336,7 +2354,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // services: this.servicesList,
             engraving: {
                 id: '',
+                price: '',
                 text: '',
+                font: '',
+                comment: '',
                 filename: '',
                 qty: 1
             },
@@ -2794,7 +2815,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -22206,6 +22227,7 @@ var render = function() {
       _vm._v(" "),
       _c("engraving", {
         attrs: {
+          name: "order",
           order_id: _vm.order.id,
           "cart-key": _vm.cartKey,
           services: _vm.services
@@ -22369,8 +22391,93 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
+                    _vm.name === "order"
+                      ? _c("div", { staticClass: "input-group mb-3" }, [
+                          _vm._m(0),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.engraving.price,
+                                expression: "engraving.price"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { id: "engravingPrice", type: "number" },
+                            domProps: { value: _vm.engraving.price },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.engraving,
+                                  "price",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("input", {
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.engraving.font,
+                              expression: "engraving.font"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.engraving,
+                                "font",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { disabled: "", value: "" } }, [
+                            _vm._v("Выбрать шрифт")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "font1" } }, [
+                            _vm._v("Шрифт 1")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "font2 ывф" } }, [
+                            _vm._v("Шрифт 2")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "engravingText" } }, [
+                        _vm._v("Текст гравировки:")
+                      ]),
+                      _vm._v(" "),
+                      _c("textarea", {
                         directives: [
                           {
                             name: "model",
@@ -22384,11 +22491,7 @@ var render = function() {
                           "is-invalid":
                             _vm.errors && _vm.errors["options.engraving.text"]
                         },
-                        attrs: {
-                          placeholder: "Текст гравировки",
-                          id: "engravingText",
-                          type: "text"
-                        },
+                        attrs: { id: "engravingText", rows: "3" },
                         domProps: { value: _vm.engraving.text },
                         on: {
                           input: function($event) {
@@ -22414,6 +22517,38 @@ var render = function() {
                             ]
                           )
                         : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "engravingComment" } }, [
+                        _vm._v("Комментарий:")
+                      ]),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.engraving.comment,
+                            expression: "engraving.comment"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "engravingComment", rows: "3" },
+                        domProps: { value: _vm.engraving.comment },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.engraving,
+                              "comment",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "quantity form-group" }, [
@@ -22492,7 +22627,16 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("$")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
