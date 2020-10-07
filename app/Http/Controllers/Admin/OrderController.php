@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Font;
 use App\Shipment;
 use App\ShoppingCart\Facades\Cart;
 use App\Coupon;
@@ -43,6 +44,7 @@ class OrderController extends Controller
             'order' => $order,
             'products' => $products,
             'coupons' => $coupons,
+            'fonts' => Font::all(),
             'payment_config' => collect($payment_config),
             'shipments' => Shipment::getShipments(),
             'orderStatus' => $orderStatus

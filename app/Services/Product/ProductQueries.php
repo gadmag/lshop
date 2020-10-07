@@ -26,7 +26,8 @@ class ProductQueries implements BaseQueries
         'productSpecial',
         'catalogs',
         'files',
-        'services'
+        'services',
+
     ];
 
     private $imgResize = [

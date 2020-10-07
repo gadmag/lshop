@@ -46,11 +46,13 @@
                                 <div id="engravingCart" v-if=" Object.keys(cartItem.engravings).length > 0" class="callout callout-default engraving-list">
                                     <b>Гравировка:</b>
                                     <div v-for="(engraving, keyEngraving) in cartItem.engravings" class="w-100 text-left d-flex" >
-                                       <div class="flex-fill text-left">
-                                           <span class="title">{{engraving.title}}</span>
-                                           <span class="engraving-text" v-if="engraving.text" data-toggle="tooltip" :title="engraving.text" >текст</span>
-                                           <a class="link-file" v-if="engraving.filename" data-toggle="tooltip" title="Файл" target="_blank" :href="'/storage/files/'+engraving.filename"><img  width="16" src="/img/document.png" alt=""></a>
-                                       </div>
+                                        <div class="flex-fill text-left">
+                                            <span class="title">{{engraving.title}}</span>
+                                            <span class="font">{{engraving.font}}</span>
+                                            <span class="engraving-text" v-if="engraving.text" data-toggle="tooltip" :title="engraving.text" >текст</span>
+                                            <a class="link-file" v-if="engraving.filename" data-toggle="tooltip" title="Файл" target="_blank" :href="'/storage/files/'+engraving.filename"><i class="fa fa-file-alt"></i></a>
+                                            <span class="engraving-comment" v-if="engraving.comment" data-toggle="tooltip" data-placement="bottom" :title="engraving.comment">комментарий</span>
+                                        </div>
                                         <div class="flex-fill pl-2 text-right">
                                             <span class="qty">{{engraving.qty}}x</span>
                                             <span class="price">{{engraving.price}} р.</span>
@@ -62,7 +64,7 @@
                             </div>
                         </div>
                         <div v-if="cartItem.item.services && cartItem.item.services.length >0" class="text-right add-engraving-cart">
-                            <button  @click="openModal(key,cartItem.item.services)" type="button" class="btn btn-link" data-toggle="modal" data-target="#engravingModal">
+                            <button  @click="openModal(key,cartItem.item)" type="button" class="btn btn-link" data-toggle="modal" data-target="#engravingModal">
                                 <i class="fa fa-plus"></i> Добавить гравировку
                             </button>
                         </div>
@@ -129,7 +131,7 @@
                         </a>
                     </div>
                 </div>
-                <engraving :cart-key="cartKey" :services="services"></engraving>
+                <engraving  :cart-key="cartKey" :fonts="fonts" :services="services"></engraving>
             </div>
         </div>
     </div>
@@ -149,7 +151,7 @@
         components: {
             Engraving
         },
-        props: ['cart', 'route', 'minsum'],
+        props: ['cart', 'route','fonts', 'minsum'],
         data: function () {
             return {
                 services: '',
@@ -196,9 +198,9 @@
                         console.log(error)
                     }.bind(this));
             },
-            openModal(key, services){
+            openModal(key, item){
                 this.cartKey = key;
-                this.services = services;
+                this.services = item.services;
             },
             removeEngraving(keyCartItem, keyEngraving){
               let options = {keyCartItem, keyEngraving}

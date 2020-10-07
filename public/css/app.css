@@ -687,14 +687,22 @@ img.cboxPhoto {
   padding: 0.3rem 0.5rem;
 }
 .callout.engraving-list .qty {
-  color: #17a2b8;
+  color: #6c757d;
 }
 .callout.engraving-list .remove-engraving {
   cursor: pointer;
 }
+.callout.engraving-list .callout.engraving-list .link-file {
+  cursor: pointer;
+  color: #007bff;
+}
 .callout.engraving-list .engraving-text {
   cursor: pointer;
   color: #007bff;
+}
+.callout.engraving-list .engraving-comment {
+  cursor: pointer;
+  color: #17a2b8;
 }
 /*-------end shopping-cart-------*/
 /*----- Auth ---------*/

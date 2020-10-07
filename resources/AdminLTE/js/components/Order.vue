@@ -35,10 +35,12 @@
                                 <div v-for="(engraving, keyEngraving) in item.engravings" class="text-left d-flex" >
                                     <div class="flex-fill text-left">
                                         <span class="title">{{engraving.title}}</span>
+                                        <span class="font">{{engraving.font}}</span>
                                         <span class="engraving-text" v-if="engraving.text" data-toggle="tooltip" :title="engraving.text" >текст</span>
-                                        <a class="link-file" v-if="engraving.filename" data-toggle="tooltip" title="Файл" target="_blank" :href="'/storage/files/'+engraving.filename"><img  width="16" src="/img/document.png" alt=""></a>
+                                        <a class="link-file" v-if="engraving.filename" data-toggle="tooltip" title="Файл" target="_blank" :href="'/storage/files/'+engraving.filename"><i class="fa fa-file-alt"></i></a>
+                                        <span class="engraving-comment" v-if="engraving.comment" data-toggle="tooltip" data-placement="bottom" :title="engraving.comment">комментарий</span>
                                     </div>
-                                    <div class="flex-fill pl-2 text-right">
+                                    <div class="flex-fill ml-3 text-right">
                                         <span class="qty">{{engraving.qty}}x</span>
                                         <span class="price">{{engraving.price}} р.</span>
                                         <span @click="removeEngraving(key,keyEngraving)" title="Удалить" class="text-danger remove-engraving"><i class="fa fa-times"></i></span>
@@ -49,7 +51,7 @@
                         </div>
                     </div>
                     <div v-if="item.item.services && item.item.services.length >0" class="text-right add-engraving-cart">
-                        <button  @click="openModal(key,item.item.services)" type="button" class="btn btn-link" data-toggle="modal" data-target="#engravingModal">
+                        <button  @click="openModal(key,item.item)" type="button" class="btn btn-link" data-toggle="modal" data-target="#engravingModal">
                             <i class="fa fa-plus"></i> Добавить гравировку
                         </button>
                     </div>
@@ -170,7 +172,7 @@
                     class="option-button btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить продукт
             </button>
         </div>
-        <engraving name="order" @getCart="updateCart($event)" :order_id="order.id" :cart-key="cartKey" :services="services"></engraving>
+        <engraving name="order" :fonts="fonts" @getCart="updateCart($event)" :order_id="order.id" :cart-key="cartKey" :services="services"></engraving>
 
     </div>
 </template>
@@ -187,6 +189,7 @@
             shipments: {},
             products: null,
             coupons: null,
+            fonts: '',
             payment_config: null
 
         },
@@ -329,9 +332,10 @@
                 this.dropdownToggle = false;
             },
 
-            openModal(key, services){
+            openModal(key, item){
                 this.cartKey = key;
-                this.services = services;
+                this.services = item.services;
+
             },
 
             selectOption(option) {

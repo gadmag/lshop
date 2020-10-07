@@ -33,7 +33,7 @@
     </div>
     <div class="product-page">
         <div class="container">
-            <product-page :product="{{$product}}"></product-page>
+            <product-page :fonts="{{$product->fonts()}}" :product="{{$product}}"></product-page>
         </div>
 
     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\OrderCreateEvent;
+use App\Font;
 use Illuminate\Http\Request;
 use App\Payment;
 use App\Shipment;
@@ -34,6 +35,7 @@ class CheckoutController extends Controller
      * @var Collection
      */
     private $countries;
+
 
     /**
      * @var array

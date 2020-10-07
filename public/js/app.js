@@ -2479,7 +2479,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Engraving",
@@ -2487,7 +2486,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: '',
         services: '',
         cartKey: '',
-        order_id: ''
+        order_id: '',
+        fonts: ''
     },
     data: function data() {
         return {
@@ -3317,10 +3317,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['product'],
+    props: ['product', 'fonts'],
     data: function data() {
         return {
             className: '',
@@ -3332,6 +3331,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             engraving: {
                 id: '',
                 text: '',
+                price: '',
                 font: '',
                 comment: '',
                 filename: ''
@@ -3425,6 +3425,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.engraving.id = '';
             this.engraving.text = '';
             this.engraving.comment = '';
+            this.engraving.price = '';
             this.engraving.font = '';
             this.engraving.filename = '';
         },
@@ -3665,6 +3666,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -3672,7 +3675,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: {
         Engraving: __WEBPACK_IMPORTED_MODULE_0__Engraving_vue___default.a
     },
-    props: ['cart', 'route', 'minsum'],
+    props: ['cart', 'route', 'fonts', 'minsum'],
     data: function data() {
         return {
             services: '',
@@ -3716,9 +3719,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             }.bind(this));
         },
-        openModal: function openModal(key, services) {
+        openModal: function openModal(key, item) {
             this.cartKey = key;
-            this.services = services;
+            this.services = item.services;
         },
         removeEngraving: function removeEngraving(keyCartItem, keyEngraving) {
             var _this = this;
@@ -41725,14 +41728,15 @@ var render = function() {
                           _vm._v("Выбрать шрифт")
                         ]),
                         _vm._v(" "),
-                        _c("option", { attrs: { value: "font1" } }, [
-                          _vm._v("Шрифт 1")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "font2 ывф" } }, [
-                          _vm._v("Шрифт 2")
-                        ])
-                      ]
+                        _vm._l(_vm.fonts, function(font) {
+                          return _c(
+                            "option",
+                            { domProps: { value: font.title } },
+                            [_vm._v(_vm._s(font.title))]
+                          )
+                        })
+                      ],
+                      2
                     )
                   ]),
                   _vm._v(" "),
@@ -43979,14 +43983,15 @@ var render = function() {
                             _vm._v("Выбрать шрифт")
                           ]),
                           _vm._v(" "),
-                          _c("option", { attrs: { value: "font1" } }, [
-                            _vm._v("Шрифт 1")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "font2 ывф" } }, [
-                            _vm._v("Шрифт 2")
-                          ])
-                        ]
+                          _vm._l(_vm.fonts, function(font) {
+                            return _c(
+                              "option",
+                              { domProps: { value: font.title } },
+                              [_vm._v(_vm._s(font.title))]
+                            )
+                          })
+                        ],
+                        2
                       )
                     ]),
                     _vm._v(" "),
@@ -46436,6 +46441,16 @@ var render = function() {
                                                       ]
                                                     ),
                                                     _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      { staticClass: "font" },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(engraving.font)
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
                                                     engraving.text
                                                       ? _c(
                                                           "span",
@@ -46470,14 +46485,33 @@ var render = function() {
                                                             }
                                                           },
                                                           [
-                                                            _c("img", {
-                                                              attrs: {
-                                                                width: "16",
-                                                                src:
-                                                                  "/img/document.png",
-                                                                alt: ""
-                                                              }
+                                                            _c("i", {
+                                                              staticClass:
+                                                                "fa fa-file-alt"
                                                             })
+                                                          ]
+                                                        )
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    engraving.comment
+                                                      ? _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "engraving-comment",
+                                                            attrs: {
+                                                              "data-toggle":
+                                                                "tooltip",
+                                                              "data-placement":
+                                                                "bottom",
+                                                              title:
+                                                                engraving.comment
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "комментарий"
+                                                            )
                                                           ]
                                                         )
                                                       : _vm._e()
@@ -46575,7 +46609,7 @@ var render = function() {
                                           click: function($event) {
                                             return _vm.openModal(
                                               key,
-                                              cartItem.item.services
+                                              cartItem.item
                                             )
                                           }
                                         }
@@ -46874,7 +46908,11 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("engraving", {
-                attrs: { "cart-key": _vm.cartKey, services: _vm.services }
+                attrs: {
+                  "cart-key": _vm.cartKey,
+                  fonts: _vm.fonts,
+                  services: _vm.services
+                }
               })
             ],
             1

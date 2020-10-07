@@ -2005,6 +2005,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -2017,6 +2019,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         shipments: {},
         products: null,
         coupons: null,
+        fonts: '',
         payment_config: null
 
     },
@@ -2149,9 +2152,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
             this.dropdownToggle = false;
         },
-        openModal: function openModal(key, services) {
+        openModal: function openModal(key, item) {
             this.cartKey = key;
-            this.services = services;
+            this.services = item.services;
         },
         selectOption: function selectOption(option) {
             var id = option.id;
@@ -2339,7 +2342,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Engraving",
@@ -2347,7 +2349,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: '',
         services: '',
         cartKey: '',
-        order_id: ''
+        order_id: '',
+        fonts: ''
     },
     data: function data() {
         return {
@@ -21660,6 +21663,10 @@ var render = function() {
                                           _vm._v(_vm._s(engraving.title))
                                         ]),
                                         _vm._v(" "),
+                                        _c("span", { staticClass: "font" }, [
+                                          _vm._v(_vm._s(engraving.font))
+                                        ]),
+                                        _vm._v(" "),
                                         engraving.text
                                           ? _c(
                                               "span",
@@ -21689,14 +21696,26 @@ var render = function() {
                                                 }
                                               },
                                               [
-                                                _c("img", {
-                                                  attrs: {
-                                                    width: "16",
-                                                    src: "/img/document.png",
-                                                    alt: ""
-                                                  }
+                                                _c("i", {
+                                                  staticClass: "fa fa-file-alt"
                                                 })
                                               ]
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        engraving.comment
+                                          ? _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "engraving-comment",
+                                                attrs: {
+                                                  "data-toggle": "tooltip",
+                                                  "data-placement": "bottom",
+                                                  title: engraving.comment
+                                                }
+                                              },
+                                              [_vm._v("комментарий")]
                                             )
                                           : _vm._e()
                                       ]
@@ -21705,7 +21724,7 @@ var render = function() {
                                     _c(
                                       "div",
                                       {
-                                        staticClass: "flex-fill pl-2 text-right"
+                                        staticClass: "flex-fill ml-3 text-right"
                                       },
                                       [
                                         _c("span", { staticClass: "qty" }, [
@@ -21768,7 +21787,7 @@ var render = function() {
                             },
                             on: {
                               click: function($event) {
-                                return _vm.openModal(key, item.item.services)
+                                return _vm.openModal(key, item.item)
                               }
                             }
                           },
@@ -22228,6 +22247,7 @@ var render = function() {
       _c("engraving", {
         attrs: {
           name: "order",
+          fonts: _vm.fonts,
           order_id: _vm.order.id,
           "cart-key": _vm.cartKey,
           services: _vm.services
@@ -22461,14 +22481,15 @@ var render = function() {
                             _vm._v("Выбрать шрифт")
                           ]),
                           _vm._v(" "),
-                          _c("option", { attrs: { value: "font1" } }, [
-                            _vm._v("Шрифт 1")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "font2 ывф" } }, [
-                            _vm._v("Шрифт 2")
-                          ])
-                        ]
+                          _vm._l(_vm.fonts, function(font) {
+                            return _c(
+                              "option",
+                              { domProps: { value: font.title } },
+                              [_vm._v(_vm._s(font.title))]
+                            )
+                          })
+                        ],
+                        2
                       )
                     ]),
                     _vm._v(" "),

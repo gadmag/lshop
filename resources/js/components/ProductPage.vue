@@ -87,8 +87,7 @@
                         <div class="form-group">
                             <select class="form-control" v-model="engraving.font">
                                 <option disabled value="">Выбрать шрифт</option>
-                                <option value="font1">Шрифт 1</option>
-                                <option value="font2 ывф">Шрифт 2</option>
+                                <option v-for="font in fonts" :value="font.title">{{font.title}}</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -137,7 +136,7 @@
 
 <script>
     export default {
-        props: ['product'],
+        props: ['product','fonts'],
         data: function () {
             return {
                 className: '',
@@ -149,6 +148,7 @@
                 engraving: {
                     id: '',
                     text: '',
+                    price: '',
                     font: '',
                     comment: '',
                     filename: '',
@@ -244,6 +244,7 @@
                 this.engraving.id = '';
                 this.engraving.text = '';
                 this.engraving.comment = '';
+                this.engraving.price = '';
                 this.engraving.font = '';
                 this.engraving.filename = '';
 

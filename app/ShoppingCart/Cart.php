@@ -67,6 +67,19 @@ class Cart
         return $this;
     }
 
+    /**
+     * @param $id
+     * @param null $title
+     * @param string $image
+     * @param int $price
+     * @param int $weight
+     * @param int $qty
+     * @param $product
+     * @param null $options
+     * @param null $engraving
+     * @return $this
+     * @throws Exception
+     */
     public function add($id, $title = null, $image = '', $price = 0, $weight = 0, $qty = 1, $product, $options = null, $engraving = null)
     {
         $cartItem = new CartItem(

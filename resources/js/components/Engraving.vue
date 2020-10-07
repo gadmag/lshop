@@ -26,8 +26,7 @@
                         <div class="form-group">
                             <select class="form-control" v-model="engraving.font">
                                 <option disabled value="">Выбрать шрифт</option>
-                                <option value="font1">Шрифт 1</option>
-                                <option value="font2 ывф">Шрифт 2</option>
+                                <option v-for="font in fonts" :value="font.title">{{font.title}}</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -67,7 +66,8 @@
             name: '',
             services: '',
             cartKey: '',
-            order_id: ''
+            order_id: '',
+            fonts: '',
         },
         data: function () {
             return {
