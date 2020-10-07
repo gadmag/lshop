@@ -76,6 +76,9 @@ $(document).ready(function () {
         $(this).removeClass('show');
         $(this).find('.dropdown-menu').removeClass('show');
     });
+
+    //tooltip
+    $('[data-toggle="tooltip"]').tooltip()
 });
 
 

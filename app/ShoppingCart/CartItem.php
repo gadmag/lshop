@@ -137,6 +137,17 @@ class CartItem
     }
 
     /**
+     * Get total qty engravings
+     * @return int
+     */
+    public function totalEngravingQty():int
+    {
+        return $this->engravings->sum(function (EngravingItem  $engravingItem){
+            return $engravingItem->qty;
+        });
+    }
+
+    /**
      * Get filename from CartItem
      * @return Collection
      */

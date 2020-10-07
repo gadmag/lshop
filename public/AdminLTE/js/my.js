@@ -144,53 +144,6 @@ $(document).ready(function () {
 });
 
 
-//options product
-(function ($) {
-    var row = $('table.table tbody').children().length - 1;
-    $('#add-options').on('click', function (e) {
-        // var  row = $('optionHide');
-        //  console.log(optionCoating.querySelectorAll('tr'));
-        e.preventDefault();
-        // $('#option-value-row').clone().toggleClass('hide').attr('id', '#option-value-row' + row).appendTo('.tab-option-coating table.table tbody');
-        $('.tab-option-coating table.table tbody')[0].appendChild(optionCoating.content.cloneNode(true));
-        row++;
-    });
-
-
-    $('.tab-options').on("click", '.remove-options', function (e) {
-        // e.preventDefault();
-        // var dataId = $(this).attr('data-id');
-        // var fields = $(this).parent().parent();
-        // if (dataId) {
-        //     var url = "/admin/option/" + dataId;
-        //
-        //     $.ajax({
-        //         type: 'GET',
-        //         url: url,
-        //         dataType: 'json',
-        //         cache: false,
-        //         success: function (data) {
-        //             fields.remove();
-        //         },
-        //         error: function (xhr, ajaxOptions, thrownError) {
-        //             console.log(xhr.status + ' ' + thrownError);
-        //         }
-        //     });
-        // } else {
-        //     fields.remove();
-        // }
-
-    })
-
-
-    // $('input').iCheck({
-    //     checkboxClass: 'icheckbox_flat-blue',
-    //     radioClass: 'iradio_flat-blue'
-    // });
-
-
-}(jQuery))
-
 //    ckeditor init
 var options = {
     filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
@@ -199,7 +152,7 @@ var options = {
     filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
 };
 (function ($) {
-
+    $('[data-toggle="tooltip"]').tooltip()
     $('textarea.editor').ckeditor(options);
 }(jQuery))
 

@@ -85,11 +85,22 @@
 
                         </div>
                         <div class="form-group">
-                            <input :class="{'is-invalid': errors && errors['options.engraving.text']}"
-                                   v-model="engraving.text" placeholder="Текст гравировки" id="engravingText"
-                                   type="text" class="form-control">
+                            <select class="form-control" v-model="engraving.font">
+                                <option disabled value="">Выбрать шрифт</option>
+                                <option v-for="font in fonts" :value="font.title">{{font.title}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="engravingText">Текст гравировки:</label>
+                            <textarea v-model="engraving.text" id="engravingText" rows="3" class="form-control"
+                                      :class="{'is-invalid': errors && errors['options.engraving.text']}"></textarea>
                             <span v-if="errors && errors['options.engraving.text']" class="invalid-feedback"
                                   role="alert">Поле Текст гравировки обязательно для заполнения, если не выбран файл.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="engravingComment">Комментарий:</label>
+                            <textarea v-model="engraving.comment" class="form-control" id="engravingComment" rows="3"></textarea>
                         </div>
                         <image-upload @getFiles="getFileName($event)" name="engravingUpload" :allow-multiple="false" action="/uploadFiles"></image-upload>
 
@@ -125,7 +136,7 @@
 
 <script>
     export default {
-        props: ['product'],
+        props: ['product','fonts'],
         data: function () {
             return {
                 className: '',
@@ -137,6 +148,9 @@
                 engraving: {
                     id: '',
                     text: '',
+                    price: '',
+                    font: '',
+                    comment: '',
                     filename: '',
                 },
                 titleOption: null,
@@ -227,6 +241,9 @@
                 this.checkedEngraving = false;
                 this.engraving.id = '';
                 this.engraving.text = '';
+                this.engraving.comment = '';
+                this.engraving.price = '';
+                this.engraving.font = '';
                 this.engraving.filename = '';
 
             },
@@ -263,7 +280,7 @@
             },
 
             getFileName(filename) {
-                this.engraving.img_path = filename[0];
+                this.engraving.filename = filename[0];
             },
 
             addToWishList(id) {

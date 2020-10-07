@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-12">
                     <h1 class="title pb-4 text-center">Корзина товаров</h1>
-                    <shopping-cart :cart="cart" route="{{route('checkout')}}"
+                    <shopping-cart :fonts="{{$fonts}}" :cart="cart" route="{{route('checkout')}}"
                                    :minsum="{{$config['min_sum']}}"></shopping-cart>
                 </div>
             </div>

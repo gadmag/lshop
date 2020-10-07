@@ -34,6 +34,17 @@ class EngravingItem
     public $text;
 
     /**
+     * Font engraving text
+     * @var string
+     */
+    public $font;
+
+    /**
+     * @var string
+     */
+    public $comment;
+
+    /**
      * @var string
      */
     public $filename;
@@ -52,23 +63,30 @@ class EngravingItem
      * EngravingItem constructor.
      * @param int $id
      * @param string $text
+     * @param string $font
+     * @param string $comment
      * @param string $filename
      * @param int $qty
      */
-    public function __construct( $id, string $text, string $filename = '', int $qty = 1, $cartItemId)
+    public function __construct( $id, string $text, string $font, string $comment, string $filename = '', int $qty = 1, $cartItemId)
     {
         $service = Service::findOrFail($id);
         $this->id = $id;
         $this->title = $service->title ;
         $this->price = (float)$service->price;
         $this->text = $text;
+        $this->font = $font;
+        $this->comment = $comment;
         $this->filename = $filename;
         $this->qty = (int)$qty;
         $this->cartItemId = $cartItemId;
         $this->uniqueId = $this->generateUniqueId();
     }
 
-    public function generateUniqueId()
+    /**
+     * @return string
+     */
+    public function generateUniqueId(): string
     {
       return  md5($this->id.''.$this->text.''.$this->filename);
     }
@@ -87,5 +105,15 @@ class EngravingItem
     public function getTotal()
     {
         return $this->price * $this->qty;
+    }
+
+    /**
+     * @param float $price
+     * @return $this
+     */
+    public function setPrice(float $price)
+    {
+        $this->price = $price;
+        return $this;
     }
 }

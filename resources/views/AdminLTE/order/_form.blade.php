@@ -76,7 +76,7 @@
                 <h3 class="box-title">Товары</h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-                <order :products="{{$products}}" :order="{{collect($order)}}" :shipments = "{{$shipments}}" :coupons="{{$coupons}}" :payment_config="{{$payment_config}}"></order>
+                <order :products="{{$products}}" :fonts="{{$fonts}}" :order="{{collect($order)}}" :shipments = "{{$shipments}}" :coupons="{{$coupons}}" :payment_config="{{$payment_config}}"></order>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
 

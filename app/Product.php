@@ -13,6 +13,7 @@ use App\Alias;
 use App\FieldOption;
 use Illuminate\Database\Eloquent\Builder;
 use App\Services\ProductFilter;
+use mysql_xdevapi\Collection;
 use function Deployer\get;
 
 class Product extends Model
@@ -39,6 +40,8 @@ class Product extends Model
         '250x250' => array('width' => 260, 'height' => 260),
         '90x110' => array('width' => 110, 'height' => 110)
     ];
+
+
 
     protected static function boot()
     {
@@ -173,6 +176,14 @@ class Product extends Model
         return $this->morphMany('App\Upload', 'uploadstable');
     }
 
+    /**
+     * Get all fonts
+     *
+     */
+    public function fonts()
+    {
+        return Font::all();
+    }
 
     public function getOptionsNotIds(array $ids)
     {

@@ -52,6 +52,9 @@ class CartRequest extends FormRequest
         return [
             'id' => $engraving['id'] ?? null,
             'text' => $engraving['text'] ?? null,
+            'price' => $engraving['price'] ?? '',
+            'font' => $engraving['font'] ?? '',
+            'comment' => $engraving['comment'] ?? '',
             'qty' => $engraving['qty']?? 1,
             'filename' => $engraving['filename'] ?? '',
         ];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Catalog;
 use App\Coupon;
+use App\Font;
 use App\Http\Requests\CartRequest;
 use App\Order;
 use App\Service;
@@ -47,7 +48,6 @@ class ProductController extends Controller
         return view('product.show', [
             'product' => $product,
             'products' => $products,
-
         ]);
     }
 
@@ -147,9 +147,11 @@ class ProductController extends Controller
     public function getCart()
     {
         $config = config('payment');
+        $fonts = Font::all();
         return view('shop.shopping-cart', [
             'actionCheckout' => route('checkout'),
-            'config' => $config
+            'config' => $config,
+            'fonts' => $fonts
         ]);
     }
 

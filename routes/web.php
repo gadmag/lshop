@@ -26,6 +26,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
         'pages' => 'PageController',
         'products' => 'ProductController',
         'services' => 'ServiceController',
+        'fonts' => 'FontController',
         'catalogs' => 'CatalogController',
         'menus' => 'MenuController',
         'users' => 'UserController',

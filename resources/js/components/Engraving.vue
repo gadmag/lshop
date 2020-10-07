@@ -17,12 +17,28 @@
                                 <option v-for="service in services" :value="service.id">{{service.title}}</option>
                             </select>
                         </div>
+                        <div v-if="name===`order`" class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input id="engravingPrice" class="form-control" type="number" v-model="engraving.price">
+                        </div>
                         <div class="form-group">
-                            <input :class="{'is-invalid': errors && errors['options.engraving.text']}"
-                                   v-model="engraving.text" placeholder="Текст гравировки" id="engravingText"
-                                   type="text" class="form-control">
+                            <select class="form-control" v-model="engraving.font">
+                                <option disabled value="">Выбрать шрифт</option>
+                                <option v-for="font in fonts" :value="font.title">{{font.title}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="engravingText">Текст гравировки:</label>
+                            <textarea v-model="engraving.text" id="engravingText" rows="3" class="form-control"
+                                      :class="{'is-invalid': errors && errors['options.engraving.text']}"></textarea>
                             <span v-if="errors && errors['options.engraving.text']" class="invalid-feedback"
                                   role="alert">Поле Текст гравировки обязательно для заполнения, если не выбран файл.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="engravingComment">Комментарий:</label>
+                            <textarea v-model="engraving.comment" class="form-control" id="engravingComment" rows="3"></textarea>
                         </div>
                         <div class="quantity form-group">
                             <label for="qty">Кол-во</label>
@@ -47,16 +63,21 @@
     export default {
         name: "Engraving",
         props: {
+            name: '',
             services: '',
             cartKey: '',
-            order_id: ''
+            order_id: '',
+            fonts: '',
         },
         data: function () {
             return {
                 // services: this.servicesList,
                 engraving: {
                     id: '',
+                    price: '',
                     text: '',
+                    font: '',
+                    comment: '',
                     filename: '',
                     qty: 1
                 },

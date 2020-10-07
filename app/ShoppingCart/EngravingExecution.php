@@ -4,7 +4,6 @@
 namespace App\ShoppingCart;
 
 
-
 trait EngravingExecution
 {
 
@@ -16,15 +15,21 @@ trait EngravingExecution
      */
     public function initEngraving($cartId, $engraving)
     {
-        return new EngravingItem(
+        $engravingItem = new EngravingItem(
             $engraving['id'],
             $engraving['text'],
+            $engraving['font'],
+            $engraving['comment'],
             $engraving['filename'],
             $engraving['qty'],
             $cartId
         );
-    }
+        if ($engraving['price']) {
+            $engravingItem->setPrice($engraving['price']);
+        }
 
+        return $engravingItem;
+    }
 
 
     /**
@@ -45,6 +50,9 @@ trait EngravingExecution
             $engravingItem->qty += $cartItem->engravings->get($engravingItem->getUniqueId())->qty;
         }
         $cartItem->engravings->put($engravingItem->getUniqueId(), $engravingItem);
+        if ($cartItem->totalEngravingQty() > $cartItem->qty) {
+            $cartItem->qty += ($cartItem->totalEngravingQty() - $cartItem->qty);
+        }
         $cartItem->calculate();
         $this->content->put($cartItem->getUniqueId(), $cartItem);
         $this->save();
@@ -60,7 +68,7 @@ trait EngravingExecution
     public function removeEngraving($cartItemId, $engravingId)
     {
 
-        if(!$this->has($cartItemId)){
+        if (!$this->has($cartItemId)) {
             throw new \Exception('Id not found in content');
         }
         $cartItem = $this->get($cartItemId);
@@ -89,8 +97,8 @@ trait EngravingExecution
      */
     public function getEngravingsFiles()
     {
-        return $this->content->map(function (CartItem $cartItem){
-          return  $cartItem->getTotalEngravingFiles()->filter();
+        return $this->content->map(function (CartItem $cartItem) {
+            return $cartItem->getTotalEngravingFiles()->filter();
         })->flatten();
     }
 

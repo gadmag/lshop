@@ -13,6 +13,7 @@ class ServiceController extends Controller
 
     protected $options = [
         'engraving' => 'Гравировка',
+        'fonts' => 'Шрифты',
     ];
 
     public function index(Request $request)
