@@ -69,6 +69,12 @@ desc('Execute artisan view:clear');
 task('artisan:view:clear', function () {
     run('/opt/php7.1/bin/php {{release_path}}/artisan view:clear');
 });
+
+desc('Execute artisan queue:restart');
+task('artisan:queue:restart', function () {
+    run('/opt/php7.1/bin/php {{release_path}}/artisan queue:restart');
+});
+
 desc('Execute artisan optimize');
 task('artisan:optimize', function () {
     $deprecatedVersion = 5.5;
@@ -103,7 +109,7 @@ task('deploy', [
     //'deploy:compile-assets',
     'artisan:storage:link',
     'artisan:view:clear',
-//    'artisan:cache:clear',
+    'artisan:queue:restart',
     'artisan:config:cache',
 //    'artisan:optimize',
     'deploy:symlink',
