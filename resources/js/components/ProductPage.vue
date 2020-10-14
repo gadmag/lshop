@@ -22,8 +22,6 @@
                 <ul class="nav nav-tabs">
                     <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Описание</a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu1">Характеристики</a></li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#service">Услуги</a></li>
-
                 </ul>
 
                 <div class="tab-content">
@@ -33,10 +31,6 @@
                         <p v-if="product.material"><strong>Материал:</strong> <span>{{product.material}}</span></p>
                         <p v-if="product.size"><strong>Размер:</strong> <span>{{product.size}}</span></p>
                         <p v-if="weight"><strong>Вес:</strong> <span>{{weight}} гр.</span></p>
-                    </div>
-                    <div id="service" class="tab fade">
-                        <!--                        {{product.services}}-->
-                        <!--                        <input type="checkbox" class="">-->
                     </div>
                 </div>
             </div>
