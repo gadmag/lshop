@@ -169,14 +169,14 @@
 
     .file_upload.has-advanced-upload {
         clear: both;
-        outline: 2px dashed #92b0b3;
+        outline: 2px dashed rgba(0, 38, 59, 0.21);
         outline-offset: -10px;
         -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
         transition: outline-offset .15s ease-in-out, background-color .15s linear;
     }
 
     .files_component .box {
-        background-color: #c8dadf;
+        background-color: #f7f7f7;
         position: relative;
         padding: 100px 20px;
     }
