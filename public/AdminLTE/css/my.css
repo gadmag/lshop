@@ -178,3 +178,16 @@ width: 140px;
     cursor: pointer;
     color: #17a2b8;
 }
+#engravingModal .files_component {
+    max-width: 200px;
+}
+#engravingModal .files_component .box {
+    padding: 20px;
+}
+#engravingModal .has-advanced-upload .box__icon {
+    height: 30px;
+    margin: 10px 0;
+}
+#engravingModal .files_component .box_input {
+    font-size: 13px;
+}
