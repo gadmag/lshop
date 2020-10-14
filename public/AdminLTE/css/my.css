@@ -1,4 +1,4 @@
-.panel-heading{
+.panel-heading {
     padding-bottom: 10px;
 }
 
@@ -19,10 +19,12 @@
 .remove-file span:hover {
     color: red;
 }
+
 .btn-file {
     position: relative;
     overflow: hidden;
 }
+
 .btn-file input[type=file] {
     position: absolute;
     top: 0;
@@ -38,6 +40,7 @@
     cursor: inherit;
     display: block;
 }
+
 .tab-options table.table td {
     vertical-align: middle;
 }
@@ -46,32 +49,40 @@
     display: none;
 }
 
-.tab-options .form-price{
+.tab-options .form-price {
     width: 100px;
 }
-.tab-options .form-qty{
+
+.tab-options .form-qty {
     width: 60px;
 }
-.tab-options .form-weight{
+
+.tab-options .form-weight {
     width: 60px;
 }
-.color-select{
-width: 140px;
+
+.color-select {
+    width: 140px;
 }
-.option-value-row .preview-file{
+
+.option-value-row .preview-file {
     width: 60px;
     margin: 3px;
 }
+
 .option-value-row .files_component .box {
     padding: 10px;
 }
-.option-value-row  .files_component .box_input{
+
+.option-value-row .files_component .box_input {
     font-size: 13px;
 }
+
 .option-value-row .files_component .box.has-advanced-upload .box__icon {
     height: 20px;
     margin: 10px 0;
 }
+
 .option-value-row .files_component {
     max-width: 160px;
 }
@@ -103,8 +114,8 @@ width: 140px;
     text-align: right;
 
 }
-.menu-link .item-index
-{
+
+.menu-link .item-index {
     display: inline-block;
     border: 1px solid #acb2b4;
     margin: 8px 0 4px;
@@ -113,12 +124,16 @@ width: 140px;
     background: #fff;
     text-align: center;
 }
+
 /* orders */
 
 .order .dropdown-menu.active {
     display: block;
 }
-.order .highlighted { color: red }
+
+.order .highlighted {
+    color: red
+}
 
 .dropdown-item {
     display: block;
@@ -132,20 +147,22 @@ width: 140px;
     background-color: transparent;
     border: 0;
 }
+
 .order .table-bordered > tfoot > tr > td {
-    border:none !important;
+    border: none !important;
     border-right: none !important;
     border-left: none !important;
     border-top: none !important;
     border-right-style: none !important;
     border-left-style: none !important;
 }
-.order #shipment_method{
+
+.order #shipment_method {
     width: auto;
     float: right;
 }
 
-.order .form-field{
+.order .form-field {
     padding: 5px 0;
 }
 
@@ -159,6 +176,7 @@ width: 140px;
     padding: 0.3rem 0.5rem;
 
 }
+
 .callout.engraving-list .qty {
     color: #6c757d;
 }
@@ -166,15 +184,18 @@ width: 140px;
 .callout.engraving-list .remove-engraving {
     cursor: pointer;
 }
+
 .callout.engraving-list .link-file {
     cursor: pointer;
     color: #007bff;
 }
-.callout.engraving-list .engraving-text {
+
+.callout.engraving-list a {
+    text-decoration: none;
     cursor: pointer;
     color: #007bff;
 }
-.callout.engraving-list .engraving-comment {
-    cursor: pointer;
-    color: #17a2b8;
+
+.callout.engraving-list a:hover {
+    color: #0056b3;
 }

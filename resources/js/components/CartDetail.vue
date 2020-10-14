@@ -23,15 +23,24 @@
                                 <div v-if="cartItem.options.color_stone" class="small">
                                     <span><strong>Цвет камня:</strong> {{cartItem.options.color_stone}}</span>
                                 </div>
-                                <div id="engravingDetail" v-if=" Object.keys(cartItem.engravings).length > 0" class="dropdown small">
-                                    <a class="btn-link" href="#" role="button" id="engravingLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div id="engravingDetail" v-if=" Object.keys(cartItem.engravings).length > 0" class="small">
+                                    <a class="dropdown-toggle" @click="isShow = !isShow" href="#" role="button" id="engravingLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Гравировка
                                     </a>
-                                    <ul class="text-left dropdown-menu list-unstyled" aria-labelledby="dropdownMenuLink">
-                                        <li class="engraving-item"  v-for="engraving in cartItem.engravings">
-                                            <span><span>{{engraving.qty}}x</span> {{engraving.title}}</span> <span>{{engraving.price}} р.</span>
-                                        </li>
-                                    </ul>
+                                    <transition name="fade">
+                                        <div v-if="isShow" class="subEngraving" >
+                                            <div class="engraving-item d-flex small w-100"  v-for="engraving in cartItem.engravings">
+                                                <div class="flex-fill text-nowrap text-left">
+                                                    <span>{{engraving.title}}</span>
+                                                    <span>{{engraving.font}}</span>
+                                                </div>
+                                                <div class="pl-1 text-nowrap flex-fill text-right">
+                                                    <span>{{engraving.qty}}x</span>
+                                                    <span>{{engraving.price}} р.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </transition>
                                 </div>
                             </div>
                         </figure>
@@ -63,6 +72,12 @@
 <script>
     export default {
         props: ['cart', 'carttotal'],
+        data: function () {
+            return {
+                isShow: false,
+
+            }
+        },
         mounted() {
             console.log('Component Cart detail mounted.');
 

@@ -46,12 +46,18 @@
                                 <div id="engravingCart" v-if=" Object.keys(cartItem.engravings).length > 0" class="callout callout-default engraving-list">
                                     <b>Гравировка:</b>
                                     <div v-for="(engraving, keyEngraving) in cartItem.engravings" class="w-100 text-left d-flex" >
-                                        <div class="flex-fill text-left">
+                                        <div class="dropdown flex-fill text-left">
                                             <span class="title">{{engraving.title}}</span>
                                             <span class="font">{{engraving.font}}</span>
-                                            <span class="engraving-text" v-if="engraving.text" data-toggle="tooltip" :title="engraving.text" >текст</span>
-                                            <a class="link-file" v-if="engraving.filename" data-toggle="tooltip" title="Файл" target="_blank" :href="'/storage/files/'+engraving.filename"><i class="fa fa-file-alt"></i></a>
-                                            <span class="engraving-comment" v-if="engraving.comment" data-toggle="tooltip" data-placement="bottom" :title="engraving.comment">комментарий</span>
+                                            <a class="link-file px-1" v-if="engraving.filename" data-toggle="tooltip" title="Файл" target="_blank" :href="'/storage/files/'+engraving.filename"><i class="fa fa-file-alt"></i></a>
+                                            <a v-if="engraving.text" v-text="`текст`" class="dropdown-toggle px-1" href="#" role="button" id="dropdownText" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                            <a v-if="engraving.comment" v-text="`комментарий`" class="dropdown-toggle px-1" href="#" role="button" id="dropdownComment" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                            <div v-if="engraving.comment" class="dropdown-menu" aria-labelledby="dropdownComment">
+                                                <span class="dropdown-item-text">{{engraving.comment}}</span>
+                                            </div>
+                                            <div v-if="engraving.text" class="dropdown-menu" aria-labelledby="dropdownText">
+                                                <span class="dropdown-item-text">{{engraving.text}}</span>
+                                            </div>
                                         </div>
                                         <div class="flex-fill pl-2 text-right">
                                             <span class="qty">{{engraving.qty}}x</span>
