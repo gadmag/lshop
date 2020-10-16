@@ -102,7 +102,7 @@
                             <label for="engravingComment">Комментарий:</label>
                             <textarea v-model="engraving.comment" class="form-control" id="engravingComment" rows="3"></textarea>
                         </div>
-                        <image-upload @getFiles="getFileName($event)" name="engravingUpload" :allow-multiple="false" action="/uploadFiles"></image-upload>
+                        <image-upload @getFiles="getFileName($event)" name="engravingUpload" :box-input="false" :allow-multiple="false" action="/uploadFiles"></image-upload>
 
                     </div>
                 </div>

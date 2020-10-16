@@ -2652,6 +2652,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2669,6 +2678,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         label: '',
 
         'allowMultiple': {
+            type: Boolean,
+            default: true
+        },
+        boxInput: {
             type: Boolean,
             default: true
         },
@@ -20629,132 +20642,149 @@ var render = function() {
     "div",
     { staticClass: "files_component", attrs: { id: _vm.name + "_component" } },
     [
-      !_vm.isHideUpload()
-        ? _c(
-            "div",
-            {
-              ref: "drop",
-              staticClass: "box file_upload",
-              class: { "has-advanced-upload": _vm.isAdvanced }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "box_input" },
-                [
-                  _vm.attachments.length == 0
-                    ? _c(
-                        "svg",
-                        {
-                          staticClass: "box__icon",
-                          attrs: {
-                            xmlns: "http://www.w3.org/2000/svg",
-                            width: "50",
-                            height: "43",
-                            viewBox: "0 0 50 43"
-                          }
-                        },
-                        [
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"
-                            }
-                          })
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "py-2" }, [
+      _vm.boxInput
+        ? [
+            !_vm.isHideUpload()
+              ? _c(
+                  "div",
+                  {
+                    ref: "drop",
+                    staticClass: "box file_upload",
+                    class: { "has-advanced-upload": _vm.isAdvanced }
+                  },
+                  [
                     _c(
-                      "a",
-                      {
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.$refs.fileInput.click()
-                          }
-                        }
-                      },
-                      [_c("strong", [_vm._v("Выберите файл")])]
-                    ),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("или перетащите сюда")])
-                  ]),
-                  _vm._v(" "),
-                  !_vm.fast_upload
-                    ? _c("image-preview", {
-                        attrs: { files: _vm.attachments },
-                        on: {
-                          close: function($event) {
-                            return _vm.deleteAttachment($event)
-                          }
-                        }
-                      })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("input", {
-                    ref: "fileInput",
-                    staticStyle: { display: "none" },
-                    attrs: {
-                      type: "file",
-                      multiple: _vm.allowMultiple,
-                      accept: ""
-                    },
-                    on: { change: _vm.onFileSelected }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    ref: "fileUploaded",
-                    attrs: {
-                      type: "hidden",
-                      name: _vm.name,
-                      id: _vm.name,
-                      value: ""
-                    }
-                  }),
-                  _vm._v(" "),
-                  !_vm.fast_upload
-                    ? _c("div", { staticClass: "mt-2" }, [
-                        this.attachments.length > 0
+                      "div",
+                      { staticClass: "box_input" },
+                      [
+                        _vm.attachments.length == 0
                           ? _c(
-                              "button",
+                              "svg",
                               {
-                                staticClass: "btn btn-sm btn-primary",
-                                attrs: { disabled: _vm.loading },
-                                on: {
-                                  click: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.onSubmitUpload()
-                                  }
+                                staticClass: "box__icon",
+                                attrs: {
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  width: "50",
+                                  height: "43",
+                                  viewBox: "0 0 50 43"
                                 }
                               },
                               [
-                                _vm.loading
-                                  ? _c("span", {
-                                      staticClass:
-                                        "spinner-border spinner-border-sm",
-                                      attrs: {
-                                        role: "status",
-                                        "aria-hidden": "true"
-                                      }
-                                    })
-                                  : _vm._e(),
-                                _vm._v(
-                                  "\n                    Загрузить на сервер\n                "
-                                )
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"
+                                  }
+                                })
                               ]
                             )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "py-2" }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.$refs.fileInput.click()
+                                }
+                              }
+                            },
+                            [_c("strong", [_vm._v("Выберите файл")])]
+                          ),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("или перетащите сюда")])
+                        ]),
+                        _vm._v(" "),
+                        !_vm.fast_upload
+                          ? _c("image-preview", {
+                              attrs: { files: _vm.attachments },
+                              on: {
+                                close: function($event) {
+                                  return _vm.deleteAttachment($event)
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.fast_upload
+                          ? _c("div", { staticClass: "mt-2" }, [
+                              this.attachments.length > 0
+                                ? _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-sm btn-primary",
+                                      attrs: { disabled: _vm.loading },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.onSubmitUpload()
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm.loading
+                                        ? _c("span", {
+                                            staticClass:
+                                              "spinner-border spinner-border-sm",
+                                            attrs: {
+                                              role: "status",
+                                              "aria-hidden": "true"
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(
+                                        "\n                        Загрузить на сервер\n                    "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            ])
                           : _vm._e()
-                      ])
-                    : _vm._e()
-                ],
-                1
-              )
-            ]
-          )
-        : _vm._e(),
+                      ],
+                      1
+                    )
+                  ]
+                )
+              : _vm._e()
+          ]
+        : [
+            !_vm.isHideUpload()
+              ? _c("div", { staticClass: "attach-mini" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.$refs.fileInput.click()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-paperclip" }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Прикрепить файл")])
+                    ]
+                  )
+                ])
+              : _vm._e()
+          ],
+      _vm._v(" "),
+      _c("input", {
+        ref: "fileInput",
+        staticStyle: { display: "none" },
+        attrs: { type: "file", multiple: _vm.allowMultiple, accept: "" },
+        on: { change: _vm.onFileSelected }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        ref: "fileUploaded",
+        attrs: { type: "hidden", name: _vm.name, id: _vm.name, value: "" }
+      }),
       _vm._v(" "),
       _c("image-preview", {
         attrs: { files: _vm.previews },
@@ -20765,7 +20795,7 @@ var render = function() {
         }
       })
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
