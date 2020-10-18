@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new DeleteFiles())->cron('0 */1 * * *');
+        $schedule->job(new DeleteFiles())->daily();
         if (!$this->osProcessIsRunning('queue:work')) {
 
             $schedule->command('queue:work')->everyMinute();

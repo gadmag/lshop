@@ -19,7 +19,7 @@
                         </div>
                         <div v-if="name===`order`" class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">$</span>
+                                <span class="input-group-text"><i class="fa fa-ruble-sign"></i></span>
                             </div>
                             <input id="engravingPrice" class="form-control" type="number" v-model="engraving.price">
                         </div>
@@ -37,6 +37,12 @@
                                   role="alert">Поле Текст гравировки обязательно для заполнения, если не выбран файл.</span>
                         </div>
                         <div class="form-group">
+                            <image-upload @getFiles="getFileName($event)"
+                                          name="engravingUpload" :box-input="false"
+                                          :allow-multiple="false" action="/uploadFiles"></image-upload>
+
+                        </div>
+                        <div class="form-group">
                             <label for="engravingComment">Комментарий:</label>
                             <textarea v-model="engraving.comment" class="form-control" id="engravingComment" rows="3"></textarea>
                         </div>
@@ -45,8 +51,6 @@
                             <input type="number" v-model="engraving.qty" name="qty" id="qty"
                                    class="form-control">
                         </div>
-                        <image-upload @getFiles="getFileName($event)" name="engravingUpload" :allow-multiple="false"
-                                      action="/uploadFiles"></image-upload>
 
                     </div>
                 </div>

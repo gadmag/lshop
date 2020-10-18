@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Upload;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -30,10 +31,9 @@ class DeleteFiles implements ShouldQueue
      */
     public function handle()
     {
-
-        $uploads = Upload::where('uploadstable_id',0)->get();
-        foreach ($uploads as $upload){
-            $upload->delete();
-        }
+        Upload::where('uploadstable_id', 0)
+            ->where('created_at', '<', Carbon::now()->subDays(3))->each(function ($upload) {
+                $upload->delete();
+            });
     }
 }
