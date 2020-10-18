@@ -24,7 +24,7 @@
                                     <span><strong>Цвет камня:</strong> {{cartItem.options.color_stone}}</span>
                                 </div>
                                 <div id="engravingDetail" v-if=" Object.keys(cartItem.engravings).length > 0" class="small">
-                                    <a class="dropdown-toggle" @click="isShow = !isShow" href="#" role="button" id="engravingLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a class="dropdown-toggle" v-on:click.stop.prevent="isShow = !isShow" href="#" role="button" id="engravingLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Гравировка
                                     </a>
                                     <transition name="fade">
