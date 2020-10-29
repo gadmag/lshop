@@ -28,7 +28,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::findOrFail($id);
-        return view('AdminLTE.order.show', ['order' => $order]);
+        return view('AdminLTE.order.invoice', ['order' => $order]);
     }
 
 

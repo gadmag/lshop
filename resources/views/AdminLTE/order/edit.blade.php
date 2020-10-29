@@ -19,18 +19,20 @@
     @push('style')
         <link href="{{elixir('/css/colorbox.css')}}" rel="stylesheet">
     @endpush
-    <div class="order">
-        <nav aria-label="breadcrumb" role="navigation">
-            <br>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/admin">Главная</a></li>
-                <li class="breadcrumb-item"><a href="{{route('orders.index')}}">Заказы</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Заказ №{{$order->id}}</li>
-            </ol>
-        </nav>
-        <h1 class="heading">Редактировать заказ: №{{$order->id}}</h1>
+    <nav aria-label="breadcrumb" role="navigation">
+        <br>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{{route('orders.index')}}">Заказы</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Заказ №{{$order->id}}</li>
+        </ol>
+    </nav>
+    <div class="order card">
+        <div class="card-header">
 
-        <div class="order-body">
+            <h1 class="heading">Редактировать заказ: №{{$order->id}}</h1>
+        </div>
+        <div class="order-body card-body">
             @include('errors.list')
             {!! Form::model($order, ['method' => 'PUT', 'action' => ['Admin\OrderController@update', $order->id], 'class' => 'order']) !!}
 

@@ -1,10 +1,10 @@
 <template>
-    <div class="orders-form">
-        <table class="table table-shopping-cart">
+    <div class="orders-form col-12 table-responsive">
+        <table class="table table-valign-middle table-striped table-shopping-cart">
             <thead>
             <tr>
-                <td>Наименование товара &nbsp;&nbsp;</td>
-                <td>Кол-во: &nbsp;&nbsp;</td>
+                <th>Наименование товара</th>
+                <th>Кол-во:</th>
                 <th class="text-right">Цена за шт</th>
                 <th class="text-right">Всего</th>
                 <th></th>
@@ -12,7 +12,7 @@
             </thead>
             <tbody>
             <tr v-for="(item, key) in forms" class="option-value-row">
-                <td>
+                <td class="">
                     <div class="p-2">
                         <a :href="'/storage/files/600x450/'+item.image" class="group1">
                         <img v-if="item.image"
@@ -20,17 +20,16 @@
                              class="img-fluid rounded shadow-sm" width="80" alt="Фото товара">
                         </a>
                         <div class="ml-3 d-inline-block align-middle">
-                            <h6 class="mb-0"><span href="#"
-                                                   class="text-dark d-inline-block align-middle">{{item.name}}</span>
-                            </h6>
-                            <span v-if="item.options.color"
-                                  class="text-muted font-weight-normal font-italic d-block">
+                            <div class="mb-0">
+                                <span href="#" class="text-dark d-inline-block align-middle">{{item.name}}</span>
+                            </div>
+                            <span v-if="item.options.color" class="text-muted d-block">
                                     Цвет: {{item.options.color}}
-                                </span>
-                            <span v-if="item.options.color_stone"
-                                  class="text-muted font-weight-normal font-italic d-block">
-                                    Цвет камня: {{item.options.color_stone}}</span>
-                            <div id="engravingCart" v-if=" Object.keys(item.engravings).length > 0" class="callout callout-default engraving-list">
+                            </span>
+                            <span v-if="item.options.color_stone" class="text-muted d-block">
+                                Цвет камня: {{item.options.color_stone}}
+                            </span>
+                            <div id="engravingCart" v-if="item.engravings && Object.keys(item.engravings).length > 0" class="callout callout-default engraving-list">
                                 <b>Гравировка:</b>
                                 <div v-for="(engraving, keyEngraving) in item.engravings" class="text-left d-flex" >
                                     <div class="dropdown flex-fill text-left">
@@ -63,9 +62,9 @@
                     </div>
                 </td>
                 <td style="max-width: 60px">
-                    <div class="input-group">
+                    <div class="input-group input-group-sm">
                         <input type="text" class="form-control" v-model="item.quantity = item.qty" name="quantity">
-                        <span class="input-group-btn">
+                        <span class="input-group-append">
                         <button data-qty="" @click="updateFromCart(key,item.quantity)" type="button"
                                 class="btn btn-primary" data-toggle="tooltip"
                                 data-original-title="Обновить"><i class="fa fa-sync"></i></button>
@@ -75,10 +74,9 @@
                 <td class="text-right">{{item.price}} р.</td>
                 <td class="text-right">{{item.price * item.qty}} р.</td>
                 <td>
-
                     <button v-if="item" :data-id="item.id" @click="removeFromCart(key)" type="button"
                             data-toggle="tooltip"
-                            class="remove-options btn btn-danger"><i
+                            class="remove-options btn btn-sm btn-danger"><i
                             class="fa fa-minus-circle"></i></button>
                 </td>
             </tr>
@@ -91,9 +89,8 @@
                     <div class="col-md-6 text-right"><b>Предварительная стоимость:</b></div>
                     <div class="col-md-6 text-left"><b>{{cart.totalPrice}} р.</b></div>
                 </div>
-                <div v-if="cart.shipment" class="row form-field">
+                <div v-if="cart.shipment" class="row">
                     <div class="col-md-6">
-                        <div class="form-inline">
                             <select class="form-control" v-model="shipment_id" name="shipment_method"
                                     @change="addShipmentToCart" id="shipment_method">
                                 <option :value="null">Выбрать</option>
@@ -102,13 +99,13 @@
                                     {{shipment.title}}
                                 </option>
                             </select>
-                        </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-inline">
-                            <input class="form-control" name="shipment_price" v-model="shipment_price"
-                                   type="text">
-                            <span> р.</span>
+                        <div class="input-group">
+                            <input class="form-control" name="shipment_price" v-model="shipment_price" type="number">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-ruble-sign"></i></span>
+                            </div>
                         </div>
                     </div>
 
@@ -120,11 +117,13 @@
                 </div>
 
                 <div class="row form-field">
-                    <div class="col-md-6 text-right"><b>Итоговая сумма:</b></div>
+                    <div class="col-md-6 text-right pt-1"><b>Итоговая сумма:</b></div>
                     <div class="col-md-6">
-                        <div class="form-inline">
+                        <div class="input-group">
                             <input name="totalPrice" v-model="totalPrice" class="form-control" type="text">
-                            <span> р.</span>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-ruble-sign"></i></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -148,36 +147,41 @@
             </div>
             <br>
         </fieldset>
-        <fieldset>
-            <legend>Добавить товары</legend>
-            <div class="form-group">
-                <label for="keywords">Выбрать товар</label>
-                <div class="dropdown">
-                    <input id="keywords" autocomplete="off" type="text" @focus="onFocus" @blur="onBlur"
-                           v-model="keywords" class="form-control">
-                    <ul class="dropdown-menu" :class="{active: toggled }" v-if="results && results.length > 0">
-                        <li v-for="product in results" :key="product.id"><a href="#" @mousedown="selectProduct(product)"
-                                                                            v-html="highlight(product.title)"></a>
-                        </li>
-                    </ul>
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Добавить товары</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="keywords">Выбрать товар</label>
+                    <div class="dropdown">
+                        <input id="keywords" autocomplete="off" type="text" @focus="onFocus" @blur="onBlur"
+                               v-model="keywords" class="form-control">
+                        <ul class="dropdown-menu" :class="{active: toggled }" v-if="results && results.length > 0">
+                            <li class="dropdown-item" v-for="product in results" :key="product.id"><a href="#" @mousedown="selectProduct(product)"
+                                                                                v-html="highlight(product.title)"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <input type="hidden" name="product_id">
                 </div>
-                <input type="hidden" name="product_id">
+                <div class="form-group">
+                    <label for="quantity">Кол-во</label>
+                    <input type="number" v-model="query_options.quantity" name="quantity" id="quantity"
+                           class="form-control">
+                </div>
+                <div v-if="product" class="options">
+                    <select-option v-if="product && options" :product="product" :options="options"></select-option>
+                </div>
+                <div class="form-group text-right">
+                    <button :disabled="!product" id="add-product" @click="addToCart(product.id)" data-type="coating"
+                            type="button" data-toggle="tooltip" class="btn btn-primary">
+                        <i class="fa fa-plus-circle"></i> Добавить продукт
+                    </button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="quantity">Кол-во</label>
-                <input type="number" v-model="query_options.quantity" name="quantity" id="quantity"
-                       class="form-control">
-            </div>
-            <div v-if="product" class="options">
-                <select-option v-if="product && options" :product="product" :options="options"></select-option>
-            </div>
-        </fieldset>
-        <div class="text-right">
-            <button :disabled="!product" id="add-product" @click="addToCart(product.id)" data-type="coating"
-                    type="button" data-toggle="tooltip"
-                    class="option-button btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить продукт
-            </button>
         </div>
+
         <engraving name="order" :fonts="fonts" @getCart="updateCart($event)" :order_id="order.id" :cart-key="cartKey" :services="services"></engraving>
 
     </div>
