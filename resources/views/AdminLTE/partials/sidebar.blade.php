@@ -44,29 +44,29 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item"><a class="nav-link" href="{{url('admin/coupons')}}"><i class="nav-icon fa fa-tags"></i>
                                 <p>Купоны</p></a></li>
-                        <li class="nav-item has-treeview">
+                        <li class="nav-item ">
                             <a class="nav-link" href="{{route('fieldOptions.index')}}">
                                 <i class="nav-icon fa fa-shopping-basket" aria-hidden="true"></i><p>Параметры опций товара</p>
                             </a>
                         </li>
-                        <li class="nav-item has-treeview">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{route('services.index')}}">
                                 <i class="nav-icon fa fa-shopping-basket" aria-hidden="true"></i><p>Услуга товара</p>
                             </a>
                         </li>
-                        <li class="nav-item has-treeview">
-                            <a class="nav-item" href="{{route('orderStatus.index')}}">
-                                <i class="nav-icon fa fa-circle-o text-red" aria-hidden="true"></i><p>Статусы заказа</p>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{{route('orderStatus.index')}}">
+                                <i class="nav-icon far fa-circle" aria-hidden="true"></i><p>Статусы заказа</p>
                             </a>
                         </li>
-                        <li class="nav-item has-treeview">
+                        <li class="nav-item ">
                             <a class="nav-link" href="{{route('shipments.index')}}">
-                                <i class="nav-icon fa fa-circle-o text-red" aria-hidden="true"></i><p>Способы доставки</p>
+                                <i class="far fa-circle nav-icon" aria-hidden="true"></i><p>Способы доставки</p>
                             </a>
                         </li>
-                        <li class="nav-item has-treeview">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{route('payments.index')}}">
-                                <i class="nav-icon fa fa-circle-o text-red" aria-hidden="true"></i><p>Способы оплаты</p>
+                                <i class="nav-icon far fa-circle" aria-hidden="true"></i><p>Способы оплаты</p>
                             </a>
                         </li>
                     </ul>

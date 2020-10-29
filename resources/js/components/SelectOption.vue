@@ -27,11 +27,12 @@
                 className: '',
                 files: [],
                 checkedNames: [],
-                titleOption: this.fullOptionName(this.options[0])
+                titleOption: null
 
             }
         },
         mounted() {
+            this.titleOption = this.fullOptionName(this.options[0]);
             this.allImagesProduct();
             console.log('Component mounted.');
 
@@ -40,6 +41,7 @@
             selectOption(option) {
                 const id = option.id;
                 this.titleOption = this.fullOptionName(option);
+                this.options.splice(id,1);
                 this.files.forEach(function (file, i, arr) {
                     if (file.uploadstable_id == id) {
                         let element = file;

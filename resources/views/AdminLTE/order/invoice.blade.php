@@ -15,43 +15,45 @@
                 <div class="col-sm-4">
                     <div class="box box-default ">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Информация о заказе</h3>
+                            <h3 class="box-title">Отправитель</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                            <div><strong>Номер заказа:</strong> {{$order->id}}</div>
-                            <div><strong>Способ оплаты:</strong> {{$order->payment_method}} {{$order->payment_id}}</div>
-                            @foreach($order->cart['coupons'] as $coupon))
-                            <div><strong>Купон:</strong> {{$coupon->name}}</div>
-                            @endforeach
-                            <div><strong>Дата заказа:</strong> {{$order->created_at}}</div>
+                            <strong>{{config('app.name')}}</strong>
+                            <div>{{config('payment.address')}}</div>
+                            <div>Email: {{config('payment.send_mail')}}</div>
+                            <div>Телефон: {{config('payment.phone')}}</div>
+
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                 </div>
                 <div class="col-sm-4">
                     <div class="box box-default ">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Информация о покупателе</h3>
+                            <h3 class="box-title">Получатель</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                            <div><strong>Инициалы:</strong> {{$order->first_name}} {{$order->last_name}}</div>
-                            <div><strong>Почта:</strong> <a href="mailto:{{$order->email}}">{{$order->email}}</a></div>
-                            <div><strong>Телефон:</strong> <a href="tel:{{$order->telephone}}">{{$order->telephone}}</a></div>
-
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="box box-default ">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Адрес доставки</h3>
-                        </div><!-- /.box-header -->
-                        <div class="box-body">
+                            <strong>{{$order->first_name}} {{$order->last_name}}</strong>
                             <div>
                                 <span>{{$order->country}}, @if($order->region){{$order->region}}, @endif @if($order->city)
                                         г. {{$order->city}} @endif</span>
                             </div>
                             <div>{{$order->address}}</div>
+                            <div>Телефон: {{$order->telephone}}</div>
+                            <div>Email: {{$order->email}}</div>
+
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="box box-default ">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Счет #{{$order->id}}</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                            <div><strong>Номер счета:</strong> {{$order->id}}</div>
+                            <div><strong>Способ оплаты:</strong> {{$order->payment_method}} {{$order->payment_id}}</div>
+                            <div><strong>Дата заказа:</strong> {{$order->created_at->format('Y-m-y')}}</div>
 
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
@@ -99,14 +101,14 @@
                                 <td class="text-right">{{$order->shipment_price}} <span class="ruble">&#8381;</span></td>
                             </tr>
                         @endif
-                        {{--        @if($order->cart['coupon'])--}}
-                        {{--            <tr>--}}
-                        {{--                <td colspan="3" class="text-right"><strong>Купон:</strong></td>--}}
-                        {{--                <td class="text-right">--}}
-                        {{--                    <strong>{{$order->cart['coupon']->name}}</strong>--}}
-                        {{--                </td>--}}
-                        {{--            </tr>--}}
-                        {{--        @endif--}}
+                        @if($order->cart['coupon'])
+                            <tr>
+                                <td colspan="3" class="text-right"><strong>Купон:</strong></td>
+                                <td class="text-right">
+                                    <strong>{{$order->cart['coupon']->name}}</strong>
+                                </td>
+                            </tr>
+                        @endif
                         <tr>
                             <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
                             <td class="text-right">{{$order->totalPrice}} <span class="ruble">&#8381;</span></td>
@@ -117,7 +119,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <button class="btn btn-primary float-right"><i class="fas fa-download"></i> Генерация PDF</button>
+{{--                    <button class="btn btn-primary float-right"><i class="fas fa-download"></i> Генерация PDF</button>--}}
                 </div>
             </div>
         </div>
