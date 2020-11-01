@@ -29,7 +29,8 @@
                             <span v-if="item.options.color_stone" class="text-muted d-block">
                                 Цвет камня: {{item.options.color_stone}}
                             </span>
-                            <div id="engravingCart" v-if=" Object.keys(item.engravings).length > 0" class="callout callout-default engraving-list">
+
+                            <div id="engravingCart" v-if="item.engravings && Object.keys(item.engravings).length > 0" class="callout callout-default engraving-list">
                                 <b>Гравировка:</b>
                                 <div v-for="(engraving, keyEngraving) in item.engravings" class="text-left d-flex" >
                                     <div class="dropdown flex-fill text-left">
