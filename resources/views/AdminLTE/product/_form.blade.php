@@ -124,7 +124,7 @@
                                         <div class="input-group-append" data-target="#reservationdate_end" data-toggle="datetimepicker">
                                             <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
                                         </div>
-                                        {!! Form::input('text', 'productSpecial[date_end]', old('productSpecial[date_end]'), ['class' => 'form-control']) !!}
+                                        {!! Form::input('text', 'productSpecial[date_end]', old('productSpecial[date_end]'), ['class' => 'form-control datetimepicker-input']) !!}
 
                                     </div>
                                 </div>

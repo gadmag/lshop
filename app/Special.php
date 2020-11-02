@@ -25,10 +25,10 @@ class Special extends Model
      * @param $date
      * @return mixed
      */
-    public function getDateStartAttribute($date)
-    {
-        return Carbon::parse($date)->format('d.m.Y');
-    }
+//    public function getDateStartAttribute($date)
+//    {
+//        return Carbon::parse($date)->format('d.m.Y');
+//    }
 
     /**
      * @param $date
@@ -43,10 +43,10 @@ class Special extends Model
      * @param $date
      * @return mixed
      */
-    public function getDateEndAttribute($date)
-    {
-        return Carbon::parse($date)->format('d.m.Y');
-    }
+//    public function getDateEndAttribute($date)
+//    {
+//        return Carbon::parse($date)->format('d.m.Y');
+//    }
 
     public function setPriceAttribute($value)
     {

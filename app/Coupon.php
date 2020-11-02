@@ -16,15 +16,6 @@ class Coupon extends Model
         $this->attributes['date_start'] = Carbon::parse($date)->format('Y-m-d');
     }
 
-    public function getDateStartAttribute($date)
-    {
-        return Carbon::parse($date)->format('d.m.Y');
-    }
-
-    public function getDateEndAttribute($date)
-    {
-        return Carbon::parse($date)->format('d.m.Y');
-    }
 
 
     public function setDateEndAttribute($date)

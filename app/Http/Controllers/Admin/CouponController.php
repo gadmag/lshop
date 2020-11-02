@@ -27,32 +27,25 @@ class CouponController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        if (Gate::denies('create-post', Articles::class)) {
-            abort(403, 'Unauthorized action');
-
-        }
-
         return view('AdminLTE.coupon.create');
+
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CouponRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CouponRequest $request)
     {
         $coupon = Coupon::create($request->all());
 
-        return  redirect("admin/coupons/")->with([
-            'flash_message'               =>   "Купон {$coupon->name} добавлен",
-//          'flash_message_important'     => true
+        return  redirect()->route('coupons.index')->with([
+            'flash_message' =>   "Купон {$coupon->name} добавлен",
         ]);
     }
 
@@ -69,22 +62,14 @@ class CouponController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
         $coupon = Coupon::findOrFail($id);
-
-        if (Gate::denies('update-post', $coupon)) {
-            abort(403, 'Unauthorized action');
-
-        }
-
         return view('AdminLTE.coupon.edit', [
             'coupon' => $coupon,
-
         ]);
     }
 
