@@ -1,16 +1,16 @@
 <header>
-    <div class="header-top">
-        <div class="container">
+{{--    <div class="header-top">--}}
+{{--        <div class="container">--}}
 
-            <div class="d-flex flex-row-reverse">
-                <div>
-                    @include('block.top_head')
-                </div>
-            </div>
+{{--            <div class="d-flex flex-row-reverse">--}}
+{{--                <div>--}}
+{{--                    @include('block.top_head')--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-        </div>
-    </div>
-    <div class="py-4 header-bottom" data-toggle="affix">
+{{--        </div>--}}
+{{--    </div>--}}
+    <div class="header-bottom" data-toggle="affix">
         <div class="container">
             <div class="row">
                 <div class="logo-block col-6 col-sm-6 col-md-6 col-lg-4">
