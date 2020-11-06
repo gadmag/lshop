@@ -18,19 +18,29 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                {!! Form::label('date_start', 'Дата начала:') !!}
-                <div class="input-group date dateru">
-                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                    {!! Form::input('text', 'date_start', $coupon->date_start, ['class' => 'form-control']) !!}
-
+                <div class="form-group">
+                    {!! Form::label('date_start', 'Дата начала:') !!}
+                    <div class="input-group date" id="reservationdate_start"
+                         data-target-input="nearest">
+                        <div class="input-group-append" data-target="#reservationdate_start"
+                             data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                        </div>
+                        {!! Form::input('text', 'date_start', old('date_start'), ['class' => 'form-control datetimepicker-input']) !!}
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
-                {!! Form::label('date_end', 'Дата оканчания:') !!}
-                <div class="input-group date dateru">
-                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                    {!! Form::input('text', 'date_end', $coupon->date_end, ['class' => 'form-control']) !!}
-
+                <div class="form-group">
+                    {!! Form::label('date_end', 'Дата начала:') !!}
+                    <div class="input-group date" id="reservationdate_end"
+                         data-target-input="nearest">
+                        <div class="input-group-append" data-target="#reservationdate_end"
+                             data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                        </div>
+                        {!! Form::input('text', 'date_end', old('date_end'), ['class' => 'form-control datetimepicker-input']) !!}
+                    </div>
                 </div>
             </div>
         </div>

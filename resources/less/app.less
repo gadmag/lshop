@@ -1,7 +1,8 @@
-@import (css) url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700&display=swap&subset=cyrillic,cyrillic-ext');
+@import (css) url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap');
 
 @link-color: #2d2d2d;
 @link-color2: #072d45;
+@nav-link: #000000;
 
 html, body {
   background: #fff;
@@ -19,7 +20,6 @@ a {
 }
 
 a:hover {
-  //color: #072D45;
   color: rgba(0, 0, 0, .5);
 }
 
@@ -135,7 +135,7 @@ header {
   }
 
   .header-bottom {
-    padding-top: 10px;
+    padding-top: 15px;
   }
 
 
@@ -158,7 +158,16 @@ header {
 
     input[type='text'] {
       font-size: 15px;
+      background: #ededed;
+      border-color: #ededed;
       height: 40px;
+
+      &:focus {
+        border-color: #ededed;
+        outline: 0;
+        -webkit-box-shadow: 0 0 0 0.2rem rgba(237, 237, 237, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba(237, 237, 237, 0.25);
+      }
     }
 
     .form-group {
@@ -232,6 +241,7 @@ header {
     float: left;
 
     & > a {
+      color: #000000;
       padding: 0;
       position: relative;
 
@@ -265,9 +275,7 @@ header {
   .badge-wishlist {
     right: 8px;
   }
-}
 
-.nav-user {
   a.icon {
     display: block;
     text-align: center;
@@ -276,9 +284,8 @@ header {
       display: block;
     }
   }
-
-
 }
+
 
 .nav-item-menu {
   display: none;
@@ -291,8 +298,7 @@ header {
 
 
 .navbar-menu {
-  margin-top: 20px;
-
+  margin: 15px 0 10px 0;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
@@ -300,9 +306,6 @@ header {
 
 }
 
-.navbar-nav {
-  //flex-flow: row wrap;
-}
 
 .affix {
   background: rgba(255, 255, 255, 0.94);
@@ -331,7 +334,7 @@ header {
 
   .navbar-menu {
     position: absolute;
-    top: 12px;
+    top: 9px;
     left: 80px;
     margin: 0;
     padding: 0;
@@ -355,22 +358,25 @@ header {
   }
 
   .nav-user {
-    .badge-cart, .badge-wishlist {
-      right: auto;
-    }
+
   }
 
   .nav-user li {
     padding: 0.7rem 0.5rem 0 0.5rem;
+
+    .badge-cart, .badge-wishlist {
+      right: auto;
+    }
+
+    & > a i {
+      font-size: 20px;
+    }
+    span.title {
+      display: none;
+    }
+
   }
 
-  .nav-user li > a i {
-    font-size: 20px;
-  }
-
-  .nav-user li span.title {
-    display: none;
-  }
 
   .search-block {
     display: none;
@@ -387,18 +393,87 @@ header {
 
 }
 
-.navbar-menu .navbar-nav > li > a.nav-link {
-  padding: 0 0.8rem;
-  white-space: nowrap;
-  color: @link-color;
-  font-size: 14px;
-  font-weight: 500;
-  text-transform: uppercase;
+.navbar-menu .navbar-nav > li {
+  line-height: 30px;
+  padding: 0 0.75rem;
+  &.first {
+    padding-left: 0;
+  }
+  &.last {
+    padding-right: 0;
+  }
+  & > .menu-element {
+    border-bottom: 2px solid transparent;
+    -webkit-transition: all 0.4s ease 0s;
+    -moz-transition: all 0.4s ease 0s;
+    -o-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+
+    & > a.nav-link {
+      padding: 0;
+      white-space: nowrap;
+      color: @nav-link;
+      font-size: 1rem;
+      text-transform: uppercase;
+
+      &:hover {
+        text-decoration: none;
+        color: @nav-link;
+      }
+    }
+
+
+  }
+
+  &:hover > .menu-element {
+    border-bottom: 2px solid #000;
+    -webkit-transition: all 0.6s ease 0s;
+    -moz-transition: all 0.6s ease 0s;
+    -o-transition: all 0.6s ease 0s;
+    transition: all 0.6s ease 0s;
+  }
+  .dropdown-menu {
+    display: block;
+    position: absolute;
+    border: 1px solid #ededed;
+    border-top: 1px solid #ffffff;
+    left: 0;
+    top: 100%;
+    background-color: #FFF;
+    padding: .5rem 0;
+    margin: .125rem 0 0;
+    filter: alpha(opacity=0);
+    transform-origin: 20% 20% 0;
+    -webkit-transition: all 0.6s ease 0s;
+    -moz-transition: all 0.6s ease 0s;
+    -o-transition: all 0.6s ease 0s;
+    transition: all 0.6s ease 0s;
+    opacity: 0;
+    visibility: hidden;
+    -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  }
+  .dropdown-menu.show {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    -webkit-transition: all 0.6s ease 0s;
+    -moz-transition: all 0.6s ease 0s;
+    -o-transition: all 0.6s ease 0s;
+    transition: all 0.6s ease 0s;
+    visibility: visible;
+
+  }
 }
 
-.navbar-menu .navbar-nav > li.dropdown > a.nav-link {
-  background: url(https://cdn.globaldialog.ru/images/btn_10_.png) 100% 60% no-repeat;
-
+.navbar-menu .navbar-nav > li li a.nav-link {
+  color: #666666;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+ &:hover {
+   color: #000000;
+   text-decoration: none;
+ }
 }
 
 .nav-link:hover, .nav-link:focus {
@@ -438,16 +513,20 @@ header {
   }
 
 }
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
+
 .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
   opacity: 0;
 }
+
 #engravingDetail {
   padding-top: 0.2rem;
   position: relative;
-  .subEngraving{
+
+  .subEngraving {
     position: absolute;
     top: 100%;
     left: 0;
@@ -974,7 +1053,8 @@ img.cboxPhoto {
   a {
     text-decoration: none;
     color: #007bff;
-    &:hover{
+
+    &:hover {
       color: #0056b3;
     }
   }
@@ -1163,18 +1243,26 @@ footer {
 
 /*-----------end footer-----------*/
 
-/*----media query----*/
+/*-----------media query----------*/
 @media (max-width: 1200px) {
   .nav-user li {
     padding: 0 1rem;
   }
 
-  .affix .navbar-menu .nav-main > li {
-    padding: 5px 0.4rem;
+  .affix .navbar-menu {
+    top: 5px;
+    .nav-main > li {
+      padding: 5px 0.4rem;
 
-    a {
-      font-size: 13px;
+      a {
+        font-size: 13px;
+      }
     }
+  }
+
+
+  .navbar-menu .navbar-nav > li > .menu-element > a.nav-link {
+    font-size: 0.8rem;
   }
 }
 
@@ -1229,12 +1317,13 @@ footer {
 
     .navbar-nav {
       flex-flow: column;
-
-    }
-
-    .nav-item .nav-link {
-      text-transform: uppercase;
-      padding: 5px;
+      li.nav-item {
+        text-transform: uppercase;
+        padding: 0;
+        .menu-element > a.nav-link {
+          font-size: 0.9rem;
+        }
+      }
     }
   }
 

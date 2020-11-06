@@ -61,16 +61,11 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="box mt-2 box-default ">
-{{--                        <div class="box-header with-border">--}}
-{{--                            <h3 class="box-title">Товыры</h3>--}}
-{{--                        </div><!-- /.box-header -->--}}
+                    <div class="box mt-2 box-default">
                         <div class="box-body">
                             @include('cart.table')
-
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
-
                 </div>
                 <div class="col-md-4">
                     @if($order->comment)
@@ -95,20 +90,22 @@
                             <td colspan="3" class="text-right"><strong>Предварительная стоимость:</strong></td>
                             <td class="text-right">{{$order->cart['totalPrice']}} <span class="ruble">&#8381;</span></td>
                         </tr>
-                        @if($order->shipment_method)
+                        @if($order->cart['shipment'])
                             <tr>
-                                <td colspan="3" class="text-right"><strong>{{$order->shipment_method}}</strong></td>
-                                <td class="text-right">{{$order->shipment_price}} <span class="ruble">&#8381;</span></td>
+                                <td colspan="3" class="text-right"><strong>{{$order->cart['shipment']['title']}}</strong></td>
+                                <td class="text-right">{{$order->cart['shipment']['price']}} <span class="ruble">&#8381;</span></td>
                             </tr>
                         @endif
-                        @if($order->cart['coupon'])
+
+
+                        @foreach($order->cart['coupons'] as $coupon)
                             <tr>
                                 <td colspan="3" class="text-right"><strong>Купон:</strong></td>
                                 <td class="text-right">
-                                    <strong>{{$order->cart['coupon']->name}}</strong>
+                                    <strong>{{$coupon->name}}</strong>
                                 </td>
                             </tr>
-                        @endif
+                        @endforeach
                         <tr>
                             <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
                             <td class="text-right">{{$order->totalPrice}} <span class="ruble">&#8381;</span></td>
