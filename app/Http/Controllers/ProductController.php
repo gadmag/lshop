@@ -52,11 +52,26 @@ class ProductController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
+        $products = Product::with(['files', 'productSpecial', 'productOptions.files'])
+            ->active()->where('title', 'like', '%' . $search . '%')->limit(12)->get();
+        return view('product.search', [
+            'products' => $products
+        ]);
+    }
+
+
     public function addToCart(CartRequest $request, $id)
     {
         $cart = $this->initCart();
         $options = $request->options;
-        $product = Product::with(['files','services', 'productOptions.files'])->active()->largerQuantity()->findOrFail($id);
+        $product = Product::with(['files', 'services', 'productOptions.files'])->active()->largerQuantity()->findOrFail($id);
         $discount = $product->getDiscount($options['id']);
         $special = $product->getSpecial();
         $cart->add(
@@ -121,7 +136,7 @@ class ProductController extends Controller
     public function addEngraving(CartRequest $request, string $uniqueId)
     {
         $cart = $this->initCart();
-        $cart->addEngraving($uniqueId,$request->options['engraving']);
+        $cart->addEngraving($uniqueId, $request->options['engraving']);
         return response()->json([
             'cart' => $cart->toArray()
         ]);
@@ -209,19 +224,6 @@ class ProductController extends Controller
         $products = $queries->getWishListProducts($wishList->pluck('id')->toArray());
         return view('shop.wishList', [
             'products' => $products,
-        ]);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function search(Request $request)
-    {
-        $search = $request->get('q');
-        $products = Product::active()->where('title', 'like', '%' . $search . '%')->paginate(12);
-        return view('product.search', [
-            'products' => $products
         ]);
     }
 
