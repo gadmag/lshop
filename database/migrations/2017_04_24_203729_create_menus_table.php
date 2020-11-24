@@ -25,12 +25,9 @@ class CreateMenusTable extends Migration
             $table->boolean('status');
             $table->string('menu_type', 32);
 
-//            $table->timestamps();
         });
 
-//        Schema::table('users', function (Blueprint $table) {
-//            $table->renameColumn('article_id', 'node_id');
-//        });
+
     }
 
     /**

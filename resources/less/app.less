@@ -371,6 +371,7 @@ header {
     & > a i {
       font-size: 20px;
     }
+
     span.title {
       display: none;
     }
@@ -396,18 +397,22 @@ header {
 .navbar-menu .navbar-nav > li {
   line-height: 30px;
   padding: 0 0.75rem;
+
   &.first {
     padding-left: 0;
   }
+
   &.last {
     padding-right: 0;
   }
+
   & > .menu-element {
     border-bottom: 2px solid transparent;
     -webkit-transition: all 0.4s ease 0s;
     -moz-transition: all 0.4s ease 0s;
     -o-transition: all 0.4s ease 0s;
     transition: all 0.4s ease 0s;
+
 
     & > a.nav-link {
       padding: 0;
@@ -432,7 +437,9 @@ header {
     -o-transition: all 0.6s ease 0s;
     transition: all 0.6s ease 0s;
   }
-  .dropdown-menu {
+
+  & > .dropdown-menu {
+    width: max-content;
     display: block;
     position: absolute;
     border: 1px solid #ededed;
@@ -454,7 +461,8 @@ header {
     -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   }
-  .dropdown-menu.show {
+
+  & > .dropdown-menu.show {
     opacity: 1;
     filter: alpha(opacity=100);
     -webkit-transition: all 0.6s ease 0s;
@@ -464,16 +472,55 @@ header {
     visibility: visible;
 
   }
+
+  li {
+    padding: 0 0.75rem;
+
+    .menu-element.hidden {
+      display: none;
+    }
+
+    &.dropdown {
+      float: left;
+
+      .dropdown-menu {
+        position: relative;
+        border: 0;
+        display: block;
+      }
+    }
+
+    span.nolink {
+      white-space: nowrap;
+      color: @nav-link;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+  }
+
+  li[data-depth = "2" ] {
+    li {
+      padding: 0;
+
+    }
+
+    ul.dropdown-menu {
+      padding-top: 0;
+      margin-top: 0;
+    }
+  }
 }
 
 .navbar-menu .navbar-nav > li li a.nav-link {
   color: #666666;
   font-size: 0.9rem;
   text-transform: uppercase;
- &:hover {
-   color: #000000;
-   text-decoration: none;
- }
+  padding: 0;
+  display: inline;
+  &:hover {
+    color: #000000;
+    text-decoration: none;
+  }
 }
 
 .nav-link:hover, .nav-link:focus {
@@ -488,11 +535,6 @@ header {
   background: transparent;
 }
 
-.dropdown-menu {
-  border: 0;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 0;
-}
 
 .nav-user .dropdown-menu {
   border-radius: 3px 3px 0 0;
@@ -1251,6 +1293,7 @@ footer {
 
   .affix .navbar-menu {
     top: 5px;
+
     .nav-main > li {
       padding: 5px 0.4rem;
 
@@ -1292,6 +1335,7 @@ footer {
   header .list-info li.phone, header .list-info li {
     padding: 0;
     font-size: 14px;
+
   }
 
   .navbar-menu.navbar {
@@ -1317,11 +1361,16 @@ footer {
 
     .navbar-nav {
       flex-flow: column;
+
       li.nav-item {
         text-transform: uppercase;
         padding: 0;
+
         .menu-element > a.nav-link {
           font-size: 0.9rem;
+        }
+        .dropdown-menu li.nav-item {
+          padding: 0 0.75rem;
         }
       }
     }

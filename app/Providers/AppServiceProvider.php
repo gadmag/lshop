@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Menu;
+use App\Observers\MenuObserver;
 use App\Observers\OptionObserver;
 use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;

@@ -1,31 +1,30 @@
-<li class="dd-item dd3-item" data-id="{{$menuItem['item']['id']}}">
-    <div class="dd-handle dd3-handle"></div><div class="dd3-content">{{$menuItem['item']['link_title']  }}</div>
-    <div class="dd3-content-right">
-        <div class="dd3-content-path">
-            {{$menuItem['item']['link_path']}}
-        </div>
-        <div class="dd3-content-edit">
-            <!-- edit menu item  -->
-            <a style="display: inline-block" href="{{action('Admin\MenuController@edit',[$menuItem['item']['id']])}}" class="edit" title="Редактировать"
-               data-toggle="tooltip">
-                <i class="fa fa-edit"></i>
-            </a>
-            <!-- delete menu item -->
-            <form style="display: inline-block" action="{{ action('Admin\MenuController@destroy', $menuItem['item']['id'] ) }}" method="POST">
-                {!! csrf_field() !!}
-                {!! method_field('DELETE') !!}
+<li class="dd-item" data-id="{{$menuItem['id']}}">
+    <div class="dd-handle">
+        <span class="drag-indicator"></span>
+{{--        {{$menuItem}}--}}
+        <div class="title">{{$menuItem['title'] }}</div>
+            <div class="btn-group ml-auto">
+                <!-- edit menu item  -->
+                <a  href="{{action('Admin\MenuController@edit',[$menuItem['id']])}}" class="btn btn-sm btn-default edit" title="Редактировать"
+                   data-toggle="tooltip">
+                    <i class="fa fa-edit"></i>
+                </a>
+                <!-- delete menu item -->
+                <form action="{{ action('Admin\MenuController@destroy', $menuItem['id'] ) }}" method="POST">
+                    {!! csrf_field() !!}
+                    {!! method_field('DELETE') !!}
 
-                <button style="display: inline-block" type="submit" class="btn-nonstyle delete" data-toggle="tooltip" title="Удалить">
-                    <i class="fa fa-trash"></i>
-                </button>
-            </form>
-        </div>
+                    <button type="submit" class="btn btn-sm btn-default delete" data-toggle="tooltip" title="Удалить">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </form>
+            </div>
     </div>
-        @if(count($menuItem['child']) > 0)
-            @foreach($menuItem['child'] as $menuItem)
+    @if(count($menuItem['children']) > 0)
+        @foreach($menuItem['children'] as $menuItem)
             <ol class="dd-list">
                 @include('AdminLTE.menu._listMenuItem', $menuItem)
-            
+
             </ol>
         @endforeach
         @endif

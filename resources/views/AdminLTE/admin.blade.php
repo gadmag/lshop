@@ -29,7 +29,6 @@
 {{--    <link rel="stylesheet" href="AdminLTE/plugins/summernote/summernote-bs4.css">--}}
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="/AdminLTE/css/bootstrap3-wysihtml5.min.css">
-    <link rel="stylesheet" href="/AdminLTE/css/nestable.css">
     <link rel="stylesheet" href="/AdminLTE/css/my.css">
     @stack('style')
 <!-- Google Font: Source Sans Pro -->
@@ -103,9 +102,8 @@
 <script src="/AdminLTE/js/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/AdminLTE/js/demo.js"></script>
-<script src="/AdminLTE/js/jquery.nestable.js"></script>
 <script src="/AdminLTE/js/app-admin.js"></script>
-<script src="/AdminLTE/js/my.js"></script>
 @stack('scripts')
+<script src="/AdminLTE/js/my.js"></script>
 </body>
 </html>

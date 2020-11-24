@@ -15,10 +15,11 @@ window.bus = new Vue;
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('option-item', require('./components/OptionItem.vue'));
-Vue.component('shipment-field', require('./components/ShipmentField'));
-Vue.component('order', require('./components/Order.vue'));
-Vue.component('image-upload', require('../../js/components/upload/ImageUpload.vue'));
+Vue.component('option-item', require('./components/admin/OptionItem.vue'));
+Vue.component('shipment-field', require('./components/admin/ShipmentField'));
+Vue.component('order', require('./components/admin/Order.vue'));
+Vue.component('nestable', require('./components/admin/Nestable'));
+Vue.component('image-upload', require('./components/upload/ImageUpload.vue'));
 
 
 const app = new Vue({

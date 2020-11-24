@@ -9,14 +9,13 @@ use App\Menu;
 
 class MenuController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $type = request()->menu_type;
-
-        $menu = Menu::getMenuItem($type);
+        $menu = Menu::getMenuItem($request->menu_type);
+//        dd($menu);
         return view('AdminLTE.menu.index')->with([
-            'menuItems' => $menu,
-            'type' => $type,
+            'menuItems' => json_encode($menu),
+            'type' => $request->menu_type,
 
         ]);
 
@@ -43,15 +42,14 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'link_title' => 'required',
-            'link_path' => 'required',
+            'title' => 'required',
+            'path' => 'required',
             'menu_type' => 'in:second_menu,main_menu'
         ]);
         $menu = Menu::create($request->all());
 
         return redirect("admin/menus?menu_type=$menu->menu_type")->with([
             'flash_message' => "Пункт меню добавлен",
-//          'flash_message_important'     => true
         ]);
     }
 
@@ -60,8 +58,7 @@ class MenuController extends Controller
     {
         $menu->update($request->all());
         return redirect("admin/menus?menu_type=$menu->menu_type")->with([
-            'flash_message' => "{$menu->link_title} обновлена",
-//          'flash_message_important'     => true
+            'flash_message' => "{$menu->title} обновлена",
         ]);
     }
 
@@ -69,55 +66,28 @@ class MenuController extends Controller
     public function destroy($id)
     {
         $menu = Menu::findOrFail($id);
-        $link_title = $menu->link_title;
+        $link_title = $menu->title;
         $menu_type = $menu->menu_type;
         $menu->delete();
         return redirect("admin/menus?menu_type=$menu_type")->with([
             'flash_message' => "{$link_title} удалена",
-//          'flash_message_important'     => true
         ]);
     }
 
-    public function updateMenuSort(Request $request)
+    public function updateTree(Request $request)
     {
-//        dd('adasd');
-        $data = $request->input('jsonString');
-        $itemMenu = json_decode($data, true);
-        $item = self::saveTree($itemMenu);
+        $items = json_decode($request->jsonString,true);
         $i = 0;
-        foreach ($item as $key => $value) {
-
+        foreach ($items as $key => $value) {
             $menu = Menu::find($value['id']);
             $menu->order = $i;
-            $menu->parent_id = $value['parent_id'];
-
+            $menu->depth = $value['depth'];
+            $menu->parent_id = isset($value['parent_id'])? $value['parent_id'] :0;
             $menu->save();
             $i++;
         }
-        return response(['status' => $item]);
+        return response(['status' => $items]);
 
     }
 
-    public static function saveTree($itemMenu, $pid = 0)
-    {
-        $arr = array();
-        foreach ($itemMenu as $key => $subItem) {
-
-            $subArr = array();
-            if (isset($subItem['children'])) {
-
-                $subArr = self::saveTree($subItem['children'], $subItem['id']);
-
-            }
-            $arr[] = array('id' => $subItem['id'], 'order' => $key, 'parent_id' => $pid);
-            $arr = array_merge($arr, $subArr);
-        }
-
-        if (count($arr) == 0) {
-            return null;
-        }
-
-        return $arr;
-
-    }
 }
