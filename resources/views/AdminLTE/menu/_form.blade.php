@@ -1,14 +1,16 @@
 <div class="row">
-    {{--{!! dd($article->seo_ele) !!}--}}
     <div class="col-md-5 page-default">
-
         <div class="form-group">
-            {!! Form::label('link_title', 'Название ссылки') !!}
-            {!! Form::text('link_title', null, ['class' => 'form-control']) !!}
+            {!! Form::label('title', 'Название ссылки') !!}
+            {!! Form::text('title', null, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('link_path', 'Адрес:') !!}
-            {!! Form::text('link_path', null, ['class'=>'form-control']) !!}
+            {!! Form::label('path', 'Адрес:') !!}
+            {!! Form::text('path', null, ['class'=>'form-control']) !!}
+        </div>
+        <div class="form-group">
+            {!! Form::label('class', 'Класс:') !!}
+            {!! Form::text('class', null, ['class'=>'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('visible', 'Показать:') !!}

@@ -60928,13 +60928,21 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/sass/jquery.nestable.scss":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./resources/js/app.js");
 __webpack_require__("./resources/less/app.less");
 __webpack_require__("./resources/sass/bootstrap.scss");
-module.exports = __webpack_require__("./resources/sass/bootstrap-ui.scss");
+__webpack_require__("./resources/sass/bootstrap-ui.scss");
+module.exports = __webpack_require__("./resources/sass/jquery.nestable.scss");
 
 
 /***/ })

@@ -25,5 +25,6 @@ mix.sass('resources/sass/bootstrap-ui.scss', 'public/css');
 mix.scripts([
     'resources/js/lshop.js'
 ], 'public/js/all.js');
-mix.js('resources/AdminLTE/js/app-admin.js', 'public/AdminLTE/js');
+mix.js('resources/js/app-admin.js', 'public/AdminLTE/js');
+mix.sass('resources/sass/jquery.nestable.scss', 'public/AdminLTE/css');
 mix.version(['public/css/all.css', 'public/css/app.css', 'public/css/colorbox.css', 'public/js/all.js', 'public/js/jquery.colorbox.js']);

@@ -1,0 +1,161 @@
+$nestable-root-class: dd;
+$nestable-list-class: dd-list;
+$nestable-item-class: dd-item;
+$nestable-drag-class: dd-dragel;
+$nestable-handle-class: dd-handle;
+$nestable-collapsed-class: dd-collapsed;
+$nestable-placeholder-class: dd-placeholder;
+$nestable-no-children-class: dd-nochildren;
+$nestable-empty-class: dd-empty;
+
+.#{$nestable-root-class} {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.#{$nestable-list-class} {
+  display: block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .#{$nestable-list-class} {
+    padding-left: 30px;
+  }
+}
+
+.#{$nestable-item-class},
+.#{$nestable-empty-class},
+.#{$nestable-placeholder-class} {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.dd-item>button+.dd-handle {
+  padding-left: 2.5rem;
+}
+.#{$nestable-handle-class} {
+  margin-bottom: -1px;
+  padding: .75rem 1rem;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ecedf1;
+
+  &:hover {
+    color: #2ea8e5;
+    background: #fff;
+  }
+}
+
+.#{$nestable-item-class} > button {
+  position: absolute;
+  left: 2rem;
+  top: 1.125rem;
+  padding: 0 0 0 20px;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 10px;
+  overflow: hidden;
+
+  &:before {
+    //display: block;
+    //position: absolute;
+    //width: 100%;
+    //text-align: center;
+    //text-indent: 0;
+  }
+
+  &.dd-expand {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg aria-hidden='true' data-prefix='fas' data-icon='caret-right' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' class='svg-inline--fa fa-caret-right fa-w-10 fa-3x'%3E%3Cpath fill='currentColor' d='M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z'/%3E%3C/svg%3E");
+  }
+
+  &.dd-collapse {
+    background-image:  url("data:image/svg+xml;charset=utf-8,%3Csvg aria-hidden='true' data-prefix='fas' data-icon='caret-down' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' class='svg-inline--fa fa-caret-down fa-w-10 fa-3x'%3E%3Cpath fill='currentColor' d='M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z'/%3E%3C/svg%3E");
+  }
+}
+
+.dd-expand {
+  display: none;
+}
+.#{$nestable-collapsed-class} .#{$nestable-list-class},
+.#{$nestable-collapsed-class} .dd-collapse {
+  display: none;
+}
+.#{$nestable-collapsed-class} .dd-expand {
+  display: block;
+}
+
+.#{$nestable-empty-class},
+.#{$nestable-placeholder-class} {
+  margin: 5px 0;
+  padding: 0;
+  min-height: 30px;
+  background: #f2fbff;
+  border: 1px dashed #b6bcbf;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.#{$nestable-empty-class} {
+  border: 1px dashed #bbb;
+  min-height: 100px;
+  background-color: #e5e5e5;
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+}
+
+.#{$nestable-drag-class} {
+  position: absolute;
+  pointer-events: none;
+  z-index: 9999;
+
+  &> .#{$nestable-item-class} .#{$nestable-handle-class} {
+    margin-top: 0;
+  }
+
+  .#{$nestable-handle-class} {
+    box-shadow: 2px 4px 6px 0 rgba(0,0,0,.1);
+  }
+}
+
+.#{$nestable-no-children-class} .#{$nestable-placeholder-class} {
+  display: none;
+}
+
+.#{$nestable-list-class} .#{$nestable-list-class} .#{$nestable-item-class}{
+  //border-left: 1px solid #ecedf1;
+}
+.dd-item>button+.dd-handle>.drag-indicator {
+  transform: translate3d(-2rem,0,0);
+  margin-right: .25rem;
+}
+
+.drag-indicator {
+  display: inline-block;
+  margin: 0 .5em;
+  height: 8px;
+  width: 6px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGUlEQVR42mNgAIJz507/Z4AxVqxYAuEgAwD26QnApt++GwAAAABJRU5ErkJggg==);
+  transform: translate3d(-.5em,0,0);
+  cursor: move;
+  cursor: -webkit-grab;
+  cursor: grab;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

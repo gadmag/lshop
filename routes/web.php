@@ -51,7 +51,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
     Route::get('option/{id}', 'ProductController@deleteOption');
 
     //upload
-    Route::post('menu/updatesort', ['as' => 'uploadsort', 'uses' => 'MenuController@updateMenuSort']);
+    Route::post('menus/updateTree', ['as' => 'menus.updateTree', 'uses' => 'MenuController@updateTree']);
 //    Route::post('uploadFiles',['as' => 'upload.files','uses' => 'ProductController@uploadFiles']);
 
     /**

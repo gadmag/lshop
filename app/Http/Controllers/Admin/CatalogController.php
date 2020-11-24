@@ -149,9 +149,9 @@ class CatalogController extends Controller
     {
         $catalog = Auth::user()->catalogs()->create($request->except('parent_id'));
 
-        if($request->filled('catalogMenu.link_title'))
+        if($request->filled('catalogMenu.title'))
         {
-            $catalog->catalogMenu()->create($request->catalogMenu + ['link_path' => $catalog->alias]);
+            $catalog->catalogMenu()->create($request->catalogMenu + ['path' => $catalog->alias]);
         }
 
         if ($request->filled('catalogSeo')) {
@@ -170,9 +170,9 @@ class CatalogController extends Controller
     {
         $catalog->update($request->except('parent_id'));
 
-        if($request->filled('catalogMenu.link_title'))
+        if($request->filled('catalogMenu.title'))
         {
-            $catalog->catalogMenu()->updateOrCreate(['menu_linktable_id' => $catalog->id], $request->catalogMenu+['link_path' => $catalog->alias]);
+            $catalog->catalogMenu()->updateOrCreate(['menu_linktable_id' => $catalog->id], $request->catalogMenu+['path' => $catalog->alias]);
         }
         else {
             $catalog->catalogMenu()->delete();
