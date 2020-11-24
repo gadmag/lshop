@@ -68,8 +68,8 @@
                     <legend>Меню</legend>
                     <div style="">
                         <div class="form-group">
-                            {!! Form::label('catalogMenu[link_title]', 'Название ссылки:') !!}
-                            {!! Form::text( 'catalogMenu[link_title]', null, ['class' => 'form-control']) !!}
+                            {!! Form::label('catalogMenu[title]', 'Название ссылки:') !!}
+                            {!! Form::text( 'catalogMenu[title]', null, ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="form-group">

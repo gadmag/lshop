@@ -189,8 +189,8 @@
 </template>
 
 <script>
-    import SelectOption from '../../../js/components/SelectOption'
-    import Engraving from "../../../js/components/Engraving";
+    import SelectOption from '../SelectOption'
+    import Engraving from "../Engraving";
     export default {
         props: {
             order: {

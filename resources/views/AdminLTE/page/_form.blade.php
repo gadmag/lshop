@@ -72,8 +72,8 @@
                     <legend>Меню</legend>
                     <div style="">
                         <div class="form-group">
-                            {!! Form::label('pageMenu[link_title]', 'Название ссылки:') !!}
-                            {!! Form::text( 'pageMenu[link_title]', null, ['class' => 'form-control']) !!}
+                            {!! Form::label('pageMenu[title]', 'Название ссылки:') !!}
+                            {!! Form::text( 'pageMenu[title]', null, ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="form-group">
@@ -84,9 +84,6 @@
 
                             ],null, ['class' => 'form-control', 'placeholder' => "-Выберите меню-"]) !!}
                         </div>
-                        {{--<div class="form-group">--}}
-                        {{--{{ Form::hidden('menuLink[menu_type]', 'mainmenu', array('id' => 'invisible_id')) }}--}}
-                        {{--</div>--}}
                     </div>
                 </fieldset>
             </div>
