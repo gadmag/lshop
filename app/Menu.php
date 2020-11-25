@@ -8,22 +8,30 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     protected $table = 'menu_link';
+
     public $timestamps = false;
+
     protected $fillable = ['title', 'parent_id', 'path', 'order', 'class', 'menu_linktable_id', 'menu_linktable_type', 'menu_type'];
+
     protected $appends = ['edit_path', 'destroy_path'];
 
 
-    public function getEditPathAttribute()
+    public function getEditPathAttribute():string
     {
         return route('menus.edit', ['id' => $this->id]);
     }
 
-    public function getDestroyPathAttribute()
+    public function getDestroyPathAttribute():string
     {
         return route('menus.destroy', ['id' => $this->id]);
     }
 
-    public function getLinkPathAttribute()
+
+    /**
+     * Generate link path
+     * @return string
+     */
+    public function getLinkPathAttribute():string
     {
         switch ($this->menu_linktable_type){
             case 'App\Page':
@@ -31,10 +39,11 @@ class Menu extends Model
             case 'App\Catalog':
                 return route('catalog.show', ['id' => $this->path?:$this->menu_linktable_id]);
         }
-        return  url('/').$this->path;
+        return  url('/').'/'. trim($this->path,'/');
     }
 
-    public static function buildTree(&$elements, $parentId = 0)
+
+    public static function buildTree(&$elements, $parentId = 0): array
     {
 
         $branch = array();
