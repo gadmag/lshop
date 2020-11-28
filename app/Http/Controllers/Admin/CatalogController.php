@@ -42,15 +42,11 @@ class CatalogController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
         $user = Auth::user();
-        if (Gate::denies('create-post', Catalog::class)) {
-            abort(403, 'Unauthorized action');
-
-        }
         $tree = self::getTree(Catalog::all());
         return view('AdminLTE.catalog.create', [
             'tree' => $tree
@@ -59,44 +55,27 @@ class CatalogController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param CatalogRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CatalogRequest $request)
     {
         $catalog = $this->createCatalog($request);
-        return redirect("admin/catalogs")->with([
+        return redirect()->route("catalogs.index")->with([
             'flash_message' => "{$catalog->name} добавлена",
-//          'flash_message_important'     => true
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
         $catalog = Catalog::findOrFail($id);
         $tree = self::getTree(Catalog::excludeSelf($catalog->id)->get());
-        if (Gate::denies('update-post', $catalog)) {
-            abort(403, 'Unauthorized action');
-
-        }
 
         return view('AdminLTE.catalog.edit', [
             'catalog' => $catalog,
@@ -108,24 +87,23 @@ class CatalogController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param CatalogRequest $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CatalogRequest $request, $id)
     {
         $catalog = $this->updateCatalog($request, Catalog::findOrFail($id));
-        return redirect("admin/catalogs")->with([
+        return redirect()->route("catalogs.index")->with([
             'flash_message' => "{$catalog->name} категория обновлена",
-//          'flash_message_important'     => true
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -135,22 +113,20 @@ class CatalogController extends Controller
             $catalog->children()->update(['parent_id' => 0]);
         }
         $catalog->delete();
-        return redirect("admin/catalogs")->with([
+        return redirect()->route("catalog.index")->with([
             'flash_message' => "'{$catalog->name}' категория удалена",
-//          'flash_message_important'     => true
         ]);
     }
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return Catalog
      */
-    private function createCatalog(Request $request)
+    private function createCatalog(Request $request): Catalog
     {
         $catalog = Auth::user()->catalogs()->create($request->except('parent_id'));
 
-        if($request->filled('catalogMenu.title'))
-        {
+        if ($request->filled('catalogMenu.title')) {
             $catalog->catalogMenu()->create($request->catalogMenu + ['path' => $catalog->alias]);
         }
 
@@ -159,42 +135,47 @@ class CatalogController extends Controller
         }
 
         $this->addParentCatalog($catalog, $request->parent_list);
-        if($request->file('images')) {
+        if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
         }
         return $catalog;
 
     }
 
-    protected function updateCatalog(Request $request, $catalog)
+    /**
+     * @param Request $request
+     * @param Catalog $catalog
+     * @return Catalog
+     */
+    protected function updateCatalog(Request $request, $catalog): Catalog
     {
         $catalog->update($request->except('parent_id'));
 
-        if($request->filled('catalogMenu.title'))
-        {
-            $catalog->catalogMenu()->updateOrCreate(['menu_linktable_id' => $catalog->id], $request->catalogMenu+['path' => $catalog->alias]);
-        }
-        else {
+        if ($request->filled('catalogMenu.title')) {
+            $catalog->catalogMenu()->updateOrCreate(['menu_linktable_id' => $catalog->id], $request->catalogMenu + ['path' => $catalog->alias]);
+        } else {
             $catalog->catalogMenu()->delete();
         }
 
-        if ($request->filled('catalogSeo')) {
+        if ($request->has('catalogSeo')) {
+
             $catalog->catalogSeo()->update($request->catalogSeo);
         }
 
         $this->addParentCatalog($catalog, $request->parent_list);
-        if($request->file('images')) {
+        if ($request->file('images')) {
             $this->multipleUpload($request->file('images'), $catalog, array('1250x700' => array('width' => 1250, 'height' => 700)));
         }
         return $catalog;
     }
 
 
-    /** Добавлнение родительской категории
+    /**
+     * Добавлнение родительской категории
      * @param Catalog $catalog
-     * @param array $list
+     * @param int $parent_id
      */
-    private function addParentCatalog(Catalog $catalog, $parent_id)
+    private function addParentCatalog(Catalog $catalog, $parent_id): void
     {
         $depth = 0;
         if ($parent_id) {

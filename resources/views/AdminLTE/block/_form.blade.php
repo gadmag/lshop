@@ -28,7 +28,7 @@
 
         <div class="form-group">
             {!! Form::label('body', 'Содержимое:') !!}
-            {!! Form::textarea('body',  $block->description, null, ['class' => 'ckeditor  form-control']) !!}
+            {!! Form::textarea('body', null, ['class' => 'ckeditor  form-control']) !!}
         </div>
 
     </div>
