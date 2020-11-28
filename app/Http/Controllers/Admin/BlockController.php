@@ -27,7 +27,7 @@ class BlockController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -41,15 +41,10 @@ class BlockController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        if (Gate::denies('create-post', Articles::class)) {
-            abort(403, 'Unauthorized action');
-
-        }
-
         return view('AdminLTE.block.create', [
             'regions' => $this->regions
         ]);
@@ -65,25 +60,21 @@ class BlockController extends Controller
     {
         $this->validate($request, $this->rules);
         $blockService->create($request->all());
-        return redirect("admin/blocks/")->with([
+        return redirect()->route("blocks.index")->with([
             'flash_message' => "Блок добавлен",
-//          'flash_message_important'     => true
         ]);
     }
 
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\View\View
      */
     public function edit($id)
     {
         $block = Block::find($id);
-        if (Gate::denies('update-post', $block)) {
-            abort(403, 'Unauthorized action');
-        }
+
         return view('AdminLTE.block.edit', [
             'block' => $block,
             'regions' => $this->regions
@@ -116,9 +107,8 @@ class BlockController extends Controller
     public function destroy($id, BlockService $blockService)
     {
         $blockTitle = $blockService->delete($id);
-        return redirect("admin/blocks")->with([
+        return redirect()->route("blocks.index")->with([
             'flash_message' => "Блок {$blockTitle} удален",
-//          'flash_message_important'     => true
         ]);
     }
 }
