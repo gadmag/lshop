@@ -2498,6 +2498,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Engraving",
@@ -3335,6 +3337,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['product', 'fonts'],
@@ -3539,11 +3543,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Engraving_vue__ = __webpack_require__("./resources/js/components/Engraving.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Engraving_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Engraving_vue__);
-//
-//
-//
-//
-//
 //
 //
 //
@@ -9028,7 +9027,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -41560,7 +41559,7 @@ var render = function() {
           _c(
             "span",
             { staticClass: "price", class: { through: _vm.isSpecial } },
-            [_vm._v(_vm._s(_vm.getPrice) + " р.")]
+            [_vm._v(_vm._s(_vm.getPrice) + " ₽")]
           )
         ]),
         _vm._v(" "),
@@ -41569,7 +41568,7 @@ var render = function() {
               _c("span", { staticClass: "special-price" }, [
                 _vm._v(_vm._s(_vm.getSpecialPrice) + " ")
               ]),
-              _c("span", [_vm._v("р.")])
+              _c("span", [_vm._v("₽")])
             ])
           : _vm._e()
       ]),
@@ -41583,7 +41582,7 @@ var render = function() {
                 _vm._s(_vm.discount.quantity) +
                   " и более " +
                   _vm._s(_vm.discount.price) +
-                  " р."
+                  " ₽"
               )
             ]),
             _vm._v(" "),
@@ -41733,7 +41732,20 @@ var render = function() {
                           return _c(
                             "option",
                             { domProps: { value: service.id } },
-                            [_vm._v(_vm._s(service.title))]
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(service.title)
+                              ),
+                              service.price > 0
+                                ? [
+                                    _vm._v(
+                                      " (" + _vm._s(service.price) + " р.)"
+                                    )
+                                  ]
+                                : _vm._e()
+                            ],
+                            2
                           )
                         })
                       ],
@@ -43708,7 +43720,7 @@ var render = function() {
                                                   _c("span", [
                                                     _vm._v(
                                                       _vm._s(engraving.price) +
-                                                        " р."
+                                                        " ₽"
                                                     )
                                                   ])
                                                 ]
@@ -43761,7 +43773,9 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "price-sum" }, [
-                    _vm._v(_vm._s(cartItem.price.toFixed(2)) + " р.")
+                    _c("span", [
+                      _vm._v(_vm._s(cartItem.price.toFixed(2)) + " ₽")
+                    ])
                   ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "remove text-center" }, [
@@ -43789,7 +43803,7 @@ var render = function() {
             _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "float-right pt-1 total-cart" }, [
-              _vm._v("Итого: " + _vm._s(_vm.cart.totalPrice.toFixed(2)) + " р.")
+              _vm._v("Итого: " + _vm._s(_vm.cart.totalPrice.toFixed(2)) + " ₽")
             ])
           ])
         ])
@@ -43989,7 +44003,20 @@ var render = function() {
                           return _c(
                             "option",
                             { domProps: { value: service.id } },
-                            [_vm._v(_vm._s(service.title))]
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(service.title)
+                              ),
+                              service.price > 0
+                                ? [
+                                    _vm._v(
+                                      " (" + _vm._s(service.price) + " р.)"
+                                    )
+                                  ]
+                                : _vm._e()
+                            ],
+                            2
                           )
                         })
                       ],
@@ -46134,7 +46161,7 @@ var render = function() {
                                                             _vm._v(
                                                               _vm._s(
                                                                 engraving.price
-                                                              ) + " р."
+                                                              ) + " ₽"
                                                             )
                                                           ]
                                                         )
@@ -46161,7 +46188,7 @@ var render = function() {
                                   [
                                     _vm._v(
                                       _vm._s(cartItem.price) +
-                                        " р.\n                                    "
+                                        " ₽\n                                    "
                                     )
                                   ]
                                 ),
@@ -46297,9 +46324,9 @@ var render = function() {
                       _c("strong", { staticClass: "text-muted" }, [
                         _vm._v("Сумма")
                       ]),
-                      _c("strong", [
-                        _vm._v(_vm._s(_vm.cart.totalPrice) + " р.")
-                      ])
+                      _vm._v(
+                        _vm._s(_vm.cart.totalPrice) + " ₽\n                    "
+                      )
                     ]
                   )
                 : _vm._e(),
@@ -46315,9 +46342,9 @@ var render = function() {
                       _c("strong", { staticClass: "text-muted" }, [
                         _vm._v(_vm._s(_vm.cart.shipment.title))
                       ]),
-                      _vm._v(" "),
-                      _c("strong", { staticClass: "text-nowrap" }, [
-                        _vm._v("+ " + _vm._s(_vm.cart.shipment.price) + " р.")
+                      _vm._v(" \n                        "),
+                      _c("span", { staticClass: "text-nowrap" }, [
+                        _vm._v("+ " + _vm._s(_vm.cart.shipment.price) + " ₽")
                       ])
                     ]
                   )
@@ -46334,13 +46361,8 @@ var render = function() {
                     _c("strong", { staticClass: "text-muted" }, [
                       _vm._v("Промокод: " + _vm._s(coupon.name))
                     ]),
-                    _c("strong", [
-                      _vm._v(
-                        "- " +
-                          _vm._s(coupon.discount) +
-                          "\n                        р"
-                      )
-                    ])
+                    _vm._v(" "),
+                    _c("span", [_vm._v("- " + _vm._s(coupon.discount) + "₽")])
                   ]
                 )
               }),
@@ -46357,8 +46379,8 @@ var render = function() {
                         _vm._v("Итоговая сумма")
                       ]),
                       _vm._v(" "),
-                      _c("h5", { staticClass: "font-weight-bold" }, [
-                        _vm._v(_vm._s(_vm.cart.totalWithCoupons) + " р.")
+                      _c("h5", {}, [
+                        _vm._v(_vm._s(_vm.cart.totalWithCoupons) + " ₽")
                       ])
                     ]
                   )
@@ -46395,7 +46417,7 @@ var render = function() {
         !(_vm.cart.totalPrice >= _vm.minsum)
           ? _c("div", { staticClass: "alert alert-danger" }, [
               _c("div", { staticClass: "text-center" }, [
-                _vm._v("Минимальная сумма заказа " + _vm._s(_vm.minsum) + " р.")
+                _vm._v("Минимальная сумма заказа " + _vm._s(_vm.minsum) + " ₽")
               ])
             ])
           : _vm._e(),
@@ -46701,7 +46723,7 @@ var render = function() {
                                                         _vm._v(
                                                           _vm._s(
                                                             engraving.price
-                                                          ) + " р."
+                                                          ) + " ₽"
                                                         )
                                                       ]
                                                     ),
@@ -46791,14 +46813,7 @@ var render = function() {
                             class: { "border-0": index == 0 },
                             attrs: { "data-th": "Цена" }
                           },
-                          [
-                            _c("strong", [
-                              _vm._v(
-                                _vm._s(cartItem.price) +
-                                  "\n                    р."
-                              )
-                            ])
-                          ]
+                          [_vm._v(_vm._s(cartItem.price) + " ₽")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -46850,11 +46865,7 @@ var render = function() {
                             class: { "border-0": index == 0 },
                             attrs: { "data-th": "Итого" }
                           },
-                          [
-                            _c("strong", [
-                              _vm._v(_vm._s(cartItem.totalPrice) + " р.")
-                            ])
-                          ]
+                          [_vm._v(_vm._s(cartItem.totalPrice) + " ₽")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -46994,9 +47005,10 @@ var render = function() {
                             _c("strong", { staticClass: "text-muted" }, [
                               _vm._v("Сумма")
                             ]),
-                            _c("strong", [
-                              _vm._v(_vm._s(_vm.cart.totalPrice) + " р.")
-                            ])
+                            _vm._v(
+                              _vm._s(_vm.cart.totalPrice) +
+                                " ₽\n                    "
+                            )
                           ]
                         )
                       : _vm._e(),
@@ -47016,7 +47028,7 @@ var render = function() {
                             _vm._v(
                               "- " +
                                 _vm._s(coupon.discount) +
-                                "\n                        р"
+                                "\n                        ₽"
                             )
                           ])
                         ]
@@ -47035,8 +47047,8 @@ var render = function() {
                               _vm._v("Итоговая сумма")
                             ]),
                             _vm._v(" "),
-                            _c("h5", { staticClass: "font-weight-bold" }, [
-                              _vm._v(_vm._s(_vm.cart.totalWithCoupons) + " р.")
+                            _c("h5", {}, [
+                              _vm._v(_vm._s(_vm.cart.totalWithCoupons) + " ₽")
                             ])
                           ]
                         )

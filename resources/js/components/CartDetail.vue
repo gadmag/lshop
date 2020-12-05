@@ -36,7 +36,7 @@
                                                 </div>
                                                 <div class="pl-1 text-nowrap flex-fill text-right">
                                                     <span>{{engraving.qty}}x</span>
-                                                    <span>{{engraving.price}} р.</span>
+                                                    <span>{{engraving.price}} &#8381;</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -51,7 +51,7 @@
                             <span @click="addToCart(cartItem)">+</span>
                         </div>
                     </td>
-                    <td class="price-sum">{{cartItem.price.toFixed(2)}} р.</td>
+                    <td class="price-sum"><span>{{cartItem.price.toFixed(2)}} &#8381;</span></td>
                     <td class="remove text-center"><span @click="removeFromCart(key)"><i
                             class="fa fa-times"></i></span></td>
                 </tr>
@@ -60,7 +60,7 @@
             <div class="p-2 cart-detail-bottom">
                 <hr>
                 <div class="float-left button-cart"><a href="/shopping-cart" class="btn btn-dark">Корзина</a></div>
-                <div class="float-right pt-1 total-cart">Итого: {{cart.totalPrice.toFixed(2)}} р.</div>
+                <div class="float-right pt-1 total-cart">Итого: {{cart.totalPrice.toFixed(2)}} &#8381;</div>
             </div>
         </div>
         <div class="empty-cart" v-else>

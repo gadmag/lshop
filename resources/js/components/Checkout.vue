@@ -221,14 +221,14 @@
                                                     </div>
                                                     <div class="flex-fill pl-2 text-right">
                                                         <span class="qty">{{engraving.qty}}x</span>
-                                                        <span class="price">{{engraving.price}} р.</span>
+                                                        <span class="price">{{engraving.price}} &#8381;</span>
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="align-middle text-center" :class="{'border-0': index == 0}"
-                                            data-th="Цена">{{cartItem.price}} р.
+                                            data-th="Цена">{{cartItem.price}} &#8381;
                                         </td>
                                         <td class="align-middle text-center" :class="{'border-0': index == 0}"
                                             data-th="Кол-во">{{cartItem.qty}}
@@ -267,19 +267,19 @@
                     <ul class="list-unstyled mb-4">
                         <li v-if="isCoupon || isShipment"
                             class="d-flex justify-content-between py-3 border-bottom">
-                            <strong class="text-muted">Сумма</strong><strong>{{cart.totalPrice}} р.</strong>
+                            <strong class="text-muted">Сумма</strong>{{cart.totalPrice}} &#8381;
                         </li>
                         <li v-if="isShipment" class="d-flex justify-content-between py-3 border-bottom">
-                            <strong class="text-muted">{{cart.shipment.title}}</strong>&nbsp;<strong
-                                class="text-nowrap">+ {{cart.shipment.price}} р.</strong>
+                            <strong class="text-muted">{{cart.shipment.title}}</strong>&nbsp;
+                            <span class="text-nowrap">+ {{cart.shipment.price}} &#8381;</span>
                         </li>
                         <li v-for="coupon in cart.coupons" class="d-flex justify-content-between py-3 border-bottom">
-                            <strong class="text-muted">Промокод: {{coupon.name}}</strong><strong>- {{coupon.discount}}
-                            р</strong>
+                            <strong class="text-muted">Промокод: {{coupon.name}}</strong>
+                            <span>- {{coupon.discount}}&#8381;</span>
                         </li>
                         <li v-if="cart.totalWithCoupons" class="d-flex justify-content-between py-3 border-bottom">
                             <strong class="text-muted">Итоговая сумма</strong>
-                            <h5 class="font-weight-bold">{{cart.totalWithCoupons}} р.</h5>
+                            <h5 class="">{{cart.totalWithCoupons}} &#8381;</h5>
                         </li>
                     </ul>
                 </div> <!-- /Итоговая цена -->

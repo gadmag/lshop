@@ -2,7 +2,7 @@
     <div v-if="isCart" class="shopping-cart">
 
         <div v-if="!(cart.totalPrice >= minsum)" class="alert alert-danger">
-            <div class="text-center">Минимальная сумма заказа {{minsum}} р.</div>
+            <div class="text-center">Минимальная сумма заказа {{minsum}} &#8381;</div>
         </div>
         <div class="table-responsive" v-if="cart.totalQty > 0">
             <table id="cart" class="table table-shopping-cart">
@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="flex-fill pl-2 text-right">
                                             <span class="qty">{{engraving.qty}}x</span>
-                                            <span class="price">{{engraving.price}} р.</span>
+                                            <span class="price">{{engraving.price}} &#8381;</span>
                                             <span @click="removeEngraving(key,keyEngraving)" title="Удалить" class="text-danger remove-engraving"><i class="fal fa-times"></i></span>
                                         </div>
 
@@ -75,17 +75,13 @@
                             </button>
                         </div>
                     </td>
-                    <td class="align-middle text-center" :class="{'border-0': index == 0}" data-th="Цена"><strong>{{cartItem.price}}
-                        р.</strong>
-                    </td>
+                    <td class="align-middle text-center" :class="{'border-0': index == 0}" data-th="Цена">{{cartItem.price}} &#8381;</td>
                     <td class="align-middle text-center" :class="{'border-0': index == 0}" data-th="Кол-во">
                         <a href="#" v-on:click.stop.prevent="reduceFromCart(key)"><i class="far fa-minus"></i></a>
                         <strong>{{cartItem.qty}}</strong>
                         <a  href="#" v-on:click.stop.prevent="addToCart(cartItem)"><i class="far fa-plus"></i></a>
                     </td>
-                    <td data-th="Итого" class="align-middle text-center" :class="{'border-0': index == 0}">
-                        <strong>{{cartItem.totalPrice}} р.</strong>
-                    </td>
+                    <td data-th="Итого" class="align-middle text-center" :class="{'border-0': index == 0}">{{cartItem.totalPrice}} &#8381;</td>
                     <td class="align-middle text-center actions" :class="{'border-0': index == 0}"><a
                             @click="removeFromCart(key)" href="#"><i
                             class="fa fa-times"></i></a></td>
@@ -118,22 +114,21 @@
                         введенных Вами значений.</p>
                     <ul class="list-unstyled mb-4">
                         <li v-if="cart.coupons.length > 0" class="d-flex justify-content-between py-3 border-bottom">
-                            <strong class="text-muted">Сумма</strong><strong>{{cart.totalPrice}} р.</strong>
+                            <strong class="text-muted">Сумма</strong>{{cart.totalPrice}} &#8381;
                         </li>
                         <li v-for="coupon in cart.coupons" class="d-flex justify-content-between py-3 border-bottom">
                             <strong class="text-muted">Промокод: {{coupon.name}}</strong><strong>- {{coupon.discount}}
-                            р</strong>
+                            &#8381;</strong>
                         </li>
                         <li v-if="cart.totalWithCoupons" class="d-flex justify-content-between py-3 border-bottom">
                             <strong class="text-muted">Итоговая сумма</strong>
-                            <h5 class="font-weight-bold">{{cart.totalWithCoupons}} р.</h5>
+                            <h5 class="">{{cart.totalWithCoupons}} &#8381;</h5>
                         </li>
                     </ul>
                     <div class="checkout-button">
                         <a :href="route">
                             <button class="btn btn-dark py-2 btn-block" :disabled="!(cart.totalPrice >= minsum)">
-                                Оформить заказ <i
-                                    class="fa fa-angle-right"></i></button>
+                                Оформить заказ <i class="fa fa-angle-right"></i></button>
                         </a>
                     </div>
                 </div>
