@@ -44,6 +44,7 @@ class ProductController extends Controller
 
     public function show(Product $product, BaseQueries $queries)
     {
+
         $products = $queries->getAllByCatalog($product);
         return view('product.show', [
             'product' => $product,

@@ -2,7 +2,15 @@
 
 @section('content')
 @section('title', $category->name)
-
+@section('keywords', $category->name)
+@section('description', $category->description)
+@section('og_tags')
+    <meta property="og:title" content="{{$category->name}}"/>
+    <meta property="og:description" content="{!! $category->description !!}"/>
+    <meta property="og:url" content="{{url()->current()}}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content=""/>
+@endsection
 <div class="container">
 
     <nav aria-label="breadcrumb" role="navigation">

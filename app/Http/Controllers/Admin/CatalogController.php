@@ -130,7 +130,7 @@ class CatalogController extends Controller
             $catalog->catalogMenu()->create($request->catalogMenu + ['path' => $catalog->alias]);
         }
 
-        if ($request->filled('catalogSeo')) {
+        if ($request->has('catalogSeo')) {
             $catalog->catalogSeo()->create($request->catalogSeo);
         }
 
@@ -158,8 +158,7 @@ class CatalogController extends Controller
         }
 
         if ($request->has('catalogSeo')) {
-
-            $catalog->catalogSeo()->update($request->catalogSeo);
+            $catalog->catalogSeo()->updateOrCreate($request->catalogSeo);
         }
 
         $this->addParentCatalog($catalog, $request->parent_list);

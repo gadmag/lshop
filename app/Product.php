@@ -13,6 +13,7 @@ use App\Alias;
 use App\FieldOption;
 use Illuminate\Database\Eloquent\Builder;
 use App\Services\ProductFilter;
+use Illuminate\Support\Str;
 use mysql_xdevapi\Collection;
 use function Deployer\get;
 
@@ -34,13 +35,13 @@ class Product extends Model
         'id', 'title', 'price', 'created_at', 'weight', 'total_selling'
     ];
 
+    protected $appends = ['allImages'];
 
     public $imgResize = [
         '600x450' => array('width' => 500, 'height' => 500),
         '250x250' => array('width' => 260, 'height' => 260),
         '90x110' => array('width' => 110, 'height' => 110)
     ];
-
 
 
     protected static function boot()
@@ -76,6 +77,34 @@ class Product extends Model
         if ($value == 1) return 'Включено';
         return 'Отключено';
     }
+
+    public function getMetaTitleAttribute()
+    {
+        if ($this->productSeo->title) {
+            return $this->productSeo->title;
+        }
+
+        return $this->title;
+    }
+
+    public function getMetaDescriptionAttribute()
+    {
+        if ($this->productSeo->description) {
+            return $this->productSeo->description;
+        }
+
+        return Str::words(strip_tags($this->description), 70);
+    }
+
+    public function getMetaKeywordsAttribute()
+    {
+        if ($this->productSeo->keywords) {
+            return $this->productSeo->keywords;
+        }
+
+        return '';
+    }
+
 
     public function getFieldOptions(string $type)
     {
@@ -146,11 +175,16 @@ class Product extends Model
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * Seo продукта
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function productSeo()
     {
 
-        return $this->morphMany('App\Seo', 'seostable');
+        return $this->morphOne('App\Seo', 'seostable');
     }
+
 
     /**
      * Пулучиь категории для данного продукта
@@ -233,7 +267,7 @@ class Product extends Model
     public function sumOptionQty()
     {
         if ($this->productOptions()->exists()) {
-            $this->quantity =  $this->productOptions()->get()->sum(function (Option $option) {
+            $this->quantity = $this->productOptions()->get()->sum(function (Option $option) {
                 return $option->quantity;
             });
         }
@@ -277,13 +311,13 @@ class Product extends Model
     public function syncUploads(array $ids): void
     {
         $old_uploads = $this->files->pluck('id')->toArray();
-        if ($old_uploads){
+        if ($old_uploads) {
             $delete_id = array_diff($old_uploads, $ids);
-            Upload::whereIn('id',$delete_id)->each(function ($upload, $key){
+            Upload::whereIn('id', $delete_id)->each(function ($upload, $key) {
                 $upload->delete();
             });
         }
-        $uploads = Upload::whereIn('id',$ids)->get();
+        $uploads = Upload::whereIn('id', $ids)->get();
         $this->files()->saveMany($uploads);
     }
 
@@ -344,4 +378,18 @@ class Product extends Model
         return '';
     }
 
+    public function getAllImagesAttribute()
+    {
+        $images = [];
+        if ($this->files()->exists()) {
+            $images = $this->files()->get();
+        }
+
+        return $this->productOptions->map(function ($option) {
+            return $option->files->map(function ($file) {
+                return $file;
+            });
+        })->flatten();
+
+    }
 }

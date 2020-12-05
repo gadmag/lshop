@@ -25,7 +25,6 @@ class CatalogRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|min:3',
-//            'status' => 'boolean',
         ];
 
         if ($this->filled('pageMenu.link_title'))

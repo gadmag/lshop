@@ -2,8 +2,16 @@
 
 @section('content')
 
-@section('title', $page->title)
-
+@section('title', $page->meta_title)
+@section('keywords', $page->meta_keywords)
+@section('description', $page->meta_description)
+@section('og_tags')
+    <meta property="og:title" content="{{$page->title}}"/>
+    <meta property="og:description" content="{{words(strip_tags($page->body), 30 )}}"/>
+    <meta property="og:url" content="{{url()->current()}}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:image" content="{{$page->firstImage}}"/>
+@endsection
 <div class="container">
     @if( !Request::is('/') )
         <nav aria-label="breadcrumb" role="navigation">

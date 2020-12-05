@@ -4,6 +4,7 @@
         <div class="card card-primary">
             <div class="card-header">{{$title}}</div>
             <div class="card-body">
+{{--                {{dd($catalog->catalogSeo)}}--}}
                 <div class="form-group">
                     {!! Form::label('name', 'Название:') !!}
                     {!! Form::text('name', null, ['class' => 'form-control']) !!}

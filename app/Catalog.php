@@ -73,7 +73,8 @@ class Catalog extends Model
     }
 
 
-    /** Список статей категории
+    /**
+     * Список статей категории
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function products()
@@ -82,13 +83,18 @@ class Catalog extends Model
 
     }
 
+    /**
+     * Меню аттрибуты каталога
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
     public function catalogMenu()
     {
         return $this->morphOne('App\Menu', 'menu_linktable');
     }
 
-    /** Seo аттрибуты продуста
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    /**
+     * Seo аттрибуты каталога
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
     public function catalogSeo()
     {

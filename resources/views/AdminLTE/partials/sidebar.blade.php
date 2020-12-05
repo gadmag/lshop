@@ -5,7 +5,7 @@
         <img src="{{asset('AdminLTE/img/AdminLTELogo.png')}}" alt="AdminLTE Logo"
              class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">{{config('app.name')}}</span>
     </a>
     <!-- sidebar: style can be found in sidebar.less -->
     <div class="sidebar">
@@ -83,8 +83,11 @@
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{{url('admin/articles/design/all')}}"><i class="nav-icon fa fa-image"></i>
                         <p>Дизайнерские идеи</p></a></li>
+
+                <li class="nav-header">Система</li>
+                <li class="nav-item"><a class="nav-link" href="{{route('settings')}}"><i class="nav-icon fa fa-cogs"></i>
+                        <p>Настройки</p></a></li>
                 @role('admin')
-                <li class="nav-header">Пользователи</li>
                 <li class="nav-item"><a class="nav-link" href="{{url('admin/users')}}"><i class="nav-icon fa fa-user"></i> <p>Пользователи</p></a></li>
                 @endrole
 

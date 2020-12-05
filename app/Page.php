@@ -5,10 +5,10 @@ namespace App;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\TransliteratedService;
+use Illuminate\Support\Str;
 
 class Page extends Model
 {
-//    use TransliteratedService;
     use Sluggable;
 
     protected $fillable = ['title', 'body', 'alias', 'user_id', 'status'];
@@ -32,6 +32,34 @@ class Page extends Model
         $this->active()->get();
     }
 
+    public function getMetaTitleAttribute()
+    {
+        if ($this->pageSeo->meta_title) {
+            return $this->pageSeo->meta_title;
+        }
+
+        return $this->title;
+    }
+
+    public function getMetaDescriptionAttribute()
+    {
+
+        if ($this->pageSeo->meta_description) {
+            return $this->pageSeo->meta_description;
+        }
+
+        return Str::words(strip_tags(trim($this->body)), 70);
+    }
+
+    public function getMetaKeywordsAttribute()
+    {
+        if ($this->pageSeo->meta_keywords) {
+            return $this->pageSeo->meta_keywords;
+        }
+        return '';
+    }
+
+   
     /**
      * Получить  пользователя страницы
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -50,11 +78,13 @@ class Page extends Model
         return $this->morphOne('App\Menu', 'menu_linktable');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
     public function pageSeo()
     {
         return $this->morphOne('App\Seo', 'seostable');
     }
-
 
 
     public function delete()
