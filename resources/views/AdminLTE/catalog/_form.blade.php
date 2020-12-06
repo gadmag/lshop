@@ -1,47 +1,52 @@
 <div class="row">
 
     <div class="col-md-8 page-default">
+        <div class="card card-primary">
+            <div class="card-header">{{$title}}</div>
+            <div class="card-body">
+{{--                {{dd($catalog->catalogSeo)}}--}}
+                <div class="form-group">
+                    {!! Form::label('name', 'Название:') !!}
+                    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                </div>
+                <div class="form-group">
+                    {!! Form::label('alias', 'Адрес:') !!}
+                    {!! Form::text('alias', null, ['class'=>'form-control']) !!}
+                </div>
+                <div class="form-group">
+                    {!! Form::label('order', 'Порядок сортировки') !!}
+                    {!! Form::text('order', null, ['class'=>'form-control']) !!}
 
-        <div class="form-group">
-            {!! Form::label('name', 'Название:') !!}
-            {!! Form::text('name', null, ['class' => 'form-control']) !!}
-        </div>
-        <div class="form-group">
-            {!! Form::label('alias', 'Адрес:') !!}
-            {!! Form::text('alias', null, ['class'=>'form-control']) !!}
-        </div>
-        <div class="form-group">
-            {!! Form::label('order', 'Порядок сортировки') !!}
-            {!! Form::text('order', null, ['class'=>'form-control']) !!}
+                </div>
+                <div class="form-group">
+                    {!! Form::label('status', 'Опубликовать:') !!}&nbsp;&nbsp;
+                    {{Form::hidden('status',0)}}
+                    {!! Form::checkbox('status') !!}
+                </div>
 
-        </div>
-        <div class="form-group">
-            {!! Form::label('status', 'Опубликовать:') !!}&nbsp;&nbsp;
-            {{Form::hidden('status',0)}}
-            {!! Form::checkbox('status') !!}
-        </div>
+                <div class="form-group">
+                    {!! Form::label('parent_list', 'Родительская категория') !!}
+                    <select class="form-control" name="parent_list" id="parent_list">
+                        <option value="0">Выбрать</option>
+                        @if($tree)
+                            @foreach($tree as $catItem)
+                                @include('AdminLTE.form.select_catalog',  ['$catItem' => $catItem, 'catalog' => $catalog])
+                            @endforeach
+                        @endif
+                        {{--@each('AdminLTE.form.select', $tree, 'catItem')--}}
 
-        <div class="form-group">
-            {!! Form::label('parent_list', 'Родительская категория') !!}
-            <select class="form-control" name="parent_list" id="parent_list">
-                <option value="0">Выбрать</option>
-                @if($tree)
-                @foreach($tree as $catItem)
-                    @include('AdminLTE.form.select_catalog',  ['$catItem' => $catItem, 'catalog' => $catalog])
-                @endforeach
-                @endif
-                {{--@each('AdminLTE.form.select', $tree, 'catItem')--}}
-
-            </select>
-        </div>
-        <div class="form-group">
-            {!! Form::label('description', 'Содержимое:') !!}
-            {!! Form::textarea('description', null, ['class' => 'ckeditor form-control']) !!}
-        </div>
+                    </select>
+                </div>
+                <div class="form-group">
+                    {!! Form::label('description', 'Содержимое:') !!}
+                    {!! Form::textarea('description', null, ['class' => 'ckeditor form-control']) !!}
+                </div>
 
 
-        <div class="form-group">
-            {{Form::submit($submitButtonText,['class' => 'btn btn-primary'])}}
+                <div class="form-group">
+                    {{Form::submit($submitButtonText,['class' => 'btn btn-primary'])}}
+                </div>
+            </div>
         </div>
     </div>
 

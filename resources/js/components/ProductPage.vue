@@ -35,13 +35,13 @@
                 </div>
             </div>
             <div class="price-block">
-                <h2><span v-bind:class="{'through': isSpecial}" class="price">{{getPrice}} р.</span></h2>
-                <h2 v-if="special"><span class="special-price">{{getSpecialPrice}} </span><span>р.</span></h2>
+                <h2><span v-bind:class="{'through': isSpecial}" class="price">{{getPrice}} &#8381;</span></h2>
+                <h2 v-if="special"><span class="special-price">{{getSpecialPrice}} </span><span>&#8381;</span></h2>
             </div>
 
             <div v-if="discount" class="discount-block">
                 <hr>
-                <span>{{discount.quantity}} и более {{discount.price}} р.</span>
+                <span>{{discount.quantity}} и более {{discount.price}} &#8381;</span>
                 <hr>
             </div>
 
@@ -74,7 +74,9 @@
                         <div class="form-group">
                             <select class="form-control" v-model="engraving.id">
                                 <option disabled value="">Выбрать тип гравировки</option>
-                                <option v-for="service in services" :value="service.id">{{service.title}}</option>
+                                <option v-for="service in services" :value="service.id">
+                                    {{service.title}}<template v-if="service.price > 0"> ({{service.price}} р.)</template>
+                                </option>
                             </select>
 
                         </div>

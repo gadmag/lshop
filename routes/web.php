@@ -21,6 +21,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'namespace
     Route::get('articles/{type}/all', 'ArticleController@index');
     Route::post('articles/{type}/all', ['as' => 'store', 'uses' => 'ArticleController@store']);
     Route::get('articles/{type}/create', ['as' => 'create', 'uses' => 'ArticleController@create']);
+    Route::get('/settings', 'SettingController@index')->name('settings');
+    Route::post('/settings', 'SettingController@store')->name('settings.store');
     Route::resources([
         'articles' => 'ArticleController',
         'pages' => 'PageController',

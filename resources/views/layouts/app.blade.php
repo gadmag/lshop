@@ -4,15 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="">
     <title>{{ config('app.name') }} | @yield('title')</title>
-    <meta property="og:url" content="@yield('url')"/>
-    <meta property="og:title" content="@yield('title')"/>
-    <meta property="og:type" content="@yield('type')"/>
-    <meta property="og:image" content="@yield('og_image')"/>
-    <meta name="image" content="@yield('og_image')"/>
-    <meta property="og:description" content="@yield('description')"/>
+    <meta name="keywords" content="@yield('keywords')">
     <meta name="description" content="@yield('description')"/>
+    @yield('og_tags')
+    <meta name="image" content="@yield('og_image')"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <link rel="icon" href="{{elixir('/favicon.ico')}}" type="image/x-icon"/>
     <!-- Styles -->
@@ -22,6 +18,21 @@
 
     <!-- Scripts -->
     @stack('recaptcha_script')
+<!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '438525570500145');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=438525570500145&ev=PageView&noscript=1"/></noscript>
+    <!-- End Facebook Pixel Code -->
 </head>
 <body id="app-layout">
 <div id="app">

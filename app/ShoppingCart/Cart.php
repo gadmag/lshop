@@ -268,7 +268,8 @@ class Cart
     }
 
 
-    /** Sync with storage
+    /**
+     * Sync with storage
      * @param array $oldCart
      * @return $this|void
      */

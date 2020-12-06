@@ -14,7 +14,9 @@
                         <div class="form-group">
                             <select class="form-control" v-model="engraving.id">
                                 <option disabled value="">Выбрать тип гравировки</option>
-                                <option v-for="service in services" :value="service.id">{{service.title}}</option>
+                                <option v-for="service in services" :value="service.id">
+                                    {{service.title}}<template v-if="service.price > 0"> ({{service.price}} р.)</template>
+                                </option>
                             </select>
                         </div>
                         <div v-if="name===`order`" class="input-group mb-3">
