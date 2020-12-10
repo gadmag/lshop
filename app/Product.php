@@ -80,16 +80,16 @@ class Product extends Model
 
     public function getMetaTitleAttribute()
     {
-        if ($this->productSeo->title) {
+        if ($this->productSeo()->exists() && $this->productSeo->title) {
             return $this->productSeo->title;
         }
 
-        return $this->title;
+        return  sprintf('%s | %s',setting('app_name'),$this->title);
     }
 
     public function getMetaDescriptionAttribute()
     {
-        if ($this->productSeo->description) {
+        if ($this->productSeo()->exists() && $this->productSeo->description) {
             return $this->productSeo->description;
         }
 
@@ -98,11 +98,11 @@ class Product extends Model
 
     public function getMetaKeywordsAttribute()
     {
-        if ($this->productSeo->keywords) {
+        if ($this->productSeo()->exists() && $this->productSeo->keywords) {
             return $this->productSeo->keywords;
         }
 
-        return '';
+        return  sprintf('%s | %s',setting('app_name'),$this->title);
     }
 
 

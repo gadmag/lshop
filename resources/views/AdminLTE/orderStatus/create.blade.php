@@ -1,7 +1,7 @@
 @extends('AdminLTE.admin')
 
 @section('AdminLTE.content')
-
+@section('title','Добавить статус')
     <div class="field-options">
 
         <nav aria-label="breadcrumb" role="navigation">
@@ -13,10 +13,7 @@
             </ol>
         </nav>
 
-        <h1 class="heading">Добавить статус</h1>
-
         <div class="article-body">
-            @include('errors.list')
             {!! Form::model($orderStatus = new \App\OrderStatus(), ['url' => route('orderStatus.store'), 'class' => 'order-status']) !!}
 
             @include('AdminLTE.orderStatus._form',['submitButtonText' => 'Добавить статус'])

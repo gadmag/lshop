@@ -11,13 +11,9 @@
                 <li class="breadcrumb-item active" aria-current="page">Добавление товара</li>
             </ol>
         </nav>
-        <h1 class="heading">Добавление товара</h1>
-
+        @section('title', 'Добавление товара')
         <div class="product-body">
-            @include('errors.list')
             {!! Form::model($product = new \App\Product, ['url' => route('products.store'),'files' => true, 'id' => 'productForm', 'autocomplete' => 'off']) !!}
-
-
             @include('AdminLTE.product._form', ['submitButtonText' => 'Добавить продукт'])
 
             {!! Form::close() !!}

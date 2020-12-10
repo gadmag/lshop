@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 
 class Article extends Model
@@ -28,6 +29,43 @@ class Article extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+
+    public function getMetaTitleAttribute()
+    {
+
+        if ($this->articleSeo()->exists() && $this->articleSeo->meta_title) {
+            return $this->articleSeo->meta_title;
+        }
+
+        if (setting('app_title')) {
+            return setting('app_title');
+        }
+        return sprintf('%s | %s',setting('app_name'),$this->title);
+    }
+
+    public function getMetaDescriptionAttribute()
+    {
+
+        if ($this->articleSeo()->exists() && $this->articleSeo->meta_description) {
+            return $this->articleSeo->meta_description;
+        }
+        if (setting('app_description')) {
+            return setting('app_description');
+        }
+        return Str::words(strip_tags(trim($this->body)), 70);
+    }
+
+    public function getMetaKeywordsAttribute()
+    {
+        if ($this->articleSeo()->exists() && $this->articleSeo->meta_keywords) {
+            return $this->articleSeo->meta_keywords;
+        }
+        if (setting('app_keywords')) {
+            return setting('app_keywords');
+        }
+        return sprintf('%s | %s',setting('app_name'),$this->title);
     }
 
     public function setPublishedAtAttribute($date)

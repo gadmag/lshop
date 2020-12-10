@@ -1,7 +1,7 @@
 @extends('AdminLTE.admin')
 
 @section('AdminLTE.content')
-
+@section('title',"Добавить заказ")
     <div class="order">
         <nav aria-label="breadcrumb" role="navigation">
             <br>
@@ -11,10 +11,7 @@
                 <li class="breadcrumb-item active" aria-current="page">Добавить заказ</li>
             </ol>
         </nav>
-        <h1 class="heading">Добавить заказ</h1>
-
         <div class="order-body">
-            @include('errors.list')
             {!! Form::model($order, ['method' => 'POST', 'action' => route('orders.store'), 'class' => 'order']) !!}
 
             @include('AdminLTE.order._form',['submitButtonText' => 'Добавить заказ'])

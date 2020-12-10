@@ -26,6 +26,8 @@ class SettingController extends Controller
             }
         }
 
-        return redirect()->back()->with('status', 'Settings has been saved.');
+        return redirect()->back()->with([
+            'flash_message' =>'Настройки сайта успешно сохранены',
+        ]);
     }
 }

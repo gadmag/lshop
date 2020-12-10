@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Services\TransliteratedService;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class Catalog extends Model
 {
@@ -22,6 +23,42 @@ class Catalog extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function getMetaTitleAttribute()
+    {
+
+        if ($this->catalogSeo->meta_title) {
+            return $this->catalogSeo->meta_title;
+        }
+
+        if (setting('catalog_title')) {
+            return setting('catalog_title');
+        }
+        return sprintf('%s | %s',setting('app_name'),$this->name);
+    }
+
+    public function getMetaDescriptionAttribute()
+    {
+
+        if ($this->catalogSeo->meta_description) {
+            return $this->catalogSeo->meta_description;
+        }
+        if (setting('catalog_description')) {
+            return setting('catalog_description');
+        }
+        return Str::words(strip_tags(trim($this->body)), 70);
+    }
+
+    public function getMetaKeywordsAttribute()
+    {
+        if ($this->catalogSeo->meta_keywords) {
+            return $this->catalogSeo->meta_keywords;
+        }
+        if (setting('catalog_keywords')) {
+            return setting('catalog_keywords');
+        }
+        return sprintf('%s | %s',setting('app_name'),$this->name);
     }
 
     public function scopePublished($query)

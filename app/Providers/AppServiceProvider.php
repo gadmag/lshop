@@ -18,6 +18,7 @@ use App\Services\Product\ProductQueries;
 use App\Services\Block\BlockQueries;
 use App\Services\Block\CacheBlockQueries;
 use App\Services\Block\BlockService;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use function foo\func;
 
@@ -37,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
         Product::observe(ProductObserver::class);
         Option::observe(OptionObserver::class);
         Order::observe(OrderObserver::class);
+
+        Blade::component('components.alert', 'alert');
     }
 
     /**

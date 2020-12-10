@@ -1,7 +1,6 @@
 @extends('AdminLTE.admin')
 
 @section('AdminLTE.content')
-
     <div class="field-options">
 
         <nav aria-label="breadcrumb" role="navigation">
@@ -12,11 +11,9 @@
                 <li class="breadcrumb-item active" aria-current="page">Добавить {{$title}}</li>
             </ol>
         </nav>
-
-        <h1 class="heading">Добавить {{$title}}</h1>
+        @section('title',"Добавить {$title}")
 
         <div class="article-body">
-            @include('errors.list')
             {!! Form::model($service = new \App\Service(), ['url' => route('services.store'), 'class' => 'block']) !!}
 
             @include('AdminLTE.service._form',['submitButtonText' => 'Добавить значение'])

@@ -33,7 +33,6 @@
             <h1 class="heading">Редактировать заказ: №{{$order->id}}</h1>
         </div>
         <div class="order-body card-body">
-            @include('errors.list')
             {!! Form::model($order, ['method' => 'PUT', 'action' => ['Admin\OrderController@update', $order->id], 'class' => 'order']) !!}
 
             @include('AdminLTE.order._form',['submitButtonText' => 'Сохранить изменеия'])

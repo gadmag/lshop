@@ -1,19 +1,14 @@
 @extends('AdminLTE.admin')
 
 @section('AdminLTE.content')
+@section('title','Форма создания')
+<div class="article-body">
+    {!! Form::model($payment = new \App\Payment, ['url' => route('payments.store'), 'files' => true, 'class' => 'payment']) !!}
 
-    <div class="">
+    @include('AdminLTE.payment._form',['submitButtonText' => 'Добавить оплаты'])
 
-        <h1 class="heading">Форма создания</h1>
+    {!! Form::close() !!}
 
-        <div class="article-body">
-            @include('errors.list')
-            {!! Form::model($payment = new \App\Payment, ['url' => route('payments.store'), 'files' => true, 'class' => 'payment']) !!}
+</div>
 
-            @include('AdminLTE.payment._form',['submitButtonText' => 'Добавить оплаты'])
-
-            {!! Form::close() !!}
-
-        </div>
-    </div>
 @endsection

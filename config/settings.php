@@ -12,7 +12,7 @@ return [
                 'name' => 'app_name',
                 'label' => 'Название сайта',
                 'rules' => 'required|min:2|max:50',
-                'class' => 'w-auto px-2',
+                'class' => '',
                 'value' => config('app.name')
             ],
             [
@@ -21,39 +21,49 @@ return [
                 'name' => 'app_email',
                 'label' => 'Email сайта',
                 'rules' => 'required|email',
-                'class' => 'w-auto px-2',
+                'class' => '',
                 'value' => env('ADMIN_MAIL', '')
             ],
             [
                 'type' => 'text',
                 'data' => 'string',
-                'name' => 'app_phone',
-                'label' => 'Телефон',
-                'rules' => '',
-                'class' => 'w-auto px-2',
+                'name' => 'app_title',
+                'label' => 'Заголовок',
+                'rules' => 'min:2',
+                'class' => '',
+                'value' => '',
+                'title_separated' => 'Мета-теги'
+            ],
+            [
+                'type' => 'textarea',
+                'data' => 'string',
+                'name' => 'app_description',
+                'label' => 'Мета-тег Description',
+                'rules' => 'min:2',
+                'class' => '',
                 'value' => ''
             ],
             [
-                'type' => 'text',
+                'type' => 'textarea',
                 'data' => 'string',
-                'name' => 'app_address',
-                'label' => 'Адрес магазина',
-                'rules' => '',
-                'class' => 'w-auto px-2',
+                'name' => 'app_keywords',
+                'label' => 'Мета-тег Keywords',
+                'rules' => 'min:2',
+                'class' => '',
                 'value' => ''
-            ]
+            ],
         ]
     ],
-
-    'meta_tag' => [
-        'title' => 'Мета-теги',
-        'desc' => '',
-        'icon' => 'glyphicon glyphicon-sunglasses',
+    
+    'catalog' => [
+        'title' => 'Каталог',
+        'desc' => 'Настройки каталога',
+        'icon' => 'fa fa-payment',
         'fields' => [
             [
                 'type' => 'text',
                 'data' => 'string',
-                'name' => 'meta_title',
+                'name' => 'catalog_title',
                 'label' => 'Заголовок',
                 'rules' => 'min:2',
                 'class' => '',
@@ -62,8 +72,8 @@ return [
             [
                 'type' => 'textarea',
                 'data' => 'string',
-                'name' => 'meta_description',
-                'label' => 'Description',
+                'name' => 'catalog_description',
+                'label' => 'Мета-тег Description',
                 'rules' => 'min:2',
                 'class' => '',
                 'value' => ''
@@ -71,20 +81,12 @@ return [
             [
                 'type' => 'textarea',
                 'data' => 'string',
-                'name' => 'meta_keywords',
-                'label' => 'Keywords',
+                'name' => 'catalog_keywords',
+                'label' => 'Мета-тег Keywords',
                 'rules' => 'min:2',
                 'class' => '',
                 'value' => ''
             ],
-        ]
-    ],
-    'catalog' => [
-        'title' => 'Каталог',
-        'desc' => 'Настройки каталога',
-        'icon' => 'fa fa-payment',
-        'fields' => [
-
         ]
     ],
     'payment' => [
@@ -92,6 +94,42 @@ return [
         'desc' => '',
         'icon' => 'fa fa-payment',
         'fields' => [
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'payment_address',
+                'label' => 'Адрес магазина',
+                'rules' => '',
+                'class' => '',
+                'value' => ''
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'payment_phone',
+                'label' => 'Телефон',
+                'rules' => '',
+                'class' => '',
+                'value' => ''
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'min_sum',
+                'label' => 'Минимальная сумма заказа',
+                'rules' => 'required|numeric',
+                'class' => '',
+                'value' => 1000.00
+            ],
+            [
+                'type' => 'text',
+                'data' => 'string',
+                'name' => 'free_shipping',
+                'label' => 'Бесплатная доставка',
+                'rules' => 'required|numeric',
+                'class' => '',
+                'value' => 10000.00
+            ],
 
         ]
     ]

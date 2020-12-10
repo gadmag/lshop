@@ -1,11 +1,22 @@
 @extends('layouts.app')
 
+@section('title', $design->meta_title)
+@section('description', $design->meta_description)
+@section('keywords', $design->meta_keywords)
+
+
+@section('og_tags')
+    <meta property="og:title" content="{{$design->title}}"/>
+    <meta property="og:description" content="{{words(strip_tags($design->body), 30)}}"/>
+    <meta property="og:url" content="{{url()->current()}}"/>
+    <meta property="og:type" content="article"/>
+    @if($design->files->first())
+        <meta property="og:image" content="{{asset('storage/files/600x450/'.$design->files->first()->name)}}"/>
+    @endif
+@endsection
+
 @section('content')
 
-@section('title', $design->title)
-@section('type', 'article')
-@section('og_image'){{asset('storage/files/600x450/'.$design->files()->first()->filename)}}@endsection
-@section('url'){{route('design.show', ['id' =>$design->id])}}@endsection
 @push('scripts')
     <script src="{{elixir('/js/jquery.colorbox.js')}}"></script>
     <script>

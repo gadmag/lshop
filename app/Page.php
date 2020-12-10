@@ -34,32 +34,41 @@ class Page extends Model
 
     public function getMetaTitleAttribute()
     {
-        if ($this->pageSeo->meta_title) {
+
+        if ($this->pageSeo()->exists() && $this->pageSeo->meta_title) {
             return $this->pageSeo->meta_title;
         }
 
-        return $this->title;
+        if (setting('app_title')) {
+            return setting('app_title');
+        }
+        return sprintf('%s | %s',setting('app_name'),$this->title);
     }
 
     public function getMetaDescriptionAttribute()
     {
 
-        if ($this->pageSeo->meta_description) {
+        if ($this->pageSeo()->exists() && $this->pageSeo->meta_description) {
             return $this->pageSeo->meta_description;
         }
-
+        if (setting('app_description')) {
+            return setting('app_description');
+        }
         return Str::words(strip_tags(trim($this->body)), 70);
     }
 
     public function getMetaKeywordsAttribute()
     {
-        if ($this->pageSeo->meta_keywords) {
+        if ($this->pageSeo()->exists() && $this->pageSeo->meta_keywords) {
             return $this->pageSeo->meta_keywords;
         }
-        return '';
+        if (setting('app_keywords')) {
+            return setting('app_keywords');
+        }
+        return sprintf('%s | %s',setting('app_name'),$this->title);
     }
 
-   
+
     /**
      * Получить  пользователя страницы
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
