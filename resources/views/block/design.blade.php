@@ -6,7 +6,7 @@
                     @if($design->files()->first())
                         <a class="" href="{{route('design.show', ['id' => $design->id])}}">
                             <img class="card-img-top"
-                                 src="{{asset('storage/files/400x300/'.$design->files()->first()->name)}}"
+                                 src="{{asset('storage/files/250x250/'.$design->files()->first()->name)}}"
                                  alt="Картинка"></a>
                     @endif
                     <div class="card-body">

@@ -96,10 +96,4 @@ class Page extends Model
     }
 
 
-    public function delete()
-    {
-        $this->pageMenu()->delete();
-        $this->pageSeo()->delete();
-        return parent::delete();
-    }
 }

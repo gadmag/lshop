@@ -230,20 +230,21 @@ class Article extends Model
     }
 
 
-    function delete()
+    /**
+     * Sync ids of created uploads
+     * @param array $ids
+     */
+    public function syncUploads(array $ids): void
     {
-        $this->articleSeo()->delete();
-        $this->articleMenu()->delete();
-
-        foreach ($this->files as $file) {
-            Storage::disk('public')->delete('files/' . $file->filename);
-            Storage::disk('public')->delete('files/thumbnail/' . $file->filename);
-            Storage::disk('public')->delete('files/1250x700/' . $file->filename);
-            $file->delete();
+        $old_uploads = $this->files->pluck('id')->toArray();
+        if ($old_uploads) {
+            $delete_id = array_diff($old_uploads, $ids);
+            Upload::whereIn('id', $delete_id)->each(function ($upload, $key) {
+                $upload->delete();
+            });
         }
-
-
-        parent::delete();
+        $uploads = Upload::whereIn('id', $ids)->get();
+        $this->files()->saveMany($uploads);
     }
 
 

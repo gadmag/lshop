@@ -45,7 +45,7 @@
             </ol>
         </nav>
     @endif
-    <h1 class="title text-center">{{$design->title}}</h1>
+    <h1 class="title text-center py-2">{{$design->title}}</h1>
 
     <div class="article-body">
         <article>
@@ -57,7 +57,7 @@
 
                                     <a class="group1" href="{{asset('storage/files/600x450/'.$file->name)}}"
                                        title="{{$design->title}}"> <img class="img-thumbnail"
-                                                                        src="{{asset('storage/files/400x300/'.$file->name)}}"
+                                                                        src="{{asset('storage/files/250x250/'.$file->name)}}"
                                                                         alt="{{$design->title}}"></a>
 
                             </div>

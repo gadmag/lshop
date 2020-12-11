@@ -18,16 +18,8 @@
             {!! Form::textarea('body', null, ['class' => 'ckeditor form-control']) !!}
         </div>
         <div class="form-group">
-            <ul class="list-inline">
-                @foreach($article->files as $file)
-                    <li id="file-item-{{$file->id}}" class="remove-file" data-id="{{$file->id}}"><span href="#" ><i class="fa fa-remove fa-lg"></i></span><img src="{{asset('storage/files/thumbnail/'.$file->filename)}}" alt="Картинка"></li>
-                @endforeach
-            </ul>
-        </div>
-        <div class="form-group">
-            {!! Form::label('images', 'Картинки') !!}
-            {!! Form::file('images[]', array('multiple'=>true), ['class' => 'form-control' ]) !!}
-            <p class="help-block">Выберите файл для добавления</p>
+            <image-upload name="articleUpload" action="{{route('upload.files')}}"
+                          :files="{{$article->files}}"></image-upload>
         </div>
     </div>
 
