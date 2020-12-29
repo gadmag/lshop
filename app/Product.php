@@ -3,37 +3,21 @@
 namespace App;
 
 use App\Services\Cacheable;
-use App\Services\TransliteratedService;
+use App\Filters\Filterable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
-use App\User;
-use App\Alias;
-use App\FieldOption;
 use Illuminate\Database\Eloquent\Builder;
-use App\Services\ProductFilter;
 use Illuminate\Support\Str;
-use mysql_xdevapi\Collection;
-use function Deployer\get;
 
 class Product extends Model
 {
     use Sluggable;
-    use ProductFilter;
     use Cacheable;
+    use Filterable;
 
     protected $fillable = ['title', 'description', 'model', 'price', 'type', 'quantity', 'total_selling', 'sort_order', 'size', 'status',
         'material', 'alias', 'user_id'];
 
-
-    protected $allowedFilters = [
-        'id', 'material', 'color', 'productOptions.price', 'productOptions.color', 'productOptions.color_stone', 'catalogs.name'
-    ];
-
-    protected $orderable = [
-        'id', 'title', 'price', 'created_at', 'weight', 'total_selling'
-    ];
 
     protected $appends = ['allImages'];
 
@@ -47,9 +31,9 @@ class Product extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope('sort', function (Builder $builder) {
-            $builder->orderBy('sort_order', 'asc')->latest('products.created_at');
-        });
+//        static::addGlobalScope('sort', function (Builder $builder) {
+//            $builder->orderBy('sort_order', 'asc')->latest('products.created_at');
+//        });
 
     }
 

@@ -8,6 +8,7 @@ use App\Font;
 use App\Http\Requests\CartRequest;
 use App\Order;
 use App\Service;
+use App\Services\Filterable\ProductFilter;
 use App\Shipment;
 use App\ShoppingCart\Facades\Cart;
 use App\FieldOption;
@@ -38,7 +39,7 @@ class ProductController extends Controller
 
     public function getJsonProducts(Request $request, BaseQueries $queries)
     {
-        $products = $queries->getByCatalogFilter($request->get('cat_id'));
+        $products = $queries->getByCatalogFilter($request->cat_id);
         return response()->json(['collection' => $products]);
     }
 

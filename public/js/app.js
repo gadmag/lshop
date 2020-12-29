@@ -2756,8 +2756,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             },
 
             query: {
-                order_by: 'created_at',
-                order_direction: 'desc',
+                sort: 'created_at',
+                direction: 'desc',
                 filter_match: 'and',
                 limit: 12,
                 page: 1
@@ -2771,7 +2771,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     mounted: function mounted() {
         console.log('Component filterable mounted.');
-        this.setOrderTitle({ name: this.query.order_by, direction: this.query.order_direction });
+        this.setOrderTitle({ name: this.query.sort, direction: this.query.direction });
         this.fetch();
         this.addFilter();
     },
@@ -2826,8 +2826,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         updateOrderField: function updateOrderField(e) {
             var value = JSON.parse(e.target.getAttribute('data-orders'));
             this.setOrderTitle(value);
-            Vue.set(this.query, 'order_by', value.name);
-            Vue.set(this.query, 'order_direction', value.direction);
+            Vue.set(this.query, 'sort', value.name);
+            Vue.set(this.query, 'direction', value.direction);
             this.applyChange();
         },
         isField: function isField(type, e, i, fields) {
@@ -3014,7 +3014,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             className: '',
             filterable: {
                 url: '/api/products',
-                orderables: [{ title: 'Дата (новые)', options: { name: 'created_at', direction: 'desc' } }, { title: 'Дата (старые)', options: { name: 'created_at', direction: 'asc' } }, { title: 'Цена (убывание)', options: { name: 'price', direction: 'desc' } }, { title: 'Цена (возрастание)', options: { name: 'price', direction: 'asc' } }, { title: 'Имя (Я - А)', options: { name: 'title', direction: 'desc' } }, { title: 'Имя (А - Я)', options: { name: 'title', direction: 'asc' } }],
+                orderables: [{ title: 'Дата (новые)', options: { name: 'created_at', direction: 'desc' } }, { title: 'Дата (старые)', options: { name: 'created_at', direction: 'asc' } }, { title: 'Цена (убывание)', options: { name: 'productOptions.price', direction: 'desc' } }, { title: 'Цена (возрастание)', options: { name: 'productOptions.price', direction: 'asc' } }, { title: 'Имя (Я - А)', options: { name: 'title', direction: 'desc' } }, { title: 'Имя (А - Я)', options: { name: 'title', direction: 'asc' } }],
                 filterGroups: [{ title: 'Стоимость', name: 'price', field: 'productOptions.price', collapsed: true }, {
                     title: 'Материал',
                     name: 'material',
@@ -3061,8 +3061,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         removeToWishList: function removeToWishList(id) {
             bus.$emit('remove-to-wishlist', id);
         },
-        specialPrice: function specialPrice(item) {
-            return Math.floor((item.product_options[0].price - item.product_special.price) / item.product_options[0].price * 100);
+        percentSpecial: function percentSpecial(item) {
+            var price = item.product_options[0] ? item.product_options[0].price : item.price;
+            return Math.floor(item.product_special.price / price * 100);
+        },
+        priceSpecial: function priceSpecial(item) {
+            var price = item.product_options[0] ? item.product_options[0].price : item.price;
+            var specialPrice = price - item.product_special.price;
+            return specialPrice.toFixed(0);
         },
         getImage: function getImage(product) {
             var filename = '';
@@ -42269,10 +42275,10 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        item.product_special && item.product_options[0]
+                        item.product_special
                           ? _c("span", { staticClass: "special-badge" }, [
                               _vm._v(
-                                " -" + _vm._s(_vm.specialPrice(item)) + "%"
+                                " -" + _vm._s(_vm.percentSpecial(item)) + "%"
                               )
                             ])
                           : _vm._e(),
@@ -42317,11 +42323,7 @@ var render = function() {
                               item.product_special
                                 ? _c("span", { staticClass: "special" }, [
                                     _vm._v(
-                                      _vm._s(
-                                        Number(
-                                          item.product_special.price
-                                        ).toFixed(0)
-                                      ) + " р."
+                                      _vm._s(_vm.priceSpecial(item)) + " р."
                                     )
                                   ])
                                 : _vm._e(),

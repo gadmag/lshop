@@ -8,15 +8,15 @@
                              :src="'/storage/files/250x250/'+getImage(item)"
                              alt="Картинка">
 
-                        <span v-if="item.product_special && item.product_options[0]" class="special-badge"> -{{specialPrice(item)}}%</span>
-                        <a :class=""
-                           @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
+                        <span v-if="item.product_special" class="special-badge"> -{{percentSpecial(item)}}%</span>
+                        <a @click="toggleWishList(item.id)? removeToWishList(item.id) : addToWishList(item.id)"><span
                                 :class="toggleWishList(item.id)? className: className"></span></a>
                         <div class="card-body">
-                            <div class="product-name text-center"><a class="" :href="'/products/'+item.alias">{{item.title}}</a>
+                            <div class="product-name text-center">
+                                <a class="" :href="'/products/'+item.alias">{{item.title}}</a>
                             </div>
                             <div class="product-price text-center">
-                                <span class="special" v-if="item.product_special">{{Number(item.product_special.price).toFixed(0)}} р.</span>
+                                <span class="special" v-if="item.product_special">{{priceSpecial(item)}} р.</span>
                                 <span v-if="item.type == 'service'">{{Number(item.price)}} р.</span>
                                 <span v-else-if="item.product_options[0]">{{Number(item.product_options[0].price).toFixed(0)}} р.</span>
                             </div>
@@ -44,8 +44,8 @@
                     orderables: [
                         {title: 'Дата (новые)', options: {name: 'created_at', direction: 'desc'}},
                         {title: 'Дата (старые)', options: {name: 'created_at', direction: 'asc'}},
-                        {title: 'Цена (убывание)', options: {name: 'price', direction: 'desc'}},
-                        {title: 'Цена (возрастание)', options: {name: 'price', direction: 'asc'}},
+                        {title: 'Цена (убывание)', options: {name: 'productOptions.price', direction: 'desc'}},
+                        {title: 'Цена (возрастание)', options: {name: 'productOptions.price', direction: 'asc'}},
                         {title: 'Имя (Я - А)', options: {name: 'title', direction: 'desc'}},
                         {title: 'Имя (А - Я)', options: {name: 'title', direction: 'asc'}},
                     ],
@@ -104,9 +104,17 @@
                 bus.$emit('remove-to-wishlist', id);
             },
 
-            specialPrice(item) {
-                return Math.floor(((item.product_options[0].price - item.product_special.price) / item.product_options[0].price) * 100);
+            percentSpecial(item) {
+                let price = item.product_options[0] ? item.product_options[0].price : item.price;
+                return Math.floor(item.product_special.price / price * 100);
             },
+
+            priceSpecial(item) {
+                let price = item.product_options[0] ? item.product_options[0].price : item.price;
+                let specialPrice = price - item.product_special.price
+                return specialPrice.toFixed(0);
+            },
+
 
             getImage(product) {
                 let filename = '';
