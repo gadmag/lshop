@@ -19,7 +19,7 @@ class Product extends Model
         'material', 'alias', 'user_id'];
 
 
-    protected $appends = ['allImages'];
+    protected $appends = ['allImages', 'path', 'firstImages', 'lastPrice'];
 
     public $imgResize = [
         '600x450' => array('width' => 500, 'height' => 500),
@@ -46,6 +46,14 @@ class Product extends Model
         ];
     }
 
+    public function getPathAttribute()
+    {
+        if ($this->alias) {
+            return sprintf('%s/products/%s', config('app.url'), $this->alias);
+        }
+        return sprintf('%s/products/%s', config('app.url'), $this->id);
+    }
+
     public function setPriceAttribute($value)
     {
         $this->attributes['price'] = (float)$value;
@@ -68,7 +76,7 @@ class Product extends Model
             return $this->productSeo->title;
         }
 
-        return  sprintf('%s | %s',setting('app_name'),$this->title);
+        return sprintf('%s | %s', setting('app_name'), $this->title);
     }
 
     public function getMetaDescriptionAttribute()
@@ -86,7 +94,7 @@ class Product extends Model
             return $this->productSeo->keywords;
         }
 
-        return  sprintf('%s | %s',setting('app_name'),$this->title);
+        return sprintf('%s | %s', setting('app_name'), $this->title);
     }
 
 
@@ -103,6 +111,17 @@ class Product extends Model
         $query->where('status', 1);
     }
 
+    /**
+     * @param $query
+     * @param string $search
+     * @param int $limit
+     */
+    public function scopeSearchTitle($query, string $search)
+    {
+        $query->active()->where('title', 'like', $search ? "%{$search}%" : '')->latest();
+
+
+    }
 
     /**
      * @param $query
@@ -347,11 +366,28 @@ class Product extends Model
     }
 
 
-    /** Front product image
+    /**
+     * @return int|float
+     */
+    public function getLastPriceAttribute()
+    {
+        if ($this->productOptions()->exists()) {
+            return $this->productOptions->first()->price;
+        }
+
+        if ($this->price) {
+            return $this->price;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get front product image by option id
      * @param int $id
      * @return Model|\Illuminate\Database\Eloquent\Relations\MorphMany|object|string|null
      */
-    public function frontImg(int $id = null)
+    public function getFrontImages(int $id = null)
     {
         if ($this->files()->exists()) {
             return $this->files()->first()->name;
@@ -360,6 +396,11 @@ class Product extends Model
         }
 
         return '';
+    }
+
+    public function getFirstImagesAttribute()
+    {
+        return $this->getFrontImages();
     }
 
     public function getAllImagesAttribute()

@@ -12,15 +12,15 @@ $(document).ready(function () {
         $(this).find('.dropdown-menu').removeClass('show');
     });
 
-    $('ul.navbar-nav li.dropdown').on('click', function() {
-        var $el = $(this);
-        if ($el.hasClass('show')) {
-            var $a = $el.children('a');
-            if ($a.length && $a.attr('href')) {
-                  location.href = $a.attr('href');
-            }
-        }
-    });
+    // $('ul.navbar-nav li.dropdown').on('click', function() {
+    //     var $el = $(this);
+    //     if ($el.hasClass('show')) {
+    //         var $a = $el.children('a');
+    //         if ($a.length && $a.attr('href')) {
+    //               location.href = $a.attr('href');
+    //         }
+    //     }
+    // });
 
     $('.block-forms a.btn').click(function (e) {
         e.preventDefault();

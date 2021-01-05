@@ -1,15 +1,4 @@
 <header>
-{{--    <div class="header-top">--}}
-{{--        <div class="container">--}}
-
-{{--            <div class="d-flex flex-row-reverse">--}}
-{{--                <div>--}}
-{{--                    @include('block.top_head')--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
-{{--        </div>--}}
-{{--    </div>--}}
     <div class="header-bottom" data-toggle="affix">
         <div class="container">
             <div class="row">

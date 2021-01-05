@@ -55,19 +55,37 @@ class ProductController extends Controller
 
 
     /**
+     * Get products by search query
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function search(Request $request)
     {
-        $search = $request->get('search');
+        $search = $request->get('keywords');
         $products = Product::with(['files', 'productSpecial', 'productOptions.files'])
-            ->active()->where('title', 'like', '%' . $search . '%')->limit(12)->get();
+           ->searchTitle($search);
         return view('product.search', [
-            'products' => $products
+            'count' => $products->count(),
+            'products' => $products->paginate(12)->appends(request()->query()),
         ]);
     }
 
+
+    /**
+     * Get product json by search
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function searchJson(Request $request)
+    {
+        $search = $request->get('keywords',null);
+        $products = Product::searchTitle($search);
+
+        return response()->json([
+            'count' => $products->count(),
+            'products' => $products->limit(8)->get(),
+        ]);
+    }
 
     public function addToCart(CartRequest $request, $id)
     {
@@ -79,7 +97,7 @@ class ProductController extends Controller
         $cart->add(
             $product->id,
             $product->title,
-            $product->frontImg($options['id']),
+            $product->getFrontImages($options['id']),
             $product->getPrice($options['id']),
             $product->getWeight($options['id']),
             $options['quantity'],

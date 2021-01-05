@@ -9,7 +9,7 @@
     <meta property="og:description" content="{{words(strip_tags($product->description),40)}}"/>
     <meta property="og:url" content="{{url()->current()}}"/>
     <meta property="og:type" content="article"/>
-    <meta property="og:image" content="{{$product->frontImg()}}"/>
+    <meta property="og:image" content="{{$product->firstImages}}"/>
 @endsection
 @push('style')
     <link href="{{asset('/css/colorbox.css')}}" rel="stylesheet">

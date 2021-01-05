@@ -169,7 +169,10 @@ header {
         box-shadow: 0 0 0 0.2rem rgba(237, 237, 237, 0.25);
       }
     }
-
+    .input-group-append .btn {
+      background: #ededed;
+      border-color: #ededed;
+    }
     .form-group {
       position: relative;
 
@@ -180,6 +183,53 @@ header {
         top: 12px;
         right: 11px;
         color: #a5abb1;
+      }
+    }
+
+    .dropdown-list {
+      width: 100%;
+      padding: 0.5rem;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1000;
+      float: left;
+      min-width: 10rem;
+      margin: 0.125rem 0 0;
+      font-size: 1rem;
+      color: #212529;
+      text-align: left;
+      list-style: none;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 0.25rem;
+
+      &.active {
+        display: block;
+      }
+
+      .search-item {
+        white-space: normal;
+        margin-bottom: 5px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .img-product {
+        width: 55px;
+        min-width: 55px;
+        height: 47px;
+
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          display: block;
+        }
+      }
+
+      .text {
+        padding-left: 10px;
       }
     }
   }
@@ -517,6 +567,7 @@ header {
   text-transform: uppercase;
   padding: 0;
   display: inline;
+
   &:hover {
     color: #000000;
     text-decoration: none;
@@ -946,7 +997,18 @@ header {
 
 /*---------end product-----*/
 
-/* CSS Document */
+/*----- CSS Document------- */
+.page-item .page-link {
+  color: @link-color
+}
+.highlighted {
+  color: red;
+}
+.page-item.active .page-link {
+  color: @link-color;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}
 
 .photo-list {
   padding-bottom: 60px;
@@ -1369,6 +1431,7 @@ footer {
         .menu-element > a.nav-link {
           font-size: 0.9rem;
         }
+
         .dropdown-menu li.nav-item {
           padding: 0 0.75rem;
         }
