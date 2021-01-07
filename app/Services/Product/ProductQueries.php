@@ -126,7 +126,7 @@ class ProductQueries implements BaseQueries
      */
     public function getNewProducts()
     {
-        return Product::active()->take(8)->get(['id', 'updated_at']);
+        return Product::active()->orderBy('sort_order', 'asc')->latest()->take(8)->get(['id', 'updated_at']);
     }
 
 
@@ -137,7 +137,7 @@ class ProductQueries implements BaseQueries
      */
     public function getSpecialProducts(int $limit = 4)
     {
-        return Product::has('productSpecial')->active()->take($limit)->get();
+        return Product::has('productSpecial')->active()->orderBy('sort_order', 'asc')->latest()->take($limit)->get();
     }
 
 

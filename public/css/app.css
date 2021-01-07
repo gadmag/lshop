@@ -1035,9 +1035,11 @@ footer .social .ico-social a i {
   }
 }
 @media (max-width: 992px) {
+  header .search-block {
+    margin-top: 5px;
+  }
   header .search-block input[type='text'] {
     height: auto;
-    margin-top: 5px;
   }
   .nav-user li {
     padding: 0 1rem;

@@ -31,10 +31,6 @@ class Product extends Model
     protected static function boot()
     {
         parent::boot();
-//        static::addGlobalScope('sort', function (Builder $builder) {
-//            $builder->orderBy('sort_order', 'asc')->latest('products.created_at');
-//        });
-
     }
 
     public function sluggable()
@@ -365,6 +361,10 @@ class Product extends Model
         return $id ? $this->productOptions()->find($id)->color_stone : '';
     }
 
+    public function isOptionFiles($id)
+    {
+        return $this->productOptions()->find($id) && $this->productOptions()->find($id)->files()->exists();
+    }
 
     /**
      * @return int|float
@@ -391,8 +391,15 @@ class Product extends Model
     {
         if ($this->files()->exists()) {
             return $this->files()->first()->name;
-        } elseif ($this->productOptions()->find($id) && $this->productOptions()->find($id)->files()->exists()) {
+        }
+
+        if ($this->isOptionFiles($id)) {
             return $this->productOptions()->find($id)->files()->first()->name;
+        }
+
+        if ($this->productOptions()->exists() && $this->productOptions()->first()->files()->exists()) {
+            $option = $this->productOptions()->first();
+            return $option->files()->first()->name;
         }
 
         return '';
