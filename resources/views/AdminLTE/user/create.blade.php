@@ -1,5 +1,6 @@
 @extends('AdminLTE.admin')
 
+@section('title','Добавление пользователя')
 @section('AdminLTE.content')
     <div class="user">
 
@@ -11,18 +12,12 @@
                 <li class="breadcrumb-item active" aria-current="page">Добавление пользователя</li>
             </ol>
         </nav>
-        <h1 class="heading">Добавление пользователя</h1>
+        <h1 class="heading"></h1>
 
         <div class="article-body">
-            @include('errors.list')
             {!! Form::model($user = new \App\User, ['url' => route('users.store')]) !!}
-
-
             @include('AdminLTE.user._form',['submitButtonText' => 'Добавить пользователя'])
-
-
             {!! Form::close() !!}
-
         </div>
     </div>
 

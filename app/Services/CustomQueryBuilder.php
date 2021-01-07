@@ -23,21 +23,18 @@ class CustomQueryBuilder
     protected function makeFilter($query, $filter)
     {
         if (strpos($filter['field'], '.') !== false) {
-
             list($relation, $filter['field']) = explode('.', $filter['field']);
             $filter['match'] = 'end';
 
             if ($filter['field'] == 'count') {
 
             } else {
-
-                $query->whereHas($relation, function ($q) use ($filter){
+                $query->whereHas($relation, function ($q) use ($filter) {
                     $this->{camel_case($filter['operator'])}($filter, $q);
                 });
             }
 
         } else {
-
             $this->{camel_case($filter['operator'])}($filter, $query);
         }
     }
@@ -47,7 +44,7 @@ class CustomQueryBuilder
         return $query->where($filter['field'], '=', $filter['query_1']);
     }
 
-    public  function equalIn($filter, $query)
+    public function equalIn($filter, $query)
     {
         $list_id = explode(',', $filter['query_1']);
         return $query->whereIn($filter['field'], $list_id);

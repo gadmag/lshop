@@ -66,7 +66,15 @@ class ProductController extends Controller
                 // Will be sortable column
                 'sortable' => true,
                 // Will have filter
-                'has_filters' => true
+                'has_filters' => true,
+                'wrapper' => function($value,$row) {
+                    return "<div class='d-flex'>
+                    <div class='img-product'>
+                        <img src='/storage/files/90x110/{$row->firstImages}' alt='фото'>
+                    </div>
+                    <div class='text pl-2'>{$value}</div>
+                    </div>";
+                }
             ])
             ->setColumn('model', 'Модель', [
                 'attributes' => ['class' => 'table-text'],

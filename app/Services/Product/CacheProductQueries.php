@@ -4,6 +4,7 @@
 namespace App\Services\Product;
 
 use App\Product;
+use App\Services\Filterable\ProductFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Cache\Repository;
@@ -26,10 +27,12 @@ class CacheProductQueries implements BaseQueries
      */
     private $cache;
 
+
     /**
      * @var Carbon
      */
     private $duration;
+
 
     public function __construct(BaseQueries $base, Repository $cache)
     {
@@ -73,7 +76,6 @@ class CacheProductQueries implements BaseQueries
     public function create(Request $request): Product
     {
         $product = $this->base->create($request);
-//        $this->cache->put($product->getCacheKey(), $product, $this->duration);
         return $product;
     }
 

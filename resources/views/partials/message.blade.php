@@ -1,13 +1,18 @@
 @if(Session::has('flash_message'))
-    <div class="container">
-        <div class="row">
-            <div role="alert" class="alert alert-success w-100">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{session('flash_message')}}
-
-            </div>
-        </div>
+    <div class="col-md-9">
+        @alert(['type' => session('message_type')?:'success'])
+        {{session('flash_message')}}
+        @endalert
+    </div>
+@endif
+@if($errors->any())
+    <div class="col-md-9">
+        @alert(['type' => 'danger'])
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{$error}}</li>
+            @endforeach
+        </ul>
+        @endalert
     </div>
 @endif

@@ -4,9 +4,8 @@
 namespace App\Services\Product;
 
 
-use App\Catalog;
 use App\Http\Controllers\Admin\UploadTrait;
-use App\Upload;
+use App\Filters\ProductFilter;
 use Illuminate\Http\Request;
 use App\Option;
 use App\Product;
@@ -36,6 +35,12 @@ class ProductQueries implements BaseQueries
         '90x110' => array('width' => 110, 'height' => 110)
     ];
 
+    private $filter;
+
+    public function __construct(ProductFilter $filter)
+    {
+        $this->filter = $filter;
+    }
 
     public function getById(int $id): Product
     {
@@ -103,12 +108,16 @@ class ProductQueries implements BaseQueries
     public function getByCatalogFilter(int $id = null)
     {
         if ($id) {
-            $catalog = Catalog::published()->findOrFail($id);
-            return $catalog->products()->active()->advancedFilter()
-                ->paginate(request('limit', 12), ['products.id', 'products.updated_at']);
+            Product::active()->whereHas('catalogs', function ($query) use ($id) {
+                $query->published()->whereId($id);
+            })->advancedFilter($this->filter)
+                ->paginate(request('limit', 12), ['id', 'updated_at']);
         }
-        return Product::active()
-            ->advancedFilter()->paginate(request('limit', 12), ['id', 'updated_at']);
+
+
+
+        return Product::active()->advancedFilter($this->filter)
+            ->paginate(request('limit', 12), ['products.id', 'products.updated_at']);
     }
 
     /**
@@ -117,7 +126,7 @@ class ProductQueries implements BaseQueries
      */
     public function getNewProducts()
     {
-        return Product::active()->take(8)->get(['id', 'updated_at']);
+        return Product::active()->orderBy('sort_order', 'asc')->latest()->take(8)->get(['id', 'updated_at']);
     }
 
 
@@ -128,7 +137,7 @@ class ProductQueries implements BaseQueries
      */
     public function getSpecialProducts(int $limit = 4)
     {
-        return Product::has('productSpecial')->active()->take($limit)->get();
+        return Product::has('productSpecial')->active()->orderBy('sort_order', 'asc')->latest()->take($limit)->get();
     }
 
 
@@ -150,7 +159,6 @@ class ProductQueries implements BaseQueries
     {
         return Product::active()->with($this->relations)->whereIn('id', $ids)->get();
     }
-
 
 
     /**

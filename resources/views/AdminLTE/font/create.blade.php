@@ -1,7 +1,7 @@
 @extends('AdminLTE.admin')
 
 @section('AdminLTE.content')
-
+@section('title',"Добавить шрифт")
     <div class="field-options">
 
         <nav aria-label="breadcrumb" role="navigation">
@@ -12,15 +12,9 @@
                 <li class="breadcrumb-item active" aria-current="page">Добавить шрифт</li>
             </ol>
         </nav>
-
-        <h1 class="heading">Добавить шрифт</h1>
-
         <div class="article-body">
-            @include('errors.list')
             {!! Form::model($font = new \App\Font(), ['url' => route('fonts.store'), 'class' => 'block']) !!}
-
             @include('AdminLTE.font._form',['submitButtonText' => 'Добавить значение'])
-
             {!! Form::close() !!}
 
         </div>

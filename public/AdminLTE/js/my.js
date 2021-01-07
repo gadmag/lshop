@@ -40,7 +40,7 @@ $('.remove-file').on('click', function (e) {
         console.log(value)
         $(this).attr('value', value).val();
     });
-    $('#reservationdate_start, #reservationdate_end').datetimepicker({
+    $('#reservationdate_start, #reservationdate_end, #published_at').datetimepicker({
         format: 'YYYY-MM-DD',
         locale: 'ru',
 

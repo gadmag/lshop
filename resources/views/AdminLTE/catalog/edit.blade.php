@@ -1,6 +1,7 @@
 @extends('AdminLTE.admin')
 
 @section('AdminLTE.content')
+@section('title','Каталог')
     <div class="">
         <nav aria-label="breadcrumb" role="navigation">
             <br>
@@ -11,7 +12,6 @@
             </ol>
         </nav>
         <div class="article-body">
-            @include('errors.list')
             {!! Form::model($catalog, ['method' => 'PATCH', 'action' => ['Admin\CatalogController@update', $catalog->id],'files' => true, 'class' => 'catalog']) !!}
 
             @include('AdminLTE.catalog._form', [ 'title' => 'Редактировать категорию: '.$catalog->name, 'submitButtonText' => 'Сохранить продукт'])

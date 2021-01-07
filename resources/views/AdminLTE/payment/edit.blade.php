@@ -1,18 +1,13 @@
 @extends('AdminLTE.admin')
 
 @section('AdminLTE.content')
+@section('title',"Редактировать: {$payment->title}")
+<div class="article-body">
+    {!! Form::model($payment, ['method' => 'PATCH', 'action' => ['Admin\PaymentController@update', $payment->id], 'files' => true, 'class' => 'payment']) !!}
 
-    <div class="">
-        <h1 class="heading">Редактировать: {{$payment->title}}</h1>
+    @include('AdminLTE.payment._form',['submitButtonText' => 'Сохранить оплату'])
 
-        <div class="article-body">
-            @include('errors.list')
-            {!! Form::model($payment, ['method' => 'PATCH', 'action' => ['Admin\PaymentController@update', $payment->id], 'files' => true, 'class' => 'payment']) !!}
+    {!! Form::close() !!}
 
-            @include('AdminLTE.payment._form',['submitButtonText' => 'Сохранить оплату'])
-
-            {!! Form::close() !!}
-
-        </div>
-    </div>
+</div>
 @endsection

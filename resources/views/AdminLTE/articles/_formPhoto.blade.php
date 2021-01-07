@@ -12,10 +12,17 @@
             {{Form::hidden('status',0)}}
             {!! Form::checkbox('status') !!}
         </div>
-        <div  class="input-group date dateru" >
-            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-            {!! Form::input('text', 'published_at', $article->published_at, ['class' => 'form-control']) !!}
+        <div class="form-group">
+            {!! Form::label('published_at', 'Дата публикации:') !!}
+            <div class="input-group date" id="published_at"
+                 data-target-input="nearest">
+                <div class="input-group-append" data-target="#published_at"
+                     data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                </div>
+                {!! Form::input('text', 'published_at', old('published_at'), ['class' => 'form-control datetimepicker-input']) !!}
 
+            </div>
         </div>
         <br>
         <div class="form-group">
@@ -23,16 +30,8 @@
             {!! Form::textarea('body', null, ['class' => 'ckeditor form-control']) !!}
         </div>
         <div class="form-group">
-            <ul class="list-inline">
-                @foreach($article->files as $file)
-                    <li id="file-item-{{$file->id}}" class="remove-file" data-id="{{$file->id}}"><span href="#" ><i class="fa fa-remove fa-lg"></i></span><img src="{{asset('storage/files/thumbnail/'.$file->filename)}}" alt="Картинка"></li>
-                @endforeach
-            </ul>
-        </div>
-        <div class="form-group">
-            {!! Form::label('images', 'Картинки') !!}
-            {!! Form::file('images[]', array('multiple'=>true), ['class' => 'form-control' ]) !!}
-            <p class="help-block">Выберите файл для добавления</p>
+            <image-upload name="articleUpload" action="{{route('upload.files')}}"
+                          :files="{{$article->files}}"></image-upload>
         </div>
     </div>
 

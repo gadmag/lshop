@@ -3,12 +3,6 @@
 @section('AdminLTE.content')
 @section('title', 'Параметры сайта')
 <div class="col-md-9">
-    @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-    @endif
-
     <div class="card card-primary card-outline card-tabs">
         <div class="card-header p-0 pt-1 border-bottom-0">
             <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
@@ -25,8 +19,8 @@
         <div class="card-body">
             <form method="post" action="{{ route('settings.store') }}" class="form-horizontal" role="form">
                 {!! csrf_field() !!}
-            <div class="tab-content" id="custom-tabs-three-tabContent">
-                @if(count(config('settings', [])) )
+                <div class="tab-content" id="custom-tabs-three-tabContent">
+                    @if(count(config('settings', [])) )
                         @foreach(config('settings') as $section => $fields)
                             <div class="tab-pane fade {{$loop->first? 'show active':''}}" id="custom-tabs-{{$section}}"
                                  role="tabpanel" aria-labelledby="custom-tabs-{{$section}}-tab">
@@ -44,8 +38,8 @@
                 @endif
             </form>
         </div>
-        </div>
-        <!-- /.card -->
     </div>
+    <!-- /.card -->
+</div>
 </div>
 @endsection

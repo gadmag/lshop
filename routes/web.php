@@ -78,6 +78,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('products/{product_alias}', ['as' => 'product.show', 'uses' => 'ProductController@show']);
     Route::get('products', ['as' => 'product.index', 'uses' => 'ProductController@index']);
     Route::get('api/products', ['as' => 'product.api', 'uses' => 'ProductController@getJsonProducts']);
+    Route::get('api/products/search', ['as' => 'product.searchJson', 'uses' => 'ProductController@searchJson']);
 
     /*cart*/
     Route::get('api/add-to-cart/{id}', ['as' => 'product.addToCart', 'uses' => 'ProductController@addToCart']);
@@ -110,7 +111,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('catalogs/{catalog_alias}', ['as' => 'catalog.show', 'uses' => 'CatalogController@show']);
     Route::get('catalogs', ['as' => 'catalog.index', 'uses' => 'CatalogController@index']);
 
-    Route::get('search', ['as' => 'product.search', 'uses' => 'ProductController@search']);
+    Route::get('product/search', ['as' => 'product.search', 'uses' => 'ProductController@search']);
     Route::get('rss.xml', ['as' => 'feed', 'uses' => 'ArticleController@feed']);
 
 

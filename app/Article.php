@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 
 class Article extends Model
@@ -28,6 +29,43 @@ class Article extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+
+    public function getMetaTitleAttribute()
+    {
+
+        if ($this->articleSeo()->exists() && $this->articleSeo->meta_title) {
+            return $this->articleSeo->meta_title;
+        }
+
+        if (setting('app_title')) {
+            return setting('app_title');
+        }
+        return sprintf('%s | %s',setting('app_name'),$this->title);
+    }
+
+    public function getMetaDescriptionAttribute()
+    {
+
+        if ($this->articleSeo()->exists() && $this->articleSeo->meta_description) {
+            return $this->articleSeo->meta_description;
+        }
+        if (setting('app_description')) {
+            return setting('app_description');
+        }
+        return Str::words(strip_tags(trim($this->body)), 70);
+    }
+
+    public function getMetaKeywordsAttribute()
+    {
+        if ($this->articleSeo()->exists() && $this->articleSeo->meta_keywords) {
+            return $this->articleSeo->meta_keywords;
+        }
+        if (setting('app_keywords')) {
+            return setting('app_keywords');
+        }
+        return sprintf('%s | %s',setting('app_name'),$this->title);
     }
 
     public function setPublishedAtAttribute($date)
@@ -192,20 +230,21 @@ class Article extends Model
     }
 
 
-    function delete()
+    /**
+     * Sync ids of created uploads
+     * @param array $ids
+     */
+    public function syncUploads(array $ids): void
     {
-        $this->articleSeo()->delete();
-        $this->articleMenu()->delete();
-
-        foreach ($this->files as $file) {
-            Storage::disk('public')->delete('files/' . $file->filename);
-            Storage::disk('public')->delete('files/thumbnail/' . $file->filename);
-            Storage::disk('public')->delete('files/1250x700/' . $file->filename);
-            $file->delete();
+        $old_uploads = $this->files->pluck('id')->toArray();
+        if ($old_uploads) {
+            $delete_id = array_diff($old_uploads, $ids);
+            Upload::whereIn('id', $delete_id)->each(function ($upload, $key) {
+                $upload->delete();
+            });
         }
-
-
-        parent::delete();
+        $uploads = Upload::whereIn('id', $ids)->get();
+        $this->files()->saveMany($uploads);
     }
 
 

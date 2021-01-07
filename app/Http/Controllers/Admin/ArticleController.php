@@ -112,19 +112,10 @@ class ArticleController extends Controller
             $this->updateVideoAttr($request, $article->id);
         }
 
-        if ($request->file('images')) {
-            $this->multipleUpload($request->file('images'), $article, [
-
-                '600x450' => array(
-                    'width' => 800,
-                    'height' => 650
-                ),
-                '400x300' => array(
-                    'width' => 400,
-                    'height' => 300
-                )
-            ]);
+        if ($request->exists('articleUpload')) {
+            $article->syncUploads(explode(',', $request->articleUpload));
         }
+
         $articleType = $this->getArticleType($article->type);
         $this->syncTags($article, $request->input('tag_list') ?: []);
         $this->syncCatalogs($article, $request->input('catalog_list') ?: []);
@@ -175,8 +166,8 @@ class ArticleController extends Controller
 
         $article = Auth::user()->articles()->create($request->all());
 
-        if ($request->filled('articleSeo')) {
-            $article->productSeo()->create($request->productSeo);
+        if ($request->filled('productSeo')) {
+            $article->articleSeo()->create($request->productSeo);
         }
 
         if ($request->filled('eventAttr')) {
@@ -191,19 +182,9 @@ class ArticleController extends Controller
             $article->articleMenu()->create($request->articleMenu);
         }
 
-        if ($request->file('images')) {
-            $this->multipleUpload($request->file('images'), $article, [
-                '600x450' => array(
-                    'width' => 600,
-                    'height' => 450
-                ),
-                '400x300' => array(
-                    'width' => 350,
-                    'height' => null
-                ),
+        if ($request->exists('articleUpload')) {
+            $article->syncUploads(explode(',', $request->articleUpload));
 
-
-            ]);
         }
 
         $this->syncCatalogs($article, $request->input('catalog_list') ?: []);

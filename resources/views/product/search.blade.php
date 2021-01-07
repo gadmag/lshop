@@ -12,12 +12,13 @@
     </div>
 
     <div class="container">
-        <h1 class="title py-3 text-center">Поиск</h1>
-        @if(count($products) > 0)
-            <product-list :products="{{$products}}"></product-list>
-        @else
-            <p class="text-center">Нет товаров, соответствующих критериям поиска.</p>
-        @endif
+        <h1 class="d-inline pr-3 title "><strong>По запросу «{{request('keywords')}}» найдено</strong></h1> <span class="h4 text-muted">{{$count}} товаров</span>
+        <div class="search-body pt-4">
+            @if(count($products) > 0)
+                <product-list :products="{{json_encode($products->items())}}"></product-list>
+                {{$products->links()}}
+            @endif
+        </div>
     </div>
 
 @endsection

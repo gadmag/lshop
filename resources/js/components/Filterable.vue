@@ -150,8 +150,8 @@
                 },
 
                 query: {
-                    order_by: 'created_at',
-                    order_direction: 'desc',
+                    sort: 'created_at',
+                    direction: 'desc',
                     filter_match: 'and',
                     limit: 12,
                     page: 1,
@@ -167,7 +167,7 @@
 
         mounted() {
             console.log('Component filterable mounted.');
-            this.setOrderTitle({name: this.query.order_by, direction: this.query.order_direction});
+            this.setOrderTitle({name: this.query.sort, direction: this.query.direction});
             this.fetch();
             this.addFilter();
         },
@@ -223,8 +223,8 @@
             updateOrderField(e) {
                 const value = JSON.parse(e.target.getAttribute('data-orders'));
                 this.setOrderTitle(value);
-                Vue.set(this.query, 'order_by', value.name);
-                Vue.set(this.query, 'order_direction', value.direction);
+                Vue.set(this.query, 'sort', value.name);
+                Vue.set(this.query, 'direction', value.direction);
                 this.applyChange()
             },
 

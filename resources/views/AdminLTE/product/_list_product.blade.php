@@ -28,7 +28,14 @@
                         <tr>
                             <!-- Article title -->
                             <td class="table-link">
-                                <div><a href="{{action('Admin\ProductController@edit', [$product->id])}}">{{$product->title}}</a></div>
+                                <div class="d-flex">
+                                    <div class="img">
+                                        <img src="{{$product->firstImages}}" alt="{{$product->title}}">
+                                    </div>
+                                    <div class="pl-2">
+                                        <a href="{{action('Admin\ProductController@edit', [$product->id])}}">{{$product->title}}</a>
+                                    </div>
+                                </div>
                             </td>
                             <td class="table-text">
                                 <span>{{$product->created_at}}</span>
@@ -36,7 +43,9 @@
                             <td class="table-text">
                                 @foreach($product->catalogs as $catalog)
 
-                                    <li><a href="{{action('Admin\CatalogController@edit',[$catalog->name])}}">{{$catalog->name}}</a></li>
+                                    <li>
+                                        <a href="{{action('Admin\CatalogController@edit',[$catalog->name])}}">{{$catalog->name}}</a>
+                                    </li>
                                 @endforeach
                             </td>
 
@@ -51,7 +60,9 @@
                             <!-- Edit Button-->
                             <td class="text-right">
 
-                                <a style="display: inline-block" href="{{action('Admin\ProductController@edit',[$product->id])}}" class="btn btn-info" title="Редактировать"
+                                <a style="display: inline-block"
+                                   href="{{action('Admin\ProductController@edit',[$product->id])}}" class="btn btn-info"
+                                   title="Редактировать"
                                    data-toggle="tooltip">
                                     <i class="fa fa-edit"></i>
                                 </a>
@@ -59,11 +70,13 @@
 
                                 <!-- Delete Button -->
 
-                                <form style="display: inline-block" action="{{ url('admin/products/'.$product->id) }}" method="POST">
+                                <form style="display: inline-block" action="{{ url('admin/products/'.$product->id) }}"
+                                      method="POST">
                                     {!! csrf_field() !!}
                                     {!! method_field('DELETE') !!}
 
-                                    <button style="display: inline-block" type="submit" class="btn btn-danger" data-toggle="tooltip" title="Удалить">
+                                    <button style="display: inline-block" type="submit" class="btn btn-danger"
+                                            data-toggle="tooltip" title="Удалить">
                                         <i class="fa fa-trash"></i> Удалить
                                     </button>
                                 </form>

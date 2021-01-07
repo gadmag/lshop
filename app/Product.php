@@ -3,39 +3,23 @@
 namespace App;
 
 use App\Services\Cacheable;
-use App\Services\TransliteratedService;
+use App\Filters\Filterable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
-use App\User;
-use App\Alias;
-use App\FieldOption;
 use Illuminate\Database\Eloquent\Builder;
-use App\Services\ProductFilter;
 use Illuminate\Support\Str;
-use mysql_xdevapi\Collection;
-use function Deployer\get;
 
 class Product extends Model
 {
     use Sluggable;
-    use ProductFilter;
     use Cacheable;
+    use Filterable;
 
     protected $fillable = ['title', 'description', 'model', 'price', 'type', 'quantity', 'total_selling', 'sort_order', 'size', 'status',
         'material', 'alias', 'user_id'];
 
 
-    protected $allowedFilters = [
-        'id', 'material', 'color', 'productOptions.price', 'productOptions.color', 'productOptions.color_stone', 'catalogs.name'
-    ];
-
-    protected $orderable = [
-        'id', 'title', 'price', 'created_at', 'weight', 'total_selling'
-    ];
-
-    protected $appends = ['allImages'];
+    protected $appends = ['allImages', 'path', 'firstImages', 'lastPrice'];
 
     public $imgResize = [
         '600x450' => array('width' => 500, 'height' => 500),
@@ -47,10 +31,6 @@ class Product extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope('sort', function (Builder $builder) {
-            $builder->orderBy('sort_order', 'asc')->latest('products.created_at');
-        });
-
     }
 
     public function sluggable()
@@ -60,6 +40,14 @@ class Product extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    public function getPathAttribute()
+    {
+        if ($this->alias) {
+            return sprintf('%s/products/%s', config('app.url'), $this->alias);
+        }
+        return sprintf('%s/products/%s', config('app.url'), $this->id);
     }
 
     public function setPriceAttribute($value)
@@ -80,16 +68,16 @@ class Product extends Model
 
     public function getMetaTitleAttribute()
     {
-        if ($this->productSeo->title) {
+        if ($this->productSeo()->exists() && $this->productSeo->title) {
             return $this->productSeo->title;
         }
 
-        return $this->title;
+        return sprintf('%s | %s', setting('app_name'), $this->title);
     }
 
     public function getMetaDescriptionAttribute()
     {
-        if ($this->productSeo->description) {
+        if ($this->productSeo()->exists() && $this->productSeo->description) {
             return $this->productSeo->description;
         }
 
@@ -98,11 +86,11 @@ class Product extends Model
 
     public function getMetaKeywordsAttribute()
     {
-        if ($this->productSeo->keywords) {
+        if ($this->productSeo()->exists() && $this->productSeo->keywords) {
             return $this->productSeo->keywords;
         }
 
-        return '';
+        return sprintf('%s | %s', setting('app_name'), $this->title);
     }
 
 
@@ -119,6 +107,17 @@ class Product extends Model
         $query->where('status', 1);
     }
 
+    /**
+     * @param $query
+     * @param string $search
+     * @param int $limit
+     */
+    public function scopeSearchTitle($query, string $search)
+    {
+        $query->active()->where('title', 'like', $search ? "%{$search}%" : '')->latest();
+
+
+    }
 
     /**
      * @param $query
@@ -362,20 +361,53 @@ class Product extends Model
         return $id ? $this->productOptions()->find($id)->color_stone : '';
     }
 
+    public function isOptionFiles($id)
+    {
+        return $this->productOptions()->find($id) && $this->productOptions()->find($id)->files()->exists();
+    }
 
-    /** Front product image
+    /**
+     * @return int|float
+     */
+    public function getLastPriceAttribute()
+    {
+        if ($this->productOptions()->exists()) {
+            return $this->productOptions->first()->price;
+        }
+
+        if ($this->price) {
+            return $this->price;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get front product image by option id
      * @param int $id
      * @return Model|\Illuminate\Database\Eloquent\Relations\MorphMany|object|string|null
      */
-    public function frontImg(int $id = null)
+    public function getFrontImages(int $id = null)
     {
         if ($this->files()->exists()) {
             return $this->files()->first()->name;
-        } elseif ($this->productOptions()->find($id) && $this->productOptions()->find($id)->files()->exists()) {
+        }
+
+        if ($this->isOptionFiles($id)) {
             return $this->productOptions()->find($id)->files()->first()->name;
         }
 
+        if ($this->productOptions()->exists() && $this->productOptions()->first()->files()->exists()) {
+            $option = $this->productOptions()->first();
+            return $option->files()->first()->name;
+        }
+
         return '';
+    }
+
+    public function getFirstImagesAttribute()
+    {
+        return $this->getFrontImages();
     }
 
     public function getAllImagesAttribute()
