@@ -1,5 +1,4 @@
 <template>
-
     <div class="input-group mb-2 mr-sm-2">
       <input id="keywords" @focus="onFocus" name="keywords" placeholder="Быстрый поиск" autocomplete="off" type="text"
              v-model.trim="keywords" class="form-control">
