@@ -2508,7 +2508,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         services: '',
         cartKey: '',
         order_id: '',
-        fonts: ''
+        fonts: '',
+        data: ''
     },
     data: function data() {
         return {
@@ -3792,90 +3793,106 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        Engraving: __WEBPACK_IMPORTED_MODULE_0__Engraving_vue___default.a
-    },
-    props: ['cart', 'route', 'fonts', 'minsum'],
-    data: function data() {
-        return {
-            services: '',
-            cartKey: '',
-            coupon_code: null,
-            error_coupon: null
-        };
-    },
-    mounted: function mounted() {
-        console.log('Component Cart detail mounted.');
-    },
+  components: {
+    Engraving: __WEBPACK_IMPORTED_MODULE_0__Engraving_vue___default.a
+  },
+  props: ['cart', 'route', 'fonts', 'minsum'],
+  data: function data() {
+    return {
+      services: '',
+      cartKey: '',
+      coupon_code: null,
+      error_coupon: null
+    };
+  },
+  mounted: function mounted() {
+    console.log('Component Cart detail mounted.');
+  },
 
 
-    computed: {
-        isCart: function isCart() {
-            if (this.cart && _.size(this.cart.content)) {
-                return true;
-            }
-            return false;
-        }
-    },
-
-    methods: {
-        removeFromCart: function removeFromCart(item) {
-            bus.$emit('remove-from-cart', item);
-        },
-        reduceFromCart: function reduceFromCart(item) {
-            bus.$emit('reduce-from-cart', item);
-        },
-        addToCart: function addToCart(item) {
-            var options = {
-                id: item.options.id,
-                quantity: 1
-            };
-            var url = '/api/add-to-cart/' + item.id + '?options=' + JSON.stringify(options);
-            axios.get(url).then(function (response) {
-                if (response.data.cart) {
-                    bus.$emit('added-to-cart', response.data);
-                }
-            }.bind(this)).catch(function (error) {
-                console.log(error);
-            }.bind(this));
-        },
-        openModal: function openModal(key, item) {
-            this.cartKey = key;
-            this.services = item.services;
-        },
-        removeEngraving: function removeEngraving(keyCartItem, keyEngraving) {
-            var _this = this;
-
-            var options = { keyCartItem: keyCartItem, keyEngraving: keyEngraving };
-            console.log(options);
-            var url = 'api/remove-engraving?options=' + JSON.stringify(options);
-            axios.get(url).then(function (res) {
-                if (res.data.cart) {
-                    _this.$root.cart = res.data.cart;
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        addCouponToCart: function addCouponToCart(code) {
-            var _this2 = this;
-
-            var url = 'api/add-coupon/' + code;
-            axios.get(url).then(function (res) {
-                if (res.data.cart) {
-                    _this2.$root.cart = res.data.cart;
-                    _this2.error_coupon = null;
-                }
-            }).catch(function (error) {
-                console.log(error);
-                _this2.error_coupon = 'Неверный промокод';
-            });
-        }
+  computed: {
+    isCart: function isCart() {
+      if (this.cart && _.size(this.cart.content)) {
+        return true;
+      }
+      return false;
     }
+  },
+
+  methods: {
+    removeFromCart: function removeFromCart(item) {
+      bus.$emit('remove-from-cart', item);
+    },
+    reduceFromCart: function reduceFromCart(item) {
+      bus.$emit('reduce-from-cart', item);
+    },
+    addToCart: function addToCart(item) {
+      var options = {
+        id: item.options.id,
+        quantity: 1
+      };
+      var url = '/api/add-to-cart/' + item.id + '?options=' + JSON.stringify(options);
+      axios.get(url).then(function (response) {
+        if (response.data.cart) {
+          bus.$emit('added-to-cart', response.data);
+        }
+      }.bind(this)).catch(function (error) {
+        console.log(error);
+      }.bind(this));
+    },
+    openModal: function openModal(key, item) {
+      this.cartKey = key;
+      this.services = item.services;
+    },
+    editEngraving: function editEngraving(key, item) {
+      this.cartKey = key;
+      this.services = item.services;
+    },
+    removeEngraving: function removeEngraving(keyCartItem, keyEngraving) {
+      var _this = this;
+
+      var options = { keyCartItem: keyCartItem, keyEngraving: keyEngraving };
+      console.log(options);
+      var url = 'api/remove-engraving?options=' + JSON.stringify(options);
+      axios.get(url).then(function (res) {
+        if (res.data.cart) {
+          _this.$root.cart = res.data.cart;
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    addCouponToCart: function addCouponToCart(code) {
+      var _this2 = this;
+
+      var url = 'api/add-coupon/' + code;
+      axios.get(url).then(function (res) {
+        if (res.data.cart) {
+          _this2.$root.cart = res.data.cart;
+          _this2.error_coupon = null;
+        }
+      }).catch(function (error) {
+        console.log(error);
+        _this2.error_coupon = 'Неверный промокод';
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -9144,7 +9161,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -46742,9 +46759,9 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                Цвет: " +
+                                            "\n                                  Цвет: " +
                                               _vm._s(cartItem.options.color) +
-                                              "\n                            "
+                                              "\n                              "
                                           )
                                         ]
                                       )
@@ -46759,11 +46776,11 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                Цвет камня: " +
+                                            "\n                                  Цвет камня: " +
                                               _vm._s(
                                                 cartItem.options.color_stone
                                               ) +
-                                              "\n                            "
+                                              "\n                              "
                                           )
                                         ]
                                       )
@@ -46989,6 +47006,33 @@ var render = function() {
                                                       "span",
                                                       {
                                                         staticClass:
+                                                          "text-primary",
+                                                        attrs: {
+                                                          title: "Редактировать"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.editEngraving(
+                                                              key,
+                                                              keyEngraving
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fal fa-edit"
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
                                                           "text-danger remove-engraving",
                                                         attrs: {
                                                           title: "Удалить"
@@ -47053,7 +47097,7 @@ var render = function() {
                                       [
                                         _c("i", { staticClass: "fa fa-plus" }),
                                         _vm._v(
-                                          " Добавить гравировку\n                        "
+                                          " Добавить гравировку\n            "
                                         )
                                       ]
                                     )
@@ -47070,7 +47114,11 @@ var render = function() {
                             class: { "border-0": index == 0 },
                             attrs: { "data-th": "Цена" }
                           },
-                          [_vm._v(_vm._s(cartItem.price) + " ₽")]
+                          [
+                            _vm._v(
+                              _vm._s(cartItem.price) + "\n          ₽\n        "
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _c(
@@ -47122,7 +47170,13 @@ var render = function() {
                             class: { "border-0": index == 0 },
                             attrs: { "data-th": "Итого" }
                           },
-                          [_vm._v(_vm._s(cartItem.totalPrice) + " ₽")]
+                          [
+                            _vm._v(
+                              "\n          " +
+                                _vm._s(cartItem.totalPrice) +
+                                " ₽\n        "
+                            )
+                          ]
                         ),
                         _vm._v(" "),
                         _c(
@@ -47215,7 +47269,7 @@ var render = function() {
                     },
                     [
                       _c("i", { staticClass: "fa fa-gift mr-2" }),
-                      _vm._v("Применить\n                        ")
+                      _vm._v("Применить\n            ")
                     ]
                   )
                 ]),
@@ -47243,7 +47297,7 @@ var render = function() {
               _c("div", { staticClass: "p-4" }, [
                 _c("p", { staticClass: "font-italic mb-4" }, [
                   _vm._v(
-                    "Доставка и дополнительные расходы будут рассчитываться на основе\n                    введенных Вами значений."
+                    "Доставка и дополнительные расходы будут рассчитываться на основе\n          введенных Вами значений."
                   )
                 ]),
                 _vm._v(" "),
@@ -47263,8 +47317,7 @@ var render = function() {
                               _vm._v("Сумма")
                             ]),
                             _vm._v(
-                              _vm._s(_vm.cart.totalPrice) +
-                                " ₽\n                    "
+                              _vm._s(_vm.cart.totalPrice) + " ₽\n          "
                             )
                           ]
                         )
@@ -47283,9 +47336,7 @@ var render = function() {
                           ]),
                           _c("strong", [
                             _vm._v(
-                              "- " +
-                                _vm._s(coupon.discount) +
-                                "\n                        ₽"
+                              "- " + _vm._s(coupon.discount) + "\n            ₽"
                             )
                           ])
                         ]
@@ -47325,7 +47376,7 @@ var render = function() {
                         }
                       },
                       [
-                        _vm._v("\n                            Оформить заказ "),
+                        _vm._v("\n              Оформить заказ "),
                         _c("i", { staticClass: "fa fa-angle-right" })
                       ]
                     )

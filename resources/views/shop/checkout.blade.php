@@ -23,6 +23,7 @@
                         </ul>
                     </div>
                 @endif
+
                 <checkout :cart="cart"
                           :countries="{{$countries}}"
                           :shipments="{{$shipments}}"
