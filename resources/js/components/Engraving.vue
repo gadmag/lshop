@@ -74,6 +74,7 @@
             cartKey: '',
             order_id: '',
             fonts: '',
+            data: ''
         },
         data: function () {
             return {

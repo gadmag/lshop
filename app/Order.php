@@ -10,7 +10,6 @@ class Order extends Model
         'city', 'country', 'region', 'comment', 'comment_admin', 'shipment', 'is_send', 'order_status_id',
         'user_id', 'cart', 'address', 'payment', 'totalPrice'];
 
-
     public function setCartAttribute($value)
     {
         $value['instance'] = 'order';
@@ -21,6 +20,7 @@ class Order extends Model
     {
         return unserialize($value);
     }
+
 
 
     public function getPaymentAttribute($value)

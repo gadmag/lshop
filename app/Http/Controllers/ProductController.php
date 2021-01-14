@@ -63,7 +63,7 @@ class ProductController extends Controller
     {
         $search = $request->get('keywords');
         $products = Product::with(['files', 'productSpecial', 'productOptions.files'])
-           ->searchTitle($search);
+            ->searchTitle($search);
         return view('product.search', [
             'count' => $products->count(),
             'products' => $products->paginate(12)->appends(request()->query()),
@@ -78,7 +78,7 @@ class ProductController extends Controller
      */
     public function searchJson(Request $request)
     {
-        $search = $request->get('keywords',null);
+        $search = $request->get('keywords', null);
         $products = Product::searchTitle($search);
 
         return response()->json([
