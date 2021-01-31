@@ -1729,6 +1729,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['cart', 'carttotal'],
@@ -2221,208 +2225,221 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        FormWizard: __WEBPACK_IMPORTED_MODULE_1_vue_form_wizard__["FormWizard"],
-        TabContent: __WEBPACK_IMPORTED_MODULE_1_vue_form_wizard__["TabContent"]
-    },
-    props: ['cart', 'countries', 'shipments', 'payments', 'lastOrder', 'route', 'config'],
+  components: {
+    FormWizard: __WEBPACK_IMPORTED_MODULE_1_vue_form_wizard__["FormWizard"],
+    TabContent: __WEBPACK_IMPORTED_MODULE_1_vue_form_wizard__["TabContent"]
+  },
+  props: ['cart', 'countries', 'shipments', 'payments', 'lastOrder', 'route', 'config'],
 
-    mounted: function mounted() {
-        console.log('Component checkout mounted.');
-    },
-
-
-    data: function data() {
-        return {
-            first_name: null,
-            last_name: null,
-            email: null,
-            telephone: null,
-            city: null,
-            address: null,
-            country: null,
-            region: null,
-            comment: null,
-            coupon: null,
-            couponItem: null,
-            postcode: null,
-            company: null,
-
-            payment: null,
-            shipment: null,
-
-            message: null,
-            errors: [],
-            error_coupon: null,
-            coupon_code: null,
-            error_toggle: false,
-            error_list: {},
-            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        };
-    },
-
-    created: function created() {
-        if (this.lastOrder) {
-            this.first_name = this.lastOrder.first_name;
-            this.last_name = this.lastOrder.last_name;
-            this.email = this.lastOrder.email;
-            this.telephone = this.lastOrder.telephone;
-            this.company = this.lastOrder.company;
-            this.address = this.lastOrder.address;
-            this.postcode = this.lastOrder.postcode;
-            this.city = this.lastOrder.city;
-        }
-    },
+  mounted: function mounted() {
+    console.log('Component checkout mounted.');
+  },
 
 
-    methods: {
-        text: function text() {
-            console.log('text');
-        },
+  data: function data() {
+    return {
+      first_name: null,
+      last_name: null,
+      email: null,
+      telephone: null,
+      city: null,
+      address: null,
+      country: null,
+      region: null,
+      comment: null,
+      coupon: null,
+      couponItem: null,
+      postcode: null,
+      company: null,
 
-        stepFirstValid: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
-                var response;
-                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                _context.prev = 0;
-                                _context.next = 3;
-                                return axios.post('/api/checkout/validStepFirst', {
-                                    first_name: this.first_name,
-                                    last_name: this.last_name,
-                                    email: this.email,
-                                    telephone: this.telephone,
-                                    company: this.company,
-                                    address: this.address,
-                                    postcode: this.postcode,
-                                    city: this.city,
-                                    country: this.country
-                                });
+      payment: null,
+      shipment: null,
 
-                            case 3:
-                                response = _context.sent;
+      message: null,
+      errors: [],
+      error_coupon: null,
+      coupon_code: null,
+      error_toggle: false,
+      error_list: {},
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+  },
 
-                                this.errors = null;
-                                return _context.abrupt('return', true);
-
-                            case 8:
-                                _context.prev = 8;
-                                _context.t0 = _context['catch'](0);
-
-                                this.errors = _context.t0.response.data.errors;
-                                return _context.abrupt('return', false);
-
-                            case 12:
-                            case 'end':
-                                return _context.stop();
-                        }
-                    }
-                }, _callee, this, [[0, 8]]);
-            }));
-
-            function stepFirstValid() {
-                return _ref.apply(this, arguments);
-            }
-
-            return stepFirstValid;
-        }(),
-        stepSecondValid: function () {
-            var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
-                var response;
-                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
-                    while (1) {
-                        switch (_context2.prev = _context2.next) {
-                            case 0:
-                                _context2.prev = 0;
-                                _context2.next = 3;
-                                return axios.post('/api/checkout/validStepSecond', {
-                                    shipment: this.shipment,
-                                    payment: this.payment
-                                });
-
-                            case 3:
-                                response = _context2.sent;
-
-                                this.errors = null;
-                                return _context2.abrupt('return', true);
-
-                            case 8:
-                                _context2.prev = 8;
-                                _context2.t0 = _context2['catch'](0);
-
-                                this.errors = _context2.t0.response.data.errors;
-                                return _context2.abrupt('return', false);
-
-                            case 12:
-                            case 'end':
-                                return _context2.stop();
-                        }
-                    }
-                }, _callee2, this, [[0, 8]]);
-            }));
-
-            function stepSecondValid() {
-                return _ref2.apply(this, arguments);
-            }
-
-            return stepSecondValid;
-        }(),
-
-
-        onComplete: function onComplete() {
-
-            document.checkoutForm.submit();
-        },
-
-        addCouponToCart: function addCouponToCart(code) {
-            var _this = this;
-
-            var url = '/api/add-coupon/' + code;
-            axios.get(url).then(function (res) {
-                if (res.data.cart) {
-                    _this.$root.cart = res.data.cart;
-                    _this.error_coupon = null;
-                }
-            }).catch(function (error) {
-                console.log(error);
-                _this.error_coupon = 'Неверный промокод';
-            });
-        },
-        addShipmentToCart: function addShipmentToCart(id) {
-            var _this2 = this;
-
-            var url = '/api/add-shipment/' + id;
-            axios.get(url).then(function (res) {
-                if (res.data.cart) {
-                    _this2.$root.cart = res.data.cart;
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-        }
-    },
-
-    computed: {
-        country_object: function country_object() {
-            if (this.country) {
-                return this.country.name;
-            }
-        },
-
-        isCoupon: function isCoupon() {
-            return !_.isEmpty(this.cart.coupons);
-        },
-        isShipment: function isShipment() {
-            return !_.isEmpty(this.cart.shipment);
-        }
-
+  created: function created() {
+    if (this.lastOrder) {
+      this.first_name = this.lastOrder.first_name;
+      this.last_name = this.lastOrder.last_name;
+      this.email = this.lastOrder.email;
+      this.telephone = this.lastOrder.telephone;
+      this.company = this.lastOrder.company;
+      this.address = this.lastOrder.address;
+      this.postcode = this.lastOrder.postcode;
+      this.city = this.lastOrder.city;
     }
+  },
+
+
+  methods: {
+    text: function text() {
+      console.log('text');
+    },
+
+    stepFirstValid: function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+        var response;
+        return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios.post('/api/checkout/validStepFirst', {
+                  first_name: this.first_name,
+                  last_name: this.last_name,
+                  email: this.email,
+                  telephone: this.telephone,
+                  company: this.company,
+                  address: this.address,
+                  postcode: this.postcode,
+                  city: this.city,
+                  country: this.country
+                });
+
+              case 3:
+                response = _context.sent;
+
+                this.errors = null;
+                return _context.abrupt('return', true);
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context['catch'](0);
+
+                this.errors = _context.t0.response.data.errors;
+                return _context.abrupt('return', false);
+
+              case 12:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 8]]);
+      }));
+
+      function stepFirstValid() {
+        return _ref.apply(this, arguments);
+      }
+
+      return stepFirstValid;
+    }(),
+    stepSecondValid: function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+        var response;
+        return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return axios.post('/api/checkout/validStepSecond', {
+                  shipment: this.shipment,
+                  payment: this.payment
+                });
+
+              case 3:
+                response = _context2.sent;
+
+                this.errors = null;
+                return _context2.abrupt('return', true);
+
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2['catch'](0);
+
+                this.errors = _context2.t0.response.data.errors;
+                return _context2.abrupt('return', false);
+
+              case 12:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[0, 8]]);
+      }));
+
+      function stepSecondValid() {
+        return _ref2.apply(this, arguments);
+      }
+
+      return stepSecondValid;
+    }(),
+
+
+    onComplete: function onComplete() {
+
+      document.checkoutForm.submit();
+    },
+
+    addCouponToCart: function addCouponToCart(code) {
+      var _this = this;
+
+      var url = '/api/add-coupon/' + code;
+      axios.get(url).then(function (res) {
+        if (res.data.cart) {
+          _this.$root.cart = res.data.cart;
+          _this.error_coupon = null;
+        }
+      }).catch(function (error) {
+        console.log(error);
+        _this.error_coupon = 'Неверный промокод';
+      });
+    },
+    addShipmentToCart: function addShipmentToCart(id) {
+      var _this2 = this;
+
+      var url = '/api/add-shipment/' + id;
+      axios.get(url).then(function (res) {
+        if (res.data.cart) {
+          _this2.$root.cart = res.data.cart;
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+
+  computed: {
+    country_object: function country_object() {
+      if (this.country) {
+        return this.country.name;
+      }
+    },
+
+    isCoupon: function isCoupon() {
+      return !_.isEmpty(this.cart.coupons);
+    },
+    isShipment: function isShipment() {
+      return !_.isEmpty(this.cart.shipment);
+    }
+
+  }
 
 });
 
@@ -2500,68 +2517,95 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "Engraving",
-    props: {
-        name: '',
-        services: '',
-        cartKey: '',
-        order_id: '',
-        fonts: '',
-        data: ''
-    },
-    data: function data() {
-        return {
-            // services: this.servicesList,
-            engraving: {
-                id: '',
-                price: '',
-                text: '',
-                font: '',
-                comment: '',
-                filename: '',
-                qty: 1
-            },
-            errors: '',
-            message: ''
-        };
-    },
-    methods: {
-        getFileName: function getFileName(filename) {
-            this.engraving.filename = filename[0];
-        },
-        addEngraving: function addEngraving() {
-            var url = '/api/add-engraving/' + this.cartKey;
-            var params = { options: JSON.stringify({ engraving: this.engraving }), order_id: this.order_id };
-            console.log(params);
-            axios.get(url, { params: params }).then(function (response) {
-                this.errors = '';
-                this.message = '';
-                if (response.data.errors) {
-                    return this.errors = response.data.errors;
-                }
-                if (response.data.message) {
-                    return this.message = response.data.message;
-                }
-
-                if (response.data.cart) {
-                    this.$emit('getCart', response.data.cart);
-                    bus.$emit('engraving-from-cart', response.data);
-                }
-            }.bind(this)).catch(function (error) {
-                this.message = null;
-                var status = error.response.status;
-                this.errors = error.response.data.errors;
-                this.message = this.getErrorMessage(status);
-            }.bind(this));
-        },
-        close: function close() {
-            // this.services = '';
-            this.engraving.id = '';
-            this.engraving.text = '';
-        }
+  name: "Engraving",
+  props: {
+    name: '',
+    titleType: '',
+    services: '',
+    cartKey: '',
+    order_id: '',
+    fonts: '',
+    engraving: {
+      uniqueId: '',
+      id: '',
+      price: '',
+      text: '',
+      font: '',
+      comment: '',
+      filename: '',
+      cartItemId: '',
+      qty: 1
     }
+  },
+  data: function data() {
+    return {
+      errors: '',
+      message: ''
+    };
+  },
+
+  methods: {
+    getFileName: function getFileName(filename) {
+      this.engraving.filename = filename[0];
+    },
+    submitEngraving: function submitEngraving() {
+      if (this.engraving.cartItemId) {
+        this.updateEngraving();
+      } else {
+        this.addEngraving();
+      }
+    },
+    updateEngraving: function updateEngraving() {
+      console.log(this.engraving);
+      var url = '/api/update-engraving/' + this.engraving.uniqueId;
+      var params = { options: JSON.stringify({ engraving: this.engraving }), order_id: this.order_id };
+      this.syncCart(url, params);
+    },
+    addEngraving: function addEngraving() {
+      var url = '/api/add-engraving/' + this.cartKey;
+      var params = { options: JSON.stringify({ engraving: this.engraving }), order_id: this.order_id };
+      this.syncCart(url, params);
+    },
+    syncCart: function syncCart(url, params) {
+      axios.get(url, { params: params }).then(function (response) {
+        this.errors = '';
+        this.message = '';
+        if (response.data.errors) {
+          return this.errors = response.data.errors;
+        }
+        if (response.data.message) {
+          return this.message = response.data.message;
+        }
+
+        if (response.data.cart) {
+          this.$emit('getCart', response.data.cart);
+          bus.$emit('engraving-from-cart', response.data);
+        }
+      }.bind(this)).catch(function (error) {
+        this.message = null;
+        var status = error.response.status;
+        this.errors = error.response.data.errors;
+        this.message = this.getErrorMessage(status);
+      }.bind(this));
+    },
+    close: function close() {
+      this.engraving = {
+        uniqueId: '',
+        id: '',
+        price: '',
+        text: '',
+        font: '',
+        comment: '',
+        filename: '',
+        cartItemId: '',
+        qty: 1
+      };
+    }
+  }
 });
 
 /***/ }),
@@ -2731,238 +2775,238 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: {
-        category: null,
-        url: String,
-        filterGroups: Array,
-        orderables: Array,
-        paginateItemLimits: Array
+  props: {
+    category: null,
+    url: String,
+    filterGroups: Array,
+    orderables: Array,
+    paginateItemLimits: Array
+  },
+
+  components: {
+    vueSlider: __WEBPACK_IMPORTED_MODULE_0_vue_slider_component___default.a
+  },
+
+  data: function data() {
+    return {
+      loading: true,
+      appliedFilters: [],
+      filterCandidates: [],
+      arr: [],
+      orderTitle: '',
+      filterPrice: {
+        valuePrice: [10, 2000],
+        min: 0,
+        max: 2000
+      },
+
+      query: {
+        sort: 'created_at',
+        direction: 'desc',
+        filter_match: 'and',
+        limit: 12,
+        page: 1
+
+      },
+
+      collection: {
+        data: []
+      }
+    };
+  },
+  mounted: function mounted() {
+    console.log('Component filterable mounted.');
+    this.setOrderTitle({ name: this.query.sort, direction: this.query.direction });
+    this.fetch();
+    this.addFilter();
+  },
+
+
+  computed: {
+    fetchOperators: function fetchOperators(f) {
+      var _this2 = this;
+
+      return function (f) {
+        return _this2.availableOperators().filter(function (operator) {
+          if (f.field && operator.parent.includes(f.field.type)) {
+            return operator;
+          }
+        });
+      };
     },
-
-    components: {
-        vueSlider: __WEBPACK_IMPORTED_MODULE_0_vue_slider_component___default.a
+    chunkedItems: function chunkedItems() {
+      if (this.collection.data && this.collection.data.length > 0) {
+        return _.chunk(this.collection.data, 3);
+      }
     },
-
-    data: function data() {
-        return {
-            loading: true,
-            appliedFilters: [],
-            filterCandidates: [],
-            arr: [],
-            orderTitle: '',
-            filterPrice: {
-                valuePrice: [10, 2000],
-                min: 0,
-                max: 2000
-            },
-
-            query: {
-                sort: 'created_at',
-                direction: 'desc',
-                filter_match: 'and',
-                limit: 12,
-                page: 1
-
-            },
-
-            collection: {
-                data: []
-            }
-        };
-    },
-    mounted: function mounted() {
-        console.log('Component filterable mounted.');
-        this.setOrderTitle({ name: this.query.sort, direction: this.query.direction });
-        this.fetch();
-        this.addFilter();
-    },
-
-
-    computed: {
-        fetchOperators: function fetchOperators(f) {
-            var _this2 = this;
-
-            return function (f) {
-                return _this2.availableOperators().filter(function (operator) {
-                    if (f.field && operator.parent.includes(f.field.type)) {
-                        return operator;
-                    }
-                });
-            };
-        },
-        chunkedItems: function chunkedItems() {
-            if (this.collection.data && this.collection.data.length > 0) {
-                return _.chunk(this.collection.data, 3);
-            }
-        },
-        pagesNumber: function pagesNumber() {
-            if (!this.collection.to) {
-                return [];
-            }
-            var from = this.collection.current_page - 2;
-            if (from < 1) {
-                from = 1;
-            }
-            var to = from + 2 * 2;
-            if (to >= this.collection.last_page) {
-                to = this.collection.last_page;
-            }
-            var pagesArray = [];
-            for (var page = from; page <= to; page++) {
-                pagesArray.push(page);
-            }
-            return pagesArray;
-        }
-    },
-
-    methods: {
-        setOrderTitle: function setOrderTitle(options) {
-            var _this = this;
-            this.orderables.filter(function (item) {
-                if (item.options.name == options.name && item.options.direction == options.direction) {
-                    _this.orderTitle = item.title;
-                }
-            });
-        },
-        updateOrderField: function updateOrderField(e) {
-            var value = JSON.parse(e.target.getAttribute('data-orders'));
-            this.setOrderTitle(value);
-            Vue.set(this.query, 'sort', value.name);
-            Vue.set(this.query, 'direction', value.direction);
-            this.applyChange();
-        },
-        isField: function isField(type, e, i, fields) {
-            return -1;
-        },
-        resetFilter: function resetFilter() {
-            this.appliedFilters.splice(0);
-            this.filterCandidates.splice(0);
-            this.addFilter();
-            this.query.page = 1;
-            this.applyChange();
-        },
-        applyFilter: function applyFilter() {
-            Vue.set(this.$data, 'appliedFilters', JSON.parse(JSON.stringify(this.filterCandidates)));
-            this.query.page = 1;
-            this.applyChange();
-        },
-        selectPrice: function selectPrice() {
-            var minPrice = this.filterPrice.valuePrice[0];
-            var maxPrice = this.filterPrice.valuePrice[1];
-
-            if (this.filterCandidates.indexOf(0) === -1) {
-                Vue.set(this.filterCandidates[0], 'operator', 'between');
-            }
-            this.filterCandidates[0].field_value[0] = minPrice;
-            this.filterCandidates[0].field_value2 = maxPrice;
-            this.applyFilter();
-        },
-        selectField: function selectField(item, i, e) {
-            var value = e.target.value;
-            if (value.length === 0) {
-                return;
-            }
-            var obj = JSON.parse(value);
-            if (e.target.checked) {
-                if (this.filterCandidates.indexOf(i) === -1) {
-                    Vue.set(this.filterCandidates[i], 'operator', 'equal_in');
-                }
-                this.filterCandidates[i].field_value.push(obj);
-            } else {
-                this.filterCandidates[i].field_value.splice(this.filterCandidates[i].field_value.indexOf(obj), 1);
-            }
-            this.applyFilter();
-        },
-        addFilter: function addFilter() {
-            var arr = [];
-            this.filterGroups.forEach(function (item, i) {
-                arr[i] = {
-                    field: item.field,
-                    operator: '',
-                    field_value: [],
-                    field_value2: ''
-                };
-            });
-            this.filterCandidates = arr;
-        },
-        applyChange: function applyChange() {
-            this.scrollTo();
-            NProgress.configure({
-                parent: '#spinner-loader',
-                easing: 'ease',
-                speed: 300
-            });
-            NProgress.start();
-            this.fetch();
-        },
-        updateLimit: function updateLimit() {
-            this.query.page = 1;
-            this.applyChange();
-        },
-        selectLimit: function selectLimit(event) {
-            if (event) {
-                var limit = event.target.innerHTML;
-                this.query.limit = limit;
-            }
-            this.updateLimit();
-        },
-        changePage: function changePage(page) {
-            this.query.page = Number(page);
-            this.applyChange();
-        },
-        prevPage: function prevPage() {
-            if (this.collection.prev_page_url) {
-                this.query.page = Number(this.query.page) + -1;
-                this.applyChange();
-            }
-        },
-        nextPage: function nextPage() {
-
-            if (this.collection.next_page_url) {
-                this.query.page = Number(this.query.page) + 1;
-                this.applyChange();
-            }
-        },
-        getFilters: function getFilters() {
-            var f = {};
-            this.appliedFilters.forEach(function (filter, i) {
-
-                if (filter.field_value.length > 0) {
-                    f['f[' + i + '][field]'] = filter.field;
-                    f['f[' + i + '][operator]'] = filter.operator;
-                    f['f[' + i + '][query_1]'] = filter.field_value.join(',');
-                    if (filter.field_value2) {
-                        f['f[' + i + '][query_2]'] = filter.field_value2;
-                    }
-                }
-            });
-            return f;
-        },
-        scrollTo: function scrollTo() {
-            $([document.documentElement, document.body]).animate({
-                scrollTop: $("#spinner-loader").offset().top - 90
-            }, 800);
-        },
-        fetch: function fetch() {
-            var _this3 = this;
-
-            this.loading = true;
-
-            var filters = this.getFilters();
-
-            var params = _extends({}, filters, this.query);
-
-            axios.get(this.url, { params: params }).then(function (res) {
-                Vue.set(_this3.$data, 'collection', res.data.collection);
-                _this3.query.page = res.data.collection.current_page;
-            }).catch(function (error) {
-                console.log(error);
-            }).finally(function () {
-                _this3.loading = false;
-                NProgress.done();
-            });
-        }
+    pagesNumber: function pagesNumber() {
+      if (!this.collection.to) {
+        return [];
+      }
+      var from = this.collection.current_page - 2;
+      if (from < 1) {
+        from = 1;
+      }
+      var to = from + 2 * 2;
+      if (to >= this.collection.last_page) {
+        to = this.collection.last_page;
+      }
+      var pagesArray = [];
+      for (var page = from; page <= to; page++) {
+        pagesArray.push(page);
+      }
+      return pagesArray;
     }
+  },
+
+  methods: {
+    setOrderTitle: function setOrderTitle(options) {
+      var _this = this;
+      this.orderables.filter(function (item) {
+        if (item.options.name == options.name && item.options.direction == options.direction) {
+          _this.orderTitle = item.title;
+        }
+      });
+    },
+    updateOrderField: function updateOrderField(e) {
+      var value = JSON.parse(e.target.getAttribute('data-orders'));
+      this.setOrderTitle(value);
+      Vue.set(this.query, 'sort', value.name);
+      Vue.set(this.query, 'direction', value.direction);
+      this.applyChange();
+    },
+    isField: function isField(type, e, i, fields) {
+      return -1;
+    },
+    resetFilter: function resetFilter() {
+      this.appliedFilters.splice(0);
+      this.filterCandidates.splice(0);
+      this.addFilter();
+      this.query.page = 1;
+      this.applyChange();
+    },
+    applyFilter: function applyFilter() {
+      Vue.set(this.$data, 'appliedFilters', JSON.parse(JSON.stringify(this.filterCandidates)));
+      this.query.page = 1;
+      this.applyChange();
+    },
+    selectPrice: function selectPrice() {
+      var minPrice = this.filterPrice.valuePrice[0];
+      var maxPrice = this.filterPrice.valuePrice[1];
+
+      if (this.filterCandidates.indexOf(0) === -1) {
+        Vue.set(this.filterCandidates[0], 'operator', 'between');
+      }
+      this.filterCandidates[0].field_value[0] = minPrice;
+      this.filterCandidates[0].field_value2 = maxPrice;
+      this.applyFilter();
+    },
+    selectField: function selectField(item, i, e) {
+      var value = e.target.value;
+      if (value.length === 0) {
+        return;
+      }
+      var obj = JSON.parse(value);
+      if (e.target.checked) {
+        if (this.filterCandidates.indexOf(i) === -1) {
+          Vue.set(this.filterCandidates[i], 'operator', 'equal_in');
+        }
+        this.filterCandidates[i].field_value.push(obj);
+      } else {
+        this.filterCandidates[i].field_value.splice(this.filterCandidates[i].field_value.indexOf(obj), 1);
+      }
+      this.applyFilter();
+    },
+    addFilter: function addFilter() {
+      var arr = [];
+      this.filterGroups.forEach(function (item, i) {
+        arr[i] = {
+          field: item.field,
+          operator: '',
+          field_value: [],
+          field_value2: ''
+        };
+      });
+      this.filterCandidates = arr;
+    },
+    applyChange: function applyChange() {
+      this.scrollTo();
+      NProgress.configure({
+        parent: '#spinner-loader',
+        easing: 'ease',
+        speed: 300
+      });
+      NProgress.start();
+      this.fetch();
+    },
+    updateLimit: function updateLimit() {
+      this.query.page = 1;
+      this.applyChange();
+    },
+    selectLimit: function selectLimit(event) {
+      if (event) {
+        var limit = event.target.innerHTML;
+        this.query.limit = limit;
+      }
+      this.updateLimit();
+    },
+    changePage: function changePage(page) {
+      this.query.page = Number(page);
+      this.applyChange();
+    },
+    prevPage: function prevPage() {
+      if (this.collection.prev_page_url) {
+        this.query.page = Number(this.query.page) + -1;
+        this.applyChange();
+      }
+    },
+    nextPage: function nextPage() {
+
+      if (this.collection.next_page_url) {
+        this.query.page = Number(this.query.page) + 1;
+        this.applyChange();
+      }
+    },
+    getFilters: function getFilters() {
+      var f = {};
+      this.appliedFilters.forEach(function (filter, i) {
+
+        if (filter.field_value.length > 0) {
+          f['f[' + i + '][field]'] = filter.field;
+          f['f[' + i + '][operator]'] = filter.operator;
+          f['f[' + i + '][query_1]'] = filter.field_value.join(',');
+          if (filter.field_value2) {
+            f['f[' + i + '][query_2]'] = filter.field_value2;
+          }
+        }
+      });
+      return f;
+    },
+    scrollTo: function scrollTo() {
+      $([document.documentElement, document.body]).animate({
+        scrollTop: $("#spinner-loader").offset().top - 90
+      }, 800);
+    },
+    fetch: function fetch() {
+      var _this3 = this;
+
+      this.loading = true;
+
+      var filters = this.getFilters();
+
+      var params = _extends({}, filters, this.query);
+
+      axios.get(this.url, { params: params }).then(function (res) {
+        Vue.set(_this3.$data, 'collection', res.data.collection);
+        _this3.query.page = res.data.collection.current_page;
+      }).catch(function (error) {
+        console.log(error);
+      }).finally(function () {
+        _this3.loading = false;
+        NProgress.done();
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3007,88 +3051,106 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['filters'],
-    data: function data() {
-        return {
-            className: '',
-            filterable: {
-                url: '/api/products',
-                orderables: [{ title: 'Дата (новые)', options: { name: 'created_at', direction: 'desc' } }, { title: 'Дата (старые)', options: { name: 'created_at', direction: 'asc' } }, { title: 'Цена (убывание)', options: { name: 'productOptions.price', direction: 'desc' } }, { title: 'Цена (возрастание)', options: { name: 'productOptions.price', direction: 'asc' } }, { title: 'Имя (Я - А)', options: { name: 'title', direction: 'desc' } }, { title: 'Имя (А - Я)', options: { name: 'title', direction: 'asc' } }],
-                filterGroups: [{ title: 'Стоимость', name: 'price', field: 'productOptions.price', collapsed: true }, {
-                    title: 'Материал',
-                    name: 'material',
-                    field: 'material',
-                    collapsed: true,
-                    item: this.filters.material
-                }, { title: 'Категории', name: 'categories', field: 'catalogs.name', item: this.filters.categories }, {
-                    title: 'Цвет покрытия',
-                    name: 'coating',
-                    field: 'productOptions.color',
-                    item: this.filters.coating
-                }, {
-                    title: 'Цвет камня',
-                    name: 'stone',
-                    field: 'productOptions.color_stone',
-                    item: this.filters.stone
-                }],
-                paginateItemLimits: [12, 24, 50]
-            }
-        };
+  props: ['filters'],
+  data: function data() {
+    return {
+      className: '',
+      filterable: {
+        url: '/api/products',
+        orderables: [{ title: 'Дата (новые)', options: { name: 'created_at', direction: 'desc' } }, { title: 'Дата (старые)', options: { name: 'created_at', direction: 'asc' } }, { title: 'Цена (убывание)', options: { name: 'productOptions.price', direction: 'desc' } }, { title: 'Цена (возрастание)', options: { name: 'productOptions.price', direction: 'asc' } }, { title: 'Имя (Я - А)', options: { name: 'title', direction: 'desc' } }, { title: 'Имя (А - Я)', options: { name: 'title', direction: 'asc' } }],
+        filterGroups: [{ title: 'Стоимость', name: 'price', field: 'productOptions.price', collapsed: true }, {
+          title: 'Материал',
+          name: 'material',
+          field: 'material',
+          collapsed: true,
+          item: this.filters.material
+        }, { title: 'Категории', name: 'categories', field: 'catalogs.name', item: this.filters.categories }, {
+          title: 'Цвет покрытия',
+          name: 'coating',
+          field: 'productOptions.color',
+          item: this.filters.coating
+        }, {
+          title: 'Цвет камня',
+          name: 'stone',
+          field: 'productOptions.color_stone',
+          item: this.filters.stone
+        }],
+        paginateItemLimits: [12, 24, 50]
+      }
+    };
+  },
+  mounted: function mounted() {
+    console.log('Component ProductList2 mounted.');
+  },
+
+  methods: {
+    getClassWishList: function getClassWishList(id) {
+
+      if (this.isWishList(id)) {
+        return 'fas fa-heart';
+      }
+      return 'fal fa-heart';
     },
-    mounted: function mounted() {
-        console.log('Component ProductList2 mounted.');
+    isWishList: function isWishList(id) {
+      var wishList = this.$parent.wishList;
+      if (_.find(wishList, function (item) {
+        return item.id == id;
+      })) {
+        return true;
+      }
+      return false;
     },
-
-    methods: {
-        toggleWishList: function toggleWishList(id) {
-
-            if (this.$parent.wishList[id]) {
-
-                this.className = 'ico ico-wishlist link-wishlist fas fa-heart';
-                return true;
-            } else {
-                this.className = 'ico ico-wishlist link-wishlist fal fa-heart';
-                return false;
-            }
-        },
-        addToCart: function addToCart() {
-            bus.$emit('added-to-cart', this.product);
-        },
-        addToWishList: function addToWishList(id) {
-            bus.$emit('added-to-wishlist', id);
-        },
-        removeToWishList: function removeToWishList(id) {
-            bus.$emit('remove-to-wishlist', id);
-        },
-        percentSpecial: function percentSpecial(item) {
-            var price = item.product_options[0] ? item.product_options[0].price : item.price;
-            return Math.floor(item.product_special.price / price * 100);
-        },
-        priceSpecial: function priceSpecial(item) {
-            var price = item.product_options[0] ? item.product_options[0].price : item.price;
-            var specialPrice = price - item.product_special.price;
-            return specialPrice.toFixed(0);
-        },
-        getImage: function getImage(product) {
-            var filename = '';
-            var options = product.product_options;
-            if (product.files && product.files.length) {
-                return product.files[0].name;
-            }
-            if (!options) {
-                return '';
-            }
-            for (var i = 0; i < options.length; i++) {
-                if (options[i].files && options[i].files.length) {
-                    return options[i].files[0].name;
-                }
-            }
-
-            return '';
+    toggleWishList: function toggleWishList(id) {
+      if (!this.isWishList(id)) {
+        this.addToWishList(id);
+        return;
+      }
+      this.removeToWishList(id);
+    },
+    addToWishList: function addToWishList(id) {
+      bus.$emit('added-to-wishlist', id);
+    },
+    removeToWishList: function removeToWishList(id) {
+      var wishList = this.$parent.wishList;
+      var key = _.findKey(wishList, function (item) {
+        return item.id == id;
+      });
+      bus.$emit('remove-to-wishlist', key);
+    },
+    addToCart: function addToCart() {
+      bus.$emit('added-to-cart', this.product);
+    },
+    percentSpecial: function percentSpecial(item) {
+      var price = item.product_options[0] ? item.product_options[0].price : item.price;
+      return Math.floor(item.product_special.price / price * 100);
+    },
+    priceSpecial: function priceSpecial(item) {
+      var price = item.product_options[0] ? item.product_options[0].price : item.price;
+      var specialPrice = price - item.product_special.price;
+      return specialPrice.toFixed(0);
+    },
+    getImage: function getImage(product) {
+      var filename = '';
+      var options = product.product_options;
+      if (product.files && product.files.length) {
+        return product.files[0].name;
+      }
+      if (!options) {
+        return '';
+      }
+      for (var i = 0; i < options.length; i++) {
+        if (options[i].files && options[i].files.length) {
+          return options[i].files[0].name;
         }
+      }
+
+      return '';
     }
+  }
 
 });
 
@@ -3132,74 +3194,86 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['products'],
-    data: function data() {
-        return {
-            className: '',
-            image: []
-        };
-    },
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    },
+  props: ['products'],
+  data: function data() {
+    return {
+      className: '',
+      image: []
+    };
+  },
+  mounted: function mounted() {
+    console.log('Component mounted.');
+  },
 
-    methods: {
-        addToCart: function addToCart() {
-            bus.$emit('added-to-cart', this.product);
-        },
-        addToWishList: function addToWishList(id) {
-            bus.$emit('added-to-wishlist', id);
-        },
-        removeToWishList: function removeToWishList(id) {
-            var wishList = this.$parent.wishList;
-            var key = _.findKey(wishList, function (item) {
-                return item.id == id;
-            });
-            bus.$emit('remove-to-wishlist', key);
-        },
-        percentSpecial: function percentSpecial(item) {
-            var price = item.product_options[0] ? item.product_options[0].price : item.price;
-            return Math.floor(item.product_special.price / price * 100);
-        },
-        priceSpecial: function priceSpecial(item) {
-            var price = item.product_options[0] ? item.product_options[0].price : item.price;
-            var specialPrice = price - item.product_special.price;
-            return specialPrice.toFixed(0);
-        },
-        toggleWishList: function toggleWishList(id) {
-            var wishList = this.$parent.wishList;
-            // console.log()
-            if (_.find(wishList, function (item) {
-                return item.id == id;
-            })) {
-                this.className = 'ico ico-wishlist link-wishlist fas fa-heart';
-                return true;
-            } else {
-                this.className = 'ico ico-wishlist link-wishlist fal fa-heart';
-                return false;
-            }
-        },
-        getImage: function getImage(product) {
-            var options = product.product_options;
-            if (product.files && product.files.length) {
-                return product.files[0].name;
-            }
-            if (!options) {
-                return '';
-            }
-            for (var i = 0; i < options.length; i++) {
-                if (options[i].files && options[i].files.length) {
-                    return options[i].files[0].name;
-                }
-            }
+  methods: {
+    addToCart: function addToCart() {
+      bus.$emit('added-to-cart', this.product);
+    },
+    addToWishList: function addToWishList(id) {
+      bus.$emit('added-to-wishlist', id);
+    },
+    removeToWishList: function removeToWishList(id) {
+      var wishList = this.$parent.wishList;
+      var key = _.findKey(wishList, function (item) {
+        return item.id == id;
+      });
+      bus.$emit('remove-to-wishlist', key);
+    },
+    getClassWishList: function getClassWishList(id) {
 
-            return '';
+      if (this.isWishList(id)) {
+        return 'fas fa-heart';
+      }
+      return 'fal fa-heart';
+    },
+    isWishList: function isWishList(id) {
+      var wishList = this.$parent.wishList;
+      if (_.find(wishList, function (item) {
+        return item.id == id;
+      })) {
+        return true;
+      }
+      return false;
+    },
+    toggleWishList: function toggleWishList(id) {
+      if (!this.isWishList(id)) {
+        this.addToWishList(id);
+        return;
+      }
+      this.removeToWishList(id);
+    },
+    percentSpecial: function percentSpecial(item) {
+      var price = item.product_options[0] ? item.product_options[0].price : item.price;
+      return Math.floor(item.product_special.price / price * 100);
+    },
+    priceSpecial: function priceSpecial(item) {
+      var price = item.product_options[0] ? item.product_options[0].price : item.price;
+      var specialPrice = price - item.product_special.price;
+      return specialPrice.toFixed(0);
+    },
+    getImage: function getImage(product) {
+      var options = product.product_options;
+      if (product.files && product.files.length) {
+        return product.files[0].name;
+      }
+      if (!options) {
+        return '';
+      }
+      for (var i = 0; i < options.length; i++) {
+        if (options[i].files && options[i].files.length) {
+          return options[i].files[0].name;
         }
-    },
+      }
 
-    computed: {}
+      return '';
+    }
+  },
+
+  computed: {}
 });
 
 /***/ }),
@@ -3805,6 +3879,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3818,7 +3899,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       services: '',
       cartKey: '',
       coupon_code: null,
-      error_coupon: null
+      error_coupon: null,
+      titleType: 'Добавить',
+      engraving: {
+        id: '',
+        price: '',
+        text: '',
+        font: '',
+        comment: '',
+        filename: '',
+        cartItemId: '',
+        qty: 1
+      }
     };
   },
   mounted: function mounted() {
@@ -3857,18 +3949,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }.bind(this));
     },
     openModal: function openModal(key, item) {
+      this.titleType = "Добавить";
       this.cartKey = key;
       this.services = item.services;
     },
-    editEngraving: function editEngraving(key, item) {
-      this.cartKey = key;
-      this.services = item.services;
+    editEngraving: function editEngraving(engraving, services) {
+      this.engraving = JSON.parse(JSON.stringify(engraving));
+      this.titleType = "Редактировать";
+      this.services = services;
     },
     removeEngraving: function removeEngraving(keyCartItem, keyEngraving) {
       var _this = this;
 
       var options = { keyCartItem: keyCartItem, keyEngraving: keyEngraving };
-      console.log(options);
+
       var url = 'api/remove-engraving?options=' + JSON.stringify(options);
       axios.get(url).then(function (res) {
         if (res.data.cart) {
@@ -9161,7 +9255,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -42434,17 +42528,14 @@ var render = function() {
                 {
                   on: {
                     click: function($event) {
-                      _vm.toggleWishList(item.id)
-                        ? _vm.removeToWishList(item.id)
-                        : _vm.addToWishList(item.id)
+                      return _vm.toggleWishList(item.id)
                     }
                   }
                 },
                 [
                   _c("span", {
-                    class: _vm.toggleWishList(item.id)
-                      ? _vm.className
-                      : _vm.className
+                    staticClass: "ico ico-wishlist link-wishlist",
+                    class: _vm.getClassWishList(item.id)
                   })
                 ]
               ),
@@ -42459,7 +42550,7 @@ var render = function() {
                 _c("div", { staticClass: "product-price text-center" }, [
                   item.product_special
                     ? _c("span", { staticClass: "special" }, [
-                        _vm._v(_vm._s(_vm.priceSpecial(item)) + " р.")
+                        _vm._v(_vm._s(_vm.priceSpecial(item)) + " ₽")
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -42468,9 +42559,11 @@ var render = function() {
                     : item.product_options[0]
                     ? _c("span", [
                         _vm._v(
-                          _vm._s(
-                            Number(item.product_options[0].price).toFixed(0)
-                          ) + " р."
+                          "\n                            " +
+                            _vm._s(
+                              Number(item.product_options[0].price).toFixed(0)
+                            ) +
+                            " ₽\n                          "
                         )
                       ])
                     : _vm._e()
@@ -42560,17 +42653,14 @@ var render = function() {
                           {
                             on: {
                               click: function($event) {
-                                _vm.toggleWishList(item.id)
-                                  ? _vm.removeToWishList(item.id)
-                                  : _vm.addToWishList(item.id)
+                                return _vm.toggleWishList(item.id)
                               }
                             }
                           },
                           [
                             _c("span", {
-                              class: _vm.toggleWishList(item.id)
-                                ? _vm.className
-                                : _vm.className
+                              staticClass: "ico ico-wishlist link-wishlist",
+                              class: _vm.getClassWishList(item.id)
                             })
                           ]
                         ),
@@ -42939,7 +43029,7 @@ var render = function() {
                                 [
                                   _vm._v(
                                     _vm._s(field.title) +
-                                      "\n                                        "
+                                      "\n                    "
                                   )
                                 ]
                               )
@@ -43993,10 +44083,11 @@ var render = function() {
                                                   _vm._v(" "),
                                                   _c("span", [
                                                     _vm._v(
-                                                      _vm._s(engraving.price) +
-                                                        " ₽"
+                                                      _vm._s(engraving.price)
                                                     )
-                                                  ])
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("span", [_vm._v("₽")])
                                                 ]
                                               )
                                             ]
@@ -44046,11 +44137,11 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("td", { staticClass: "price-sum" }, [
-                    _c("span", [
-                      _vm._v(_vm._s(cartItem.price.toFixed(2)) + " ₽")
-                    ])
-                  ]),
+                  _c(
+                    "td",
+                    { staticClass: "align-middle price-sum text-nowrap" },
+                    [_vm._v(_vm._s(cartItem.price.toFixed(2)) + " ₽")]
+                  ),
                   _vm._v(" "),
                   _c("td", { staticClass: "remove text-center" }, [
                     _c(
@@ -44077,7 +44168,11 @@ var render = function() {
             _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "float-right pt-1 total-cart" }, [
-              _vm._v("Итого: " + _vm._s(_vm.cart.totalPrice.toFixed(2)) + " ₽")
+              _c("span", [
+                _vm._v(
+                  "Итого: " + _vm._s(_vm.cart.totalPrice.toFixed(2)) + " ₽"
+                )
+              ])
             ])
           ])
         ])
@@ -44214,7 +44309,7 @@ var render = function() {
                 staticClass: "modal-title",
                 attrs: { id: "engravingModalLable" }
               },
-              [_vm._v("Добавить гравировку")]
+              [_vm._v(_vm._s(_vm.titleType) + " гравировку")]
             ),
             _vm._v(" "),
             _c(
@@ -44279,8 +44374,9 @@ var render = function() {
                             { domProps: { value: service.id } },
                             [
                               _vm._v(
-                                "\n                                " +
-                                  _vm._s(service.title)
+                                "\n                " +
+                                  _vm._s(service.title) +
+                                  "\n                "
                               ),
                               service.price > 0
                                 ? [
@@ -44527,11 +44623,11 @@ var render = function() {
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
-                    return _vm.addEngraving()
+                    return _vm.submitEngraving()
                   }
                 }
               },
-              [_vm._v("Добавить")]
+              [_vm._v(_vm._s(_vm.titleType))]
             )
           ])
         ])
@@ -45871,9 +45967,9 @@ var render = function() {
                                         { domProps: { value: region.name } },
                                         [
                                           _vm._v(
-                                            "\n                                                    " +
+                                            "\n                          " +
                                               _vm._s(region.name) +
-                                              "\n                                                "
+                                              "\n                        "
                                           )
                                         ]
                                       )
@@ -45976,7 +46072,7 @@ var render = function() {
                                         }),
                                         _vm._v(
                                           _vm._s(item.title) +
-                                            "\n                                            "
+                                            "\n                      "
                                         )
                                       ]
                                     )
@@ -46075,7 +46171,7 @@ var render = function() {
                                         ),
                                         _vm._v(
                                           _vm._s(item.title) +
-                                            "\n                                            "
+                                            "\n                      "
                                         )
                                       ]
                                     )
@@ -46110,7 +46206,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "Комментарий к\n                                    заказу\n                                "
+                              "Комментарий к\n                  заказу\n                "
                             )
                           ]
                         ),
@@ -46118,7 +46214,7 @@ var render = function() {
                         _c("div", { staticClass: "p-4" }, [
                           _c("p", { staticClass: "font-italic mb-4" }, [
                             _vm._v(
-                              "Если у вас есть комментарий к заказу, Вы можете\n                                        оставить его\n                                        в поле ниже."
+                              "Если у вас есть комментарий к заказу, Вы можете\n                    оставить его\n                    в поле ниже."
                             )
                           ]),
                           _vm._v(" "),
@@ -46278,11 +46374,11 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                Цвет: " +
+                                                    "\n                                  Цвет: " +
                                                       _vm._s(
                                                         cartItem.options.color
                                                       ) +
-                                                      "\n                            "
+                                                      "\n                              "
                                                   )
                                                 ]
                                               )
@@ -46297,12 +46393,12 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                Цвет камня: " +
+                                                    "\n                                  Цвет камня: " +
                                                       _vm._s(
                                                         cartItem.options
                                                           .color_stone
                                                       ) +
-                                                      "\n                            "
+                                                      "\n                              "
                                                   )
                                                 ]
                                               )
@@ -46462,7 +46558,7 @@ var render = function() {
                                   [
                                     _vm._v(
                                       _vm._s(cartItem.price) +
-                                        " ₽\n                                    "
+                                        " ₽\n                  "
                                     )
                                   ]
                                 ),
@@ -46477,7 +46573,7 @@ var render = function() {
                                   [
                                     _vm._v(
                                       _vm._s(cartItem.qty) +
-                                        "\n                                    "
+                                        "\n                  "
                                     )
                                   ]
                                 )
@@ -46557,7 +46653,7 @@ var render = function() {
                 },
                 [
                   _c("i", { staticClass: "fa fa-gift mr-2" }),
-                  _vm._v("Применить\n                        ")
+                  _vm._v("Применить\n            ")
                 ]
               )
             ]),
@@ -46579,7 +46675,7 @@ var render = function() {
         _c("div", { staticClass: "p-4" }, [
           _c("p", { staticClass: "font-italic mb-4" }, [
             _vm._v(
-              "Доставка и дополнительные расходы будут рассчитываться на основе\n                    введенных Вами значений."
+              "Доставка и дополнительные расходы будут рассчитываться на основе\n          введенных Вами значений."
             )
           ]),
           _vm._v(" "),
@@ -46598,9 +46694,7 @@ var render = function() {
                       _c("strong", { staticClass: "text-muted" }, [
                         _vm._v("Сумма")
                       ]),
-                      _vm._v(
-                        _vm._s(_vm.cart.totalPrice) + " ₽\n                    "
-                      )
+                      _vm._v(_vm._s(_vm.cart.totalPrice) + " ₽\n          ")
                     ]
                   )
                 : _vm._e(),
@@ -46616,7 +46710,7 @@ var render = function() {
                       _c("strong", { staticClass: "text-muted" }, [
                         _vm._v(_vm._s(_vm.cart.shipment.title))
                       ]),
-                      _vm._v(" \n                        "),
+                      _vm._v(" \n            "),
                       _c("span", { staticClass: "text-nowrap" }, [
                         _vm._v("+ " + _vm._s(_vm.cart.shipment.price) + " ₽")
                       ])
@@ -46812,7 +46906,7 @@ var render = function() {
                                                   "div",
                                                   {
                                                     staticClass:
-                                                      "dropdown flex-fill text-left"
+                                                      "flex-fill text-left"
                                                   },
                                                   [
                                                     _c(
@@ -46862,112 +46956,131 @@ var render = function() {
                                                         )
                                                       : _vm._e(),
                                                     _vm._v(" "),
-                                                    engraving.text
-                                                      ? _c("a", {
-                                                          staticClass:
-                                                            "dropdown-toggle px-1",
-                                                          attrs: {
-                                                            href: "#",
-                                                            role: "button",
-                                                            id: "dropdownText",
-                                                            "data-toggle":
-                                                              "dropdown",
-                                                            "aria-haspopup":
-                                                              "true",
-                                                            "aria-expanded":
-                                                              "false"
-                                                          },
-                                                          domProps: {
-                                                            textContent: _vm._s(
-                                                              "текст"
-                                                            )
-                                                          }
-                                                        })
-                                                      : _vm._e(),
-                                                    _vm._v(" "),
-                                                    engraving.comment
-                                                      ? _c("a", {
-                                                          staticClass:
-                                                            "dropdown-toggle px-1",
-                                                          attrs: {
-                                                            href: "#",
-                                                            role: "button",
-                                                            id:
-                                                              "dropdownComment",
-                                                            "data-toggle":
-                                                              "dropdown",
-                                                            "aria-haspopup":
-                                                              "true",
-                                                            "aria-expanded":
-                                                              "false"
-                                                          },
-                                                          domProps: {
-                                                            textContent: _vm._s(
-                                                              "комментарий"
-                                                            )
-                                                          }
-                                                        })
-                                                      : _vm._e(),
-                                                    _vm._v(" "),
-                                                    engraving.comment
-                                                      ? _c(
-                                                          "div",
-                                                          {
-                                                            staticClass:
-                                                              "dropdown-menu",
-                                                            attrs: {
-                                                              "aria-labelledby":
-                                                                "dropdownComment"
-                                                            }
-                                                          },
-                                                          [
-                                                            _c(
-                                                              "span",
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "dropdown d-inline-block"
+                                                      },
+                                                      [
+                                                        engraving.text
+                                                          ? _c("a", {
+                                                              staticClass:
+                                                                "dropdown-toggle px-1",
+                                                              attrs: {
+                                                                href: "#",
+                                                                role: "button",
+                                                                id:
+                                                                  "dropdownText",
+                                                                "data-toggle":
+                                                                  "dropdown",
+                                                                "aria-haspopup":
+                                                                  "true",
+                                                                "aria-expanded":
+                                                                  "false"
+                                                              },
+                                                              domProps: {
+                                                                textContent: _vm._s(
+                                                                  "текст"
+                                                                )
+                                                              }
+                                                            })
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        engraving.text
+                                                          ? _c(
+                                                              "div",
                                                               {
                                                                 staticClass:
-                                                                  "dropdown-item-text"
+                                                                  "dropdown-menu",
+                                                                attrs: {
+                                                                  "aria-labelledby":
+                                                                    "dropdownText"
+                                                                }
                                                               },
                                                               [
-                                                                _vm._v(
-                                                                  _vm._s(
-                                                                    engraving.comment
-                                                                  )
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "dropdown-item-text"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      _vm._s(
+                                                                        engraving.text
+                                                                      )
+                                                                    )
+                                                                  ]
                                                                 )
                                                               ]
                                                             )
-                                                          ]
-                                                        )
-                                                      : _vm._e(),
+                                                          : _vm._e()
+                                                      ]
+                                                    ),
                                                     _vm._v(" "),
-                                                    engraving.text
-                                                      ? _c(
-                                                          "div",
-                                                          {
-                                                            staticClass:
-                                                              "dropdown-menu",
-                                                            attrs: {
-                                                              "aria-labelledby":
-                                                                "dropdownText"
-                                                            }
-                                                          },
-                                                          [
-                                                            _c(
-                                                              "span",
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "dropdown d-inline-block"
+                                                      },
+                                                      [
+                                                        engraving.comment
+                                                          ? _c("a", {
+                                                              staticClass:
+                                                                "dropdown-toggle px-1",
+                                                              attrs: {
+                                                                href: "#",
+                                                                role: "button",
+                                                                id:
+                                                                  "dropdownComment",
+                                                                "data-toggle":
+                                                                  "dropdown",
+                                                                "aria-haspopup":
+                                                                  "true",
+                                                                "aria-expanded":
+                                                                  "false"
+                                                              },
+                                                              domProps: {
+                                                                textContent: _vm._s(
+                                                                  "комментарий"
+                                                                )
+                                                              }
+                                                            })
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        engraving.comment
+                                                          ? _c(
+                                                              "div",
                                                               {
                                                                 staticClass:
-                                                                  "dropdown-item-text"
+                                                                  "dropdown-menu",
+                                                                attrs: {
+                                                                  "aria-labelledby":
+                                                                    "dropdownComment"
+                                                                }
                                                               },
                                                               [
-                                                                _vm._v(
-                                                                  _vm._s(
-                                                                    engraving.text
-                                                                  )
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "dropdown-item-text"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      _vm._s(
+                                                                        engraving.comment
+                                                                      )
+                                                                    )
+                                                                  ]
                                                                 )
                                                               ]
                                                             )
-                                                          ]
-                                                        )
-                                                      : _vm._e()
+                                                          : _vm._e()
+                                                      ]
+                                                    )
                                                   ]
                                                 ),
                                                 _vm._v(" "),
@@ -47003,20 +47116,26 @@ var render = function() {
                                                     ),
                                                     _vm._v(" "),
                                                     _c(
-                                                      "span",
+                                                      "button",
                                                       {
                                                         staticClass:
-                                                          "text-primary",
+                                                          "btn btn-link pr-1 pl-2 py-0",
                                                         attrs: {
-                                                          title: "Редактировать"
+                                                          title:
+                                                            "Редактировать",
+                                                          "data-target":
+                                                            "#engravingModal",
+                                                          type: "button",
+                                                          "data-toggle": "modal"
                                                         },
                                                         on: {
                                                           click: function(
                                                             $event
                                                           ) {
                                                             return _vm.editEngraving(
-                                                              key,
-                                                              keyEngraving
+                                                              engraving,
+                                                              cartItem.item
+                                                                .services
                                                             )
                                                           }
                                                         }
@@ -47030,10 +47149,10 @@ var render = function() {
                                                     ),
                                                     _vm._v(" "),
                                                     _c(
-                                                      "span",
+                                                      "button",
                                                       {
                                                         staticClass:
-                                                          "text-danger remove-engraving",
+                                                          "btn btn-link  p-0 text-danger",
                                                         attrs: {
                                                           title: "Удалить"
                                                         },
@@ -47386,8 +47505,10 @@ var render = function() {
               _vm._v(" "),
               _c("engraving", {
                 attrs: {
+                  "title-type": _vm.titleType,
                   "cart-key": _vm.cartKey,
                   fonts: _vm.fonts,
+                  engraving: _vm.engraving,
                   services: _vm.services
                 }
               })

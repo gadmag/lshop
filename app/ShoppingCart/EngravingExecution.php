@@ -53,10 +53,18 @@ trait EngravingExecution
         if ($cartItem->totalEngravingQty() > $cartItem->qty) {
             $cartItem->qty += ($cartItem->totalEngravingQty() - $cartItem->qty);
         }
-        $cartItem->calculate();
+        $this->applyDiscount($cartItem);
         $this->content->put($cartItem->getUniqueId(), $cartItem);
         $this->save();
         return $this;
+    }
+
+    public function updateEngraving(string $engravingId, array $engraving)
+    {
+        $cartId = $engraving['cartItemId'];
+        $this->removeEngraving($cartId, $engravingId);
+        $this->addEngraving($cartId, $engraving);
+
     }
 
     /**
@@ -67,7 +75,6 @@ trait EngravingExecution
      */
     public function removeEngraving($cartItemId, $engravingId)
     {
-
         if (!$this->has($cartItemId)) {
             throw new \Exception('Id not found in content');
         }
@@ -75,6 +82,7 @@ trait EngravingExecution
         if ($cartItem->engravings->has($engravingId)) {
             $cartItem->engravings->forget($engravingId);
         }
+        $this->applyDiscount($cartItem);
         $this->save();
         return $this;
     }
@@ -100,6 +108,24 @@ trait EngravingExecution
         return $this->content->map(function (CartItem $cartItem) {
             return $cartItem->getTotalEngravingFiles()->filter();
         })->flatten();
+    }
+
+
+    /**
+     * @param string $engravingId
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getEngraving(string $engravingId)
+    {
+        foreach ($this->content() as $cartItem) {
+            if ($cartItem->engraving->has($engravingId)) {
+                return $cartItem->engraving->get($engravingId);
+            }
+        }
+
+        throw new \Exception('Engraving id not found in content');
+
     }
 
 }

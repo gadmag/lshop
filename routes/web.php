@@ -88,6 +88,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('api/add-coupon/{code}', ['as' => 'product.addCoupon', 'uses' => 'ProductController@addCoupon']);
     Route::get('api/add-shipment/{id}', ['as' => 'addShipment', 'uses' => 'ProductController@addShipment']);
     Route::get('api/add-engraving/{id}', ['as' => 'addEngraving', 'uses' => 'ProductController@addEngraving']);
+    Route::get('api/update-engraving/{id}', ['as' => 'updateEngraving', 'uses' => 'ProductController@updateEngraving']);
     Route::get('api/remove-engraving', ['as' => 'removeEngraving', 'uses' => 'ProductController@removeEngravingItem']);
 
 

@@ -674,9 +674,6 @@ header .block-right {
 .product-item .card-body {
   padding: 0.75rem;
 }
-.product-item .product-price {
-  font-size: 15px;
-}
 .product-item .product-price span.special {
   font-size: 16px;
 }

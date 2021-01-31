@@ -11,7 +11,7 @@ class EngravingItem
     /**
      * @var string
      */
-    private $uniqueId;
+    public $uniqueId;
 
     /**
      * @var int

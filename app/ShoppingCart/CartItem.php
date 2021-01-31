@@ -185,12 +185,4 @@ class CartItem
             'item' => $this->item,
         ];
     }
-
-    /**
-     * Calculate price
-     */
-    public function calculate():void
-    {
-        $this->totalPrice = $this->getTotal();
-    }
 }

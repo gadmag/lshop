@@ -23,5 +23,7 @@ trait DiscountPrice
         } elseif ($cartItem->options['special_prefix'] == '-') {
             $cartItem->price = floatval($cartItem->price - $cartItem->options['special_price']);
         }
+
+        $cartItem->totalPrice = $cartItem->getTotal();
     }
 }

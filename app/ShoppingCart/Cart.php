@@ -74,13 +74,13 @@ class Cart
      * @param int $price
      * @param int $weight
      * @param int $qty
-     * @param $product
+     * @param null $product
      * @param null $options
      * @param null $engraving
      * @return $this
      * @throws Exception
      */
-    public function add($id, $title = null, $image = '', $price = 0, $weight = 0, $qty = 1, $product, $options = null, $engraving = null)
+    public function add($id, $title = null, $image = '', $price = 0, $weight = 0, $qty = 1, $product = null, $options = null, $engraving = null)
     {
         $cartItem = new CartItem(
             $id,
@@ -101,7 +101,6 @@ class Cart
             $cartItem->engravings = $this->content->get($uniqueId)->engravings;
         }
 
-        $cartItem->calculate();
         $this->applyDiscount($cartItem);
         $this->content->put($uniqueId, $cartItem);
         if ($engraving['id']) {
@@ -126,7 +125,6 @@ class Cart
         $cartItem = $this->get($uniqueId);
         $cartItem->qty = $qty;
         $cartItem->weight = $cartItem->weight * $cartItem->qty;
-        $cartItem->calculate();
         $this->applyDiscount($cartItem);
         $this->content->put($uniqueId, $cartItem);
         $this->save();
@@ -145,7 +143,6 @@ class Cart
             return $this->removeItem($uniqueId);
         }
         $cartItem->weight = $cartItem->weight * $cartItem->qty;
-        $cartItem->calculate();
         $this->applyDiscount($cartItem);
         $this->content->put($uniqueId, $cartItem);
         $this->save();

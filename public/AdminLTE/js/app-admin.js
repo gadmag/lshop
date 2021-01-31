@@ -1705,68 +1705,95 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "Engraving",
-    props: {
-        name: '',
-        services: '',
-        cartKey: '',
-        order_id: '',
-        fonts: '',
-        data: ''
-    },
-    data: function data() {
-        return {
-            // services: this.servicesList,
-            engraving: {
-                id: '',
-                price: '',
-                text: '',
-                font: '',
-                comment: '',
-                filename: '',
-                qty: 1
-            },
-            errors: '',
-            message: ''
-        };
-    },
-    methods: {
-        getFileName: function getFileName(filename) {
-            this.engraving.filename = filename[0];
-        },
-        addEngraving: function addEngraving() {
-            var url = '/api/add-engraving/' + this.cartKey;
-            var params = { options: JSON.stringify({ engraving: this.engraving }), order_id: this.order_id };
-            console.log(params);
-            axios.get(url, { params: params }).then(function (response) {
-                this.errors = '';
-                this.message = '';
-                if (response.data.errors) {
-                    return this.errors = response.data.errors;
-                }
-                if (response.data.message) {
-                    return this.message = response.data.message;
-                }
-
-                if (response.data.cart) {
-                    this.$emit('getCart', response.data.cart);
-                    bus.$emit('engraving-from-cart', response.data);
-                }
-            }.bind(this)).catch(function (error) {
-                this.message = null;
-                var status = error.response.status;
-                this.errors = error.response.data.errors;
-                this.message = this.getErrorMessage(status);
-            }.bind(this));
-        },
-        close: function close() {
-            // this.services = '';
-            this.engraving.id = '';
-            this.engraving.text = '';
-        }
+  name: "Engraving",
+  props: {
+    name: '',
+    titleType: '',
+    services: '',
+    cartKey: '',
+    order_id: '',
+    fonts: '',
+    engraving: {
+      uniqueId: '',
+      id: '',
+      price: '',
+      text: '',
+      font: '',
+      comment: '',
+      filename: '',
+      cartItemId: '',
+      qty: 1
     }
+  },
+  data: function data() {
+    return {
+      errors: '',
+      message: ''
+    };
+  },
+
+  methods: {
+    getFileName: function getFileName(filename) {
+      this.engraving.filename = filename[0];
+    },
+    submitEngraving: function submitEngraving() {
+      if (this.engraving.cartItemId) {
+        this.updateEngraving();
+      } else {
+        this.addEngraving();
+      }
+    },
+    updateEngraving: function updateEngraving() {
+      console.log(this.engraving);
+      var url = '/api/update-engraving/' + this.engraving.uniqueId;
+      var params = { options: JSON.stringify({ engraving: this.engraving }), order_id: this.order_id };
+      this.syncCart(url, params);
+    },
+    addEngraving: function addEngraving() {
+      var url = '/api/add-engraving/' + this.cartKey;
+      var params = { options: JSON.stringify({ engraving: this.engraving }), order_id: this.order_id };
+      this.syncCart(url, params);
+    },
+    syncCart: function syncCart(url, params) {
+      axios.get(url, { params: params }).then(function (response) {
+        this.errors = '';
+        this.message = '';
+        if (response.data.errors) {
+          return this.errors = response.data.errors;
+        }
+        if (response.data.message) {
+          return this.message = response.data.message;
+        }
+
+        if (response.data.cart) {
+          this.$emit('getCart', response.data.cart);
+          bus.$emit('engraving-from-cart', response.data);
+        }
+      }.bind(this)).catch(function (error) {
+        this.message = null;
+        var status = error.response.status;
+        this.errors = error.response.data.errors;
+        this.message = this.getErrorMessage(status);
+      }.bind(this));
+    },
+    close: function close() {
+      this.engraving = {
+        uniqueId: '',
+        id: '',
+        price: '',
+        text: '',
+        font: '',
+        comment: '',
+        filename: '',
+        cartItemId: '',
+        qty: 1
+      };
+    }
+  }
 });
 
 /***/ }),
@@ -2414,178 +2441,188 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: {
-        order: {
-            type: Object,
-            default: []
-        },
-        shipments: {},
-        products: null,
-        coupons: null,
-        fonts: '',
-        payment_config: null
-
+  props: {
+    order: {
+      type: Object,
+      default: []
     },
-    components: {
-        'select-option': __WEBPACK_IMPORTED_MODULE_0__SelectOption___default.a,
-        'engraving': __WEBPACK_IMPORTED_MODULE_1__Engraving___default.a
+    shipments: {},
+    products: null,
+    coupons: null,
+    fonts: '',
+    payment_config: null
+
+  },
+  components: {
+    'select-option': __WEBPACK_IMPORTED_MODULE_0__SelectOption___default.a,
+    'engraving': __WEBPACK_IMPORTED_MODULE_1__Engraving___default.a
+  },
+  data: function data() {
+    return {
+      cart: this.order.cart,
+      forms: null,
+      shipment_price: null,
+      subTotal: null,
+      totalPrice: null,
+      keywords: null,
+      results: this.products,
+      toggled: false,
+      product: null,
+      shipment_id: null,
+      options: null,
+      coupon_code: null,
+      error_coupon: null,
+      query_options: {
+        id: null,
+        quantity: 1
+      },
+      services: '',
+      cartKey: ''
+    };
+  },
+  mounted: function mounted() {
+    this.subTotal = this.cart.totalPrice;
+    this.totalPrice = this.cart.totalWithCoupons;
+    this.forms = this.cart.content;
+    this.shipment_price = this.cart.shipment.price;
+    this.shipment_id = this.cart.shipment.id;
+    console.log('Component mounted.');
+  },
+  created: function created() {
+    var _this2 = this;
+
+    this.$root.$on('select-option', function (option) {
+      _this2.selectOption(option);
+    });
+  },
+
+
+  watch: {
+    keywords: function keywords(after, before) {
+      var _this = this;
+      this.throttledMethod(_this);
     },
-    data: function data() {
-        return {
-            cart: this.order.cart,
-            forms: null,
-            shipment_price: null,
-            subTotal: null,
-            totalPrice: null,
-            keywords: null,
-            results: this.products,
-            toggled: false,
-            product: null,
-            shipment_id: null,
-            options: null,
-            coupon_code: null,
-            error_coupon: null,
-            query_options: {
-                id: null,
-                quantity: 1
-            },
-            services: '',
-            cartKey: ''
-        };
+    cart: function cart() {
+      this.totalPrice = this.cart.totalWithCoupons;
+      this.shipment_price = this.cart.shipment.price;
     },
-    mounted: function mounted() {
-        this.subTotal = this.cart.totalPrice;
-        this.totalPrice = this.cart.totalWithCoupons;
-        this.forms = this.cart.content;
-        this.shipment_price = this.cart.shipment.price;
-        this.shipment_id = this.cart.shipment.id;
-        console.log('Component mounted.');
-    },
-    created: function created() {
-        var _this2 = this;
-
-        this.$root.$on('select-option', function (option) {
-            _this2.selectOption(option);
-        });
-    },
-
-
-    watch: {
-        keywords: function keywords(after, before) {
-            var _this = this;
-            this.throttledMethod(_this);
-        },
-        cart: function cart() {
-            this.totalPrice = this.cart.totalWithCoupons;
-            this.shipment_price = this.cart.shipment.price;
-        },
-        shipment_price: function shipment_price() {
-            var coupon_price = _.sumBy(this.cart.coupons, function (item) {
-                return item.discount;
-            });
-            this.totalPrice = parseFloat(this.cart.totalPrice) + parseFloat(this.shipment_price) - parseFloat(coupon_price);
-        }
-    },
-
-    methods: {
-        addCouponToCart: function addCouponToCart() {
-            var url = '/api/add-coupon/' + this.coupon_code;
-            this.fetchCart(url, { order_id: this.order.id });
-        },
-        addShipmentToCart: function addShipmentToCart() {
-            var url = '/api/add-shipment/' + this.shipment_id;
-            this.fetchCart(url, { order_id: this.order.id });
-        },
-        addToCart: function addToCart(id) {
-            var url = '/api/add-to-cart/' + id;
-            this.fetchCart(url, { options: JSON.stringify(this.query_options), order_id: this.order.id });
-        },
-        removeFromCart: function removeFromCart(uniqueId) {
-            var url = '/api/remove/' + uniqueId;
-            this.fetchCart(url, { order_id: this.order.id });
-        },
-        updateFromCart: function updateFromCart(uniqueId, quantity) {
-            var url = '/api/update-cart/' + uniqueId;
-            var params = { quantity: quantity, order_id: this.order.id };
-            this.fetchCart(url, params);
-        },
-        removeEngraving: function removeEngraving(keyCartItem, keyEngraving) {
-            var _this3 = this;
-
-            var params = { options: JSON.stringify({ keyCartItem: keyCartItem, keyEngraving: keyEngraving }), order_id: this.order.id };
-            axios.get('/api/remove-engraving', { params: params }).then(function (res) {
-                if (res.data.cart) {
-                    _this3.cart = res.data.cart;
-                    _this3.forms = _this3.cart.content;
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        fetchCart: function fetchCart(url, params) {
-            var _this4 = this;
-
-            axios.get(url, { params: params }).then(function (res) {
-                if (res.data.cart) {
-                    _this4.cart = res.data.cart;
-                    _this4.forms = _this4.cart.content;
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        fetch: function fetch() {
-            var _this5 = this;
-
-            axios.get('/admin/api/orders', { params: { keywords: this.keywords } }).then(function (response) {
-                _this5.results = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        selectProduct: function selectProduct(product) {
-            this.keywords = product.title;
-            this.product = product;
-            if (product.product_options && product.product_options.length > 0) {
-                this.options = product.product_options;
-                this.query_options.id = this.options[0].id;
-            } else {
-                this.options = null;
-                this.query_options.id = null;
-            }
-            this.dropdownToggle = false;
-        },
-        openModal: function openModal(key, item) {
-            this.cartKey = key;
-            this.services = item.services;
-        },
-        selectOption: function selectOption(option) {
-            var id = option.id;
-            this.query_options.id = id;
-        },
-        updateCart: function updateCart(cart) {
-            this.cart = cart;
-            this.forms = cart.content;
-        },
-        onFocus: function onFocus() {
-            this.toggled = !this.toggled;
-        },
-        onBlur: function onBlur() {
-            this.toggled = false;
-        },
-        highlight: function highlight(text) {
-            return text.replace(new RegExp(this.keywords, 'gi'), '<span class="highlighted">$&</span>');
-        },
-
-
-        throttledMethod: _.debounce(function (_this) {
-            _this.fetch();
-        }, 300)
+    shipment_price: function shipment_price() {
+      var coupon_price = _.sumBy(this.cart.coupons, function (item) {
+        return item.discount;
+      });
+      this.totalPrice = parseFloat(this.cart.totalPrice) + parseFloat(this.shipment_price) - parseFloat(coupon_price);
     }
+  },
+
+  methods: {
+    addCouponToCart: function addCouponToCart() {
+      var url = '/api/add-coupon/' + this.coupon_code;
+      this.fetchCart(url, { order_id: this.order.id });
+    },
+    addShipmentToCart: function addShipmentToCart() {
+      var url = '/api/add-shipment/' + this.shipment_id;
+      this.fetchCart(url, { order_id: this.order.id });
+    },
+    addToCart: function addToCart(id) {
+      var url = '/api/add-to-cart/' + id;
+      this.fetchCart(url, { options: JSON.stringify(this.query_options), order_id: this.order.id });
+    },
+    removeFromCart: function removeFromCart(uniqueId) {
+      var url = '/api/remove/' + uniqueId;
+      this.fetchCart(url, { order_id: this.order.id });
+    },
+    updateFromCart: function updateFromCart(uniqueId, quantity) {
+      var url = '/api/update-cart/' + uniqueId;
+      var params = { quantity: quantity, order_id: this.order.id };
+      this.fetchCart(url, params);
+    },
+    removeEngraving: function removeEngraving(keyCartItem, keyEngraving) {
+      var _this3 = this;
+
+      var params = { options: JSON.stringify({ keyCartItem: keyCartItem, keyEngraving: keyEngraving }), order_id: this.order.id };
+      axios.get('/api/remove-engraving', { params: params }).then(function (res) {
+        if (res.data.cart) {
+          _this3.cart = res.data.cart;
+          _this3.forms = _this3.cart.content;
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    fetchCart: function fetchCart(url, params) {
+      var _this4 = this;
+
+      axios.get(url, { params: params }).then(function (res) {
+        if (res.data.cart) {
+          _this4.cart = res.data.cart;
+          _this4.forms = _this4.cart.content;
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    fetch: function fetch() {
+      var _this5 = this;
+
+      axios.get('/admin/api/orders', { params: { keywords: this.keywords } }).then(function (response) {
+        _this5.results = response.data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    selectProduct: function selectProduct(product) {
+      this.keywords = product.title;
+      this.product = product;
+      if (product.product_options && product.product_options.length > 0) {
+        this.options = product.product_options;
+        this.query_options.id = this.options[0].id;
+      } else {
+        this.options = null;
+        this.query_options.id = null;
+      }
+      this.dropdownToggle = false;
+    },
+    openModal: function openModal(key, item) {
+      this.cartKey = key;
+      this.services = item.services;
+    },
+    selectOption: function selectOption(option) {
+      var id = option.id;
+      this.query_options.id = id;
+    },
+    updateCart: function updateCart(cart) {
+      this.cart = cart;
+      this.forms = cart.content;
+    },
+    onFocus: function onFocus() {
+      this.toggled = !this.toggled;
+    },
+    onBlur: function onBlur() {
+      this.toggled = false;
+    },
+    highlight: function highlight(text) {
+      return text.replace(new RegExp(this.keywords, 'gi'), '<span class="highlighted">$&</span>');
+    },
+
+
+    throttledMethod: _.debounce(function (_this) {
+      _this.fetch();
+    }, 300)
+  }
 
 });
 
@@ -7465,7 +7502,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -39499,9 +39536,9 @@ var render = function() {
                         item.options.color
                           ? _c("span", { staticClass: "text-muted d-block" }, [
                               _vm._v(
-                                "\n                                Цвет: " +
+                                "\n              Цвет: " +
                                   _vm._s(item.options.color) +
-                                  "\n                        "
+                                  "\n            "
                               )
                             ])
                           : _vm._e(),
@@ -39509,9 +39546,9 @@ var render = function() {
                         item.options.color_stone
                           ? _c("span", { staticClass: "text-muted d-block" }, [
                               _vm._v(
-                                "\n                            Цвет камня: " +
+                                "\n              Цвет камня: " +
                                   _vm._s(item.options.color_stone) +
-                                  "\n                        "
+                                  "\n            "
                               )
                             ])
                           : _vm._e(),
@@ -39743,9 +39780,7 @@ var render = function() {
                             },
                             [
                               _c("i", { staticClass: "fa fa-plus" }),
-                              _vm._v(
-                                " Добавить гравировку\n                    "
-                              )
+                              _vm._v(" Добавить гравировку\n          ")
                             ]
                           )
                         ]
@@ -39907,9 +39942,9 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                " +
+                                "\n              " +
                                   _vm._s(shipment.title) +
-                                  "\n                            "
+                                  "\n            "
                               )
                             ]
                           )
@@ -40194,7 +40229,7 @@ var render = function() {
               },
               [
                 _c("i", { staticClass: "fa fa-plus-circle" }),
-                _vm._v(" Добавить продукт\n                ")
+                _vm._v(" Добавить продукт\n        ")
               ]
             )
           ])
@@ -40492,7 +40527,7 @@ var render = function() {
                 staticClass: "modal-title",
                 attrs: { id: "engravingModalLable" }
               },
-              [_vm._v("Добавить гравировку")]
+              [_vm._v(_vm._s(_vm.titleType) + " гравировку")]
             ),
             _vm._v(" "),
             _c(
@@ -40557,8 +40592,9 @@ var render = function() {
                             { domProps: { value: service.id } },
                             [
                               _vm._v(
-                                "\n                                " +
-                                  _vm._s(service.title)
+                                "\n                " +
+                                  _vm._s(service.title) +
+                                  "\n                "
                               ),
                               service.price > 0
                                 ? [
@@ -40805,11 +40841,11 @@ var render = function() {
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
-                    return _vm.addEngraving()
+                    return _vm.submitEngraving()
                   }
                 }
               },
-              [_vm._v("Добавить")]
+              [_vm._v(_vm._s(_vm.titleType))]
             )
           ])
         ])

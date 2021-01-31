@@ -45,30 +45,36 @@
                      class="callout callout-default engraving-list">
                   <b>Гравировка:</b>
                   <div v-for="(engraving, keyEngraving) in cartItem.engravings" class="w-100 text-left d-flex">
-                    <div class="dropdown flex-fill text-left">
+                    <div class="flex-fill text-left">
                       <span class="title">{{ engraving.title }}</span>
                       <span class="font">{{ engraving.font }}</span>
                       <a class="link-file px-1" v-if="engraving.filename" data-toggle="tooltip" title="Файл"
                          target="_blank" :href="'/storage/files/'+engraving.filename"><i class="fa fa-file-alt"></i></a>
-                      <a v-if="engraving.text" v-text="`текст`" class="dropdown-toggle px-1" href="#" role="button"
-                         id="dropdownText" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                      <a v-if="engraving.comment" v-text="`комментарий`" class="dropdown-toggle px-1" href="#"
-                         role="button" id="dropdownComment" data-toggle="dropdown" aria-haspopup="true"
-                         aria-expanded="false"></a>
-                      <div v-if="engraving.comment" class="dropdown-menu" aria-labelledby="dropdownComment">
-                        <span class="dropdown-item-text">{{ engraving.comment }}</span>
-                      </div>
-                      <div v-if="engraving.text" class="dropdown-menu" aria-labelledby="dropdownText">
-                        <span class="dropdown-item-text">{{ engraving.text }}</span>
+                     <div class="dropdown d-inline-block">
+                     <a v-if="engraving.text" v-text="`текст`" class="dropdown-toggle px-1" href="#" role="button"
+                          id="dropdownText" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                       <div v-if="engraving.text" class="dropdown-menu" aria-labelledby="dropdownText">
+                         <span class="dropdown-item-text">{{ engraving.text }}</span>
+                       </div>
+                     </div>
+                      <div class="dropdown d-inline-block">
+                        <a v-if="engraving.comment" v-text="`комментарий`" class="dropdown-toggle px-1" href="#"
+                           role="button" id="dropdownComment" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"></a>
+                        <div v-if="engraving.comment" class="dropdown-menu" aria-labelledby="dropdownComment">
+                          <span class="dropdown-item-text">{{ engraving.comment }}</span>
+                        </div>
                       </div>
                     </div>
                     <div class="flex-fill pl-2 text-right">
                       <span class="qty">{{ engraving.qty }}x</span>
                       <span class="price">{{ engraving.price }} &#8381;</span>
-                      <span @click="editEngraving(key, keyEngraving)" title="Редактировать" class="text-primary"><i
-                          class="fal fa-edit"></i></span>
-                      <span @click="removeEngraving(key,keyEngraving)" title="Удалить"
-                            class="text-danger remove-engraving"><i class="fal fa-times"></i></span>
+                      <button @click="editEngraving(engraving, cartItem.item.services)" title="Редактировать"  data-target="#engravingModal"
+                              type="button" class="btn btn-link pr-1 pl-2 py-0" data-toggle="modal">
+                        <i class="fal fa-edit"></i>
+                      </button>
+                      <button @click="removeEngraving(key,keyEngraving)" title="Удалить"
+                            class="btn btn-link  p-0 text-danger"><i class="fal fa-times"></i></button>
                     </div>
 
                   </div>
@@ -144,7 +150,8 @@
             </a>
           </div>
         </div>
-        <engraving :cart-key="cartKey" :fonts="fonts" :services="services"></engraving>
+        <engraving :title-type="titleType" :cart-key="cartKey"
+                   :fonts="fonts" :engraving="engraving" :services="services"></engraving>
       </div>
     </div>
   </div>
@@ -170,7 +177,18 @@ export default {
       services: '',
       cartKey: '',
       coupon_code: null,
-      error_coupon: null
+      error_coupon: null,
+      titleType: 'Добавить',
+      engraving: {
+        id: '',
+        price: '',
+        text: '',
+        font: '',
+        comment: '',
+        filename: '',
+        cartItemId: '',
+        qty: 1
+      }
     }
   },
   mounted() {
@@ -212,16 +230,19 @@ export default {
           }.bind(this));
     },
     openModal(key, item) {
+      this.titleType = "Добавить";
       this.cartKey = key;
       this.services = item.services;
     },
-    editEngraving(key, item){
-      this.cartKey = key;
-      this.services = item.services
+    editEngraving(engraving, services ){
+      this.engraving = JSON.parse(JSON.stringify(engraving));
+      this.titleType = "Редактировать";
+      this.services = services;
+
     },
     removeEngraving(keyCartItem, keyEngraving) {
       let options = {keyCartItem, keyEngraving}
-      console.log(options);
+
       const url = 'api/remove-engraving?options=' + JSON.stringify(options);
       axios.get(url)
           .then((res) => {
