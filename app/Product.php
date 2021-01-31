@@ -327,6 +327,7 @@ class Product extends Model
      */
     public function getPrice(int $id = null): float
     {
+
         return $id ? $this->productOptions()->find($id)->price : $this->price;
 
     }

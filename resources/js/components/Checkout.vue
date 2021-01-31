@@ -206,8 +206,8 @@
                              :src="'/storage/files/90x110/'+cartItem.image"
                              class="img-fluid rounded shadow-sm" width="80" alt="Фото товара">
                         <div class="ml-3 d-inline-block align-middle">
-                          <h6 class="mb-0"><span href="#"
-                                                 class="text-dark d-inline-block align-middle">{{ cartItem.name }}</span>
+                          <h6 class="mb-0">
+                            <span href="#" class="text-dark d-inline-block align-middle">{{ cartItem.name }}</span>
                           </h6>
                           <span v-if="cartItem.options.color"
                                 class="text-muted font-weight-normal font-italic d-block">

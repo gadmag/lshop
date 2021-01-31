@@ -150,13 +150,22 @@ class ProductController extends Controller
     /**
      * Add engraving from cart item
      * @param Request $request
-     * @param string $uniqueId
+     * @param string cart item $uniqueId
      * @return \Illuminate\Http\JsonResponse
      */
     public function addEngraving(CartRequest $request, string $uniqueId)
     {
         $cart = $this->initCart();
         $cart->addEngraving($uniqueId, $request->options['engraving']);
+        return response()->json([
+            'cart' => $cart->toArray()
+        ]);
+    }
+
+    public function updateEngraving(CartRequest $request, string $uniqueId)
+    {
+        $cart = $this->initCart();
+        $cart->updateEngraving($uniqueId, $request->options['engraving']);
         return response()->json([
             'cart' => $cart->toArray()
         ]);

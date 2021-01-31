@@ -84,12 +84,11 @@ class User extends Authenticatable
     }
 
 
-
     /**
      * Get last order from user
      * @return Order|null
      */
-    public function lastOrder()
+    public function lastOrder(): ?Order
     {
         if ($this->orders()->exists()) {
             return $this->orders()->latest('created_at')->first();
