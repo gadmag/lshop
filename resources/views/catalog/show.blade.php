@@ -23,7 +23,5 @@
         </ol>
     </nav>
     <catalog-index :category="{{$category}}" :filters="{{$filters}}"></catalog-index>
-    <div class="body">
-    </div>
 </div>
 @endsection

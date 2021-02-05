@@ -1843,80 +1843,106 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['filters', 'category'],
-    data: function data() {
-        return {
-            className: '',
-            filterable: {
-                category: this.category,
-                url: '/api/products?cat_id=' + this.category.id,
-                orderables: [{ title: 'Дата (новые)', options: { name: 'created_at', direction: 'desc' } }, { title: 'Дата (старые)', options: { name: 'created_at', direction: 'asc' } }, { title: 'Цена (убывание)', options: { name: 'price', direction: 'desc' } }, { title: 'Цена (возрастание)', options: { name: 'price', direction: 'asc' } }, { title: 'Имя (Я - А)', options: { name: 'title', direction: 'desc' } }, { title: 'Имя (А - Я)', options: { name: 'title', direction: 'asc' } }],
-                filterGroups: [{ title: 'Стоимость', name: 'price', field: 'productOptions.price', collapsed: true }, {
-                    title: 'Материал',
-                    name: 'material',
-                    field: 'material',
-                    collapsed: true,
-                    item: this.filters.material
-                }, {
-                    title: 'Цвет покрытия',
-                    name: 'coating',
-                    field: 'productOptions.color',
-                    item: this.filters.coating
-                }, {
-                    title: 'Цвет камня',
-                    name: 'stone',
-                    field: 'productOptions.color_stone',
-                    item: this.filters.stone
-                }],
-                paginateItemLimits: [12, 24, 50]
-            }
-        };
-    },
-    mounted: function mounted() {
-        console.log('Component ProductList2 mounted.');
-    },
+  props: ['filters', 'category'],
+  data: function data() {
+    return {
+      className: '',
+      filterable: {
+        category: this.category,
+        url: '/api/products?cat_id=' + this.category.id,
+        orderables: [{ title: 'Дата (новые)', options: { name: 'created_at', direction: 'desc' } }, { title: 'Дата (старые)', options: { name: 'created_at', direction: 'asc' } }, { title: 'Цена (убывание)', options: { name: 'price', direction: 'desc' } }, { title: 'Цена (возрастание)', options: { name: 'price', direction: 'asc' } }, { title: 'Имя (Я - А)', options: { name: 'title', direction: 'desc' } }, { title: 'Имя (А - Я)', options: { name: 'title', direction: 'asc' } }],
+        filterGroups: [{ title: 'Стоимость', name: 'price', field: 'productOptions.price', collapsed: true }, {
+          title: 'Материал',
+          name: 'material',
+          field: 'material',
+          collapsed: true,
+          item: this.filters.material
+        }, {
+          title: 'Цвет покрытия',
+          name: 'coating',
+          field: 'productOptions.color',
+          item: this.filters.coating
+        }, {
+          title: 'Цвет камня',
+          name: 'stone',
+          field: 'productOptions.color_stone',
+          item: this.filters.stone
+        }],
+        paginateItemLimits: [12, 24, 50]
+      }
+    };
+  },
+  mounted: function mounted() {
+    console.log('Component ProductList2 mounted.');
+  },
 
-    methods: {
-        toggleWishList: function toggleWishList(id) {
-            if (this.$parent.wishList[id]) {
-                this.className = 'ico ico-wishlist link-wishlist fas fa-heart';
-                return true;
-            } else {
-                this.className = 'ico ico-wishlist link-wishlist fal fa-heart';
-                return false;
-            }
-        },
-        addToCart: function addToCart() {
-            bus.$emit('added-to-cart', this.product);
-        },
-        addToWishList: function addToWishList(id) {
-            bus.$emit('added-to-wishlist', id);
-        },
-        removeToWishList: function removeToWishList(id) {
-            bus.$emit('remove-to-wishlist', id);
-        },
-        specialPrice: function specialPrice(item) {
-            return Math.floor((item.product_options[0].price - item.product_special.price) / item.product_options[0].price * 100);
-        },
-        getImage: function getImage(product) {
-            var filename = '';
-            if (product.files && product.files.length) {
-                filename = product.files[0].name;
-            }
-            if (!product.product_options) {
-                return '';
-            }
+  methods: {
+    getClassWishList: function getClassWishList(id) {
 
-            product.product_options.forEach(function (item, i) {
-                if (item.files && item.files.length) {
-                    filename = item.files[0].name;
-                }
-            });
-            return filename;
+      if (this.isWishList(id)) {
+        return 'fas fa-heart';
+      }
+      return 'fal fa-heart';
+    },
+    isWishList: function isWishList(id) {
+      var wishList = this.$parent.wishList;
+      if (_.find(wishList, function (item) {
+        return item.id == id;
+      })) {
+        return true;
+      }
+      return false;
+    },
+    toggleWishList: function toggleWishList(id) {
+      if (!this.isWishList(id)) {
+        this.addToWishList(id);
+        return;
+      }
+      this.removeToWishList(id);
+    },
+    addToCart: function addToCart() {
+      bus.$emit('added-to-cart', this.product);
+    },
+    addToWishList: function addToWishList(id) {
+      bus.$emit('added-to-wishlist', id);
+    },
+    removeToWishList: function removeToWishList(id) {
+      var wishList = this.$parent.wishList;
+      var key = _.findKey(wishList, function (item) {
+        return item.id == id;
+      });
+      bus.$emit('remove-to-wishlist', key);
+    },
+    percentSpecial: function percentSpecial(item) {
+      var price = item.product_options[0] ? item.product_options[0].price : item.price;
+      return Math.floor(item.product_special.price / price * 100);
+    },
+    priceSpecial: function priceSpecial(item) {
+      var price = item.product_options[0] ? item.product_options[0].price : item.price;
+      var specialPrice = price - item.product_special.price;
+      return specialPrice.toFixed(0);
+    },
+    getImage: function getImage(product) {
+      var options = product.product_options;
+      if (product.files && product.files.length) {
+        return product.files[0].name;
+      }
+      if (!options) {
+        return '';
+      }
+      for (var i = 0; i < options.length; i++) {
+        if (options[i].files && options[i].files.length) {
+          return options[i].files[0].name;
         }
+      }
+
+      return '';
     }
+  }
 });
 
 /***/ }),
@@ -44690,10 +44716,10 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        item.product_special && item.product_options[0]
+                        item.product_special
                           ? _c("span", { staticClass: "special-badge" }, [
                               _vm._v(
-                                " -" + _vm._s(_vm.specialPrice(item)) + "%"
+                                " -" + _vm._s(_vm.percentSpecial(item)) + "%"
                               )
                             ])
                           : _vm._e(),
@@ -44703,17 +44729,14 @@ var render = function() {
                           {
                             on: {
                               click: function($event) {
-                                _vm.toggleWishList(item.id)
-                                  ? _vm.removeToWishList(item.id)
-                                  : _vm.addToWishList(item.id)
+                                return _vm.toggleWishList(item.id)
                               }
                             }
                           },
                           [
                             _c("span", {
-                              class: _vm.toggleWishList(item.id)
-                                ? _vm.className
-                                : _vm.className
+                              staticClass: "ico ico-wishlist link-wishlist",
+                              class: _vm.getClassWishList(item.id)
                             })
                           ]
                         ),
@@ -44738,23 +44761,23 @@ var render = function() {
                               item.product_special
                                 ? _c("span", { staticClass: "special" }, [
                                     _vm._v(
-                                      _vm._s(
-                                        Number(
-                                          item.product_special.price
-                                        ).toFixed(0)
-                                      ) + " р."
+                                      _vm._s(_vm.priceSpecial(item)) + " ₽"
                                     )
                                   ])
                                 : _vm._e(),
                               _vm._v(" "),
-                              item.product_options[0]
+                              item.type == "service"
+                                ? _c("span", [
+                                    _vm._v(_vm._s(Number(item.price)) + " р.")
+                                  ])
+                                : item.product_options[0]
                                 ? _c("span", [
                                     _vm._v(
                                       _vm._s(
                                         Number(
                                           item.product_options[0].price
                                         ).toFixed(0)
-                                      ) + " р."
+                                      ) + " ₽"
                                     )
                                   ])
                                 : _vm._e()
