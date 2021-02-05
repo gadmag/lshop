@@ -108,7 +108,7 @@ class ProductQueries implements BaseQueries
     public function getByCatalogFilter(int $id = null)
     {
         if ($id) {
-            Product::active()->whereHas('catalogs', function ($query) use ($id) {
+         return   Product::active()->whereHas('catalogs', function ($query) use ($id) {
                 $query->published()->whereId($id);
             })->advancedFilter($this->filter)
                 ->paginate(request('limit', 12), ['id', 'updated_at']);
