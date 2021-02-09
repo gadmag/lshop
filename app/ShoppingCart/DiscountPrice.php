@@ -14,6 +14,7 @@ trait DiscountPrice
     {
         if ($cartItem->options['discount_quantity'] && ($cartItem->options['discount_quantity'] <= $cartItem->qty)) {
             $cartItem->price = $cartItem->options['discount_price'];
+            $cartItem->totalPrice = $cartItem->getTotal();
             return;
         } else {
             $cartItem->price = $cartItem->options['price'] ?: $cartItem->price;
