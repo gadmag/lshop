@@ -18210,6 +18210,13 @@ a.text-dark:focus {
   background-color: #052534;
 }
 
+@media screen and (max-width: 576px) {
+  .btn.btn-outline-dark {
+    font-size: 13px;
+    padding: 0.275rem 0.55rem;
+  }
+}
+
 .custom-checkbox .custom-control-label:before {
   border-radius: 3px;
   top: .1875rem;

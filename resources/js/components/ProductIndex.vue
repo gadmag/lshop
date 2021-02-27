@@ -2,7 +2,7 @@
   <div class="list-product">
     <filterable v-bind="filterable">
       <template slot-scope="{item, key}">
-        <div class="col-sm-6 col-md-6 col-lg-4">
+        <div :class="((key) % 2)? `even`:`odd`" class="product-column col-6 col-sm-6 col-md-6 col-lg-4">
           <div class="product-item mb-3  card">
             <img class="card-img-top img-fluid"
                  :src="'/storage/files/250x250/'+getImage(item)"

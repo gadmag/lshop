@@ -1228,6 +1228,14 @@ footer .social .ico-social a i {
     width: 50%;
     text-align: left;
   }
+  .product-column.odd {
+    padding-left: 10px;
+    padding-right: 5px;
+  }
+  .product-column.even {
+    padding-left: 5px;
+    padding-right: 10px;
+  }
 }
 @media screen and (max-width: 462px) {
   header .header-top .social-top a i {

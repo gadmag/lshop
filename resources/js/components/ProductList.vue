@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <template v-for="(item, key) in products">
-      <div class="col-sm-6 col-md-4 col-lg-3">
+      <div :class="((key) % 2)? `even`:`odd`" class="product-column col-6 col-sm-6 col-md-4 col-lg-3">
         <div class="product-item mb-3 card">
           <img class="card-img-top img-fluid"
                :src="'/storage/files/250x250/'+getImage(item)"
