@@ -44724,102 +44724,113 @@ var render = function() {
                   var item = ref.item
                   var key = ref.key
                   return [
-                    _c("div", { staticClass: "col-sm-6 col-md-6 col-lg-4" }, [
-                      _c("div", { staticClass: "product-item mb-3  card" }, [
-                        _c("img", {
-                          staticClass: "card-img-top img-fluid",
-                          attrs: {
-                            src: "/storage/files/250x250/" + _vm.getImage(item),
-                            alt: "Картинка"
-                          }
-                        }),
-                        _vm._v(" "),
-                        item.product_special
-                          ? _c("span", { staticClass: "special-badge" }, [
-                              _vm._v(
-                                " -" + _vm._s(_vm.percentSpecial(item)) + "%"
-                              )
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            on: {
-                              click: function($event) {
-                                return _vm.toggleWishList(item.id)
-                              }
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "product-column col-6 col-sm-6 col-md-6 col-lg-4",
+                        class: key % 2 ? "even" : "odd"
+                      },
+                      [
+                        _c("div", { staticClass: "product-item mb-3  card" }, [
+                          _c("img", {
+                            staticClass: "card-img-top img-fluid",
+                            attrs: {
+                              src:
+                                "/storage/files/250x250/" + _vm.getImage(item),
+                              alt: "Картинка"
                             }
-                          },
-                          [
-                            _c("span", {
-                              staticClass: "ico ico-wishlist link-wishlist",
-                              class: _vm.getClassWishList(item.id)
-                            })
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "card-body" }, [
+                          }),
+                          _vm._v(" "),
+                          item.product_special
+                            ? _c("span", { staticClass: "special-badge" }, [
+                                _vm._v(
+                                  " -" + _vm._s(_vm.percentSpecial(item)) + "%"
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
                           _c(
-                            "div",
-                            { staticClass: "product-name text-center" },
+                            "a",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.toggleWishList(item.id)
+                                }
+                              }
+                            },
                             [
-                              _c(
-                                "a",
-                                { attrs: { href: "/products/" + item.alias } },
-                                [_vm._v(_vm._s(item.title))]
-                              )
+                              _c("span", {
+                                staticClass: "ico ico-wishlist link-wishlist",
+                                class: _vm.getClassWishList(item.id)
+                              })
                             ]
                           ),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "product-price text-center" },
-                            [
-                              item.product_special
-                                ? _c("span", { staticClass: "special" }, [
-                                    _vm._v(
-                                      _vm._s(_vm.priceSpecial(item)) + " ₽"
-                                    )
-                                  ])
-                                : _vm._e(),
-                              _vm._v(" "),
-                              item.type == "service"
-                                ? _c("span", [
-                                    _vm._v(_vm._s(Number(item.price)) + " р.")
-                                  ])
-                                : item.product_options[0]
-                                ? _c("span", [
-                                    _vm._v(
-                                      _vm._s(
-                                        Number(
-                                          item.product_options[0].price
-                                        ).toFixed(0)
-                                      ) + " ₽"
-                                    )
-                                  ])
-                                : _vm._e()
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "product-link text-center" },
-                            [
-                              _c(
-                                "a",
-                                {
-                                  staticClass:
-                                    "text-uppercase btn btn-outline-dark",
-                                  attrs: { href: "/products/" + item.alias }
-                                },
-                                [_vm._v("Подробнее")]
-                              )
-                            ]
-                          )
+                          _c("div", { staticClass: "card-body" }, [
+                            _c(
+                              "div",
+                              { staticClass: "product-name text-center" },
+                              [
+                                _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "/products/" + item.alias }
+                                  },
+                                  [_vm._v(_vm._s(item.title))]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "product-price text-center" },
+                              [
+                                item.product_special
+                                  ? _c("span", { staticClass: "special" }, [
+                                      _vm._v(
+                                        _vm._s(_vm.priceSpecial(item)) + " ₽"
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                item.type == "service"
+                                  ? _c("span", [
+                                      _vm._v(_vm._s(Number(item.price)) + " р.")
+                                    ])
+                                  : item.product_options[0]
+                                  ? _c("span", [
+                                      _vm._v(
+                                        _vm._s(
+                                          Number(
+                                            item.product_options[0].price
+                                          ).toFixed(0)
+                                        ) + " ₽"
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "product-link text-center" },
+                              [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass:
+                                      "text-uppercase btn btn-outline-dark",
+                                    attrs: { href: "/products/" + item.alias }
+                                  },
+                                  [_vm._v("Подробнее")]
+                                )
+                              ]
+                            )
+                          ])
                         ])
-                      ])
-                    ]),
+                      ]
+                    ),
                     _vm._v(" "),
                     (key + 1) % 3 == 0
                       ? _c("div", { staticClass: "w-100 d-none d-lg-block" })
