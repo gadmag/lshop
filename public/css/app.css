@@ -341,21 +341,23 @@ header .block-right {
 .navbar-menu .navbar-nav > li.last {
   padding-right: 0;
 }
-.navbar-menu .navbar-nav > li > .menu-element {
-  border-bottom: 2px solid transparent;
-  -webkit-transition: all 0.4s ease 0s;
-  transition: all 0.4s ease 0s;
-}
-.navbar-menu .navbar-nav > li > .menu-element > a.nav-link {
+.navbar-menu .navbar-nav > li > a.nav-link {
   padding: 0;
   white-space: nowrap;
   color: #000000;
   font-size: 1rem;
   text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  -webkit-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
 }
-.navbar-menu .navbar-nav > li > .menu-element > a.nav-link:hover {
+.navbar-menu .navbar-nav > li > a.nav-link:hover,
+.navbar-menu .navbar-nav > li > a.nav-link:focus {
   text-decoration: none;
   color: #000000;
+  border-bottom: 2px solid #000;
+  -webkit-transition: all 0.6s ease 0s;
+  transition: all 0.6s ease 0s;
 }
 .navbar-menu .navbar-nav > li:hover > .menu-element {
   border-bottom: 2px solid #000;
@@ -542,9 +544,6 @@ header .block-right {
 }
 .breadcrumb .breadcrumb-item {
   font-size: 0.9rem;
-}
-.breadcrumb .breadcrumb-item a {
-  color: #6c757d;
 }
 .breadcrumb .breadcrumb-item.active,
 .breadcrumb .breadcrumb-item span,

@@ -456,12 +456,12 @@ header {
     padding-right: 0;
   }
 
-  & > .menu-element {
-    border-bottom: 2px solid transparent;
-    -webkit-transition: all 0.4s ease 0s;
-    -moz-transition: all 0.4s ease 0s;
-    -o-transition: all 0.4s ease 0s;
-    transition: all 0.4s ease 0s;
+  //& > .menu-element {
+    //border-bottom: 2px solid transparent;
+    //-webkit-transition: all 0.4s ease 0s;
+    //-moz-transition: all 0.4s ease 0s;
+    //-o-transition: all 0.4s ease 0s;
+    //transition: all 0.4s ease 0s;
 
 
     & > a.nav-link {
@@ -471,14 +471,26 @@ header {
       font-size: 1rem;
       text-transform: uppercase;
 
-      &:hover {
+      border-bottom: 2px solid transparent;
+      -webkit-transition: all 0.4s ease 0s;
+      -moz-transition: all 0.4s ease 0s;
+      -o-transition: all 0.4s ease 0s;
+      transition: all 0.4s ease 0s;
+
+      &:hover, &:focus {
         text-decoration: none;
         color: @nav-link;
+
+        border-bottom: 2px solid #000;
+        -webkit-transition: all 0.6s ease 0s;
+        -moz-transition: all 0.6s ease 0s;
+        -o-transition: all 0.6s ease 0s;
+        transition: all 0.6s ease 0s;
       }
     }
 
 
-  }
+  //}
 
   &:hover > .menu-element {
     border-bottom: 2px solid #000;
@@ -721,9 +733,6 @@ header {
     font-size: 0.9rem;
   }
 
-  .breadcrumb-item a {
-    color: #6c757d;
-  }
 
   .breadcrumb-item.active, .breadcrumb-item span, .breadcrumb-item i {
     color: #6c757d;
