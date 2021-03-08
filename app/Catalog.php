@@ -25,6 +25,15 @@ class Catalog extends Model
         ];
     }
 
+    public function getPathAttribute()
+    {
+        if ($this->alias) {
+            return sprintf('%s/catalogs/%s', config('app.url'), $this->alias);
+        }
+        return sprintf('%s/catalogs/%s', config('app.url'), $this->id);
+    }
+
+
     public function getMetaTitleAttribute()
     {
 
