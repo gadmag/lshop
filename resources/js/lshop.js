@@ -3,23 +3,27 @@ $(document).ready(function () {
     $('.first-button').on('click', function () {
         $('.animated-icon').toggleClass('open');
     });
-    $('ul.navbar-nav li.dropdown').hover(function () {
-        $(this).addClass('show');
-        $(this).find('.dropdown-menu').addClass('show');
-
-    }, function () {
-        $(this).removeClass('show');
-        $(this).find('.dropdown-menu').removeClass('show');
-    });
+    // $('ul.navbar-nav li.dropdown').hover(function () {
+    //     $(this).addClass('show');
+    //     $(this).find('.dropdown-menu').addClass('show');
+    //
+    // }, function () {
+    //     $(this).removeClass('show');
+    //     $(this).find('.dropdown-menu').removeClass('show');
+    // });
 
     $('ul.navbar-nav li.dropdown').on('click', function() {
+        // this.preventDefault();
         var $el = $(this);
-        if ($el.hasClass('show')) {
+
+        // location.href = $a.attr('href');
+        // if ($el.hasClass('show')) {
             var $a = $el.children('a');
             if ($a.length && $a.attr('href')) {
                   location.href = $a.attr('href');
+                // console.log($el);
             }
-        }
+        // }
     });
 
     $('.block-forms a.btn').click(function (e) {
