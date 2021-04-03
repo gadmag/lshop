@@ -24,6 +24,11 @@
         <nav class="navbar navbar-menu navbar-light  navbar-expand-lg">
             <div class="container">
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                    <a href="#" class="close_menu d-block d-lg-none" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                       aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fal fa-times"></i>
+                    </a>
                     @include('menu.nav')
                 </div>
             </div>

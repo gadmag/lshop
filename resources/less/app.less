@@ -356,6 +356,7 @@ header {
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
 
+
 }
 
 
@@ -459,7 +460,6 @@ header {
   }
 
 
-
   & > a.nav-link {
     padding: 0;
     white-space: nowrap;
@@ -485,8 +485,19 @@ header {
     transition: all 0.6s ease 0s;
   }
 
-
-
+  &.dropdown:hover > .dropdown-menu {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    -webkit-transition: all 0.6s ease 0s;
+    -moz-transition: all 0.6s ease 0s;
+    -o-transition: all 0.6s ease 0s;
+    transition: all 0.6s ease 0s;
+    visibility: visible;
+  }
+  &.dropdown > .dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+    //pointer-events: none;
+  }
   & > .dropdown-menu {
     width: max-content;
     display: block;
@@ -511,16 +522,6 @@ header {
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   }
 
-  & > .dropdown-menu.show {
-    opacity: 1;
-    filter: alpha(opacity=100);
-    -webkit-transition: all 0.6s ease 0s;
-    -moz-transition: all 0.6s ease 0s;
-    -o-transition: all 0.6s ease 0s;
-    transition: all 0.6s ease 0s;
-    visibility: visible;
-
-  }
 
   li {
     padding: 0 0.75rem;
@@ -1406,31 +1407,47 @@ footer {
     margin: 0;
   }
 
+  .close_menu {
+    position: absolute;
+    right: 15px;
+    top: 5px;
+    font-size: 28px;
+  }
+
   .navbar-collapse {
     display: block;
     position: fixed;
     top: 0;
-    left: -90%;
+    left: -110%;
     right: auto;
     z-index: 999 !important;
     height: auto;
     min-width: 255px;
-    width: 75%;
+    width: 100%;
     box-shadow: rgba(0, 0, 0, .5) 0 0 7px;
     background-color: #ffffff;
     overflow-y: auto;
-    padding: 50px 7% 20px 5%;
+    padding: 40px 15px 30px 15px;
     transition: all 0.3s ease-in-out;
 
     .navbar-nav {
       flex-flow: column;
+
+      & > li.nav-item {
+        border-bottom: 1px solid #D8D8D8;
+      }
 
       li.nav-item {
         text-transform: uppercase;
         padding: 0;
 
         a.nav-link {
-          font-size: 0.9rem;
+          font-size: 1rem;
+          padding: 0.4rem 0;
+        }
+
+        &:hover > a.nav-link, &:focus > a.nav-link {
+          border: none;
         }
 
         .dropdown-menu li.nav-item {
@@ -1695,7 +1712,7 @@ footer {
 }
 
 .animated-icon.open:before {
-  content: '\f00d';
+  //content: '\f00d';
 }
 
 .animated-icon1, .animated-icon2, .animated-icon3 {
