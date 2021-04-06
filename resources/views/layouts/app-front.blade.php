@@ -27,7 +27,7 @@
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=438525570500145&ev=PageView&noscript=1"/></noscript>
     <!-- End Facebook Pixel Code -->
-
+    <script src="//code-ya.jivosite.com/widget/Ul9vMGEaVJ" async></script>
 </head>
 <body id="app-layout">
 <div id="app">
