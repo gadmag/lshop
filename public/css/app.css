@@ -359,13 +359,6 @@ header .block-right {
   -webkit-transition: all 0.6s ease 0s;
   transition: all 0.6s ease 0s;
 }
-.navbar-menu .navbar-nav > li.dropdown:hover > .dropdown-menu {
-  opacity: 1;
-  filter: alpha(opacity=100);
-  -webkit-transition: all 0.6s ease 0s;
-  transition: all 0.6s ease 0s;
-  visibility: visible;
-}
 .navbar-menu .navbar-nav > li.dropdown > .dropdown-toggle:active {
   /*Without this, clicking will make it sticky*/
 }
@@ -391,6 +384,13 @@ header .block-right {
   visibility: hidden;
   -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+.navbar-menu .navbar-nav > li > .dropdown-menu.show {
+  filter: alpha(opacity=100);
+  -webkit-transition: all 0.6s ease 0s;
+  transition: all 0.6s ease 0s;
+  opacity: 1;
+  visibility: visible;
 }
 .navbar-menu .navbar-nav > li li {
   padding: 0 0.75rem;
