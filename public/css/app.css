@@ -1120,6 +1120,9 @@ footer .social .ico-social a i {
   header .list-info li.phone {
     padding: 0;
   }
+  .navbar-menu .navbar-nav > li > .dropdown-menu {
+    width: auto;
+  }
   .hidden-menu.navbar-nav .dropdown-menu td {
     vertical-align: middle;
     font-size: 14px;
