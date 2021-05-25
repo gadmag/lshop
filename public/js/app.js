@@ -1941,6 +1941,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
 
       return '';
+    },
+    isSpecial: function isSpecial(item) {
+      if (item.product_special) {
+        var dateCurrent = new Date();
+        var dateStart = new Date(item.product_special.date_start);
+        var dateEnd = new Date(item.product_special.date_end);
+        return dateStart <= dateCurrent && dateEnd >= dateCurrent;
+      }
+      return false;
     }
   }
 });
@@ -3175,6 +3184,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
 
       return '';
+    },
+    isSpecial: function isSpecial(item) {
+      if (item.product_special) {
+        var dateCurrent = new Date();
+        var dateStart = new Date(item.product_special.date_start);
+        var dateEnd = new Date(item.product_special.date_end);
+        return dateStart <= dateCurrent && dateEnd >= dateCurrent;
+      }
+      return false;
     }
   }
 
@@ -3187,6 +3205,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -3275,6 +3294,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     percentSpecial: function percentSpecial(item) {
       var price = item.product_options[0] ? item.product_options[0].price : item.price;
       return Math.floor(item.product_special.price / price * 100);
+    },
+    isSpecial: function isSpecial(item) {
+      if (item.product_special) {
+        var dateCurrent = new Date();
+        var dateStart = new Date(item.product_special.date_start);
+        var dateEnd = new Date(item.product_special.date_end);
+        return dateStart <= dateCurrent && dateEnd >= dateCurrent;
+      }
+      return false;
     },
     priceSpecial: function priceSpecial(item) {
       var price = item.product_options[0] ? item.product_options[0].price : item.price;
@@ -3446,199 +3474,203 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['product', 'fonts'],
-    data: function data() {
-        return {
-            className: '',
-            files: [],
-            options: this.product.product_options,
-            special: this.product.product_special,
-            services: this.product.services,
-            checkedEngraving: false,
-            engraving: {
-                id: '',
-                text: '',
-                price: '',
-                font: '',
-                comment: '',
-                filename: ''
-            },
-            titleOption: null,
-            query_options: {
-                id: null,
-                quantity: 1
-            },
-            errors: '',
-            message: ''
-        };
-    },
-    mounted: function mounted() {
-        this.allImagesProduct();
-        if (this.options) {
-            this.titleOption = this.fullOptionName(this.options[0]);
-            this.query_options.id = this.options[0].id;
-        }
-
-        console.log('Component mounted.');
-    },
-
-    methods: {
-        selectOption: function selectOption(e, option) {
-            var id = option.id;
-            this.query_options.id = id;
-            this.titleOption = this.fullOptionName(option);
-            this.files.forEach(function (file, i, arr) {
-                if (file.uploadstable_id == id) {
-                    var element = file;
-                    arr.splice(i, 1);
-                    arr.splice(0, 0, element);
-                }
-            });
-        },
-        getOptionByID: function getOptionByID(id) {
-            var option = false;
-            this.options.forEach(function (item, i) {
-                if (id === item.id) {
-                    option = item;
-                }
-            });
-            return option;
-        },
-        addOptionPrice: function addOptionPrice(price) {
-            var discount_price = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-            var id = this.query_options.id;
-            if (id !== null) {
-                var option = this.getOptionByID(id);
-                var _total_price = parseFloat(option.price) - parseFloat(discount_price);
-                return _total_price.toFixed(2);
-            }
-            var total_price = price - discount_price;
-            return total_price.toFixed(2);
-        },
-        fullOptionName: function fullOptionName(option) {
-            var optionFullName = '';
-            if (option.color) {
-                optionFullName = "Цвет: " + option.color;
-            }
-            if (option.color_stone) {
-                var separator = optionFullName ? optionFullName + '/' : '';
-                optionFullName = separator + "Цвет камня: " + option.color_stone;
-            }
-            return optionFullName;
-        },
-        allImagesProduct: function allImagesProduct() {
-            var _this = this;
-            this.files = this.product.files ? this.product.files : [];
-            if (!this.product.product_options) {
-                return this.files;
-            }
-            this.product.product_options.forEach(function (item, i) {
-                if (item.files != undefined && item.files != null) {
-                    item.files.forEach(function (file) {
-                        _this.files.push(file);
-                    });
-                }
-            });
-
-            return this.files;
-        },
-        check: function check(e) {
-            if (e.target.checked) {
-                return this.checkedEngraving = true;
-            }
-            this.checkedEngraving = false;
-            this.engraving.id = '';
-            this.engraving.text = '';
-            this.engraving.comment = '';
-            this.engraving.price = '';
-            this.engraving.font = '';
-            this.engraving.filename = '';
-        },
-        addToCart: function addToCart(id) {
-            this.engraving.qty = this.query_options.quantity;
-            this.query_options.engraving = this.engraving;
-            if (this.query_options.id) {
-                var url = '/api/add-to-cart/' + id + '?options=' + JSON.stringify(this.query_options);
-                axios.get(url).then(function (response) {
-                    this.errors = '';
-                    this.message = '';
-                    if (response.data.errors) {
-                        return this.errors = response.data.errors;
-                    }
-                    if (response.data.message) {
-                        return this.message = response.data.message;
-                    }
-
-                    if (response.data.cart) {
-                        bus.$emit('added-to-cart', response.data);
-                    }
-                }.bind(this)).catch(function (error) {
-                    this.message = null;
-                    var status = error.response.status;
-                    this.errors = error.response.data.errors;
-                    this.message = this.getErrorMessage(status);
-                }.bind(this));
-            }
-        },
-        getFileName: function getFileName(filename) {
-            this.engraving.filename = filename[0];
-        },
-        addToWishList: function addToWishList(id) {
-            bus.$emit('added-to-wishlist', id);
-        },
-        removeToWishList: function removeToWishList(id) {
-            bus.$emit('remove-to-wishlist', id);
-        }
-    },
-
-    computed: {
-        weight: function weight() {
-            if (this.query_options.id) {
-                var option = this.getOptionByID(this.query_options.id);
-                return option.weight;
-            }
-            return null;
-        },
-        getPrice: function getPrice() {
-            return this.addOptionPrice(this.product.price);
-        },
-        discount: function discount() {
-
-            if (this.query_options.id) {
-                var option = this.getOptionByID(this.query_options.id);
-                return option.discount;
-            }
-            return null;
-        },
-        getDiscountPrice: function getDiscountPrice() {
-            return this.addOptionPrice(this.product.price, this.discount.price);
-        },
-        getSpecialPrice: function getSpecialPrice() {
-            return this.addOptionPrice(this.product.price, this.special.price);
-        },
-        toggleWishList: function toggleWishList() {
-            if (this.$parent.wishList[this.product.id]) {
-                if (window.location.pathname.replace('/', '') == 'wishlist') {
-                    delete this.product;
-                }
-
-                this.className = 'ico ico-wishlist link-wishlist fa fa-heart';
-                return true;
-            } else {
-                this.className = 'ico ico-wishlist link-wishlist fa fa-heart-o';
-                return false;
-            }
-        },
-        isSpecial: function isSpecial() {
-            if (this.special) {
-                return true;
-            }
-            return false;
-        }
+  props: ['product', 'fonts'],
+  data: function data() {
+    return {
+      className: '',
+      files: [],
+      options: this.product.product_options,
+      special: this.product.product_special,
+      services: this.product.services,
+      checkedEngraving: false,
+      engraving: {
+        id: '',
+        text: '',
+        price: '',
+        font: '',
+        comment: '',
+        filename: ''
+      },
+      titleOption: null,
+      query_options: {
+        id: null,
+        quantity: 1
+      },
+      errors: '',
+      message: ''
+    };
+  },
+  mounted: function mounted() {
+    this.allImagesProduct();
+    if (this.options) {
+      this.titleOption = this.fullOptionName(this.options[0]);
+      this.query_options.id = this.options[0].id;
     }
+
+    console.log('Component mounted.');
+  },
+
+  methods: {
+    selectOption: function selectOption(e, option) {
+      var id = option.id;
+      this.query_options.id = id;
+      this.titleOption = this.fullOptionName(option);
+      this.files.forEach(function (file, i, arr) {
+        if (file.uploadstable_id == id) {
+          var element = file;
+          arr.splice(i, 1);
+          arr.splice(0, 0, element);
+        }
+      });
+    },
+    getOptionByID: function getOptionByID(id) {
+      var option = false;
+      this.options.forEach(function (item, i) {
+        if (id === item.id) {
+          option = item;
+        }
+      });
+      return option;
+    },
+    addOptionPrice: function addOptionPrice(price) {
+      var discount_price = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+      var id = this.query_options.id;
+      if (id !== null) {
+        var option = this.getOptionByID(id);
+        var _total_price = parseFloat(option.price) - parseFloat(discount_price);
+        return _total_price.toFixed(2);
+      }
+      var total_price = price - discount_price;
+      return total_price.toFixed(2);
+    },
+    fullOptionName: function fullOptionName(option) {
+      var optionFullName = '';
+      if (option.color) {
+        optionFullName = "Цвет: " + option.color;
+      }
+      if (option.color_stone) {
+        var separator = optionFullName ? optionFullName + '/' : '';
+        optionFullName = separator + "Цвет камня: " + option.color_stone;
+      }
+      return optionFullName;
+    },
+    allImagesProduct: function allImagesProduct() {
+      var _this = this;
+      this.files = this.product.files ? this.product.files : [];
+      if (!this.product.product_options) {
+        return this.files;
+      }
+      this.product.product_options.forEach(function (item, i) {
+        if (item.files != undefined && item.files != null) {
+          item.files.forEach(function (file) {
+            _this.files.push(file);
+          });
+        }
+      });
+
+      return this.files;
+    },
+    check: function check(e) {
+      if (e.target.checked) {
+        return this.checkedEngraving = true;
+      }
+      this.checkedEngraving = false;
+      this.engraving.id = '';
+      this.engraving.text = '';
+      this.engraving.comment = '';
+      this.engraving.price = '';
+      this.engraving.font = '';
+      this.engraving.filename = '';
+    },
+    addToCart: function addToCart(id) {
+      this.engraving.qty = this.query_options.quantity;
+      this.query_options.engraving = this.engraving;
+      if (this.query_options.id) {
+        var url = '/api/add-to-cart/' + id + '?options=' + JSON.stringify(this.query_options);
+        axios.get(url).then(function (response) {
+          this.errors = '';
+          this.message = '';
+          if (response.data.errors) {
+            return this.errors = response.data.errors;
+          }
+          if (response.data.message) {
+            return this.message = response.data.message;
+          }
+
+          if (response.data.cart) {
+            bus.$emit('added-to-cart', response.data);
+          }
+        }.bind(this)).catch(function (error) {
+          this.message = null;
+          var status = error.response.status;
+          this.errors = error.response.data.errors;
+          this.message = this.getErrorMessage(status);
+        }.bind(this));
+      }
+    },
+    getFileName: function getFileName(filename) {
+      this.engraving.filename = filename[0];
+    },
+    addToWishList: function addToWishList(id) {
+      bus.$emit('added-to-wishlist', id);
+    },
+    removeToWishList: function removeToWishList(id) {
+      bus.$emit('remove-to-wishlist', id);
+    }
+  },
+
+  computed: {
+    weight: function weight() {
+      if (this.query_options.id) {
+        var option = this.getOptionByID(this.query_options.id);
+        return option.weight;
+      }
+      return null;
+    },
+    getPrice: function getPrice() {
+      return this.addOptionPrice(this.product.price);
+    },
+    discount: function discount() {
+
+      if (this.query_options.id) {
+        var option = this.getOptionByID(this.query_options.id);
+        return option.discount;
+      }
+      return null;
+    },
+    getDiscountPrice: function getDiscountPrice() {
+      return this.addOptionPrice(this.product.price, this.discount.price);
+    },
+    getSpecialPrice: function getSpecialPrice() {
+      return this.addOptionPrice(this.product.price, this.special.price);
+    },
+    toggleWishList: function toggleWishList() {
+      if (this.$parent.wishList[this.product.id]) {
+        if (window.location.pathname.replace('/', '') == 'wishlist') {
+          delete this.product;
+        }
+
+        this.className = 'ico ico-wishlist link-wishlist fa fa-heart';
+        return true;
+      } else {
+        this.className = 'ico ico-wishlist link-wishlist fa fa-heart-o';
+        return false;
+      }
+    },
+    isSpecial: function isSpecial() {
+      if (this.special) {
+        var dateCurrent = new Date();
+        var dateStart = new Date(this.special.date_start);
+        var dateEnd = new Date(this.special.date_end);
+        return dateStart <= dateCurrent && dateEnd >= dateCurrent;
+      }
+      return false;
+    }
+  }
 });
 
 /***/ }),
@@ -41817,7 +41849,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm.special
+        _vm.isSpecial
           ? _c("h2", [
               _c("span", { staticClass: "special-price" }, [
                 _vm._v(_vm._s(_vm.getSpecialPrice) + " ")
@@ -41864,11 +41896,7 @@ var render = function() {
                         "aria-expanded": "false"
                       }
                     },
-                    [
-                      _vm._v(
-                        _vm._s(_vm.titleOption) + "\n                        "
-                      )
-                    ]
+                    [_vm._v(_vm._s(_vm.titleOption) + "\n            ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -41896,7 +41924,7 @@ var render = function() {
                         [
                           _vm._v(
                             _vm._s(_vm.fullOptionName(option)) +
-                              "\n                            "
+                              "\n              "
                           )
                         ]
                       )
@@ -41988,8 +42016,9 @@ var render = function() {
                             { domProps: { value: service.id } },
                             [
                               _vm._v(
-                                "\n                                " +
-                                  _vm._s(service.title)
+                                "\n                " +
+                                  _vm._s(service.title) +
+                                  "\n                "
                               ),
                               service.price > 0
                                 ? [
@@ -42204,7 +42233,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("Добавить в корзину\n                ")]
+            [_vm._v("Добавить в корзину\n        ")]
           ),
           _vm._v(" "),
           _c(
@@ -42219,11 +42248,7 @@ var render = function() {
                 }
               }
             },
-            [
-              _vm._v(
-                "\n                    Добавить\n                    в избранное\n                "
-              )
-            ]
+            [_vm._v("\n          Добавить\n          в избранное\n        ")]
           )
         ]),
         _vm._v(" "),
@@ -42549,7 +42574,7 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                item.product_special
+                _vm.isSpecial(item)
                   ? _c("span", { staticClass: "special-badge" }, [
                       _vm._v(" -" + _vm._s(_vm.percentSpecial(item)) + "%")
                     ])
@@ -42580,7 +42605,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "product-price text-center" }, [
-                    item.product_special
+                    _vm.isSpecial(item)
                       ? _c("span", { staticClass: "special" }, [
                           _vm._v(_vm._s(_vm.priceSpecial(item)) + " ₽")
                         ])
@@ -42681,7 +42706,7 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          item.product_special
+                          _vm.isSpecial(item)
                             ? _c("span", { staticClass: "special-badge" }, [
                                 _vm._v(
                                   " -" + _vm._s(_vm.percentSpecial(item)) + "%"
@@ -42725,7 +42750,7 @@ var render = function() {
                               "div",
                               { staticClass: "product-price text-center" },
                               [
-                                item.product_special
+                                _vm.isSpecial(item)
                                   ? _c("span", { staticClass: "special" }, [
                                       _vm._v(
                                         _vm._s(_vm.priceSpecial(item)) + " р."
@@ -44742,7 +44767,7 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          item.product_special
+                          _vm.isSpecial(item)
                             ? _c("span", { staticClass: "special-badge" }, [
                                 _vm._v(
                                   " -" + _vm._s(_vm.percentSpecial(item)) + "%"
@@ -44786,7 +44811,7 @@ var render = function() {
                               "div",
                               { staticClass: "product-price text-center" },
                               [
-                                item.product_special
+                                _vm.isSpecial(item)
                                   ? _c("span", { staticClass: "special" }, [
                                       _vm._v(
                                         _vm._s(_vm.priceSpecial(item)) + " ₽"

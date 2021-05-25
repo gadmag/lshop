@@ -49,12 +49,8 @@
             @include('block.new_product')
         </div>
     </div>
-    <div class="last block block-special">
-        <h2 class="title-head mb-5 py-2 title text-center">Акции</h2>
-        <div class="container">
-            @include('block.special_product')
-        </div>
-    </div>
+
+    @include('block.special_product')
 
     @if($designItem->first())
         <h2 class="title-head mb-5 py-2 title text-center">Дизайнерские идеи</h2>

@@ -29,18 +29,23 @@ $('.remove-file').on('click', function (e) {
 
     $('.alert').not('alert-important').delay(3000).slideUp(300);
 
-    $('.dateru input').datepicker({
-        dateFormat: 'yy-mm-dd',
-        language: 'ru'
-    });
+    // $('.dateru input').datepicker({
+    //     dateFormat: 'yy-mm-dd',
+    //     language: 'ru'
+    // });
+    //
+    // $('.dateru input').change(function () {
+    //     var dateFormat = $('.dateru input').datepicker('getDate');
+    //     var value = $.datepicker.formatDate('yy-mm-dd', dateFormat);
+    //     console.log(value)
+    //     $(this).attr('value', value).val();
+    // });
+    $('#reservationdate_start').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: 'ru',
 
-    $('.dateru input').change(function () {
-        var dateFormat = $('.dateru input').datepicker('getDate');
-        var value = $.datepicker.formatDate('yy-mm-dd', dateFormat);
-        console.log(value)
-        $(this).attr('value', value).val();
     });
-    $('#reservationdate_start, #reservationdate_end, #published_at').datetimepicker({
+    $(' #reservationdate_end').datetimepicker({
         format: 'YYYY-MM-DD',
         locale: 'ru',
 
