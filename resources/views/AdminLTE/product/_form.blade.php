@@ -106,10 +106,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('productSpecial[date_start]', 'Дата начала:') !!}
-                                    <div class="input-group date" id="reservationdate_start"
-                                         data-target-input="nearest">
-                                        <div class="input-group-append" data-target="#reservationdate_start"
-                                             data-toggle="datetimepicker">
+                                    <div class="input-group" id="reservationdate_start" data-target-input="nearest">
+                                        <div class="input-group-append" data-target="#reservationdate_start" data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
                                         </div>
                                         {!! Form::input('text', 'productSpecial[date_start]', old('productSpecial[date_start]'), ['class' => 'form-control datetimepicker-input']) !!}
@@ -120,7 +118,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('productSpecial[date_end]', 'Дата оканчания:') !!}
-                                    <div class="input-group date" id="reservationdate_end" data-target-input="nearest">
+                                    <div class="input-group" id="reservationdate_end" data-target-input="nearest">
                                         <div class="input-group-append" data-target="#reservationdate_end" data-toggle="datetimepicker">
                                             <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
                                         </div>

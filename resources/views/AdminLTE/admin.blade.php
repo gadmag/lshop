@@ -66,15 +66,16 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="/AdminLTE/plugins/jquery/jquery.min.js"></script>
+{{--<script src="/AdminLTE/plugins/jquery/jquery.min.js"></script>--}}
+<script src="/AdminLTE/js/app-admin.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>
+{{--<script src="/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>--}}
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
-<script src="/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+{{--<script src="/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>--}}
 <!-- ChartJS -->
 <script src="/AdminLTE/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
@@ -102,7 +103,7 @@
 <script src="/AdminLTE/js/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/AdminLTE/js/demo.js"></script>
-<script src="/AdminLTE/js/app-admin.js"></script>
+
 @stack('scripts')
 <script src="/AdminLTE/js/my.js"></script>
 </body>

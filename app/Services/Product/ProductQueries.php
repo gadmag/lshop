@@ -137,7 +137,9 @@ class ProductQueries implements BaseQueries
      */
     public function getSpecialProducts(int $limit = 4)
     {
-        return Product::has('productSpecial')->active()->orderBy('sort_order', 'asc')->latest()->take($limit)->get();
+        return Product::whereHas('productSpecial', function ($item) {
+            return $item->isActive();
+        })->active()->orderBy('sort_order', 'asc')->latest()->take($limit)->get();
     }
 
 
@@ -211,7 +213,7 @@ class ProductQueries implements BaseQueries
 
 
         if ($request->filled('productSpecial.price')) {
-            $special_id = isset($request->productSpecial['id']) ? $request->productSpecial['id'] : null;
+            $special_id = $request->productSpecial['id'] ?? null;
             $product->productSpecial()->updateOrCreate(['id' => $special_id], $request->productSpecial);
         } else {
             $product->productSpecial()->delete();

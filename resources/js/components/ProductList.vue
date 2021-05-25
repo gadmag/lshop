@@ -6,7 +6,8 @@
           <img class="card-img-top img-fluid"
                :src="'/storage/files/250x250/'+getImage(item)"
                alt="Картинка">
-          <span v-if="item.product_special" class="special-badge"> -{{ percentSpecial(item) }}%</span>
+
+          <span v-if="isSpecial(item)" class="special-badge"> -{{ percentSpecial(item) }}%</span>
           <a @click="toggleWishList(item.id)">
             <span class="ico ico-wishlist link-wishlist" :class="getClassWishList(item.id)"></span>
           </a>
@@ -15,7 +16,7 @@
               <a class="" :href="'/products/'+item.alias">{{ item.title }}</a>
             </div>
             <div class="product-price text-center">
-              <span class="special" v-if="item.product_special">{{ priceSpecial(item) }} &#8381;</span>
+              <span class="special" v-if="isSpecial(item)">{{ priceSpecial(item) }} &#8381;</span>
               <span v-if="item.type == 'service'">{{ Number(item.price) }} р.</span>
               <span v-else-if="item.product_options[0]">
                               {{ Number(item.product_options[0].price).toFixed(0) }} &#8381;
@@ -90,6 +91,15 @@ export default {
       return Math.floor(item.product_special.price / price * 100);
     },
 
+    isSpecial(item){
+      if (item.product_special){
+        let dateCurrent = new Date();
+        let dateStart = new Date(item.product_special.date_start);
+        let dateEnd = new Date(item.product_special.date_end);
+        return (dateStart <= dateCurrent) && (dateEnd >= dateCurrent)
+      }
+    return  false;
+    },
     priceSpecial(item) {
       let price = item.product_options[0] ? item.product_options[0].price : item.price;
       let specialPrice = price - item.product_special.price

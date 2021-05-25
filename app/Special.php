@@ -18,17 +18,11 @@ class Special extends Model
      */
     public function setDateStartAttribute($date)
     {
+//        dd(Carbon::parse($date)->format('Y-m-d'));
         $this->attributes['date_start'] = Carbon::parse($date)->format('Y-m-d');
     }
 
-    /**
-     * @param $date
-     * @return mixed
-     */
-//    public function getDateStartAttribute($date)
-//    {
-//        return Carbon::parse($date)->format('d.m.Y');
-//    }
+
 
     /**
      * @param $date
@@ -39,14 +33,7 @@ class Special extends Model
         $this->attributes['date_end'] = Carbon::parse($date)->format('Y-m-d');
     }
 
-    /**
-     * @param $date
-     * @return mixed
-     */
-//    public function getDateEndAttribute($date)
-//    {
-//        return Carbon::parse($date)->format('d.m.Y');
-//    }
+
 
     public function setPriceAttribute($value)
     {
