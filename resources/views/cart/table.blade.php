@@ -18,7 +18,7 @@
                             <img src="/storage/files/90x110/{{$item->image}}" class="img-fluid rounded shadow-sm"
                                  width="80" alt="Фото товара">
                         </a>
-                        <div class="ml-3 d-inline-block align-middle">
+                        <div class="ml-md-3 d-inline-block align-middle">
                             <div class="mb-0">
                                 <span href="#" class="text-dark d-inline-block align-middle">{{$item->name}}</span>
                             </div>
@@ -51,8 +51,8 @@
                     </div>
                 </td>
                 <td>{{$item->qty}}</td>
-                <td>{{$item->price}} <span class="ruble">&#8381;</span></td>
-                <td>{{$item->price*$item->qty}} <span class="ruble">&#8381;</span></td>
+                <td class="price text-nowrap">{{$item->price}} <span class="ruble">&#8381;</span></td>
+                <td class="price text-nowrap">{{$item->price*$item->qty}} <span class="ruble">&#8381;</span></td>
             </tr>
         @endforeach
 
