@@ -15,7 +15,8 @@
                 <td>
                     <div class="p-2">
                         <a href="/storage/files/600x450/{{$item->image}}" class="group1">
-                            <img src="/storage/files/90x110/{{$item->image}}" class="img-fluid rounded shadow-sm" width="80" alt="Фото товара">
+                            <img src="/storage/files/90x110/{{$item->image}}" class="img-fluid rounded shadow-sm"
+                                 width="80" alt="Фото товара">
                         </a>
                         <div class="ml-3 d-inline-block align-middle">
                             <div class="mb-0">
@@ -31,7 +32,7 @@
                                 <div id="engravingCart" class="callout callout-default engraving-list">
                                     <b>Гравировка:</b>
                                     @foreach($item->engravings as $engraving)
-                                        <div class="text-left d-flex" >
+                                        <div class="text-left d-flex">
                                             <div class="dropdown flex-fill text-left">
                                                 <span class="title">{{$engraving->title}}</span>
                                                 <span class="font">{{$engraving->font}}</span>
@@ -50,8 +51,8 @@
                     </div>
                 </td>
                 <td>{{$item->qty}}</td>
-                <td>{{$item->price/$item->qty}} <span class="ruble">&#8381;</span></td>
                 <td>{{$item->price}} <span class="ruble">&#8381;</span></td>
+                <td>{{$item->price*$item->qty}} <span class="ruble">&#8381;</span></td>
             </tr>
         @endforeach
 
