@@ -2463,6 +2463,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       var _this2 = this;
 
       var url = '/api/add-shipment/' + id;
+      console.log(url);
       axios.get(url).then(function (res) {
         if (res.data.cart) {
           _this2.$root.cart = res.data.cart;
@@ -55588,7 +55589,7 @@ var render = function() {
                       ]),
                       _vm._v(" \n            "),
                       _c("span", { staticClass: "text-nowrap" }, [
-                        _vm._v("+ " + _vm._s(_vm.cart.shipment.price) + " ₽")
+                        _vm._v("+ " + _vm._s(_vm.cart.shipmentPrice) + " ₽")
                       ])
                     ]
                   )

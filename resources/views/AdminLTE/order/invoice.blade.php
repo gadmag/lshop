@@ -1,6 +1,7 @@
 @extends('AdminLTE.admin')
 
 @section('AdminLTE.content')
+
     <div class="order">
         <nav aria-label="breadcrumb" role="navigation">
             <br>
@@ -93,7 +94,7 @@
                         @if($order->cart['shipment'])
                             <tr>
                                 <td colspan="3" class="text-right"><strong>{{$order->cart['shipment']['title']}}</strong></td>
-                                <td class="text-right">{{$order->cart['shipment']['price']}} <span class="ruble">&#8381;</span></td>
+                                <td class="text-right">{{$order->cart['shipmentPrice']}} <span class="ruble">&#8381;</span></td>
                             </tr>
                         @endif
 
@@ -108,7 +109,7 @@
                         @endforeach
                         <tr>
                             <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
-                            <td class="text-right">{{$order->totalPrice}} <span class="ruble">&#8381;</span></td>
+                            <td class="text-right">{{$order->cart['totalWithCoupons']}} <span class="ruble">&#8381;</span></td>
                         </tr>
                         </tbody>
                     </table>

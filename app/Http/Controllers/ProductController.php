@@ -149,7 +149,7 @@ class ProductController extends Controller
 
     /**
      * Add engraving from cart item
-     * @param Request $request
+     * @param CartRequest $request
      * @param string cart item $uniqueId
      * @return \Illuminate\Http\JsonResponse
      */

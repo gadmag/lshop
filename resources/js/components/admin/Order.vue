@@ -246,7 +246,7 @@ export default {
     this.subTotal = this.cart.totalPrice;
     this.totalPrice = this.cart.totalWithCoupons;
     this.forms = this.cart.content;
-    this.shipment_price = this.cart.shipment.price;
+    this.shipment_price = this.cart.shipmentPrice;
     this.shipment_id = this.cart.shipment.id;
     console.log('Component mounted.')
   },

@@ -284,7 +284,7 @@
             </li>
             <li v-if="isShipment" class="d-flex justify-content-between py-3 border-bottom">
               <strong class="text-muted">{{ cart.shipment.title }}</strong>&nbsp;
-              <span class="text-nowrap">+ {{ cart.shipment.price }} &#8381;</span>
+              <span class="text-nowrap">+ {{ cart.shipmentPrice }} &#8381;</span>
             </li>
             <li v-for="coupon in cart.coupons" class="d-flex justify-content-between py-3 border-bottom">
               <strong class="text-muted">Промокод: {{ coupon.name }}</strong>
@@ -424,6 +424,7 @@ export default {
     },
     addShipmentToCart(id) {
       const url = '/api/add-shipment/' + id;
+      console.log(url);
       axios.get(url)
           .then((res) => {
             if (res.data.cart) {

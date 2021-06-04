@@ -7,6 +7,7 @@ use App\Filters\Filterable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -146,9 +147,9 @@ class Product extends Model
 
 
     /**
-     * @return array
+     *
      */
-    public function getCatalogListAttribute()
+    public function getCatalogListAttribute(): Collection
     {
 
         return $this->catalogs->pluck('id')->all();
@@ -176,7 +177,7 @@ class Product extends Model
 
     /**
      * Seo продукта
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
     public function productSeo()
     {

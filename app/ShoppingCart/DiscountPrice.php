@@ -27,4 +27,14 @@ trait DiscountPrice
 
         $cartItem->totalPrice = $cartItem->getTotal();
     }
+
+    private function applyShippingPrice(): void
+    {
+        if ($this->totalPrice() >= setting('free_shipping')){
+            $this->shipmentPrice = 0;
+        }else {
+            $this->shipmentPrice = $this->shipment['price'];
+        }
+
+    }
 }

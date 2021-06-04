@@ -61,6 +61,8 @@ class Shipment extends Model
                 return (float)$item['price'];
             }
         }
+        return (float)$this->price_setting[count($this->price_setting) - 1]['price'];
+
     }
 
     public function delete()
