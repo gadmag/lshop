@@ -24,6 +24,13 @@ class Coupon extends Model
         $this->attributes['date_end'] = Carbon::parse($date)->format('Y-m-d');
     }
 
+    public function getRawDiscountAttribute(): string
+    {
+        if ($this->type === '%'){
+            return "{$this->discount} %";
+        }
+        return "- {$this->discount}";
+    }
 
     public function scopeActive($query)
     {
