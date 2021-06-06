@@ -43,7 +43,7 @@
                             </td>
 
                             <td class="table-text">
-                                {{$coupon->discount}} <span>%</span>
+                                {{$coupon->rawDiscount}}
                             </td>
                             <td class="table-text">
                                 {{$coupon->uses_total}}
