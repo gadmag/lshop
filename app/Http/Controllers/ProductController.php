@@ -10,11 +10,13 @@ use App\Order;
 use App\Service;
 use App\Services\Filterable\ProductFilter;
 use App\Shipment;
+use App\ShoppingCart\Coupon\PercentDiscountCoupon;
 use App\ShoppingCart\Facades\Cart;
 use App\FieldOption;
 use App\Services\Product\BaseQueries;
 use App\WishList;
 use App\Product;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Session;
@@ -149,7 +151,7 @@ class ProductController extends Controller
 
     /**
      * Add engraving from cart item
-     * @param Request $request
+     * @param CartRequest $request
      * @param string cart item $uniqueId
      * @return \Illuminate\Http\JsonResponse
      */
@@ -199,17 +201,17 @@ class ProductController extends Controller
         ]);
     }
 
-    public function addCoupon(string $code, Coupon $coupon)
+    public function addCoupon(string $code, Coupon $coupon): JsonResponse
     {
         $cart = $this->initCart();
         $coupon = $coupon->getByCode($code);
-        $cart->addCoupon($coupon->name, $coupon->discount);
+        $cart->addCoupon($coupon);
         return response()->json([
             'cart' => $cart->toArray()
         ]);
     }
 
-    public function addShipment(int $id, Shipment $shipment)
+    public function addShipment(int $id, Shipment $shipment): JsonResponse
     {
         $cart = $this->initCart();
         $shipment = $shipment->getById($id);
@@ -221,7 +223,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function addToWishList(Request $request, $id)
+    public function addToWishList(Request $request, $id): JsonResponse
     {
         $product = Product::findOrFail($id);
         $wishList = Cart::instance('wishList')->add($product->id, $product->title);

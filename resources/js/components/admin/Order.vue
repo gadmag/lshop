@@ -121,7 +121,8 @@
 
         <div v-if="cart.coupons" v-for="coupon in cart.coupons" class="row form-field">
           <div class="col-md-6 text-right"><strong>Промокод: {{ coupon.name }}</strong></div>
-          <div class="col-md-6"><strong>- {{ coupon.discount }} р</strong></div>
+          <div v-if="coupon.discount" class="col-md-6"><strong>- {{ coupon.discount }} р</strong></div>
+          <div v-if="coupon.percent" class="col-md-6"><strong>- {{ coupon.percent }} %</strong></div>
         </div>
 
         <div class="row form-field">
@@ -246,7 +247,7 @@ export default {
     this.subTotal = this.cart.totalPrice;
     this.totalPrice = this.cart.totalWithCoupons;
     this.forms = this.cart.content;
-    this.shipment_price = this.cart.shipment.price;
+    this.shipment_price = this.cart.shipmentPrice;
     this.shipment_id = this.cart.shipment.id;
     console.log('Component mounted.')
   },

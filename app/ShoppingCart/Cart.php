@@ -4,6 +4,7 @@ namespace App\ShoppingCart;
 
 use App\ShoppingCart\Coupon\DiscountCoupon;
 use App\ShoppingCart\Coupon\FixedDiscountCoupon;
+use App\ShoppingCart\Coupon\PercentDiscountCoupon;
 use Exception;
 use App\ShoppingCart\Repositories\Contracts\RepositoryInterface;
 use Illuminate\Support\Collection;
@@ -45,6 +46,12 @@ class Cart
      * @var Collection
      */
     private $shipment;
+
+    /**
+     * total shipment price
+     * @var float
+     */
+    private $shipmentPrice = 0;
 
     /**
      * Cart constructor.
@@ -97,7 +104,6 @@ class Cart
 
         if ($this->content->has($uniqueId)) {
             $cartItem->qty += $this->content->get($uniqueId)->qty;
-            $cartItem->weight += $this->content->get($uniqueId)->weight;
             $cartItem->engravings = $this->content->get($uniqueId)->engravings;
         }
 
@@ -124,7 +130,6 @@ class Cart
         }
         $cartItem = $this->get($uniqueId);
         $cartItem->qty = $qty;
-        $cartItem->weight = $cartItem->weight * $cartItem->qty;
         $this->applyDiscount($cartItem);
         $this->content->put($uniqueId, $cartItem);
         $this->save();
@@ -142,7 +147,6 @@ class Cart
         if ($cartItem->qty <= 0) {
             return $this->removeItem($uniqueId);
         }
-        $cartItem->weight = $cartItem->weight * $cartItem->qty;
         $this->applyDiscount($cartItem);
         $this->content->put($uniqueId, $cartItem);
         $this->save();
@@ -166,24 +170,45 @@ class Cart
 
     }
 
-    public function addCoupon(string $name, float $discount)
+    public function addCoupon($coupon): self
     {
-        if (!$this->coupons->firstWhere('name', $name)) {
-            $this->coupons->push(new FixedDiscountCoupon($name, $discount));
+        if (!$this->coupons->firstWhere('name', $coupon->name)) {
+
+            if (($coupon->type === '%') && (intval($coupon->discount ) < 100)) {
+                $this->coupons->push(new PercentDiscountCoupon($coupon->name, intval($coupon->discount)));
+            } else {
+                $this->coupons->push(new FixedDiscountCoupon($coupon->name, $coupon->discount));
+            }
         }
         $this->save();
         return $this;
     }
 
 
-
-    public function addShipment($shipment)
+    /**
+     * @param array $shipment
+     * @return $this
+     */
+    public function addShipment(array $shipment): self
     {
         $this->shipment = collect($shipment);
         $this->save();
         return $this;
     }
 
+    public function getShipment(): Collection
+    {
+        return $this->shipment;
+    }
+
+
+    public function getTotalShipmentPrice(): float
+    {
+        if ($this->shipment->count() > 0) {
+            $this->applyShippingPrice();
+        }
+        return $this->shipmentPrice;
+    }
 
     /**
      * @param string $uniqueId
@@ -318,9 +343,8 @@ class Cart
     }
 
 
-
     /**
-     * @return float|mixed
+     * @return float
      */
     public function totalWithCoupons()
     {
@@ -330,7 +354,7 @@ class Cart
             $totalWithCoupons -= $coupon->applyCoupon($total);
         });
         if ($this->shipment->count() > 0) {
-            $totalWithCoupons += $this->shipment['price'];
+            $totalWithCoupons += $this->shipmentPrice;
         }
         return $totalWithCoupons;
     }
@@ -379,7 +403,8 @@ class Cart
             'content' => $this->content,
             'engravings' => $this->engravings,
             'coupons' => $this->coupons,
-            'shipment' => $this->shipment,
+            'shipment' => $this->getShipment(),
+            'shipmentPrice' => $this->getTotalShipmentPrice(),
             'instance' => $this->instanceName,
             'totalQty' => $this->totalQty(),
             'totalPrice' => $this->totalPrice(),

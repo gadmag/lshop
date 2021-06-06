@@ -11,11 +11,16 @@
             {!! Form::text('code', null, ['class' => 'form-control']) !!}
         </div>
 
-
-        <div class="form-group required">
-            {!! Form::label('discount', 'Скидка:') !!}
-            {!! Form::number('discount', null, ['class' => 'form-control']) !!}
+        {!! Form::label('discount', 'Скидка:') !!}
+        <div class="form-inline">
+            <div class="form-group required">
+                {!! Form::number('discount', null, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::select('type', ['-' => '-', '%' => '%'], old('type'), ['class' => 'form-control']) !!}
+            </div>
         </div>
+        <br>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">

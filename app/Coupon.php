@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Coupon extends Model
 {
-    protected $fillable = ['name', 'code', 'discount', 'status', 'uses_total', 'date_start', 'date_end'];
+    protected $fillable = ['name', 'code', 'discount', 'type', 'status', 'uses_total', 'date_start', 'date_end'];
 
     protected $dates = ['date_end', 'date_start'];
 
