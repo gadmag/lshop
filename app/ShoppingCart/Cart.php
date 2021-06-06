@@ -4,6 +4,7 @@ namespace App\ShoppingCart;
 
 use App\ShoppingCart\Coupon\DiscountCoupon;
 use App\ShoppingCart\Coupon\FixedDiscountCoupon;
+use App\ShoppingCart\Coupon\PercentDiscountCoupon;
 use Exception;
 use App\ShoppingCart\Repositories\Contracts\RepositoryInterface;
 use Illuminate\Support\Collection;
@@ -169,10 +170,15 @@ class Cart
 
     }
 
-    public function addCoupon(string $name, float $discount): self
+    public function addCoupon($coupon): self
     {
-        if (!$this->coupons->firstWhere('name', $name)) {
-            $this->coupons->push(new FixedDiscountCoupon($name, $discount));
+        if (!$this->coupons->firstWhere('name', $coupon->name)) {
+
+            if (($coupon->type === '%') && (intval($coupon->discount ) < 100)) {
+                $this->coupons->push(new PercentDiscountCoupon($coupon->name, intval($coupon->discount)));
+            } else {
+                $this->coupons->push(new FixedDiscountCoupon($coupon->name, $coupon->discount));
+            }
         }
         $this->save();
         return $this;
@@ -198,7 +204,7 @@ class Cart
 
     public function getTotalShipmentPrice(): float
     {
-        if ($this->shipment->count() > 0){
+        if ($this->shipment->count() > 0) {
             $this->applyShippingPrice();
         }
         return $this->shipmentPrice;
@@ -335,7 +341,6 @@ class Cart
         });
 
     }
-
 
 
     /**

@@ -2286,6 +2286,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
 
 
 
@@ -55607,7 +55608,17 @@ var render = function() {
                       _vm._v("Промокод: " + _vm._s(coupon.name))
                     ]),
                     _vm._v(" "),
-                    _c("span", [_vm._v("- " + _vm._s(coupon.discount) + "₽")])
+                    coupon.discount
+                      ? _c("span", [
+                          _vm._v("- " + _vm._s(coupon.discount) + "₽")
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    coupon.percent
+                      ? _c("span", [
+                          _vm._v("- " + _vm._s(coupon.percent) + "%")
+                        ])
+                      : _vm._e()
                   ]
                 )
               }),

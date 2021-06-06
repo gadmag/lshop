@@ -600,9 +600,17 @@
                         <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
                             Купон {{$coupon->name}}:
                         </td>
-                        <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
-                            - {{$coupon->discount}} р.
-                        </td>
+                        @if(isset($coupon->discount))
+                            <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
+                                - {{$coupon->discount}} р.
+                            </td>
+                        @endif
+                        @if(isset($coupon->percent))
+                            <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
+                                - {{$coupon->percent}} %
+                            </td>
+                        @endif
+
                     </tr>
                 @endforeach
                 <tr style="border-collapse:collapse;">
