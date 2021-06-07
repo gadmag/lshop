@@ -135,8 +135,9 @@
               <strong class="text-muted">Сумма</strong>{{ cart.totalPrice }} &#8381;
             </li>
             <li v-for="coupon in cart.coupons" class="d-flex justify-content-between py-3 border-bottom">
-              <strong class="text-muted">Промокод: {{ coupon.name }}</strong><strong>- {{ coupon.discount }}
-              &#8381;</strong>
+              <strong class="text-muted">Промокод: {{ coupon.name }}</strong>
+              <span v-if="coupon.discount"><strong>- {{ coupon.discount }}&#8381;</strong></span>
+              <span v-if="coupon.percent"><strong>- {{ coupon.percent }} %</strong></span>
             </li>
             <li v-if="cart.totalWithCoupons" class="d-flex justify-content-between py-3 border-bottom">
               <strong class="text-muted">Итоговая сумма</strong>
