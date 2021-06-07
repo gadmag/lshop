@@ -13,7 +13,7 @@ class PermissionServiceProvider extends ServiceProvider
      * Bootstrap services.
      *
      */
-    public function boot(): bool
+    public function boot()
     {
         try {
             Permission::get()->map(function ($permission) {
