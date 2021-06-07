@@ -3959,6 +3959,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -56341,11 +56342,22 @@ var render = function() {
                           _c("strong", { staticClass: "text-muted" }, [
                             _vm._v("Промокод: " + _vm._s(coupon.name))
                           ]),
-                          _c("strong", [
-                            _vm._v(
-                              "- " + _vm._s(coupon.discount) + "\n            ₽"
-                            )
-                          ])
+                          _vm._v(" "),
+                          coupon.discount
+                            ? _c("span", [
+                                _c("strong", [
+                                  _vm._v("- " + _vm._s(coupon.discount) + "₽")
+                                ])
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          coupon.percent
+                            ? _c("span", [
+                                _c("strong", [
+                                  _vm._v("- " + _vm._s(coupon.percent) + " %")
+                                ])
+                              ])
+                            : _vm._e()
                         ]
                       )
                     }),
