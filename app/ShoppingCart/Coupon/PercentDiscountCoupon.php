@@ -11,6 +11,8 @@ class PercentDiscountCoupon extends DiscountCoupon
      */
     public $percent;
 
+    public  $discount;
+
     public function __construct($name, $percent)
     {
         $this->percent = $percent;
@@ -19,6 +21,7 @@ class PercentDiscountCoupon extends DiscountCoupon
 
     public function applyCoupon($total):float
     {
-        return $total * (intval($this->percent) / 100);
+        $this->discount = round($total * (intval($this->percent) / 100),2);
+        return $this->discount;
     }
 }

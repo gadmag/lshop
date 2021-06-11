@@ -68,7 +68,7 @@
                     </div>
                     <div class="flex-fill pl-2 text-right">
                       <span class="qty">{{ engraving.qty }}x</span>
-                      <span class="price">{{ engraving.price }} &#8381;</span>
+                      <span class="price">{{ priceFormat(engraving.price) }} &#8381;</span>
                       <button @click="editEngraving(engraving, cartItem.item.services)" title="Редактировать"  data-target="#engravingModal"
                               type="button" class="btn btn-link pr-1 pl-2 py-0" data-toggle="modal">
                         <i class="fal fa-edit"></i>
@@ -89,8 +89,8 @@
               </button>
             </div>
           </td>
-          <td class="align-middle text-center" :class="{'border-0': index == 0}" data-th="Цена">{{ cartItem.price }}
-            &#8381;
+          <td class="align-middle text-center" :class="{'border-0': index == 0}" data-th="Цена">
+            {{ priceFormat(cartItem.price) }}&#8381;
           </td>
           <td class="align-middle text-center" :class="{'border-0': index == 0}" data-th="Кол-во">
             <a href="#" v-on:click.stop.prevent="reduceFromCart(key)"><i class="far fa-minus"></i></a>
@@ -98,7 +98,7 @@
             <a href="#" v-on:click.stop.prevent="addToCart(cartItem)"><i class="far fa-plus"></i></a>
           </td>
           <td data-th="Итого" class="align-middle text-center" :class="{'border-0': index == 0}">
-            {{ cartItem.totalPrice }} &#8381;
+            {{ priceFormat(cartItem.totalPrice) }} &#8381;
           </td>
           <td class="align-middle text-center actions" :class="{'border-0': index == 0}"><a
               @click="removeFromCart(key)" href="#"><i
@@ -132,16 +132,15 @@
             введенных Вами значений.</p>
           <ul class="list-unstyled mb-4">
             <li v-if="cart.coupons.length > 0" class="d-flex justify-content-between py-3 border-bottom">
-              <strong class="text-muted">Сумма</strong>{{ cart.totalPrice }} &#8381;
+              <strong class="text-muted">Сумма</strong>{{ priceFormat(cart.totalPrice) }} &#8381;
             </li>
             <li v-for="coupon in cart.coupons" class="d-flex justify-content-between py-3 border-bottom">
               <strong class="text-muted">Промокод: {{ coupon.name }}</strong>
-              <span v-if="coupon.discount"><strong>- {{ coupon.discount }}&#8381;</strong></span>
-              <span v-if="coupon.percent"><strong>- {{ coupon.percent }} %</strong></span>
+              <span v-if="coupon.discount">- {{ priceFormat(coupon.discount) }} &#8381;</span>
             </li>
             <li v-if="cart.totalWithCoupons" class="d-flex justify-content-between py-3 border-bottom">
               <strong class="text-muted">Итоговая сумма</strong>
-              <h5 class="">{{ cart.totalWithCoupons }} &#8381;</h5>
+              <h5 class="">{{ priceFormat(cart.totalWithCoupons) }} &#8381;</h5>
             </li>
           </ul>
           <div class="checkout-button">
@@ -268,6 +267,11 @@ export default {
             console.log(error);
             this.error_coupon = 'Неверный промокод';
           })
+    },
+
+
+    priceFormat(price){
+      return  Intl.NumberFormat("fr-FR", {}).format(price);
     }
   }
 }

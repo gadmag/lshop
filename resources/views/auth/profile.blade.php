@@ -21,24 +21,27 @@
                     <p class="bg-light  px-4 py-3 text-uppercase font-weight-bold">Cумма платежа</p>
                     <ul class="list-unstyled p-2 mb-4">
                         <li class="d-flex justify-content-between py-3 border-bottom">
-                            <strong class="text-muted">Предварительная стоимость:</strong>{{$order->cart['totalPrice']}} &#8381;
+                            <strong class="text-muted">Предварительная стоимость:</strong>
+                            {{number_format($order->cart['totalPrice'],2,',', ' ')}} &#8381;
                         </li>
                         @if($order->cart['shipment'])
                             <li class="d-flex justify-content-between py-3 border-bottom">
                                 <strong class="text-muted">{{$order->cart['shipment']['title']}}</strong>&nbsp;
-                                <span class="text-nowrap">+ {{$order->cart['shipment']['price']}} &#8381;</span>
+                                @if(isset($order->cart['shipmentPrice']))
+                                    <span class="text-nowrap">+ {{$order->cart['shipmentPrice']}} &#8381;</span>
+                                @endif
                             </li>
                         @endif
                         @foreach($order->cart['coupons'] as $coupon)
                             <li class="d-flex justify-content-between py-3 border-bottom">
                                 <strong class="text-muted">Промокод: {{$coupon->name}} </strong>
-                                <span class="text-nowrap">- {{$coupon->price}} &#8381;</span>
+                                <span class="text-nowrap">- {{number_format($coupon->discount, 2, ',', ' ')}} &#8381;</span>
                             </li>
                         @endforeach
 
                         <li class="d-flex justify-content-between py-3 border-bottom">
                             <strong class="text-muted">Итоговая сумма</strong>
-                            <h5 class="text-nowrap">{{$order->totalPrice}} &#8381;</h5>
+                            <h5 class="text-nowrap">{{number_format($order->cart['totalWithCoupons'],2,',', ' ')}} &#8381;</h5>
                         </li>
                     </ul>
                 </div>

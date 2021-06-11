@@ -234,14 +234,14 @@
                           </div>
                           <div class="flex-fill pl-2 text-right">
                             <span class="qty">{{ engraving.qty }}x</span>
-                            <span class="price">{{ engraving.price }} &#8381;</span>
+                            <span class="price">{{ priceFormat(engraving.price) }} &#8381;</span>
                           </div>
 
                         </div>
                       </div>
                     </td>
                     <td class="align-middle text-center" :class="{'border-0': index == 0}"
-                        data-th="Цена">{{ cartItem.price }} &#8381;
+                        data-th="Цена">{{ priceFormat(cartItem.price) }} &#8381;
                     </td>
                     <td class="align-middle text-center" :class="{'border-0': index == 0}"
                         data-th="Кол-во">{{ cartItem.qty }}
@@ -280,20 +280,19 @@
           <ul class="list-unstyled mb-4">
             <li v-if="isCoupon || isShipment"
                 class="d-flex justify-content-between py-3 border-bottom">
-              <strong class="text-muted">Сумма</strong>{{ cart.totalPrice }} &#8381;
+              <strong class="text-muted">Сумма</strong>{{ priceFormat(cart.totalPrice) }} &#8381;
             </li>
             <li v-if="isShipment" class="d-flex justify-content-between py-3 border-bottom">
               <strong class="text-muted">{{ cart.shipment.title }}</strong>&nbsp;
-              <span class="text-nowrap">+ {{ cart.shipmentPrice }} &#8381;</span>
+              <span class="text-nowrap">+ {{ priceFormat(cart.shipmentPrice) }} &#8381;</span>
             </li>
             <li v-for="coupon in cart.coupons" class="d-flex justify-content-between py-3 border-bottom">
               <strong class="text-muted">Промокод: {{ coupon.name }}</strong>
-              <span v-if="coupon.discount">- {{ coupon.discount }}&#8381;</span>
-              <span v-if="coupon.percent">- {{ coupon.percent }}%</span>
+              <span v-if="coupon.discount">- {{ priceFormat(coupon.discount) }}&#8381;</span>
             </li>
             <li v-if="cart.totalWithCoupons" class="d-flex justify-content-between py-3 border-bottom">
               <strong class="text-muted">Итоговая сумма</strong>
-              <h5 class="">{{ cart.totalWithCoupons }} &#8381;</h5>
+              <h5 class="">{{ priceFormat(cart.totalWithCoupons) }} &#8381;</h5>
             </li>
           </ul>
         </div> <!-- /Итоговая цена -->
@@ -435,8 +434,12 @@ export default {
           .catch((error) => {
             console.log(error);
           })
-    }
+    },
 
+
+    priceFormat(price){
+      return  Intl.NumberFormat("fr-FR", {}).format(price);
+    }
 
   },
 

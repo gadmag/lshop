@@ -605,11 +605,6 @@
                                 - {{$coupon->discount}} р.
                             </td>
                         @endif
-                        @if(isset($coupon->percent))
-                            <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
-                                - {{$coupon->percent}} %
-                            </td>
-                        @endif
 
                     </tr>
                 @endforeach
