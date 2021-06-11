@@ -2286,7 +2286,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
 
 
 
@@ -2472,6 +2471,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       }).catch(function (error) {
         console.log(error);
       });
+    },
+    priceFormat: function priceFormat(price) {
+      return Intl.NumberFormat("fr-FR", {}).format(price);
     }
   },
 
@@ -3959,7 +3961,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -4059,6 +4060,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(error);
         _this2.error_coupon = 'Неверный промокод';
       });
+    },
+    priceFormat: function priceFormat(price) {
+      return Intl.NumberFormat("fr-FR", {}).format(price);
     }
   }
 });
@@ -55409,7 +55413,9 @@ var render = function() {
                                                           [
                                                             _vm._v(
                                                               _vm._s(
-                                                                engraving.price
+                                                                _vm.priceFormat(
+                                                                  engraving.price
+                                                                )
                                                               ) + " ₽"
                                                             )
                                                           ]
@@ -55436,7 +55442,7 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      _vm._s(cartItem.price) +
+                                      _vm._s(_vm.priceFormat(cartItem.price)) +
                                         " ₽\n                  "
                                     )
                                   ]
@@ -55573,7 +55579,10 @@ var render = function() {
                       _c("strong", { staticClass: "text-muted" }, [
                         _vm._v("Сумма")
                       ]),
-                      _vm._v(_vm._s(_vm.cart.totalPrice) + " ₽\n          ")
+                      _vm._v(
+                        _vm._s(_vm.priceFormat(_vm.cart.totalPrice)) +
+                          " ₽\n          "
+                      )
                     ]
                   )
                 : _vm._e(),
@@ -55591,7 +55600,11 @@ var render = function() {
                       ]),
                       _vm._v(" \n            "),
                       _c("span", { staticClass: "text-nowrap" }, [
-                        _vm._v("+ " + _vm._s(_vm.cart.shipmentPrice) + " ₽")
+                        _vm._v(
+                          "+ " +
+                            _vm._s(_vm.priceFormat(_vm.cart.shipmentPrice)) +
+                            " ₽"
+                        )
                       ])
                     ]
                   )
@@ -55611,13 +55624,11 @@ var render = function() {
                     _vm._v(" "),
                     coupon.discount
                       ? _c("span", [
-                          _vm._v("- " + _vm._s(coupon.discount) + "₽")
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    coupon.percent
-                      ? _c("span", [
-                          _vm._v("- " + _vm._s(coupon.percent) + "%")
+                          _vm._v(
+                            "- " +
+                              _vm._s(_vm.priceFormat(coupon.discount)) +
+                              "₽"
+                          )
                         ])
                       : _vm._e()
                   ]
@@ -55637,7 +55648,10 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("h5", {}, [
-                        _vm._v(_vm._s(_vm.cart.totalWithCoupons) + " ₽")
+                        _vm._v(
+                          _vm._s(_vm.priceFormat(_vm.cart.totalWithCoupons)) +
+                            " ₽"
+                        )
                       ])
                     ]
                   )
@@ -55998,7 +56012,9 @@ var render = function() {
                                                       [
                                                         _vm._v(
                                                           _vm._s(
-                                                            engraving.price
+                                                            _vm.priceFormat(
+                                                              engraving.price
+                                                            )
                                                           ) + " ₽"
                                                         )
                                                       ]
@@ -56124,7 +56140,9 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              _vm._s(cartItem.price) + "\n          ₽\n        "
+                              "\n          " +
+                                _vm._s(_vm.priceFormat(cartItem.price)) +
+                                "₽\n        "
                             )
                           ]
                         ),
@@ -56181,7 +56199,7 @@ var render = function() {
                           [
                             _vm._v(
                               "\n          " +
-                                _vm._s(cartItem.totalPrice) +
+                                _vm._s(_vm.priceFormat(cartItem.totalPrice)) +
                                 " ₽\n        "
                             )
                           ]
@@ -56325,7 +56343,8 @@ var render = function() {
                               _vm._v("Сумма")
                             ]),
                             _vm._v(
-                              _vm._s(_vm.cart.totalPrice) + " ₽\n          "
+                              _vm._s(_vm.priceFormat(_vm.cart.totalPrice)) +
+                                " ₽\n          "
                             )
                           ]
                         )
@@ -56345,17 +56364,11 @@ var render = function() {
                           _vm._v(" "),
                           coupon.discount
                             ? _c("span", [
-                                _c("strong", [
-                                  _vm._v("- " + _vm._s(coupon.discount) + "₽")
-                                ])
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          coupon.percent
-                            ? _c("span", [
-                                _c("strong", [
-                                  _vm._v("- " + _vm._s(coupon.percent) + " %")
-                                ])
+                                _vm._v(
+                                  "- " +
+                                    _vm._s(_vm.priceFormat(coupon.discount)) +
+                                    " ₽"
+                                )
                               ])
                             : _vm._e()
                         ]
@@ -56375,7 +56388,11 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("h5", {}, [
-                              _vm._v(_vm._s(_vm.cart.totalWithCoupons) + " ₽")
+                              _vm._v(
+                                _vm._s(
+                                  _vm.priceFormat(_vm.cart.totalWithCoupons)
+                                ) + " ₽"
+                              )
                             ])
                           ]
                         )

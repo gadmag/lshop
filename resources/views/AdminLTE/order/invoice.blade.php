@@ -35,7 +35,8 @@
                         <div class="box-body">
                             <strong>{{$order->first_name}} {{$order->last_name}}</strong>
                             <div>
-                                <span>{{$order->country}}, @if($order->region){{$order->region}}, @endif @if($order->city)
+                                <span>{{$order->country}}, @if($order->region){{$order->region}}
+                                    , @endif @if($order->city)
                                         г. {{$order->city}} @endif</span>
                             </div>
                             <div>{{$order->address}}</div>
@@ -89,12 +90,18 @@
                         <tbody>
                         <tr>
                             <td colspan="3" class="text-right"><strong>Предварительная стоимость:</strong></td>
-                            <td class="text-right">{{$order->cart['totalPrice']}} <span class="ruble">&#8381;</span></td>
+                            <td class="text-right">{{number_format($order->cart['totalPrice'],2,',',' ')}} <span class="ruble">&#8381;</span>
+                            </td>
                         </tr>
                         @if($order->cart['shipment'])
                             <tr>
-                                <td colspan="3" class="text-right"><strong>{{$order->cart['shipment']['title']}}</strong></td>
-                                <td class="text-right">{{$order->cart['shipmentPrice']}} <span class="ruble">&#8381;</span></td>
+                                <td colspan="3" class="text-right">
+                                    <strong>{{$order->cart['shipment']['title']}}</strong></td>
+                                <td class="text-right">
+                                    @if(isset($order->cart['shipmentPrice']))
+                                        <span>{{$order->cart['shipmentPrice']}}</span>
+                                        <span class="ruble">&#8381;</span></td>
+                                    @endif
                             </tr>
                         @endif
 
@@ -109,7 +116,8 @@
                         @endforeach
                         <tr>
                             <td colspan="3" class="text-right"><strong>Итоговая сумма:</strong></td>
-                            <td class="text-right">{{$order->cart['totalWithCoupons']}} <span class="ruble">&#8381;</span></td>
+                            <td class="text-right">{{number_format($order->cart['totalWithCoupons'],2, ',',' ')}} <span
+                                        class="ruble">&#8381;</span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -117,7 +125,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-{{--                    <button class="btn btn-primary float-right"><i class="fas fa-download"></i> Генерация PDF</button>--}}
+                    {{--                    <button class="btn btn-primary float-right"><i class="fas fa-download"></i> Генерация PDF</button>--}}
                 </div>
             </div>
         </div>

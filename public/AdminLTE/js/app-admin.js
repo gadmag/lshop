@@ -2450,7 +2450,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -39996,14 +39995,6 @@ var render = function() {
                       ? _c("div", { staticClass: "col-md-6" }, [
                           _c("strong", [
                             _vm._v("- " + _vm._s(coupon.discount) + " р")
-                          ])
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    coupon.percent
-                      ? _c("div", { staticClass: "col-md-6" }, [
-                          _c("strong", [
-                            _vm._v("- " + _vm._s(coupon.percent) + " %")
                           ])
                         ])
                       : _vm._e()

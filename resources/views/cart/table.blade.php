@@ -39,7 +39,7 @@
                                             </div>
                                             <div class="flex-fill ml-3 text-right">
                                                 <span class="qty">{{$engraving->qty}}x</span>
-                                                <span class="price">{{$engraving->price}} &#8381;</span>
+                                                <span class="price">{{number_format($engraving->price,2,',',' ')}} &#8381;</span>
                                             </div>
 
                                         </div>
@@ -51,8 +51,8 @@
                     </div>
                 </td>
                 <td>{{$item->qty}}</td>
-                <td class="price text-nowrap">{{$item->price}} <span class="ruble">&#8381;</span></td>
-                <td class="price text-nowrap">{{$item->price*$item->qty}} <span class="ruble">&#8381;</span></td>
+                <td class="price text-nowrap">{{number_format($item->price,2,',', ' ')}} <span class="ruble">&#8381;</span></td>
+                <td class="price text-nowrap">{{number_format($item->price*$item->qty,2,',',' ')}} <span class="ruble">&#8381;</span></td>
             </tr>
         @endforeach
 

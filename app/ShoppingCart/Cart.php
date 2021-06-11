@@ -407,7 +407,7 @@ class Cart
             'shipmentPrice' => $this->getTotalShipmentPrice(),
             'instance' => $this->instanceName,
             'totalQty' => $this->totalQty(),
-            'totalPrice' => $this->totalPrice(),
+            'totalPrice' => round($this->totalPrice(), 2),
             'totalWithCoupons' => $this->totalWithCoupons(),
             'totalWeight' => $this->totalWeight(),
         ];
