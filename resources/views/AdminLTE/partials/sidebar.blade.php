@@ -36,7 +36,10 @@
                 <li class="nav-item has-treeview"><a class="nav-link" href="{{route('products.index')}}">
                         <i class="nav-icon fa fa-shopping-basket" aria-hidden="true"></i><p>Продукты</p></a></li>
                 <li>
-                <li class="nav-item"><a class="nav-link" href="{{url('admin/orders')}}"><i class="nav-icon fa fa-shopping-cart"></i> <p>Заказы</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url('admin/orders')}}"><i class="nav-icon fa fa-shopping-cart"></i>
+                        <p>Заказы
+                            <span class="badge badge-info right">{{$countNewOrder}}</span>
+                        </p></a></li>
                 <li class="nav-item has-treeview">
                     <a class="nav-link" href="#"><i class="nav-icon fa fa-list-ul" aria-hidden="true"></i><p>Справочники</p>
                         <i class="nav-icon fa fa-angle-left right"></i>

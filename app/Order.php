@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -48,5 +49,15 @@ class Order extends Model
     public function files()
     {
         return $this->morphMany('App\Upload', 'uploadstable');
+    }
+
+    public function countDefaultStatus()
+    {
+
+//        return DB::table('orders')
+//            ->join('order_status','orders.order_status_id','=','order_status.id')
+//            ->where('order_status.is_default','=',1);
+//            ->toSql();
+        return '';
     }
 }

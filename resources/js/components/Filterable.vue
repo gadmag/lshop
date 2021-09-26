@@ -20,8 +20,8 @@
               <div class="checkbox">
                 <div v-for="(item,i) in group.item"
                      class="form-check custom-control custom-checkbox mb-1">
-                  <input class="custom-control-input" :id="item.type+'-'+i" type="checkbox"
-                         :value="JSON.stringify(item.name)"
+                  <input v-model="selected_field" class="custom-control-input" :id="item.type+'-'+i" type="checkbox"
+                         :value="item.name"
                          @input="selectField(item, f, $event)">
                   <label class="custom-control-label" :for="item.type+'-'+i">{{ item.name }}</label>
                 </div>
@@ -51,9 +51,13 @@
               </div>
             </div>
           </div>
+
         </div>
       </aside>
       <div class="content col-md-9">
+        <button v-if="appliedFilters && appliedFilters.length > 0" @click="resetFilter"
+                class="btn btn-sm btn-outline-danger">Очистить
+        </button>
         <div v-if="collection.total > 0">
           <div class="text-right"><span class="text-muted">Найдено:</span> <b>{{ collection.total }}</b></div>
           <div class="py-1 mb-3 product-list-header">
@@ -139,6 +143,7 @@ export default {
   data() {
     return {
       loading: true,
+      selected_field: [],
       appliedFilters: [],
       filterCandidates: [],
       arr: [],
@@ -167,9 +172,29 @@ export default {
 
   mounted() {
     console.log('Component filterable mounted.');
+    let queryStorage = localStorage.getItem('query');
+    let filtersStorage = localStorage.getItem('filters');
+    console.log(filtersStorage);
+    if (queryStorage) {
+      this.query = JSON.parse(queryStorage);
+    }
+    if (filtersStorage) {
+      this.filterCandidates = JSON.parse(filtersStorage);
+      this.appliedFilters = JSON.parse(filtersStorage);
+      let select_list = [];
+      this.appliedFilters.forEach(item => {
+        if (item.field_value && item.field_value.length > 0) {
+          select_list = select_list.concat(item.field_value)
+        }
+      });
+      this.selected_field = select_list;
+    } else {
+      this.addFilter();
+    }
+
     this.setOrderTitle({name: this.query.sort, direction: this.query.direction});
     this.fetch();
-    this.addFilter();
+
   },
 
   computed: {
@@ -235,6 +260,9 @@ export default {
     resetFilter() {
       this.appliedFilters.splice(0);
       this.filterCandidates.splice(0);
+      localStorage.removeItem('query');
+      localStorage.removeItem('filters');
+      this.selected_field = [];
       this.addFilter();
       this.query.page = 1;
       this.applyChange();
@@ -262,7 +290,7 @@ export default {
       if (value.length === 0) {
         return
       }
-      let obj = JSON.parse(value);
+      let obj = value;
       if (e.target.checked) {
         if (this.filterCandidates.indexOf(i) === -1) {
           Vue.set(this.filterCandidates[i], 'operator', 'equal_in');
@@ -291,6 +319,7 @@ export default {
 
     applyChange() {
       this.scrollTo();
+
       NProgress.configure({
         parent: '#spinner-loader',
         easing: 'ease',
@@ -355,12 +384,14 @@ export default {
       this.loading = true;
 
       const filters = this.getFilters();
-
       const params = {
         ...filters,
         ...this.query,
       };
-
+      localStorage.setItem('query', JSON.stringify(this.query));
+      if (this.appliedFilters && this.appliedFilters.length > 0) {
+        localStorage.setItem('filters', JSON.stringify(this.appliedFilters));
+      }
       axios.get(this.url, {params: params})
           .then((res) => {
             Vue.set(this.$data, 'collection', res.data.collection);
