@@ -1,21 +1,11 @@
 {
-<<<<<<< HEAD
-    "/js/app.js": "/js/app.js?id=bb53facd3560883707e3",
+    "/js/app.js": "/js/app.js?id=c8340f656033f196dd09",
     "/css/app.css": "/css/app.css?id=9e89f85a348a20f35549",
     "/css/bootstrap.css": "/css/bootstrap.css?id=121b29271ce968aafa9a",
     "/css/bootstrap-ui.css": "/css/bootstrap-ui.css?id=ab487cc327eef0a24b91",
     "/AdminLTE/css/jquery.nestable.css": "/AdminLTE/css/jquery.nestable.css?id=50b9fa0af26057c0d652",
     "/AdminLTE/js/app-admin.js": "/AdminLTE/js/app-admin.js?id=3b3bcdc25b39be4dd3af",
     "/css/all.css": "/css/all.css?id=fdb4193dcf09162963cf",
-=======
-    "/js/app.js": "/js/app.js?id=10989b3b718df9245f5d",
-    "/css/app.css": "/css/app.css?id=b900f9b3d36d397b8276",
-    "/css/bootstrap.css": "/css/bootstrap.css?id=73b81e28003719bbeab9",
-    "/css/bootstrap-ui.css": "/css/bootstrap-ui.css?id=c7827cbcda03d6063bc7",
-    "/AdminLTE/css/jquery.nestable.css": "/AdminLTE/css/jquery.nestable.css?id=d3dfb4ca09222a8fd9bb",
-    "/AdminLTE/js/app-admin.js": "/AdminLTE/js/app-admin.js?id=bc41466c4197b36224f9",
-    "/css/all.css": "/css/all.css?id=4d0a5b1a2b67100a491e",
->>>>>>> develop
     "/js/all.js": "/js/all.js?id=53e98b06770d56681969",
     "/css/colorbox.css": "/css/colorbox.css?id=9bc8833c4d3488f89855",
     "/js/jquery.colorbox.js": "/js/jquery.colorbox.js?id=eb79fa295d1ded56e735"
