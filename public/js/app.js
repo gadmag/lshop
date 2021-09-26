@@ -2822,6 +2822,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2842,6 +2846,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   data: function data() {
     return {
       loading: true,
+      selected_field: [],
       appliedFilters: [],
       filterCandidates: [],
       arr: [],
@@ -2868,9 +2873,28 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   },
   mounted: function mounted() {
     console.log('Component filterable mounted.');
+    var queryStorage = localStorage.getItem('query');
+    var filtersStorage = localStorage.getItem('filters');
+    console.log(filtersStorage);
+    if (queryStorage) {
+      this.query = JSON.parse(queryStorage);
+    }
+    if (filtersStorage) {
+      this.filterCandidates = JSON.parse(filtersStorage);
+      this.appliedFilters = JSON.parse(filtersStorage);
+      var select_list = [];
+      this.appliedFilters.forEach(function (item) {
+        if (item.field_value && item.field_value.length > 0) {
+          select_list = select_list.concat(item.field_value);
+        }
+      });
+      this.selected_field = select_list;
+    } else {
+      this.addFilter();
+    }
+
     this.setOrderTitle({ name: this.query.sort, direction: this.query.direction });
     this.fetch();
-    this.addFilter();
   },
 
 
@@ -2933,6 +2957,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     resetFilter: function resetFilter() {
       this.appliedFilters.splice(0);
       this.filterCandidates.splice(0);
+      localStorage.removeItem('query');
+      localStorage.removeItem('filters');
+      this.selected_field = [];
       this.addFilter();
       this.query.page = 1;
       this.applyChange();
@@ -2958,7 +2985,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       if (value.length === 0) {
         return;
       }
-      var obj = JSON.parse(value);
+      var obj = value;
       if (e.target.checked) {
         if (this.filterCandidates.indexOf(i) === -1) {
           Vue.set(this.filterCandidates[i], 'operator', 'equal_in');
@@ -2983,6 +3010,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     applyChange: function applyChange() {
       this.scrollTo();
+
       NProgress.configure({
         parent: '#spinner-loader',
         easing: 'ease',
@@ -3045,9 +3073,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.loading = true;
 
       var filters = this.getFilters();
-
       var params = _extends({}, filters, this.query);
-
+      localStorage.setItem('query', JSON.stringify(this.query));
+      if (this.appliedFilters && this.appliedFilters.length > 0) {
+        localStorage.setItem('filters', JSON.stringify(this.appliedFilters));
+      }
       axios.get(this.url, { params: params }).then(function (res) {
         Vue.set(_this3.$data, 'collection', res.data.collection);
         _this3.query.page = res.data.collection.current_page;
@@ -51667,15 +51697,50 @@ var render = function() {
                             },
                             [
                               _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.selected_field,
+                                    expression: "selected_field"
+                                  }
+                                ],
                                 staticClass: "custom-control-input",
                                 attrs: {
                                   id: item.type + "-" + i,
                                   type: "checkbox"
                                 },
-                                domProps: { value: JSON.stringify(item.name) },
+                                domProps: {
+                                  value: item.name,
+                                  checked: Array.isArray(_vm.selected_field)
+                                    ? _vm._i(_vm.selected_field, item.name) > -1
+                                    : _vm.selected_field
+                                },
                                 on: {
                                   input: function($event) {
                                     return _vm.selectField(item, f, $event)
+                                  },
+                                  change: function($event) {
+                                    var $$a = _vm.selected_field,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = item.name,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          (_vm.selected_field = $$a.concat([
+                                            $$v
+                                          ]))
+                                      } else {
+                                        $$i > -1 &&
+                                          (_vm.selected_field = $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1)))
+                                      }
+                                    } else {
+                                      _vm.selected_field = $$c
+                                    }
                                   }
                                 }
                               }),
@@ -51811,6 +51876,17 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "content col-md-9" }, [
+        _vm.appliedFilters && _vm.appliedFilters.length > 0
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-sm btn-outline-danger",
+                on: { click: _vm.resetFilter }
+              },
+              [_vm._v("Очистить\n      ")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
         _vm.collection.total > 0
           ? _c("div", [
               _c("div", { staticClass: "text-right" }, [

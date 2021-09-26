@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Http\ViewComposers\BlocksComposer;
 use App\Http\ViewComposers\ChartsComposer;
 use App\Http\ViewComposers\NewProductComposer;
+use App\Http\ViewComposers\OrderComposer;
 use App\Http\ViewComposers\SpecialComposer;
 use App\Order;
 use App\Services\Product\ProductQueries;
@@ -27,6 +28,7 @@ class ViewComposerServiceProvider extends ServiceProvider
         $this->composeSpecialProduct();
         $this->composeBlocks();
         $this->composeAdminBlocks();
+        $this->composeCountDefaultOrder();
     }
 
     /**
@@ -79,5 +81,10 @@ class ViewComposerServiceProvider extends ServiceProvider
     protected function composeSpecialProduct()
     {
         view()->composer('block.special_product', SpecialComposer::class);
+    }
+
+    protected function composeCountDefaultOrder()
+    {
+        view()->composer('AdminLTE.partials.sidebar',OrderComposer::class);
     }
 }
