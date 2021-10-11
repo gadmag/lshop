@@ -65,27 +65,30 @@
         </div>
         <div v-if="services && services.length > 0" class="engraving-block">
           <div class="form-check custom-checkbox">
-            <input @change="check($event)" type="checkbox" id="checkEngraving" class="custom-control-input">
+            <input @change="check($event)" name="" type="checkbox" id="checkEngraving" class="custom-control-input">
             <label data-toggle="collapse" data-target="#engravingBox"
                    class="custom-control-label" for="checkEngraving"
                    aria-expanded="false" aria-controls="engravingBox">Добавить гравировку</label>
           </div>
           <div id="engravingBox" :aria-expanded="false" class="collapse">
             <div class="form-group">
-              <select class="form-control" v-model="engraving.id">
+              <select class="form-control" v-model="engraving.id" :class="{'is-invalid': errors && errors['options.engraving.id']}">
                 <option disabled value="">Выбрать тип гравировки</option>
                 <option v-for="service in services" :value="service.id">
                   {{ service.title }}
                   <template v-if="service.price > 0"> ({{ service.price }} р.)</template>
                 </option>
               </select>
-
+              <span v-if="errors && errors['options.engraving.id']" class="invalid-feedback"
+                    role="alert">Тип гравировки обязателен для заполнения</span>
             </div>
             <div class="form-group">
-              <select class="form-control" v-model="engraving.font">
+              <select class="form-control" v-model="engraving.font" :class="{'is-invalid': errors && errors['options.engraving.font']}">
                 <option disabled value="">Выбрать шрифт</option>
                 <option v-for="font in fonts" :value="font.title">{{ font.title }}</option>
               </select>
+              <span v-if="errors && errors['options.engraving.font']" class="invalid-feedback"
+                    role="alert">Шрифт обязателен для заполнения</span>
             </div>
             <div class="form-group">
               <label for="engravingText">Текст гравировки:</label>
@@ -146,7 +149,6 @@ export default {
       options: this.product.product_options,
       special: this.product.product_special,
       services: this.product.services,
-      checkedEngraving: false,
       engraving: {
         id: '',
         text: '',
@@ -154,6 +156,7 @@ export default {
         font: '',
         comment: '',
         filename: '',
+        isChecked: false
       },
       titleOption: null,
       query_options: {
@@ -239,9 +242,9 @@ export default {
 
     check(e) {
       if (e.target.checked) {
-        return this.checkedEngraving = true
+        return this.engraving.isChecked = true
       }
-      this.checkedEngraving = false;
+      this.engraving.isChecked = false;
       this.engraving.id = '';
       this.engraving.text = '';
       this.engraving.comment = '';
@@ -256,6 +259,7 @@ export default {
       this.query_options.engraving = this.engraving;
       if (this.query_options.id) {
         let url = '/api/add-to-cart/' + id + '?options=' + JSON.stringify(this.query_options);
+        console.log(this.query_options);
         axios.get(url)
             .then(function (response) {
               this.errors = '';

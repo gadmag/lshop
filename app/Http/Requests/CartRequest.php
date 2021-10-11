@@ -29,7 +29,14 @@ class CartRequest extends FormRequest
             'options.id' => 'sometimes|required|int',
 
         ];
-        if ($this->filled('options.engraving.id')) {
+//        if ($this->filled('options.engraving.id')) {
+//            $rules += ['options.engraving.text' => 'required_if:options.engraving.filename,'];
+//            $rules += ['options.engraving.filename' => 'required_if:options.engraving.text,'];
+//        }
+//        dd($this->input('options.engraving.isChecked'));
+        if ($this->input('options.engraving.isChecked')) {
+            $rules += ['options.engraving.id' => 'required'];
+            $rules += ['options.engraving.font' => 'required'];
             $rules += ['options.engraving.text' => 'required_if:options.engraving.filename,'];
             $rules += ['options.engraving.filename' => 'required_if:options.engraving.text,'];
         }
