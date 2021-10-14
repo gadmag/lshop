@@ -18,7 +18,6 @@ class OrderComposer
 
     public function compose(View $view)
     {
-//        dd($this->order->countDefaultStatus()->get());
-        return $view->with('countNewOrder', $this->order->countDefaultStatus());
+        return $view->with('countNewOrder', $this->order->getCountDefaultStatus());
     }
 }
