@@ -52,7 +52,6 @@
                                         г. {{$order->city}} @endif</span>
                             </div>
                             <div>{{$order->address}}</div>
-
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                 </div>
