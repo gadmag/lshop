@@ -66,6 +66,10 @@
                             {!! Form::label('address', 'Адрес:') !!}
                             {!! Form::text('address', null, ['class' => 'form-control']) !!}
                         </div>
+                        <div class="form-group">
+                            {!! Form::label('postcode', 'Индекс:') !!}
+                            {!! Form::text('postcode', null, ['class' => 'form-control']) !!}
+                        </div>
                     </div><!-- /.card-body -->
                 </div><!-- /.card -->
             </div>

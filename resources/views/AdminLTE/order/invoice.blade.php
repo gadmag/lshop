@@ -40,6 +40,7 @@
                                         г. {{$order->city}} @endif</span>
                             </div>
                             <div>{{$order->address}}</div>
+                            <div>Индекс: {{$order->postcode}}</div>
                             <div>Телефон: {{$order->telephone}}</div>
                             <div>Email: {{$order->email}}</div>
 
