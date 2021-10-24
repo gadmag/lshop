@@ -53,11 +53,7 @@ class Order extends Model
 
     public function countDefaultStatus()
     {
-
-//        return DB::table('orders')
-//            ->join('order_status','orders.order_status_id','=','order_status.id')
-//            ->where('order_status.is_default','=',1);
-//            ->toSql();
-        return '';
+        return DB::table('orders')
+            ->where('visited','=',0)->count();
     }
 }

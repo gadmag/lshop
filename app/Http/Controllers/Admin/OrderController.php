@@ -28,14 +28,23 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::findOrFail($id);
+        if (!$order->visited){
+            $order->visited = 1;
+            $order->save();
+        }
         return view('AdminLTE.order.invoice', ['order' => $order]);
     }
 
 
     public function edit($id)
     {
+
         Cart::instance('order')->destroy();
         $order = Order::findOrFail($id);
+        if (!$order->visited){
+            $order->visited = 1;
+            $order->save();
+        }
         $products = Product::with(['productOptions'])->active()->latest('created_at')->take(5)->get();
         $orderStatus = OrderStatus::all()->pluck('name', 'id');
         $coupons = Coupon::active()->isUses()->betweenDate()->get();
