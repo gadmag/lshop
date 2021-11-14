@@ -222,7 +222,7 @@ export default {
     return {
       cart: this.order.cart,
       forms: null,
-      shipment_price: null,
+      shipment_price: this.order.cart.shipment.price,
       subTotal: null,
       totalPrice: null,
       keywords: null,
@@ -268,10 +268,10 @@ export default {
       // this.shipment_price = this.cart.shipmentPrice;
     },
 
-    shipment_price() {
-      let coupon_price = _.sumBy(this.cart.coupons, (item) => item.discount);
-      this.totalPrice = parseFloat(this.cart.totalPrice) + parseFloat(this.shipment_price) - parseFloat(coupon_price);
-    },
+    // shipment_price() {
+    //   let coupon_price = _.sumBy(this.cart.coupons, (item) => item.discount);
+    //   this.totalPrice = parseFloat(this.cart.totalPrice) + parseFloat(this.shipment_price) - parseFloat(coupon_price);
+    // },
 
   },
 
@@ -284,10 +284,11 @@ export default {
 
     addShipmentToCart() {
       const url = '/api/add-shipment/' + this.shipment_id;
-      this.fetchCart(url, {
-        order_id: this.order.id,
-        price: this.shipment_price
-      });
+      console.log('addShipmentToCart')
+      // this.fetchCart(url, {
+      //   order_id: this.order.id,
+      //   price: this.shipment_price
+      // });
     },
 
     addShipmentPriceToCart(){

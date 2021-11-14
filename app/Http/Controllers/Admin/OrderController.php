@@ -29,8 +29,8 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         if (!$order->visited){
-            $order->visited = 1;
-            $order->save();
+//            $order->visited = 1;
+//            $order->save();
         }
         return view('AdminLTE.order.invoice', ['order' => $order]);
     }
@@ -42,8 +42,8 @@ class OrderController extends Controller
         Cart::instance('order')->destroy();
         $order = Order::findOrFail($id);
         if (!$order->visited){
-            $order->visited = 1;
-            $order->save();
+//            $order->visited = 1;
+//            $order->save();
         }
         $products = Product::with(['productOptions'])->active()->latest('created_at')->take(5)->get();
         $orderStatus = OrderStatus::all()->pluck('name', 'id');

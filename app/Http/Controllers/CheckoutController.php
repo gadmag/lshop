@@ -78,6 +78,7 @@ class CheckoutController extends Controller
         if (!$cart->isContent()) {
             return redirect()->route('product.shoppingCart');
         }
+//        dd($request->all());
         $order = Order::create($request->all());
         return redirect()->route('product.index')
             ->with('flash_message', 'Ваш заказ принят. Данные для оплаты будут отправленны на Вашу почту.');
