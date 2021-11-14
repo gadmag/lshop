@@ -62,6 +62,7 @@ class OrderController extends Controller
 
     public function update(Request $request, Order $order)
     {
+//        dd($request->all());
         $order->update($request->all());
         return redirect("admin/orders")->with([
             'flash_message' => "Заказ №{$order->id} обновлен",

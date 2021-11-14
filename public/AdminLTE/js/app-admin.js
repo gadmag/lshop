@@ -2498,7 +2498,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.subTotal = this.cart.totalPrice;
     this.totalPrice = this.cart.totalWithCoupons;
     this.forms = this.cart.content;
-    this.shipment_price = this.cart.shipmentPrice;
+    this.shipment_price = this.cart.shipment.price;
     this.shipment_id = this.cart.shipment.id;
     console.log('Component mounted.');
   },
@@ -2519,6 +2519,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     cart: function cart() {
       this.totalPrice = this.cart.totalWithCoupons;
       this.shipment_price = this.cart.shipment.price;
+      // this.shipment_price = this.cart.shipmentPrice;
     },
     shipment_price: function shipment_price() {
       var coupon_price = _.sumBy(this.cart.coupons, function (item) {
@@ -2535,8 +2536,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     addShipmentToCart: function addShipmentToCart() {
       var url = '/api/add-shipment/' + this.shipment_id;
-      this.fetchCart(url, { order_id: this.order.id });
+      this.fetchCart(url, {
+        order_id: this.order.id,
+        price: this.shipment_price
+      });
     },
+    addShipmentPriceToCart: function addShipmentPriceToCart() {},
     addToCart: function addToCart(id) {
       var url = '/api/add-to-cart/' + id;
       this.fetchCart(url, { options: JSON.stringify(this.query_options), order_id: this.order.id });

@@ -246,7 +246,7 @@ export default {
     this.subTotal = this.cart.totalPrice;
     this.totalPrice = this.cart.totalWithCoupons;
     this.forms = this.cart.content;
-    this.shipment_price = this.cart.shipmentPrice;
+    this.shipment_price = this.cart.shipment.price;
     this.shipment_id = this.cart.shipment.id;
     console.log('Component mounted.')
   },
@@ -265,6 +265,7 @@ export default {
     cart() {
       this.totalPrice = this.cart.totalWithCoupons;
       this.shipment_price = this.cart.shipment.price;
+      // this.shipment_price = this.cart.shipmentPrice;
     },
 
     shipment_price() {
@@ -283,7 +284,14 @@ export default {
 
     addShipmentToCart() {
       const url = '/api/add-shipment/' + this.shipment_id;
-      this.fetchCart(url, {order_id: this.order.id});
+      this.fetchCart(url, {
+        order_id: this.order.id,
+        price: this.shipment_price
+      });
+    },
+
+    addShipmentPriceToCart(){
+
     },
 
 

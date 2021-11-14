@@ -50595,7 +50595,7 @@ var render = function() {
       _c("div", { staticClass: "sku-block clearfix" }, [
         _c("strong", [_vm._v("Артикул:")]),
         _vm._v(" "),
-        _c("span", [_vm._v(_vm._s(_vm.product.sku))])
+        _c("span", [_vm._v(_vm._s(_vm.product.model))])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "description-block" }, [

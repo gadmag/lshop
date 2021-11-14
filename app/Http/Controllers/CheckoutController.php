@@ -94,6 +94,7 @@ class CheckoutController extends Controller
             'city' => 'required',
             'address' => 'required',
             'country' => 'required',
+            'postcode' => 'required|min:3'
         ]);
         return response()->json(['message' => 'ok']);
     }

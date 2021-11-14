@@ -213,9 +213,13 @@ class ProductController extends Controller
 
     public function addShipment(int $id, Shipment $shipment): JsonResponse
     {
+//        dd(request()->all());
+        $price = request()->get('price');
         $cart = $this->initCart();
         $shipment = $shipment->getById($id);
-        $price = $shipment->getShipmentPrice($cart->totalWeight());
+        if(!isset($price)){
+            $price = $shipment->getShipmentPrice($cart->totalWeight());
+        }
         $cart = $cart->addShipment(['id' => $shipment->id, 'title' => $shipment->title,
             'name' => $shipment->name, 'price' => $price]);
         return response()->json([
