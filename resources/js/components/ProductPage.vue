@@ -16,7 +16,7 @@
       <h1 class="page-title">{{ product.title }}</h1>
 
       <div class="sku-block clearfix">
-        <strong>Артикул:</strong> <span>{{ product.sku }}</span>
+        <strong>Артикул:</strong> <span>{{ product.model }}</span>
       </div>
       <div class="description-block">
         <ul class="nav nav-tabs">

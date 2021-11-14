@@ -38,7 +38,9 @@
                 <li>
                 <li class="nav-item"><a class="nav-link" href="{{url('admin/orders')}}"><i class="nav-icon fa fa-shopping-cart"></i>
                         <p>Заказы
+                            @if($countNewOrder)
                             <span class="badge badge-info right">{{$countNewOrder}}</span>
+                            @endif
                         </p></a></li>
                 <li class="nav-item has-treeview">
                     <a class="nav-link" href="#"><i class="nav-icon fa fa-list-ul" aria-hidden="true"></i><p>Справочники</p>

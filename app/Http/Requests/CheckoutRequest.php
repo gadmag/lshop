@@ -32,6 +32,7 @@ class CheckoutRequest extends FormRequest
             'city' => 'required',
             'address' => 'required',
             'country' => 'required',
+            'postcode' => 'required|min:3',
 
             //
             'payment' => 'required',
