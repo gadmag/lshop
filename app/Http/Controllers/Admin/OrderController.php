@@ -12,6 +12,7 @@ use App\Product;
 use App\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Events\OrderUpdateEvent;
+use Illuminate\Support\Facades\DB;
 
 
 class OrderController extends Controller
@@ -29,8 +30,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         if (!$order->visited){
-//            $order->visited = 1;
-//            $order->save();
+            DB::table('orders')->where('id', $id)->update(['visited' => 1]);
         }
         return view('AdminLTE.order.invoice', ['order' => $order]);
     }
@@ -42,8 +42,7 @@ class OrderController extends Controller
         Cart::instance('order')->destroy();
         $order = Order::findOrFail($id);
         if (!$order->visited){
-//            $order->visited = 1;
-//            $order->save();
+            DB::table('orders')->where('id', $id)->update(['visited' => 1]);
         }
         $products = Product::with(['productOptions'])->active()->latest('created_at')->take(5)->get();
         $orderStatus = OrderStatus::all()->pluck('name', 'id');
@@ -134,7 +133,13 @@ class OrderController extends Controller
                 // Will be sortable column
                 'sortable' => true,
                 // Will have filter
-                'has_filters' => true
+                'has_filters' => true,
+                'wrapper' => function($value, $row){
+                    if (!$row->visited){
+                        return '<div>'.$value. ' <span class="badge badge-info right">new</span></div>';
+                    }
+                    return $value;
+                }
             ])
             ->setColumn('first_name', 'Имя', [
                 'attributes' => ['class' => 'table-text'],

@@ -220,10 +220,9 @@ class ProductController extends Controller
         if(!$price){
             $price = $shipment->getShipmentPrice($cart->totalWeight());
         }
-//        dd($price);
         $cart = $cart->addShipment(['id' => $shipment->id, 'title' => $shipment->title,
             'name' => $shipment->name, 'price' => $price]);
-//        dd($cart->getShipment());
+
         return response()->json([
             'cart' => $cart->toArray()
         ]);
