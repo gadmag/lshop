@@ -54,6 +54,7 @@ class OrderObserver
      */
     public function updating(Order $order)
     {
+
         if (Cart::instance('order')->isContent()) {
             $order->cart = Cart::instance('order')->toArray();
             $uploads = Upload::whereIn('name',Cart::instance('order')->getEngravingsFiles())->get();
@@ -62,10 +63,13 @@ class OrderObserver
         $cart = $order->cart;
         $payment = $order->payment;
         $cart['shipment']['price'] = (float)request('shipment_price');
+        $cart['shipmentPrice'] = (float)request('shipment_price');
+        $cart['totalWithCoupons'] = $order->totalPrice;
         $order->cart = $cart;
         $payment->title = request('payment_title');
         $payment->payment_key = request('payment_key');
         $order->payment = json_encode($payment);
+
     }
 
     /**

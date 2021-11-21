@@ -11,6 +11,11 @@ class Order extends Model
         'city', 'country', 'region', 'comment', 'comment_admin', 'shipment', 'is_send', 'order_status_id',
         'user_id', 'cart', 'address', 'payment', 'totalPrice'];
 
+//    protected $casts = [
+//        'payment' => 'array',
+//
+//    ];
+
     public function setCartAttribute($value)
     {
         $value['instance'] = 'order';
@@ -26,8 +31,14 @@ class Order extends Model
 
     public function getPaymentAttribute($value)
     {
+       
         return json_decode($value);
     }
+//
+//    public function setPaymentAttribute($value)
+//    {
+//        $this->attributes['payment'] = json_encode($value);
+//    }
 
 
     public function getShipmentAttribute($value)

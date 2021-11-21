@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-md-8 page-default">
         <div class="row">
+{{--            {{dd($order->payment['title'])}}--}}
             <div class="col-md-4">
                 <div class="card card-primary ">
                     <div class="card-header">
@@ -79,7 +80,7 @@
                 <h3 class="box-title">Товары</h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-                <order :products="{{$products}}" :fonts="{{$fonts}}" :order="{{collect($order)}}"
+                <order :products="{{$products}}" :fonts="{{$fonts}}" :order="{{$order}}"
                        :shipments="{{$shipments}}" :coupons="{{$coupons}}"
                        :payment_config="{{$payment_config}}"></order>
             </div><!-- /.box-body -->

@@ -207,6 +207,7 @@ class Cart
         if ($this->shipment->count() > 0) {
             $this->applyShippingPrice();
         }
+
         return $this->shipmentPrice;
     }
 
@@ -353,6 +354,7 @@ class Cart
         $this->coupons->each(function (DiscountCoupon $coupon) use ($total, &$totalWithCoupons) {
             $totalWithCoupons -= $coupon->applyCoupon($total);
         });
+
         if ($this->shipment->count() > 0) {
             $totalWithCoupons += $this->shipmentPrice;
         }

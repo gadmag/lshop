@@ -579,7 +579,7 @@
                                                                                 {{$cart['shipment']['title']}}:
                                                                             </td>
                                                                             <td style="padding:0;Margin:0;text-align:right;font-size:18px;line-height:27px;">
-                                                                                + {{$cart['shipmentPrice']}} р.
+                                                                                + {{$cart['shipment']['price']}} р.
                                                                             </td>
                                                                         </tr>
                                                                     @endif

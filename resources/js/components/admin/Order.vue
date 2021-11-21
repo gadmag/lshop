@@ -283,11 +283,12 @@ export default {
     },
 
     addShipmentToCart() {
-      const url = '/api/add-shipment/' + this.shipment_id;
-      this.fetchCart(url, {
-        order_id: this.order.id,
-        price: this.shipment_price
-      });
+      // const url = '/api/add-shipment/' + this.shipment_id;
+      // console.log('addShipmentToCart')
+      // this.fetchCart(url, {
+      //   order_id: this.order.id,
+      //   price: this.shipment_price
+      // });
     },
 
     addShipmentPriceToCart(){
