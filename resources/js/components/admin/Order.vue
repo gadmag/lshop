@@ -191,7 +191,7 @@
       </div>
     </div>
 
-    <engraving name="order" :fonts="fonts" @getCart="updateCart($event)" :order_id="order.id" :cart-key="cartKey"
+    <engraving name="order" :title-type="titleType" :engraving="engraving" :fonts="fonts" @getCart="updateCart($event)" :order_id="order.id" :cart-key="cartKey"
                :services="services"></engraving>
 
   </div>
@@ -233,12 +233,23 @@ export default {
       options: null,
       coupon_code: null,
       error_coupon: null,
+      titleType: 'Добавить',
       query_options: {
         id: null,
         quantity: 1,
       },
       services: '',
       cartKey: '',
+      engraving: {
+        id: '',
+        price: '',
+        text: '',
+        font: '',
+        comment: '',
+        filename: '',
+        cartItemId: '',
+        qty: 1
+      }
     }
   },
 

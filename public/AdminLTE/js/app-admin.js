@@ -2486,12 +2486,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       options: null,
       coupon_code: null,
       error_coupon: null,
+      titleType: 'Добавить',
       query_options: {
         id: null,
         quantity: 1
       },
       services: '',
-      cartKey: ''
+      cartKey: '',
+      engraving: {
+        id: '',
+        price: '',
+        text: '',
+        font: '',
+        comment: '',
+        filename: '',
+        cartItemId: '',
+        qty: 1
+      }
     };
   },
   mounted: function mounted() {
@@ -40247,6 +40258,8 @@ var render = function() {
       _c("engraving", {
         attrs: {
           name: "order",
+          "title-type": _vm.titleType,
+          engraving: _vm.engraving,
           fonts: _vm.fonts,
           order_id: _vm.order.id,
           "cart-key": _vm.cartKey,
